@@ -54,7 +54,7 @@ Nuevo bit default 1,
 Reputacion numeric(18,2),
 FechaCreacion datetime,
 Domicilio int FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Domicilio,
-LogsFallidos TinyInt
+LogsFallidos TinyInt default 0
 )
 GO
 
@@ -463,6 +463,18 @@ delete ROAD_TO_PROYECTO.Roles_Por_Usuario where RolId = @Rol
 end
 GO
 
+--Modificar Rol
+CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Rol
+	@RolId int,
+	@Nombre nvarchar(255),
+	@Habilitado bit
+	as begin
+		update ROAD_TO_PROYECTO.Rol
+		set Nombre = @Nombre, Habilitado = @Habilitado
+		where RolId = @RolId
+	end
+GO
+
 --Listado Rubros
 CREATE PROCEDURE ROAD_TO_PROYECTO.ListaRubros
 	as begin
@@ -560,7 +572,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Cliente
 		begin
 			if not exists(select c.NroDocumento from ROAD_TO_PROYECTO.Cliente c where c.TipoDocumento = @TipoDocumento and c.NroDocumento = @NroDocumento)
 			begin
-				execute ROAD_TO_PROYECTO.Alta_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail, @RolAsignado = @RolAsignado
+				execute ROAD_TO_PROYECTO.Alta_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail
 									
 				insert into ROAD_TO_PROYECTO.Cliente (TipoDocumento, NroDocumento, Apellido, Nombres, FechaNacimiento, Telefono)
 				values (@TipoDocumento, @NroDocumento, @Apellido, @Nombres, @FechaNacimiento, @Telefono)
@@ -600,7 +612,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Empresa
 		begin
 			if not exists(select e.EmprId from ROAD_TO_PROYECTO.Empresa e where e.CUIT = @CUIT and e.RazonSocial = @RazonSocial)
 			begin
-				execute ROAD_TO_PROYECTO.Alta_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail, @RolAsignado = @RolAsignado
+				execute ROAD_TO_PROYECTO.Alta_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail
 				
 				insert into ROAD_TO_PROYECTO.Empresa (RazonSocial, CUIT, FechaCreacion, NombreContacto, Rubro, Telefono)
 				values (@RazonSocial, @CUIT, @FechaCreacion, @NombreContacto, (select RubrId from ROAD_TO_PROYECTO.Rubro r where r.DescripLarga = @Rubro), @Telefono)
@@ -616,8 +628,7 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Usuario
 	@Usuario nvarchar(255),
 	@Contraseña nvarchar(255),
-	@Mail nvarchar(50),
-	@RolAsignado nvarchar(255)
+	@Mail nvarchar(50)
 	as
 	begin
 		if(not exists(select u.Usuario from ROAD_TO_PROYECTO.Usuario u where u.Usuario = @Usuario))
@@ -625,6 +636,88 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Usuario
 			insert into ROAD_TO_PROYECTO.Usuario (Usuario, Contraseña, Mail, Habilitado, Nuevo, Reputacion, FechaCreacion,/*Domicilio,*/ LogsFallidos)
 			values (@Usuario, @Contraseña, @Mail, 1, 1, null, GETDATE(), 0)
 		end
+	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Cliente
+	@Usuario nvarchar(255),
+	@Contraseña nvarchar(255),
+	@Mail nvarchar(50),
+	@RolAsignado nvarchar(255),
+	@TipoDocumento nvarchar(5),
+	@NroDocumento numeric(18,0),
+	@Apellido nvarchar(255),
+	@Nombres nvarchar(255),
+	@FechaNacimiento datetime,
+	@Telefono numeric(18,0),
+
+
+	@Calle nvarchar(100),
+	@Numero numeric(18,0),
+	@Piso numeric(18,0),
+	@Depto nvarchar(50),
+	@CodPostal nvarchar(50),
+	@Localidad nvarchar(100)
+
+	as
+	begin
+		if(@RolAsignado = 'Cliente')
+		begin
+			execute ROAD_TO_PROYECTO.Modificacion_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail
+									
+			update ROAD_TO_PROYECTO.Cliente 
+			set TipoDocumento = @TipoDocumento, NroDocumento = @NroDocumento, Apellido = @Apellido, Nombres = @Nombres, FechaNacimiento = @FechaNacimiento, Telefono = @Telefono
+			where ClieId = (select IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
+			
+			execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
+		end
+	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Empresa
+	@Usuario nvarchar(255),
+	@Contraseña nvarchar(255),
+	@Mail nvarchar(50),
+	@RolAsignado nvarchar(255),
+	@RazonSocial nvarchar(255),
+	@CUIT nvarchar(50),
+	@FechaCreacion datetime,
+	@NombreContacto nvarchar(100),
+	@Rubro nvarchar(255),
+	@Telefono numeric(18,0),
+
+	@Calle nvarchar(100),
+	@Numero numeric(18,0),
+	@Piso numeric(18,0),
+	@Depto nvarchar(50),
+	@CodPostal nvarchar(50),
+	@Localidad nvarchar(100)
+
+	as
+	begin
+		if(@RolAsignado = 'Empresa')
+		begin
+			execute ROAD_TO_PROYECTO.Modificacion_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail
+				
+			update ROAD_TO_PROYECTO.Empresa 
+			set RazonSocial = @RazonSocial, CUIT = @CUIT, FechaCreacion = @FechaCreacion, NombreContacto = @NombreContacto, Rubro = (select RubrId from ROAD_TO_PROYECTO.Rubro r where r.DescripLarga = @Rubro), Telefono = @Telefono
+			where EmprId = (select IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Empresa')
+
+			execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
+
+		end
+	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Usuario
+	@Usuario nvarchar(255),
+	@Contraseña nvarchar(255),
+	@Mail nvarchar(50)
+	as
+	begin
+		update ROAD_TO_PROYECTO.Usuario
+		set Contraseña = @Contraseña, Mail = @Mail
+		where Usuario = @Usuario
 	end
 GO
 
@@ -645,6 +738,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Domicilio_Usuario
 		where Usuario = @Usuario
 	end
 GO
+
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Cambiar_Contraseña
 	@Usuario nvarchar(255),
@@ -747,14 +841,67 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Publicacion
 	end
 GO
 
+CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Publicacion
+	@PubliId int,
+	@Descipcion nvarchar(255),
+	@Stock numeric(18,0),
+	@FechaInicio datetime,
+	@Precio numeric(18,2),
+	@VisiDesc nvarchar(255),
+	@RubroDesc nvarchar(255),
+	@TipoDesc nvarchar(255),
+--	@EstadoDesc nvarchar(50),
+	@VendedorId nvarchar(255),
+	@EnvioHabilitado bit	
+
+	as begin
+		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int
+		select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Borrador'--@EstadoDesc
+		
+		if((select Estado from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) = @EstadoId)
+		begin
+			select @VisiId = VisiId from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @VisiDesc
+			select @RubroId = RubrId from ROAD_TO_PROYECTO.Rubro where DescripLarga = @RubroDesc
+			select @TipoPubliId = TipoPubliId from ROAD_TO_PROYECTO.Tipo_Publicacion where Descripcion = @TipoDesc
+
+			update ROAD_TO_PROYECTO.Publicacion 
+			set PublId = @PubliId, Descipcion = @Descipcion, Stock = @Stock, 
+			FechaInicio = @FechaInicio, FechaFin = dateadd(mm, 2, @FechaInicio),
+			Precio = @Precio, Visibilidad = @VisiId, Rubro = @RubroId, Tipo = @TipoPubliId, EnvioHabilitado = @EnvioHabilitado
+			where PublId = @PubliId
+		end
+	end
+GO
+
 CREATE PROCEDURE ROAD_TO_PROYECTO.Activar_Publicacion
 	@PubliId int
 	as begin
-	declare @EstadoId int
-	select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Activa'
+		declare @EstadoId int
+		select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Activa'
 		update ROAD_TO_PROYECTO.Publicacion
 		set Estado = @EstadoId
 		where PublId = @PubliId
+		execute Facturar_Publicacion @PubliId = @PubliId
+	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Facturar_Publicacion
+	@PubliId int
+	as begin
+		if((select ComiFija from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId and p.Visibilidad = v.VisiId) != 0) 
+		begin
+		declare @UltimaFactura int, @FacturaActual int
+
+		select top 1 @UltimaFactura = FactNro from ROAD_TO_PROYECTO.Factura order by FactNro desc
+		set @FacturaActual = @UltimaFactura + 1
+
+		insert into ROAD_TO_PROYECTO.Factura (FactNro, PubliId, Fecha)--, Monto, FormaPago) 
+		values(@FacturaActual, @PubliId, getdate())
+
+		insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto) 
+		values (@FacturaActual, 1, 'Precio por tipo publicación', (select ComiFija from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId and p.Visibilidad = v.VisiId))
+
+		end
 	end
 GO
 
@@ -820,6 +967,19 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Agregar_Visibilidad
 
 		insert into ROAD_TO_PROYECTO.Visibilidad (VisiId, Descripcion, ComiFija, ComiVariable, ComiEnvio)
 		values (@VisiId, @Descripcion, @ComiFija, @ComiVariable, @ComiEnvio)
+	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Visibilidad
+	@VisiId int,
+	@Descripcion nvarchar(255),
+	@ComiFija numeric(18,2),
+	@ComiVariable numeric(18,2),
+	@ComiEnvio numeric(18,2)
+	as begin
+		update ROAD_TO_PROYECTO.Visibilidad 
+		set Descripcion = @Descripcion, ComiFija = @ComiFija, ComiVariable = @ComiVariable, ComiEnvio = @ComiEnvio
+		where VisiId = @VisiId
 	end
 GO
 
