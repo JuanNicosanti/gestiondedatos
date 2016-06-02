@@ -36,7 +36,6 @@
             this.lblFin = new System.Windows.Forms.Label();
             this.lblRubro = new System.Windows.Forms.Label();
             this.cmdLimpiar = new System.Windows.Forms.Button();
-            this.cmdRubro = new System.Windows.Forms.Button();
             this.cmdVolver = new System.Windows.Forms.Button();
             this.cmdAceptar = new System.Windows.Forms.Button();
             this.dtpFin = new System.Windows.Forms.DateTimePicker();
@@ -61,6 +60,7 @@
             this.lblVisSel = new System.Windows.Forms.Label();
             this.cmdSelVis = new System.Windows.Forms.Button();
             this.lblUsername = new System.Windows.Forms.Label();
+            this.cboRubro = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,16 +130,6 @@
             this.cmdLimpiar.Text = "Limpiar";
             this.cmdLimpiar.UseVisualStyleBackColor = true;
             this.cmdLimpiar.Click += new System.EventHandler(this.cmdLimpiar_Click);
-            // 
-            // cmdRubro
-            // 
-            this.cmdRubro.Location = new System.Drawing.Point(309, 190);
-            this.cmdRubro.Name = "cmdRubro";
-            this.cmdRubro.Size = new System.Drawing.Size(75, 23);
-            this.cmdRubro.TabIndex = 7;
-            this.cmdRubro.Text = "Seleccionar";
-            this.cmdRubro.UseVisualStyleBackColor = true;
-            this.cmdRubro.Click += new System.EventHandler(this.cmdRubro_Click);
             // 
             // cmdVolver
             // 
@@ -348,12 +338,22 @@
             this.lblUsername.TabIndex = 30;
             this.lblUsername.Visible = false;
             // 
+            // cboRubro
+            // 
+            this.cboRubro.FormattingEnabled = true;
+            this.cboRubro.Location = new System.Drawing.Point(158, 192);
+            this.cboRubro.Name = "cboRubro";
+            this.cboRubro.Size = new System.Drawing.Size(153, 21);
+            this.cboRubro.TabIndex = 31;
+            this.cboRubro.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // AltaPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(419, 396);
+            this.Controls.Add(this.cboRubro);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.cmdSelVis);
             this.Controls.Add(this.lblVisSel);
@@ -375,7 +375,6 @@
             this.Controls.Add(this.dtpFin);
             this.Controls.Add(this.cmdAceptar);
             this.Controls.Add(this.cmdVolver);
-            this.Controls.Add(this.cmdRubro);
             this.Controls.Add(this.cmdLimpiar);
             this.Controls.Add(this.lblRubro);
             this.Controls.Add(this.lblFin);
@@ -404,7 +403,6 @@
         private System.Windows.Forms.Label lblFin;
         private System.Windows.Forms.Label lblRubro;
         private System.Windows.Forms.Button cmdLimpiar;
-        private System.Windows.Forms.Button cmdRubro;
         private System.Windows.Forms.Button cmdVolver;
         private System.Windows.Forms.Button cmdAceptar;
         private System.Windows.Forms.DateTimePicker dtpFin;
@@ -429,5 +427,6 @@
         private System.Windows.Forms.Button cmdSelVis;
         public System.Windows.Forms.Label lblVisSel;
         public System.Windows.Forms.Label lblUsername;
+        private System.Windows.Forms.ComboBox cboRubro;
     }
 }

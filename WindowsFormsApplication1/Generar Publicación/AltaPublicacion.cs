@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,12 +16,15 @@ namespace WindowsFormsApplication1.Generar_Publicación
         public static AltaPublicacion ap1;
         private int huboError = 0;
         public bool envioHabilitado;
+        SqlCommand cmd;
+        SqlDataAdapter adapter;
+        private DataBase db;
+
         public AltaPublicacion()
         {
+            db = DataBase.GetInstance();
             InitializeComponent();
-            
-            AltaPublicacion.ap1 = this;
-            
+            AltaPublicacion.ap1 = this;         
         }
 
         
@@ -28,14 +32,6 @@ namespace WindowsFormsApplication1.Generar_Publicación
         private void lblValorSubasta_Click(object sender, EventArgs e)
         {
            
-        }
-
-        private void cmdRubro_Click(object sender, EventArgs e)
-        {
-            WindowsFormsApplication1.ABM_Rubro.AltaRubro arubro = new WindowsFormsApplication1.ABM_Rubro.AltaRubro();
-            arubro.lblLlamada.Text = "1";
-            arubro.Show();
-            this.Hide();
         }
 
         private void cboTipo_SelectedIndexChanged(object sender, EventArgs e)
@@ -49,9 +45,8 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 lblDescripcion.Visible = true;
                 lblRubro.Visible = true;
                
-               
                 dtpFin.Visible = true;
-                cmdRubro.Visible = true;
+                cboRubro.Visible = true;
                 txtDescripcion.Visible = true;
                 lblFin.Visible = true;
 
@@ -81,10 +76,9 @@ namespace WindowsFormsApplication1.Generar_Publicación
             {
                 lblDescripcion.Visible = true;
                 lblRubro.Visible = true;
-                lblRubroSe.Visible = true;
              
                 dtpFin.Visible = true;
-                cmdRubro.Visible = true;
+                cboRubro.Visible = true;
                 txtDescripcion.Visible = true;
                 lblFin.Visible = true;
 
@@ -111,6 +105,8 @@ namespace WindowsFormsApplication1.Generar_Publicación
 
         private void AltaPublicacion_Load(object sender, EventArgs e)
         {
+            cargarComboBoxRubros();
+
             lblPrecio.Visible = false;
             txtPrecio.Visible = false;
 
@@ -120,10 +116,9 @@ namespace WindowsFormsApplication1.Generar_Publicación
             
             lblDescripcion.Visible = false;
             lblRubro.Visible = false;
-            lblRubroSe.Visible = false;
            
-            dtpFin.Visible = false;          
-            cmdRubro.Visible = false;
+            dtpFin.Visible = false;
+            cboRubro.Visible = false;
             txtDescripcion.Visible = false;
             lblFin.Visible = false;
 
@@ -182,8 +177,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += " Stock \r";
                     huboError++;
                 }
-
-                if(string.IsNullOrEmpty(lblRubroSe.Text))
+                if (cboRubro.SelectedIndex == -1)
                 {
                     cadenaDeErrores += " Rubro \r";
                     huboError++;
@@ -223,8 +217,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += " Valor Inicial de la subasta \r";
                     huboError++;
                 }
-
-                if (string.IsNullOrEmpty(lblRubroSe.Text))
+                if (cboRubro.SelectedIndex == -1)
                 {
                     cadenaDeErrores += " Rubro \r";
                     huboError++;
@@ -242,7 +235,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 PublicacionDOA doa = new PublicacionDOA();
                 
-                doa.crearPublicacion(txtDescripcion.Text, 1,dtpFin.Value,int.Parse(txtValorSubasta.Text),lblVisSel.Text,lblRubroSe.Text,cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
+                doa.crearPublicacion(txtDescripcion.Text, 1,dtpFin.Value,int.Parse(txtValorSubasta.Text),lblVisSel.Text,/*lblRubroSe.Text*/cboRubro.SelectedValue.ToString(),cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
             }     
             
             WindowsFormsApplication1.Form1.f1.Show();
@@ -251,15 +244,16 @@ namespace WindowsFormsApplication1.Generar_Publicación
 
         private void cmdLimpiar_Click(object sender, EventArgs e)
         {
-            lblRubroSe.Text = "";
+            cboRubro.SelectedIndex = -1;
             txtDescripcion.Text = "";
             txtStockInmediata.Text = "";
             txtValorSubasta.Text = "";
             txtPrecio.Text = "";
+            lblVisSel.Text = "";
             
-            
-            cboTipo.SelectedIndex = -1;
-            cboTipo.Text = "Seleccione un tipo";
+            //cboTipo.SelectedIndex = -1;
+            //cboTipo.Text = "Seleccione un tipo";
+            //PARA MI NO HAY QUE CAMBIAR EL TIPO DE LA PUBLI PORQUE SINO HAY QUE RECALCULAR QUÉ CAMPOS VAN
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -272,6 +266,26 @@ namespace WindowsFormsApplication1.Generar_Publicación
             WindowsFormsApplication1.ABM_Visibilidad.Form1 setVisibilidad = new WindowsFormsApplication1.ABM_Visibilidad.Form1();
             setVisibilidad.Show();
             this.Hide();
+        }
+
+        public void cargarComboBoxRubros()
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.ListaRubros", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Rubro");
+            adapter.Fill(dt);
+            this.cboRubro.DataSource = dt;
+            this.cboRubro.DisplayMember = "DescripLarga";
+
+            cboRubro.ValueMember = cboRubro.DisplayMember;
+            cboRubro.SelectedIndex = -1;
+            cboRubro.Text = "Seleccione un rubro";
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

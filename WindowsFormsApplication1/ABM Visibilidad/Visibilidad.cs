@@ -123,10 +123,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         private void cmdAceptarComisiones_Click(object sender, EventArgs e)
         {
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.lblVisSel.Text = cboTipoVis.SelectedValue.ToString();
-            if (cbEnvio.Checked == true)
-            {
-                WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.envioHabilitado = true;
-            }
+            WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.envioHabilitado = cbEnvio.Checked;
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.Show();
             this.Hide();
         }
