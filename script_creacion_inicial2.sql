@@ -419,6 +419,13 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.ListaRoles
 	end
 GO
 
+CREATE PROCEDURE ROAD_TO_PROYECTO.ListaFunciones
+	as begin
+		select Descripcion
+		from ROAD_TO_PROYECTO.Funcion
+	end
+GO
+
 --Alta Rol
 CREATE PROCEDURE ROAD_TO_PROYECTO.AltaRol
 @Nombre nvarchar(255)
