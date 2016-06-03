@@ -1002,6 +1002,13 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Update_Visibilidad
 	end
 GO
 
+CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Visibilidad
+	@Descripcion nvarchar(255)
+	as begin
+		select VisiId, Descripcion, ComiFija, ComiVariable, ComiEnvio from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @Descripcion
+	end
+GO
+
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert
 	as begin

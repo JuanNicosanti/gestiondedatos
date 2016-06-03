@@ -21,13 +21,13 @@ namespace WindowsFormsApplication1
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Alta_Publicacion", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Descipcion", SqlDbType.NVarChar).Value = descripcion;
-            cmd.Parameters.AddWithValue("@Stock", SqlDbType.NVarChar).Value = stock;
-            cmd.Parameters.AddWithValue("@FechaInicio", SqlDbType.NVarChar).Value = fechainicio;
-            cmd.Parameters.AddWithValue("@Precio", SqlDbType.NVarChar).Value = precio;
+            cmd.Parameters.AddWithValue("@Stock", SqlDbType.Int).Value = stock;
+            cmd.Parameters.AddWithValue("@FechaInicio", SqlDbType.DateTime).Value = fechainicio;
+            cmd.Parameters.AddWithValue("@Precio", SqlDbType.Int).Value = precio;
             cmd.Parameters.AddWithValue("@VisiDesc", SqlDbType.NVarChar).Value = visidesc;
             cmd.Parameters.AddWithValue("@RubroDesc", SqlDbType.NVarChar).Value = rubrodesc;
             cmd.Parameters.AddWithValue("@TipoDesc", SqlDbType.NVarChar).Value = tipodesc;
-            cmd.Parameters.AddWithValue("@VendedorId", SqlDbType.NVarChar).Value = vendedor;
+            cmd.Parameters.AddWithValue("@VendedorId", SqlDbType.NVarChar).Value = "ariasz";
             cmd.Parameters.AddWithValue("@EnvioHabilitado", SqlDbType.Bit).Value = envioHabilitado;
             cmd.ExecuteNonQuery();
 

@@ -62,8 +62,8 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            WindowsFormsApplication1.ABM_Visibilidad.Form1 setVisibilidad = new WindowsFormsApplication1.ABM_Visibilidad.Form1();
-            setVisibilidad.Show();
+            WindowsFormsApplication1.ABM_Visibilidad.ABMVisibilidad abmVisibilidad = new WindowsFormsApplication1.ABM_Visibilidad.ABMVisibilidad();
+            abmVisibilidad.Show();
             this.Hide();
         }
     }

@@ -38,8 +38,6 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             panelEnvio.Visible = false;
-            cmdModVis.Visible = false;
-            cmdEliminarVis.Visible = false;
             if (cboTipoVis.SelectedIndex != -1)
             {
                 if (cboTipoVis.SelectedValue.ToString() == "Gratis")
@@ -51,9 +49,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
                     cbEnvio.Visible = true;
                     cbEnvio.Checked = false;
                 }
-                panelComs.Visible = true;
-                cmdModVis.Visible = true;
-                cmdEliminarVis.Visible = true;
+                panelComs.Visible = true;                
                 textBoxTipo.Enabled = false;
                 textBoxProd.Enabled = false;
                 textBoxEnvio.Enabled = false;
@@ -82,28 +78,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
             {
                 panelEnvio.Visible = true;
             }
-        }
-
-        private void eliminarVisibilidad_Click(object sender, EventArgs e)
-        {
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Eliminar_Visibilidad", db.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = cboTipoVis.SelectedValue.ToString();
-            cmd.ExecuteNonQuery();            
-            MessageBox.Show("Elemento borrado", "LISTO" , MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-
-            cargarComboBox();
-
-            panelComs.Visible = false;
-        }
-
-        private void cmdCrearVis_Click(object sender, EventArgs e)
-        {
-            WindowsFormsApplication1.ABM_Visibilidad.AgregarVisibilidad newVisibilidad = new WindowsFormsApplication1.ABM_Visibilidad.AgregarVisibilidad();
-            newVisibilidad.Show();
-            panelComs.Visible = false;
-            this.Hide();
-        }
+        }        
 
         public void cargarComboBox() //Vuelvo a traer los valores de Visibilidad para actualizar el ComboBox
         {
@@ -126,37 +101,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.envioHabilitado = cbEnvio.Checked;
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.Show();
             this.Hide();
-        }
-
-        private void cmdModVis_Click(object sender, EventArgs e)
-        {
-            textBoxProd.Enabled = true;
-            textBoxTipo.Enabled = true;
-            textBoxEnvio.Enabled = true;
-            //cbEnvio.Visible = false;
-            textBoxEnvio.Visible = true;
-            cmdCrearVis.Visible = false;
-            cmdEliminarVis.Visible = false;
-            cmdAceptarComisiones.Visible = false;
-            cmdUpdateVis.Visible = true;
-        }
-
-        private void cmdUpdateVis_Click(object sender, EventArgs e)
-        {
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Update_Visibilidad", db.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = cboTipoVis.SelectedValue.ToString();
-            cmd.Parameters.AddWithValue("@ComiFija", SqlDbType.Int).Value = textBoxTipo.Text;
-            cmd.Parameters.AddWithValue("@ComiVariable", SqlDbType.Int).Value = textBoxProd.Text;
-            cmd.Parameters.AddWithValue("@ComiEnvio", SqlDbType.Int).Value = textBoxEnvio.Text;
-            cmd.ExecuteNonQuery();
-            MessageBox.Show("Elemento modificado", "LISTO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-
-            cargarComboBox();
-
-            panelComs.Visible = false;
-            cmdCrearVis.Visible = true;
-        }
+        }              
 
     }
 }

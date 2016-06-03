@@ -30,14 +30,14 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
                 cmd = new SqlCommand("ROAD_TO_PROYECTO.Agregar_Visibilidad", db.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = tbDescripcion.Text;
-                cmd.Parameters.AddWithValue("@ComiFija", SqlDbType.Int).Value = tbComiFija.Text;
-                cmd.Parameters.AddWithValue("@ComiVariable", SqlDbType.Int).Value = tbComiVariable.Text;
-                cmd.Parameters.AddWithValue("@ComiEnvio", SqlDbType.Int).Value = tbEnvio.Text;
+                cmd.Parameters.AddWithValue("@ComiFija", SqlDbType.Int).Value = int.Parse(tbComiFija.Text);
+                cmd.Parameters.AddWithValue("@ComiVariable", SqlDbType.Int).Value = int.Parse(tbComiVariable.Text);
+                cmd.Parameters.AddWithValue("@ComiEnvio", SqlDbType.Int).Value = int.Parse(tbEnvio.Text);
                 cmd.ExecuteNonQuery();
 
-                Form1.visibilidad.Show();
-                WindowsFormsApplication1.ABM_Visibilidad.Form1.visibilidad.cargarComboBox();
-                this.Hide();
+                ABMVisibilidad.abmVis.Show();
+                WindowsFormsApplication1.ABM_Visibilidad.ABMVisibilidad.abmVis.cargarComboBox();
+                this.Close();
             }
             else
             {
@@ -56,7 +56,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
 
         private void cmdVolverComs_Click(object sender, EventArgs e)
         {
-            Form1.visibilidad.Show();
+            ABMVisibilidad.abmVis.Show();
             this.Hide();
         }
     }

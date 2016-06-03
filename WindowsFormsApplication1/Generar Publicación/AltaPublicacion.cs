@@ -199,7 +199,8 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     return;
                 }
                 PublicacionDOA doa = new PublicacionDOA();
-               // doa.crearPublicacion();
+             
+                doa.crearPublicacion(txtDescripcion.Text, int.Parse(txtStockInmediata.Text), dtpFin.Value, int.Parse(txtPrecio.Text), lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
 
                
                 
@@ -235,7 +236,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 PublicacionDOA doa = new PublicacionDOA();
                 
-                doa.crearPublicacion(txtDescripcion.Text, 1,dtpFin.Value,int.Parse(txtValorSubasta.Text),lblVisSel.Text,/*lblRubroSe.Text*/cboRubro.SelectedValue.ToString(),cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
+                doa.crearPublicacion(txtDescripcion.Text, 1,dtpFin.Value,int.Parse(txtValorSubasta.Text),lblVisSel.Text, cboRubro.SelectedValue.ToString(),cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
             }     
             
             WindowsFormsApplication1.Form1.f1.Show();
