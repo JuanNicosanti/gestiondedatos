@@ -19,8 +19,7 @@ namespace WindowsFormsApplication1
             Form1.f1 = this;
         }
 
-      
-     
+          
 
         private void cmdModificarUsuario_Click(object sender, EventArgs e)
         {
@@ -64,6 +63,13 @@ namespace WindowsFormsApplication1
         {
             WindowsFormsApplication1.ABM_Visibilidad.ABMVisibilidad abmVisibilidad = new WindowsFormsApplication1.ABM_Visibilidad.ABMVisibilidad();
             abmVisibilidad.Show();
+            this.Hide();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.ABM_Rol.AltaRol aRol = new WindowsFormsApplication1.ABM_Rol.AltaRol();
+            aRol.Show();
             this.Hide();
         }
     }

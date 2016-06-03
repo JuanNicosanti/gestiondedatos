@@ -39,13 +39,16 @@
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.cmdVerVisibilidad = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 57);
+            this.label1.Location = new System.Drawing.Point(228, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 2;
@@ -54,7 +57,7 @@
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(81, 57);
+            this.lblUsuario.Location = new System.Drawing.Point(297, 25);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(10, 13);
             this.lblUsuario.TabIndex = 3;
@@ -62,7 +65,7 @@
             // 
             // cmdModificarUsuario
             // 
-            this.cmdModificarUsuario.Location = new System.Drawing.Point(161, 57);
+            this.cmdModificarUsuario.Location = new System.Drawing.Point(228, 57);
             this.cmdModificarUsuario.Name = "cmdModificarUsuario";
             this.cmdModificarUsuario.Size = new System.Drawing.Size(111, 23);
             this.cmdModificarUsuario.TabIndex = 4;
@@ -72,7 +75,7 @@
             // 
             // cmdPublicacion
             // 
-            this.cmdPublicacion.Location = new System.Drawing.Point(161, 103);
+            this.cmdPublicacion.Location = new System.Drawing.Point(228, 86);
             this.cmdPublicacion.Name = "cmdPublicacion";
             this.cmdPublicacion.Size = new System.Drawing.Size(111, 23);
             this.cmdPublicacion.TabIndex = 5;
@@ -89,7 +92,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(387, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(345, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -128,15 +131,15 @@
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 334);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 219);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(387, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(345, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // cmdVerVisibilidad
             // 
-            this.cmdVerVisibilidad.Location = new System.Drawing.Point(161, 151);
+            this.cmdVerVisibilidad.Location = new System.Drawing.Point(228, 115);
             this.cmdVerVisibilidad.Name = "cmdVerVisibilidad";
             this.cmdVerVisibilidad.Size = new System.Drawing.Size(111, 23);
             this.cmdVerVisibilidad.TabIndex = 8;
@@ -144,12 +147,34 @@
             this.cmdVerVisibilidad.UseVisualStyleBackColor = true;
             this.cmdVerVisibilidad.Click += new System.EventHandler(this.button1_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::WindowsFormsApplication1.Properties.Resources.FOTO_MERCADO_ENVIO;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 27);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(222, 190);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(231, 144);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(108, 23);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "Alta Rol";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(387, 356);
+            this.ClientSize = new System.Drawing.Size(345, 241);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.cmdVerVisibilidad);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cmdPublicacion);
@@ -163,6 +188,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,6 +207,8 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem desconectarseToolStripMenuItem;
         private System.Windows.Forms.Button cmdVerVisibilidad;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button1;
     }
 }
 
