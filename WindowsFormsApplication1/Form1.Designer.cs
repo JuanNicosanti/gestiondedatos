@@ -41,6 +41,7 @@
             this.cmdVerVisibilidad = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.cmdBajaRol = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -167,12 +168,23 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // cmdBajaRol
+            // 
+            this.cmdBajaRol.Location = new System.Drawing.Point(231, 174);
+            this.cmdBajaRol.Name = "cmdBajaRol";
+            this.cmdBajaRol.Size = new System.Drawing.Size(102, 23);
+            this.cmdBajaRol.TabIndex = 11;
+            this.cmdBajaRol.Text = "Baja Rol";
+            this.cmdBajaRol.UseVisualStyleBackColor = true;
+            this.cmdBajaRol.Click += new System.EventHandler(this.cmdBajaRol_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(345, 241);
+            this.Controls.Add(this.cmdBajaRol);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.cmdVerVisibilidad);
@@ -209,6 +221,7 @@
         private System.Windows.Forms.Button cmdVerVisibilidad;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button cmdBajaRol;
     }
 }
 

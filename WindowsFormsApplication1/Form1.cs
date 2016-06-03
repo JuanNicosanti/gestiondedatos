@@ -72,5 +72,12 @@ namespace WindowsFormsApplication1
             aRol.Show();
             this.Hide();
         }
+
+        private void cmdBajaRol_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.ABM_Rol.BajaRol bRol = new WindowsFormsApplication1.ABM_Rol.BajaRol();
+            bRol.Show();
+            this.Hide();
+        }
     }
 }
