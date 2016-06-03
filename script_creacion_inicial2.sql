@@ -896,7 +896,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Facturar_Publicacion
 		set @FacturaActual = @UltimaFactura + 1
 
 		insert into ROAD_TO_PROYECTO.Factura (FactNro, PubliId, Fecha)--, Monto, FormaPago) 
-		values(@FacturaActual, @PubliId, getdate())
+		values(@FacturaActual, @PubliId, (select FechaInicio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
 
 		insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto) 
 		values (@FacturaActual, 1, 'Precio por tipo publicación', (select ComiFija from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId and p.Visibilidad = v.VisiId))
@@ -929,6 +929,7 @@ GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	@PubliId int,
+	--@FechaActual datetime,
 	@Cantidad numeric(18,0),
 	@CompradorId int, --Es cliente, no usuario, por eso es int y no nvarchar(255)
 	@ConEnvio bit
@@ -936,13 +937,14 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 		if((select Stock from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) > @Cantidad)
 		begin
 			insert into ROAD_TO_PROYECTO.Transaccion(TipoTransac, Fecha, Cantidad, PubliId, ClieId, ConEnvio)
-			values('Compra', getdate(), @Cantidad, @PubliId, @CompradorId, @ConEnvio)
+			values('Compra', getdate()/*@FechaActual*/, @Cantidad, @PubliId, @CompradorId, @ConEnvio)
 		end
 	end
 GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	@PubliId int,
+	--@FechaActual datetime,
 	@MontoOferta numeric(18,2),
 	@OfertanteId int, --Es cliente, no usuario, por eso es int y no nvarchar(255)
 	@ConEnvio bit
@@ -950,7 +952,11 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 		if((select top 1 Monto from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId and TipoTransac = 'Oferta' order by Monto desc) < @MontoOferta)
 		begin
 			insert into ROAD_TO_PROYECTO.Transaccion (TipoTransac, Fecha, Monto, PubliId, ClieId, ConEnvio)
-			values('Oferta', getdate(), @MontoOferta, @PubliId, @OfertanteId, @ConEnvio)
+			values('Oferta', getdate()/*@FechaActual*/, @MontoOferta, @PubliId, @OfertanteId, @ConEnvio)
+
+			update ROAD_TO_PROYECTO.Publicacion 
+			set Precio = @MontoOferta
+			where PublId = @PubliId
 		end
 	end
 GO
@@ -1009,16 +1015,33 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Visibilidad
 	end
 GO
 
+CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicaciones_Vencidas
+	@FechaActual datetime
+	as begin
+		declare @FinalizadoId int
+		select @FinalizadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Finalizada'
+
+		update ROAD_TO_PROYECTO.Publicacion
+		set Estado = @FinalizadoId
+		where FechaFin < @FechaActual and Estado != @FinalizadoId
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Visibilidad
+	@Descripcion nvarchar(255)
+	as begin
+		select VisiId, Descripcion, ComiFija, ComiVariable, ComiEnvio from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @Descripcion
+	end
+GO
+
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert
 	as begin
 		--Variables
-		declare @Fecha datetime, @Cantidad numeric(18,0), @PubliId int, @UltimaFactura int, @FacturaActual int, @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
+		declare @Fecha datetime, @Cantidad numeric(18,0), @PubliId int, @ConEnvio bit, @UltimaFactura int, @FacturaActual int, @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
 
 		--Cursor con compras realizadas
-		declare c1 cursor for select Fecha, Cantidad, PubliId from inserted where TipoTransac = 'Compra'
+		declare c1 cursor for select Fecha, Cantidad, PubliId, ConEnvio from inserted where TipoTransac = 'Compra'
 		open c1
-		fetch next from c1 into @Fecha, @Cantidad, @PubliId
+		fetch next from c1 into @Fecha, @Cantidad, @PubliId, @ConEnvio
 
 		while @@FETCH_STATUS = 0
 			begin
@@ -1043,10 +1066,10 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.
 
 				--Creo los items de la factura
 				insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto)
-				values(@FacturaActual, @Cantidad, 'Comisión por productos vendidos', @Cantidad * @ComiVariable)
+				values(@FacturaActual, @Cantidad, 'Comisión por productos vendidos', @Cantidad * @ComiVariable * (select Precio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
 				
 				--Verifico si corresponde comisiones por envío
-				if((select p.EnvioHabilitado from ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId) = 1)
+				if(((select p.EnvioHabilitado from ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId) = 1) and @ConEnvio = 1)
 					begin
 						--Busco la comisión por envío de la publicación
 						select @ComiEnvio = ComiEnvio 
@@ -1055,12 +1078,69 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.
 
 						--Creo los items de la factura
 						insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto)
-						values(@FacturaActual, @Cantidad, 'Comisión por envío de producto', @Cantidad * @ComiEnvio)
+						values(@FacturaActual, @Cantidad, 'Comisión por envío de producto', @Cantidad * @ComiEnvio * (select Precio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
 					end
 
-				fetch next from c1 into @Fecha, @Cantidad, @PubliId
+				fetch next from c1 into @Fecha, @Cantidad, @PubliId, @ConEnvio
 				commit
 			end
+		close c1
+		deallocate c1
+	end
+GO
+
+CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.Publicacion after update
+	as begin
+		--Variables
+		declare @PubliId int, @UltimaFactura int, @FacturaActual int, @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
+		--Cursor con subastas finalizadas 
+		declare c1 cursor for select PublId from inserted 
+		where Tipo = (select tp.TipoPubliId from ROAD_TO_PROYECTO.Tipo_Publicacion tp where tp.Descripcion = 'Subasta') 
+		and Estado = (select EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Finalizada')
+		
+		open c1
+		fetch next from c1 into @PubliId
+		
+		while @@FETCH_STATUS = 0
+			begin
+			begin transaction
+				update ROAD_TO_PROYECTO.Transaccion
+				set Ganadora = 1
+				where TranId = (select top 1 TranId  from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId order by Monto desc)
+				fetch next from c1 into @PubliId
+
+				--Busco el último número de factura y determino el siguiente
+				select top 1 @UltimaFactura = FactNro from ROAD_TO_PROYECTO.Factura order by FactNro desc
+				set @FacturaActual = @UltimaFactura + 1
+
+				--Creo nueva factura
+				insert into ROAD_TO_PROYECTO.Factura (FactNro, PubliId, Fecha)--, Monto, FormaPago)
+				values(@FacturaActual, @PubliId, (select FechaFin from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
+
+				--Busco la comisión por ventas de la publicación
+				select @ComiVariable = ComiVariable 
+				from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p
+				where p.PublId = @PubliId and p.Visibilidad = v.VisiId
+
+				--Creo los items de la factura
+				insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto)
+				values(@FacturaActual, 1, 'Comisión por productos vendidos', @ComiVariable * (select Monto from ROAD_TO_PROYECTO.Transaccion where Ganadora = 1 and PubliId = @PubliId))
+				
+				--Verifico si corresponde comisiones por envío
+				if(((select p.EnvioHabilitado from ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId) = 1) and ((select ConEnvio from ROAD_TO_PROYECTO.Transaccion where Ganadora = 1 and PubliId = @PubliId) = 1))
+					begin
+						--Busco la comisión por envío de la publicación
+						select @ComiEnvio = ComiEnvio 
+						from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p
+						where p.PublId = @PubliId and p.Tipo = v.VisiId
+
+						--Creo los items de la factura
+						insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto)
+						values(@FacturaActual, 1, 'Comisión por envío de producto', @ComiEnvio * (select Monto from ROAD_TO_PROYECTO.Transaccion where Ganadora = 1 and PubliId = @PubliId))
+					end
+			commit
+		end
+		
 		close c1
 		deallocate c1
 	end
