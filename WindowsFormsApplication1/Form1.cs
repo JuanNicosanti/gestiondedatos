@@ -79,5 +79,12 @@ namespace WindowsFormsApplication1
             bRol.Show();
             this.Hide();
         }
+
+        private void cmdModificarRol_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.ABM_Rol.ModificacionRol mRol = new WindowsFormsApplication1.ABM_Rol.ModificacionRol();
+            mRol.Show();
+            this.Hide();
+        }
     }
 }

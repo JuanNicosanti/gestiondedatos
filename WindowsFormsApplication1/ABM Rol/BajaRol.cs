@@ -31,12 +31,10 @@ namespace WindowsFormsApplication1.ABM_Rol
             adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("ROAD_TO_PROYECTO.Rol");
             adapter.Fill(dt);
-            this.lstRoles.DataSource = dt;
-            this.lstRoles.DisplayMember = "Nombre";
+            this.dataGridView1.DataSource = dt;
+             
 
-            lstRoles.ValueMember = lstRoles.DisplayMember;
-
-            lstRoles.Items.Clear();
+          
         }
 
         private void cmdVolver_Click(object sender, EventArgs e)
@@ -47,20 +45,24 @@ namespace WindowsFormsApplication1.ABM_Rol
 
         private void cmdEliminarRol_Click(object sender, EventArgs e)
         {
+            if(dataGridView1.CurrentRow == null){
 
-            if (lstRoles.SelectedIndex == -1)
-            {
                 MessageBox.Show("Debe seleccionar un Rol", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
             }
-
+            
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.BajaRol", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Rol", SqlDbType.NVarChar).Value = lstRoles.SelectedValue.ToString();
+            cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = dataGridView1.SelectedCells;//NOSE COMO TOMAR LA CELDA DEL ID
             cmd.ExecuteNonQuery();
 
-            lstRoles.Items.RemoveAt(lstRoles.SelectedIndex);
+           // lstRoles.Items.RemoveAt(lstRoles.SelectedIndex);
             
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

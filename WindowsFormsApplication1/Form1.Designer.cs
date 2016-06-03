@@ -42,6 +42,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.cmdBajaRol = new System.Windows.Forms.Button();
+            this.cmdModificarRol = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -66,7 +67,7 @@
             // 
             // cmdModificarUsuario
             // 
-            this.cmdModificarUsuario.Location = new System.Drawing.Point(228, 57);
+            this.cmdModificarUsuario.Location = new System.Drawing.Point(228, 49);
             this.cmdModificarUsuario.Name = "cmdModificarUsuario";
             this.cmdModificarUsuario.Size = new System.Drawing.Size(111, 23);
             this.cmdModificarUsuario.TabIndex = 4;
@@ -76,7 +77,7 @@
             // 
             // cmdPublicacion
             // 
-            this.cmdPublicacion.Location = new System.Drawing.Point(228, 86);
+            this.cmdPublicacion.Location = new System.Drawing.Point(228, 78);
             this.cmdPublicacion.Name = "cmdPublicacion";
             this.cmdPublicacion.Size = new System.Drawing.Size(111, 23);
             this.cmdPublicacion.TabIndex = 5;
@@ -93,7 +94,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(345, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(436, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -134,13 +135,13 @@
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
             this.statusStrip1.Location = new System.Drawing.Point(0, 219);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(345, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(436, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // cmdVerVisibilidad
             // 
-            this.cmdVerVisibilidad.Location = new System.Drawing.Point(228, 115);
+            this.cmdVerVisibilidad.Location = new System.Drawing.Point(228, 107);
             this.cmdVerVisibilidad.Name = "cmdVerVisibilidad";
             this.cmdVerVisibilidad.Size = new System.Drawing.Size(111, 23);
             this.cmdVerVisibilidad.TabIndex = 8;
@@ -160,9 +161,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(231, 144);
+            this.button1.Location = new System.Drawing.Point(228, 136);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 23);
+            this.button1.Size = new System.Drawing.Size(111, 23);
             this.button1.TabIndex = 10;
             this.button1.Text = "Alta Rol";
             this.button1.UseVisualStyleBackColor = true;
@@ -170,20 +171,31 @@
             // 
             // cmdBajaRol
             // 
-            this.cmdBajaRol.Location = new System.Drawing.Point(231, 174);
+            this.cmdBajaRol.Location = new System.Drawing.Point(228, 166);
             this.cmdBajaRol.Name = "cmdBajaRol";
-            this.cmdBajaRol.Size = new System.Drawing.Size(102, 23);
+            this.cmdBajaRol.Size = new System.Drawing.Size(111, 23);
             this.cmdBajaRol.TabIndex = 11;
             this.cmdBajaRol.Text = "Baja Rol";
             this.cmdBajaRol.UseVisualStyleBackColor = true;
             this.cmdBajaRol.Click += new System.EventHandler(this.cmdBajaRol_Click);
+            // 
+            // cmdModificarRol
+            // 
+            this.cmdModificarRol.Location = new System.Drawing.Point(228, 193);
+            this.cmdModificarRol.Name = "cmdModificarRol";
+            this.cmdModificarRol.Size = new System.Drawing.Size(111, 23);
+            this.cmdModificarRol.TabIndex = 12;
+            this.cmdModificarRol.Text = "Modificar Rol";
+            this.cmdModificarRol.UseVisualStyleBackColor = true;
+            this.cmdModificarRol.Click += new System.EventHandler(this.cmdModificarRol_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(345, 241);
+            this.ClientSize = new System.Drawing.Size(436, 241);
+            this.Controls.Add(this.cmdModificarRol);
             this.Controls.Add(this.cmdBajaRol);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
@@ -222,6 +234,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button cmdBajaRol;
+        private System.Windows.Forms.Button cmdModificarRol;
     }
 }
 
