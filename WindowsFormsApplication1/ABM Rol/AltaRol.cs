@@ -39,6 +39,9 @@ namespace WindowsFormsApplication1.ABM_Rol
             
             lstFuncElegidas.Items.Clear();
 
+            timer1.Start();
+           
+
         }
         private void cmdVolver_Click(object sender, EventArgs e)
         {
@@ -59,6 +62,11 @@ namespace WindowsFormsApplication1.ABM_Rol
                 MessageBox.Show("Debe completar el campo del nuevo Rol", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
             }
+            if (lstFuncElegidas.Items.Count == 0)
+            {
+                MessageBox.Show("Debe elegir al menos una funcionalidad", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.AltaRol", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = txtNuevoRol.Text;
@@ -74,6 +82,7 @@ namespace WindowsFormsApplication1.ABM_Rol
                 cmd2.Parameters.AddWithValue("@Funcion", SqlDbType.NVarChar).Value = unaFunc;
                 cmd2.ExecuteNonQuery();
             }
+            lstFuncElegidas.Items.Clear();
             
 
 
@@ -81,7 +90,7 @@ namespace WindowsFormsApplication1.ABM_Rol
 
         private void lstFuncionalidades_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lstFuncElegidas.Items.Add(lstFuncionalidades.SelectedValue.ToString());
+            
         }
 
         private void cmdBorrar_Click(object sender, EventArgs e)
@@ -96,5 +105,27 @@ namespace WindowsFormsApplication1.ABM_Rol
             this.Hide();
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void lstFuncElegidas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void cmdBorrarUnaFunc_Click(object sender, EventArgs e)
+        {
+            lstFuncElegidas.Items.RemoveAt(lstFuncElegidas.SelectedIndex);
+        }
+
+        private void cmdSeleccionar_Click(object sender, EventArgs e)
+        {
+            lstFuncElegidas.Items.Add(lstFuncionalidades.SelectedValue.ToString());
+        }
+
+      
+     
     }
 }

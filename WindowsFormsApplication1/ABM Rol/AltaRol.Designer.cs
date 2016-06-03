@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -38,6 +39,9 @@
             this.cmdVolver = new System.Windows.Forms.Button();
             this.lstFuncionalidades = new System.Windows.Forms.ListBox();
             this.lstFuncElegidas = new System.Windows.Forms.ListBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.cmdBorrarUnaFunc = new System.Windows.Forms.Button();
+            this.cmdSeleccionar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -133,6 +137,31 @@
             this.lstFuncElegidas.Name = "lstFuncElegidas";
             this.lstFuncElegidas.Size = new System.Drawing.Size(303, 134);
             this.lstFuncElegidas.TabIndex = 8;
+            this.lstFuncElegidas.SelectedIndexChanged += new System.EventHandler(this.lstFuncElegidas_SelectedIndexChanged);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // cmdBorrarUnaFunc
+            // 
+            this.cmdBorrarUnaFunc.Location = new System.Drawing.Point(366, 252);
+            this.cmdBorrarUnaFunc.Name = "cmdBorrarUnaFunc";
+            this.cmdBorrarUnaFunc.Size = new System.Drawing.Size(200, 23);
+            this.cmdBorrarUnaFunc.TabIndex = 9;
+            this.cmdBorrarUnaFunc.Text = "Borrar funcionalidad";
+            this.cmdBorrarUnaFunc.UseVisualStyleBackColor = true;
+            this.cmdBorrarUnaFunc.Click += new System.EventHandler(this.cmdBorrarUnaFunc_Click);
+            // 
+            // cmdSeleccionar
+            // 
+            this.cmdSeleccionar.Location = new System.Drawing.Point(48, 252);
+            this.cmdSeleccionar.Name = "cmdSeleccionar";
+            this.cmdSeleccionar.Size = new System.Drawing.Size(200, 23);
+            this.cmdSeleccionar.TabIndex = 10;
+            this.cmdSeleccionar.Text = "Seleccionar";
+            this.cmdSeleccionar.UseVisualStyleBackColor = true;
+            this.cmdSeleccionar.Click += new System.EventHandler(this.cmdSeleccionar_Click);
             // 
             // AltaRol
             // 
@@ -140,6 +169,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(616, 300);
+            this.Controls.Add(this.cmdSeleccionar);
+            this.Controls.Add(this.cmdBorrarUnaFunc);
             this.Controls.Add(this.lstFuncElegidas);
             this.Controls.Add(this.lstFuncionalidades);
             this.Controls.Add(this.cmdVolver);
@@ -171,5 +202,8 @@
         private System.Windows.Forms.Button cmdVolver;
         private System.Windows.Forms.ListBox lstFuncionalidades;
         private System.Windows.Forms.ListBox lstFuncElegidas;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button cmdBorrarUnaFunc;
+        private System.Windows.Forms.Button cmdSeleccionar;
     }
 }
