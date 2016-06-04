@@ -19,10 +19,25 @@ namespace WindowsFormsApplication1.ABM_Rol
         SqlDataReader sdr;
         SqlDataAdapter adapter;
         private DataBase db;
+        public int esAltaRol = 1;
         public AltaRol()
         {
             InitializeComponent();
             db = DataBase.GetInstance();
+        }
+
+        public void cargarFuncionalidadesElegidasDeDeterminadoRol(int idRol)
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.FuncionesDeUnRol", db.Connection);
+            cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = idRol;
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Funcion");
+            adapter.Fill(dt);
+            this.lstFuncElegidas.DataSource = dt;
+            this.lstFuncElegidas.DisplayMember = "Descripcion";
+
+            lstFuncElegidas.ValueMember = lstFuncElegidas.DisplayMember;
         }
 
         private void AltaRol_Load(object sender, EventArgs e)
@@ -36,8 +51,11 @@ namespace WindowsFormsApplication1.ABM_Rol
             this.lstFuncionalidades.DisplayMember = "Descripcion";
             
             lstFuncionalidades.ValueMember = lstFuncionalidades.DisplayMember;
+            if (esAltaRol == 1)
+            {
+                lstFuncElegidas.Items.Clear();
+            }
             
-            lstFuncElegidas.Items.Clear();
 
             timer1.Start();
            
@@ -67,21 +85,30 @@ namespace WindowsFormsApplication1.ABM_Rol
                 MessageBox.Show("Debe elegir al menos una funcionalidad", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
             }
-            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.AltaRol", db.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = txtNuevoRol.Text;
-            cmd.ExecuteNonQuery();
-            txtNuevoRol.Text = "";
 
-            for (int i = 0; i < lstFuncElegidas.Items.Count - 1; i++)
+            if (esAltaRol == 1)
             {
-                string unaFunc = lstFuncElegidas.Items[i].ToString();
-                SqlCommand cmd2 = new SqlCommand("ROAD_TO_PROYECTO.AsignarFuncionARol", db.Connection);
-                cmd2.CommandType = CommandType.StoredProcedure;
-                cmd2.Parameters.AddWithValue("@Rol", SqlDbType.NVarChar).Value = nuevoRol;
-                cmd2.Parameters.AddWithValue("@Funcion", SqlDbType.NVarChar).Value = unaFunc;
-                cmd2.ExecuteNonQuery();
+                SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.AltaRol", db.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = txtNuevoRol.Text;
+                cmd.ExecuteNonQuery();
+                txtNuevoRol.Text = "";
+
+                for (int i = 0; i < lstFuncElegidas.Items.Count - 1; i++)
+                {
+                    string unaFunc = lstFuncElegidas.Items[i].ToString();
+                    SqlCommand cmd2 = new SqlCommand("ROAD_TO_PROYECTO.AsignarFuncionARol", db.Connection);
+                    cmd2.CommandType = CommandType.StoredProcedure;
+                    cmd2.Parameters.AddWithValue("@Rol", SqlDbType.NVarChar).Value = nuevoRol;
+                    cmd2.Parameters.AddWithValue("@Funcion", SqlDbType.NVarChar).Value = unaFunc;
+                    cmd2.ExecuteNonQuery();
+                }
             }
+            if (esAltaRol == 0)
+            {
+            }
+
+            
             lstFuncElegidas.Items.Clear();
             
 
@@ -101,8 +128,16 @@ namespace WindowsFormsApplication1.ABM_Rol
 
         private void cmdVolver_Click_1(object sender, EventArgs e)
         {
-            Form1.f1.Show();
-            this.Hide();
+            if (esAltaRol == 1) {
+                Form1.f1.Show();
+                this.Hide();
+            }
+            if (esAltaRol == 0) {
+                ModificacionRol mRol = new ModificacionRol()
+                mRol.Show();
+                this.Hide();
+            }
+            
         }
 
         private void timer1_Tick(object sender, EventArgs e)

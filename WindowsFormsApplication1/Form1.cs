@@ -70,6 +70,7 @@ namespace WindowsFormsApplication1
         private void button1_Click_1(object sender, EventArgs e)
         {
             WindowsFormsApplication1.ABM_Rol.AltaRol aRol = new WindowsFormsApplication1.ABM_Rol.AltaRol();
+            aRol.esAltaRol = 1;
             aRol.Show();
             this.Hide();
         }
@@ -84,6 +85,7 @@ namespace WindowsFormsApplication1
         private void cmdModificarRol_Click(object sender, EventArgs e)
         {
             WindowsFormsApplication1.ABM_Rol.ModificacionRol mRol = new WindowsFormsApplication1.ABM_Rol.ModificacionRol();
+            
             mRol.Show();
             this.Hide();
         }

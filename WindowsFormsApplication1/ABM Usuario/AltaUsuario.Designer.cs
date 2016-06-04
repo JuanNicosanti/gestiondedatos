@@ -58,7 +58,6 @@
             this.txtMail = new System.Windows.Forms.TextBox();
             this.txtNombreCliente = new System.Windows.Forms.TextBox();
             this.txtApellidoCliente = new System.Windows.Forms.TextBox();
-            this.txtTipoCliente = new System.Windows.Forms.TextBox();
             this.txtDNICliente = new System.Windows.Forms.TextBox();
             this.txtTelCliente = new System.Windows.Forms.TextBox();
             this.txtCalle = new System.Windows.Forms.TextBox();
@@ -87,6 +86,7 @@
             this.cmdRubroEmpresa = new System.Windows.Forms.Button();
             this.lblCiudadEmpresa = new System.Windows.Forms.Label();
             this.txtCiudadEmpresa = new System.Windows.Forms.TextBox();
+            this.cboTipoCliente = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -338,13 +338,6 @@
             this.txtApellidoCliente.Size = new System.Drawing.Size(100, 20);
             this.txtApellidoCliente.TabIndex = 30;
             // 
-            // txtTipoCliente
-            // 
-            this.txtTipoCliente.Location = new System.Drawing.Point(257, 199);
-            this.txtTipoCliente.Name = "txtTipoCliente";
-            this.txtTipoCliente.Size = new System.Drawing.Size(100, 20);
-            this.txtTipoCliente.TabIndex = 31;
-            // 
             // txtDNICliente
             // 
             this.txtDNICliente.Location = new System.Drawing.Point(257, 219);
@@ -431,7 +424,7 @@
             // lblNombreEmpresa
             // 
             this.lblNombreEmpresa.AutoSize = true;
-            this.lblNombreEmpresa.Location = new System.Drawing.Point(149, 199);
+            this.lblNombreEmpresa.Location = new System.Drawing.Point(145, 199);
             this.lblNombreEmpresa.Name = "lblNombreEmpresa";
             this.lblNombreEmpresa.Size = new System.Drawing.Size(106, 13);
             this.lblNombreEmpresa.TabIndex = 43;
@@ -483,7 +476,7 @@
             // 
             // txtNombreContEmpresa
             // 
-            this.txtNombreContEmpresa.Location = new System.Drawing.Point(257, 199);
+            this.txtNombreContEmpresa.Location = new System.Drawing.Point(257, 196);
             this.txtNombreContEmpresa.Name = "txtNombreContEmpresa";
             this.txtNombreContEmpresa.Size = new System.Drawing.Size(100, 20);
             this.txtNombreContEmpresa.TabIndex = 50;
@@ -576,12 +569,27 @@
             this.txtCiudadEmpresa.Size = new System.Drawing.Size(100, 20);
             this.txtCiudadEmpresa.TabIndex = 59;
             // 
+            // cboTipoCliente
+            // 
+            this.cboTipoCliente.FormattingEnabled = true;
+            this.cboTipoCliente.Items.AddRange(new object[] {
+            "DNI",
+            "LC",
+            "LE",
+            "CI"});
+            this.cboTipoCliente.Location = new System.Drawing.Point(257, 196);
+            this.cboTipoCliente.Name = "cboTipoCliente";
+            this.cboTipoCliente.Size = new System.Drawing.Size(100, 21);
+            this.cboTipoCliente.TabIndex = 60;
+            this.cboTipoCliente.Text = "Seleccione un tipo de documento";
+            // 
             // AltaUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(533, 590);
+            this.Controls.Add(this.cboTipoCliente);
             this.Controls.Add(this.txtCiudadEmpresa);
             this.Controls.Add(this.lblCiudadEmpresa);
             this.Controls.Add(this.cmdRubroEmpresa);
@@ -608,7 +616,6 @@
             this.Controls.Add(this.txtCalle);
             this.Controls.Add(this.txtTelCliente);
             this.Controls.Add(this.txtDNICliente);
-            this.Controls.Add(this.txtTipoCliente);
             this.Controls.Add(this.txtApellidoCliente);
             this.Controls.Add(this.txtNombreCliente);
             this.Controls.Add(this.txtMail);
@@ -692,7 +699,6 @@
         public System.Windows.Forms.TextBox txtMail;
         public System.Windows.Forms.TextBox txtNombreCliente;
         public System.Windows.Forms.TextBox txtApellidoCliente;
-        public System.Windows.Forms.TextBox txtTipoCliente;
         public System.Windows.Forms.TextBox txtDNICliente;
         public System.Windows.Forms.TextBox txtTelCliente;
         public System.Windows.Forms.TextBox txtCalle;
@@ -709,5 +715,6 @@
         public System.Windows.Forms.TextBox txtTelEmpresa;
         private System.Windows.Forms.Label lblCiudadEmpresa;
         public System.Windows.Forms.TextBox txtCiudadEmpresa;
+        public System.Windows.Forms.ComboBox cboTipoCliente;
     }
 }

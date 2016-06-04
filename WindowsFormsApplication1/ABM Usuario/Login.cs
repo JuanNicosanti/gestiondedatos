@@ -99,7 +99,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             if (this.toolStripProgressBar1.Value == toolStripProgressBar1.Maximum )
             {
                 this.toolStripProgressBar1.Value = 0;
-                
+
                 Form1.f1.lblUsuario.Text = this.txtUsuario.Text;
                 Form1.f1.Show();
                 this.timer1.Stop();
@@ -117,6 +117,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
         private void cmdRegistrarse_Click(object sender, EventArgs e)
         {
             AltaUsuario altaUsuario = new AltaUsuario();
+            altaUsuario.esAltaUsuario = 1;
             altaUsuario.Show();
             this.Hide();
             

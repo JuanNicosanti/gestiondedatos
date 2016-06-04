@@ -46,7 +46,8 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 this.txtDNICliente.Visible = true;                             
                 this.txtNombreCliente.Visible = true;                            
                 this.txtTelCliente.Visible = true;
-                this.txtTipoCliente.Visible = true;
+                this.cboTipoCliente.Visible = true;
+                
 
                 this.txtCUITEmpresa.Text = "";
                 this.txtNombreContEmpresa.Text = "";
@@ -87,7 +88,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 this.txtDNICliente.Text = "";
                 this.txtNombreCliente.Text = "";
                 this.txtTelCliente.Text = "";
-                this.txtTipoCliente.Text = "";
+                this.cboTipoCliente.Text = "";
             
           
                                
@@ -125,7 +126,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 this.txtDNICliente.Visible = false;
                 this.txtNombreCliente.Visible = false;
                 this.txtTelCliente.Visible = false;
-                this.txtTipoCliente.Visible = false;
+                this.cboTipoCliente.Visible = false;
 
                 
             }
@@ -174,7 +175,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             this.txtDNICliente.Visible = false;
             this.txtNombreCliente.Visible = false;
             this.txtTelCliente.Visible = false;
-            this.txtTipoCliente.Visible = false;
+            this.cboTipoCliente.Visible = false;
             this.txtCalle.Visible = false;
             this.txtCodPos.Visible = false;
             this.txtDpto.Visible = false;
@@ -243,9 +244,9 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     cadenaDeErrores += " Telefono \r";
                     huboError++;
                 }
-                if(string.IsNullOrEmpty(txtTipoCliente.Text))
+                if (this.cboTipoCliente.SelectedIndex == -1)
                 {
-                    cadenaDeErrores += " Tipo \r";
+                    cadenaDeErrores += " Tipo Documento \r";
                     huboError++;
                 }
 
@@ -292,11 +293,11 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 UsuarioDOA doa = new UsuarioDOA();
                 if (esAltaUsuario == 1)
                 {
-                    doa.crearCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), txtTipoCliente.Text, txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
+                    doa.crearCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
                 }
                 if (esAltaUsuario == 0)
                 {
-                    doa.crearCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), txtTipoCliente.Text, txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
+                    doa.crearCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
                     ModificacionUsuario mUsu = new ModificacionUsuario();
                     this.Hide();
                 }
@@ -451,7 +452,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             this.txtDNICliente.Text = "";
             this.txtNombreCliente.Text = "";
             this.txtTelCliente.Text = "";
-            this.txtTipoCliente.Text = "";
+            this.cboTipoCliente.Text = "";
 
             this.txtCUITEmpresa.Text = "";
             this.txtNombreContEmpresa.Text = "";
@@ -473,9 +474,18 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
         private void cmdVolver_Click(object sender, EventArgs e)
         {
-            Login.lg.Show();
-            this.Hide();
+            if (esAltaUsuario == 1) {
+                Login.lg.Show();
+                this.Hide();
 
+            }
+            if (esAltaUsuario == 0)
+            {
+                ModificacionUsuario mUsu = new ModificacionUsuario();
+                this.Hide();
+
+            }
+           
         }
 
         private void rbCliente_CheckedChanged(object sender, EventArgs e)

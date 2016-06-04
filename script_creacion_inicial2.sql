@@ -423,6 +423,17 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.ListaFunciones
 	as begin
 		select Descripcion
 		from ROAD_TO_PROYECTO.Funcion
+		group by Descripcion
+	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.FuncionesDeUnRol
+@Rol int
+	as begin
+		select ROAD_TO_PROYECTO.Funcion.Descripcion as Descripcion
+		from ROAD_TO_PROYECTO.Funciones_Por_Rol join ROAD_TO_PROYECTO.Funcion on ROAD_TO_PROYECTO.Funciones_Por_Rol.FuncId = ROAD_TO_PROYECTO.Funcion.FuncId
+		where ROAD_TO_PROYECTO.Funciones_Por_Rol.RolId = @Rol
+		group by Descripcion
 	end
 GO
 

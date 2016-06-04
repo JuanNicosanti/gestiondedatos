@@ -82,7 +82,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(178, 66);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Nuevo Rol:";
+            this.label1.Text = "Rol:";
             // 
             // txtNuevoRol
             // 
@@ -196,14 +196,14 @@
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtNuevoRol;
         private System.Windows.Forms.Button cmdAceptar;
         private System.Windows.Forms.Button cmdBorrar;
         private System.Windows.Forms.Button cmdVolver;
         private System.Windows.Forms.ListBox lstFuncionalidades;
-        private System.Windows.Forms.ListBox lstFuncElegidas;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button cmdBorrarUnaFunc;
         private System.Windows.Forms.Button cmdSeleccionar;
+        public System.Windows.Forms.TextBox txtNuevoRol;
+        public System.Windows.Forms.ListBox lstFuncElegidas;
     }
 }

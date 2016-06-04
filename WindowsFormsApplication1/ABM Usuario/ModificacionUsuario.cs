@@ -207,7 +207,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
 //                AltaUsuario.aus.txtApellidoCliente.Text =
 //                AltaUsuario.aus.txtNombreCliente.Text =
 //                AltaUsuario.aus.txtDNICliente.Text =
-//                AltaUsuario.aus.txtTipoCliente.Text =  
+//                AltaUsuario.aus.cboTipoCliente.SelectedItem = 
 //                AltaUsuario.aus.txtMail.Text =
 //                AltaUsuario.aus.txtCodPos.Text =
 //                AltaUsuario.aus.dtpCreacion.Value =

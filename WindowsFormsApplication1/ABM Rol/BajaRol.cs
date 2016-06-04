@@ -56,8 +56,7 @@ namespace WindowsFormsApplication1.ABM_Rol
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = celdaIdRol;
             cmd.ExecuteNonQuery();
-            dataGridView1.Rows.Remove(dataGridView1.CurrentRow);
-           //dataGridView1[0,fila].
+           
             
         }
 
