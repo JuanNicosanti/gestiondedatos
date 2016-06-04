@@ -784,11 +784,11 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Cliente
 		select u.Usuario, u.Mail, c.TipoDocumento, c.NroDocumento, c.Apellido, c.Nombres
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Cliente c, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
 		where rpu.UserId = u.Usuario and rpu.RolId = (select RolId from ROAD_TO_PROYECTO.Rol r where r.Nombre = 'Cliente') and rpu.IdExterno = c.ClieId
-		and c.Nombres like '%'+ @Nombres +'%'
-		and c.Apellido like '%'+ @Apellido +'%'
+		and c.Nombres like @Nombres +'%'
+		and c.Apellido like @Apellido +'%'
 		and c.TipoDocumento = 'DNI'
-		and c.NroDocumento = @NroDocumento
-		and u.Mail like '%'+ @Mail +'%'
+		and (c.NroDocumento = @NroDocumento or @NroDocumento is null)
+        and u.Mail like @Mail +'%'
 	end
 GO
 
