@@ -416,6 +416,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.ListaRoles
 	as begin
 		select RolId, Nombre 
 		from ROAD_TO_PROYECTO.Rol
+		order by RolId
 	end
 GO
 
@@ -751,7 +752,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Domicilio_Usuario
 	begin
 		execute ROAD_TO_PROYECTO.Alta_Domicilio @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
 		update ROAD_TO_PROYECTO.Usuario 
-		set Domicilio = (select top 1 DomiId from ROAD_TO_PROYECTO.Domicilio
+		set Domicilio = (select DomiId from ROAD_TO_PROYECTO.Domicilio
 						where Calle = @Calle and Numero = @Numero and Piso = @Piso and Depto = @Depto and CodPostal = @CodPostal and Localidad = @Localidad)
 		where Usuario = @Usuario
 	end
@@ -767,14 +768,13 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cambiar_Contraseña
 		if exists(select Usuario,Contraseña from ROAD_TO_PROYECTO.Usuario where @Usuario = Usuario and @Contraseña = Contraseña)
 		begin
 			update ROAD_TO_PROYECTO.Usuario set Contraseña = @ContraseñaNueva
-			where @Usuario = Usuario and @Contraseña = Contraseña
+			where @Usuario = Usuario
 		end
 	end
 GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Cliente
 	@Mail nvarchar(50),
-	@TipoDocumento nvarchar(5),
 	@NroDocumento numeric(18,0),
 	@Apellido nvarchar(255),
 	@Nombres nvarchar(255)
@@ -786,7 +786,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Cliente
 		where rpu.UserId = u.Usuario and rpu.RolId = (select RolId from ROAD_TO_PROYECTO.Rol r where r.Nombre = 'Cliente') and rpu.IdExterno = c.ClieId
 		and c.Nombres like '%'+ @Nombres +'%'
 		and c.Apellido like '%'+ @Apellido +'%'
-		and c.TipoDocumento = @TipoDocumento
+		and c.TipoDocumento = 'DNI'
 		and c.NroDocumento = @NroDocumento
 		and u.Mail like '%'+ @Mail +'%'
 	end
@@ -821,7 +821,9 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Comisiones_Visibilidad
 	as
 	begin
-		select Descripcion from ROAD_TO_PROYECTO.Visibilidad order by Descripcion
+		select Descripcion
+		from ROAD_TO_PROYECTO.Visibilidad
+		 order by Descripcion
 	end
 GO
 
@@ -998,24 +1000,12 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Agregar_Visibilidad
 		declare @VisiIdAnterior int, @VisiId int
 		select top 1 @VisiIdAnterior = VisiId from ROAD_TO_PROYECTO.Visibilidad order by VisiId desc
 		set @VisiId = @VisiIdAnterior +1
-
+		if not exists (select descripcion from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @Descripcion)
 		insert into ROAD_TO_PROYECTO.Visibilidad (VisiId, Descripcion, ComiFija, ComiVariable, ComiEnvio)
 		values (@VisiId, @Descripcion, @ComiFija, @ComiVariable, @ComiEnvio)
 	end
 GO
 
-CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Visibilidad
-	@VisiId int,
-	@Descripcion nvarchar(255),
-	@ComiFija numeric(18,2),
-	@ComiVariable numeric(18,2),
-	@ComiEnvio numeric(18,2)
-	as begin
-		update ROAD_TO_PROYECTO.Visibilidad 
-		set Descripcion = @Descripcion, ComiFija = @ComiFija, ComiVariable = @ComiVariable, ComiEnvio = @ComiEnvio
-		where VisiId = @VisiId
-	end
-GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Eliminar_Visibilidad
 	@VisiId int
@@ -1051,14 +1041,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicaciones_Vencidas
 
 		update ROAD_TO_PROYECTO.Publicacion
 		set Estado = @FinalizadoId
-		where FechaFin < @FechaActual and Estado != @FinalizadoId
-
-CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Visibilidad
-	@Descripcion nvarchar(255)
-	as begin
-		select VisiId, Descripcion, ComiFija, ComiVariable, ComiEnvio from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @Descripcion
-	end
-GO
+		where FechaFin < @FechaActual and Estado <> @FinalizadoId
 
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert

@@ -105,5 +105,10 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         {
             this.Close();
         }
+
+        private void BusquedaVisibilidad_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -42,7 +42,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.cmdBajaRol = new System.Windows.Forms.Button();
             this.cmdModificarRol = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -92,7 +94,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(436, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(352, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -133,7 +135,7 @@
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
             this.statusStrip1.Location = new System.Drawing.Point(0, 219);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(436, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(352, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -177,12 +179,24 @@
             this.cmdModificarRol.UseVisualStyleBackColor = true;
             this.cmdModificarRol.Click += new System.EventHandler(this.cmdModificarRol_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::WindowsFormsApplication1.Properties.Resources.FOTO_MERCADO_ENVIO;
+            this.pictureBox1.ImageLocation = "";
+            this.pictureBox1.Location = new System.Drawing.Point(0, 27);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(222, 189);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(436, 241);
+            this.ClientSize = new System.Drawing.Size(352, 241);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.cmdModificarRol);
             this.Controls.Add(this.cmdBajaRol);
             this.Controls.Add(this.button1);
@@ -199,6 +213,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,6 +236,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button cmdBajaRol;
         private System.Windows.Forms.Button cmdModificarRol;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

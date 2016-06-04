@@ -208,6 +208,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "BusquedaVisibilidad";
             this.Text = "BusquedaVisibilidad";
+            this.Load += new System.EventHandler(this.BusquedaVisibilidad_Load_1);
             this.panelFiltros.ResumeLayout(false);
             this.panelFiltros.PerformLayout();
             this.panelResultados.ResumeLayout(false);

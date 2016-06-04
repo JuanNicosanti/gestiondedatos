@@ -129,32 +129,59 @@ namespace WindowsFormsApplication1.ABM_Usuario
             }
             if (cboSeleccion.SelectedItem.ToString() == "Cliente")
             {
+               
+                
                 if (string.IsNullOrEmpty(txtNombre.Text) && string.IsNullOrEmpty(txtApellido.Text) && string.IsNullOrEmpty(txtDNI.Text) && string.IsNullOrEmpty(txtEmailC.Text))
                 {
                     MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     return;
                 }
+                cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Cliente", db.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                if(!(string.IsNullOrEmpty(txtNombre.Text))){
-                    //pasarUnScript
-                    return;
-                }
-                if (!(string.IsNullOrEmpty(txtApellido.Text)))
+
+                if (string.IsNullOrEmpty(txtEmailC.Text))
                 {
-                    //pasarUnScript
-                    return;
+                    cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = "";
                 }
-                if (!(string.IsNullOrEmpty(txtDNI.Text)))
+                else {
+                    cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = txtEmailC.Text;
+                }
+
+                
+                if (string.IsNullOrEmpty(txtDNI.Text))
                 {
-                    //pasarUnScript
-                    return;
+                    cmd.Parameters.AddWithValue("@NroDocumento", DBNull.Value);
                 }
-                if (!(string.IsNullOrEmpty(txtEmailC.Text)))
+                else {
+                    cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.Int).Value = int.Parse(txtDNI.Text);
+                }
+
+               
+               
+                if (string.IsNullOrEmpty(txtApellido.Text))
                 {
-                    //pasarUnScript
-                    return;
+                    cmd.Parameters.AddWithValue("@Apellido", SqlDbType.Int).Value = "";
                 }
-              
+                else {
+                    cmd.Parameters.AddWithValue("@Apellido", SqlDbType.NVarChar).Value = txtApellido.Text;
+                }
+
+
+                if (string.IsNullOrEmpty(txtNombre.Text))
+                {
+                    cmd.Parameters.AddWithValue("@Nombres", SqlDbType.Int).Value = "";
+                }
+                else {
+                    cmd.Parameters.AddWithValue("@Nombres", SqlDbType.NVarChar).Value = txtNombre.Text;
+                }
+
+                adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("ROAD_TO_PROYECTO.Cliente");
+                adapter.Fill(dt);
+                this.dataGridView1.DataSource = dt;
+
+       
 
                
             }
@@ -165,21 +192,14 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     return;
                 }
-                if (!(string.IsNullOrEmpty(txtRazonSocial.Text)))
-                {
-                    //pasarUnScript
-                    return;
-                }
-                if (!(string.IsNullOrEmpty(txtCUIT.Text)))
-                {
-                    //pasarUnScript
-                    return;
-                }
-                if (!(string.IsNullOrEmpty(txtEmailE.Text)))
-                {
-                    //pasarUnScript
-                    return;
-                }
+                /*cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Cliente", db.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = txtEmailC.Text;
+                cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.Int).Value = txtDNI.Text;
+                cmd.Parameters.AddWithValue("@Apellido", SqlDbType.Int).Value = txtApellido.Text;
+                cmd.Parameters.AddWithValue("@Nombres", SqlDbType.Int).Value = txtNombre.Text;
+                cmd.ExecuteNonQuery();*/
+             
 
 
             }

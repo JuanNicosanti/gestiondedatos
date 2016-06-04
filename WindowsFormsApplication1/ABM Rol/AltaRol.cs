@@ -133,7 +133,7 @@ namespace WindowsFormsApplication1.ABM_Rol
                 this.Hide();
             }
             if (esAltaRol == 0) {
-                ModificacionRol mRol = new ModificacionRol()
+                ModificacionRol mRol = new ModificacionRol();
                 mRol.Show();
                 this.Hide();
             }
