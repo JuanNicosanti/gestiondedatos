@@ -100,15 +100,15 @@
             // 
             this.label3.AllowDrop = true;
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(307, 29);
+            this.label3.Location = new System.Drawing.Point(241, 29);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(323, 342);
+            this.label3.Size = new System.Drawing.Size(607, 342);
             this.label3.TabIndex = 12;
             this.label3.Text = "Resultados";
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(449, 393);
+            this.cmdVolver.Location = new System.Drawing.Point(662, 393);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(186, 23);
             this.cmdVolver.TabIndex = 13;
@@ -124,7 +124,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(647, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(860, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -140,7 +140,7 @@
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
             this.statusStrip1.Location = new System.Drawing.Point(0, 439);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(647, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(860, 22);
             this.statusStrip1.TabIndex = 15;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -209,7 +209,7 @@
             // 
             // cmdBusqueda
             // 
-            this.cmdBusqueda.Location = new System.Drawing.Point(12, 393);
+            this.cmdBusqueda.Location = new System.Drawing.Point(19, 393);
             this.cmdBusqueda.Name = "cmdBusqueda";
             this.cmdBusqueda.Size = new System.Drawing.Size(186, 23);
             this.cmdBusqueda.TabIndex = 23;
@@ -269,15 +269,15 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(315, 51);
+            this.dataGridView1.Location = new System.Drawing.Point(241, 48);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(304, 312);
+            this.dataGridView1.Size = new System.Drawing.Size(592, 312);
             this.dataGridView1.TabIndex = 31;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // cmdModificar
             // 
-            this.cmdModificar.Location = new System.Drawing.Point(228, 393);
+            this.cmdModificar.Location = new System.Drawing.Point(340, 393);
             this.cmdModificar.Name = "cmdModificar";
             this.cmdModificar.Size = new System.Drawing.Size(186, 23);
             this.cmdModificar.TabIndex = 32;
@@ -291,7 +291,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(647, 461);
+            this.ClientSize = new System.Drawing.Size(860, 461);
             this.Controls.Add(this.cmdModificar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.txtEmailE);

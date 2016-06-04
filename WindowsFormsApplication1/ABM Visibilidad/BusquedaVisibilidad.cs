@@ -100,5 +100,10 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
             tbDescripcion.Text = "";
             tbComiFija.Text = "";
         }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

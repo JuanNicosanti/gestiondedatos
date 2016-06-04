@@ -101,6 +101,11 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.envioHabilitado = cbEnvio.Checked;
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.Show();
             this.Hide();
+        }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }              
 
     }

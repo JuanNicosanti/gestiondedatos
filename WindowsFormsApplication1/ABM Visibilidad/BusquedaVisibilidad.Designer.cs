@@ -29,20 +29,24 @@
         private void InitializeComponent()
         {
             this.panelFiltros = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tbDescripcion = new System.Windows.Forms.TextBox();
-            this.tbComiFija = new System.Windows.Forms.TextBox();
-            this.cmdBuscar = new System.Windows.Forms.Button();
-            this.panelResultados = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.cmdModificar = new System.Windows.Forms.Button();
-            this.cmdEliminar = new System.Windows.Forms.Button();
-            this.cmdVolver = new System.Windows.Forms.Button();
             this.cmdLimpiarFiltros = new System.Windows.Forms.Button();
+            this.cmdBuscar = new System.Windows.Forms.Button();
+            this.tbComiFija = new System.Windows.Forms.TextBox();
+            this.tbDescripcion = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panelResultados = new System.Windows.Forms.Panel();
+            this.cmdEliminar = new System.Windows.Forms.Button();
+            this.cmdModificar = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.cmdVolver = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelFiltros.SuspendLayout();
             this.panelResultados.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelFiltros
@@ -53,42 +57,20 @@
             this.panelFiltros.Controls.Add(this.tbDescripcion);
             this.panelFiltros.Controls.Add(this.label2);
             this.panelFiltros.Controls.Add(this.label1);
-            this.panelFiltros.Location = new System.Drawing.Point(12, 12);
+            this.panelFiltros.Location = new System.Drawing.Point(9, 33);
             this.panelFiltros.Name = "panelFiltros";
             this.panelFiltros.Size = new System.Drawing.Size(430, 88);
             this.panelFiltros.TabIndex = 4;
             // 
-            // label1
+            // cmdLimpiarFiltros
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(168, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Ingrese el nombre de la visibilidad:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(168, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Comisión por publicación menor a:";
-            // 
-            // tbDescripcion
-            // 
-            this.tbDescripcion.Location = new System.Drawing.Point(177, 6);
-            this.tbDescripcion.Name = "tbDescripcion";
-            this.tbDescripcion.Size = new System.Drawing.Size(100, 20);
-            this.tbDescripcion.TabIndex = 2;
-            // 
-            // tbComiFija
-            // 
-            this.tbComiFija.Location = new System.Drawing.Point(177, 38);
-            this.tbComiFija.Name = "tbComiFija";
-            this.tbComiFija.Size = new System.Drawing.Size(100, 20);
-            this.tbComiFija.TabIndex = 3;
+            this.cmdLimpiarFiltros.Location = new System.Drawing.Point(321, 36);
+            this.cmdLimpiarFiltros.Name = "cmdLimpiarFiltros";
+            this.cmdLimpiarFiltros.Size = new System.Drawing.Size(75, 23);
+            this.cmdLimpiarFiltros.TabIndex = 5;
+            this.cmdLimpiarFiltros.Text = "Limpiar";
+            this.cmdLimpiarFiltros.UseVisualStyleBackColor = true;
+            this.cmdLimpiarFiltros.Click += new System.EventHandler(this.cmdLimpiarFiltros_Click);
             // 
             // cmdBuscar
             // 
@@ -100,16 +82,68 @@
             this.cmdBuscar.UseVisualStyleBackColor = true;
             this.cmdBuscar.Click += new System.EventHandler(this.cmdBuscar_Click);
             // 
+            // tbComiFija
+            // 
+            this.tbComiFija.Location = new System.Drawing.Point(177, 38);
+            this.tbComiFija.Name = "tbComiFija";
+            this.tbComiFija.Size = new System.Drawing.Size(100, 20);
+            this.tbComiFija.TabIndex = 3;
+            // 
+            // tbDescripcion
+            // 
+            this.tbDescripcion.Location = new System.Drawing.Point(177, 6);
+            this.tbDescripcion.Name = "tbDescripcion";
+            this.tbDescripcion.Size = new System.Drawing.Size(100, 20);
+            this.tbDescripcion.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 41);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(168, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Comisión por publicación menor a:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(168, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Ingrese el nombre de la visibilidad:";
+            // 
             // panelResultados
             // 
             this.panelResultados.Controls.Add(this.cmdEliminar);
             this.panelResultados.Controls.Add(this.cmdModificar);
             this.panelResultados.Controls.Add(this.dataGridView1);
-            this.panelResultados.Location = new System.Drawing.Point(12, 123);
+            this.panelResultados.Location = new System.Drawing.Point(9, 144);
             this.panelResultados.Name = "panelResultados";
             this.panelResultados.Size = new System.Drawing.Size(450, 195);
             this.panelResultados.TabIndex = 5;
             this.panelResultados.Visible = false;
+            // 
+            // cmdEliminar
+            // 
+            this.cmdEliminar.Location = new System.Drawing.Point(272, 165);
+            this.cmdEliminar.Name = "cmdEliminar";
+            this.cmdEliminar.Size = new System.Drawing.Size(124, 23);
+            this.cmdEliminar.TabIndex = 2;
+            this.cmdEliminar.Text = "Eliminar";
+            this.cmdEliminar.UseVisualStyleBackColor = true;
+            this.cmdEliminar.Click += new System.EventHandler(this.cmdEliminar_Click);
+            // 
+            // cmdModificar
+            // 
+            this.cmdModificar.Location = new System.Drawing.Point(71, 165);
+            this.cmdModificar.Name = "cmdModificar";
+            this.cmdModificar.Size = new System.Drawing.Size(124, 23);
+            this.cmdModificar.TabIndex = 1;
+            this.cmdModificar.Text = "Modificar";
+            this.cmdModificar.UseVisualStyleBackColor = true;
+            this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
             // 
             // dataGridView1
             // 
@@ -122,29 +156,9 @@
             this.dataGridView1.Size = new System.Drawing.Size(431, 149);
             this.dataGridView1.TabIndex = 0;
             // 
-            // cmdModificar
-            // 
-            this.cmdModificar.Location = new System.Drawing.Point(71, 165);
-            this.cmdModificar.Name = "cmdModificar";
-            this.cmdModificar.Size = new System.Drawing.Size(124, 23);
-            this.cmdModificar.TabIndex = 1;
-            this.cmdModificar.Text = "Modificar";
-            this.cmdModificar.UseVisualStyleBackColor = true;
-            this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
-            // 
-            // cmdEliminar
-            // 
-            this.cmdEliminar.Location = new System.Drawing.Point(272, 165);
-            this.cmdEliminar.Name = "cmdEliminar";
-            this.cmdEliminar.Size = new System.Drawing.Size(124, 23);
-            this.cmdEliminar.TabIndex = 2;
-            this.cmdEliminar.Text = "Eliminar";
-            this.cmdEliminar.UseVisualStyleBackColor = true;
-            this.cmdEliminar.Click += new System.EventHandler(this.cmdEliminar_Click);
-            // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(367, 317);
+            this.cmdVolver.Location = new System.Drawing.Point(201, 360);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(75, 23);
             this.cmdVolver.TabIndex = 6;
@@ -152,31 +166,56 @@
             this.cmdVolver.UseVisualStyleBackColor = true;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
-            // cmdLimpiarFiltros
+            // statusStrip1
             // 
-            this.cmdLimpiarFiltros.Location = new System.Drawing.Point(321, 36);
-            this.cmdLimpiarFiltros.Name = "cmdLimpiarFiltros";
-            this.cmdLimpiarFiltros.Size = new System.Drawing.Size(75, 23);
-            this.cmdLimpiarFiltros.TabIndex = 5;
-            this.cmdLimpiarFiltros.Text = "Limpiar";
-            this.cmdLimpiarFiltros.UseVisualStyleBackColor = true;
-            this.cmdLimpiarFiltros.Click += new System.EventHandler(this.cmdLimpiarFiltros_Click);
+            this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
+            this.statusStrip1.Location = new System.Drawing.Point(0, 391);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(470, 22);
+            this.statusStrip1.TabIndex = 7;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.Color.NavajoWhite;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.salirToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(470, 24);
+            this.menuStrip1.TabIndex = 8;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // salirToolStripMenuItem
+            // 
+            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // BusquedaVisibilidad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 349);
+            this.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.ClientSize = new System.Drawing.Size(470, 413);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.cmdVolver);
             this.Controls.Add(this.panelResultados);
             this.Controls.Add(this.panelFiltros);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "BusquedaVisibilidad";
             this.Text = "BusquedaVisibilidad";
             this.panelFiltros.ResumeLayout(false);
             this.panelFiltros.PerformLayout();
             this.panelResultados.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -194,6 +233,9 @@
         private System.Windows.Forms.Button cmdModificar;
         private System.Windows.Forms.Button cmdVolver;
         private System.Windows.Forms.Button cmdLimpiarFiltros;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
 
     }
 }
