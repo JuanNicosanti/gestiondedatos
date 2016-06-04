@@ -37,17 +37,13 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         }
 
         private void cmdBuscar_Click(object sender, EventArgs e)
-        {
-            int comiFija;
-            if (string.IsNullOrEmpty(tbComiFija.Text)) { 
-                comiFija = int.MaxValue;
-            } else {
-                comiFija = int.Parse(tbComiFija.Text);
-            }
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Lista_Visibilidades", db.Connection);
+        {            
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Visibilidad", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = tbDescripcion.Text;
-            cmd.Parameters.AddWithValue("@ComiFija", SqlDbType.Int).Value = comiFija;
+            cmd.Parameters.AddWithValue("@ComiFijaString", SqlDbType.NVarChar).Value = tbComiFija.Text;
+            cmd.Parameters.AddWithValue("@ComiVariableString", SqlDbType.NVarChar).Value = tbComiVariable.Text;
+            cmd.Parameters.AddWithValue("@ComiEnvioString", SqlDbType.NVarChar).Value = tbComiEnvio.Text;
 
             adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("ROAD_TO_PROYECTO.Visibilidad");
@@ -59,6 +55,12 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
 
         private void cmdModificar_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Debe seleccionar una Visibilidad", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+            fila = dataGridView1.CurrentRow.Index;
             WindowsFormsApplication1.ABM_Visibilidad.ModificarVisibilidad modVisibilidad = new WindowsFormsApplication1.ABM_Visibilidad.ModificarVisibilidad();
             WindowsFormsApplication1.ABM_Visibilidad.ModificarVisibilidad.modVis.tbDescripcion.Text = dataGridView1[1, fila].Value.ToString();
             WindowsFormsApplication1.ABM_Visibilidad.ModificarVisibilidad.modVis.tbComiFija.Text = dataGridView1[2, fila].Value.ToString();

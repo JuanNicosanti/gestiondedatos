@@ -18,6 +18,13 @@ return replace(@DosPuntos,':',0)
 end
 GO
 
+create function ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@NumeroString nvarchar(255))
+returns numeric(18,2)
+	as begin
+		return replace(@NumeroString,',','.')
+	end
+GO
+
 create function ROAD_TO_PROYECTO.OfertaGanadora(@Publicacion int, @Oferta numeric(18,2) )
 returns int 
 as begin
@@ -993,11 +1000,14 @@ GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Agregar_Visibilidad
 	@Descripcion nvarchar(255),
-	@ComiFija numeric(18,2),
-	@ComiVariable numeric(18,2),
-	@ComiEnvio numeric(18,2)
+	@ComiFijaString nvarchar(255),
+	@ComiVariableString nvarchar(255),
+	@ComiEnvioString nvarchar(255)
 	as begin
-		declare @VisiIdAnterior int, @VisiId int
+		declare @VisiIdAnterior int, @VisiId int, @ComiFija numeric(18,2), @ComiVariable numeric(18,2),	@ComiEnvio numeric(18,2)
+		set @ComiFija = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@ComiFijaString)
+		set @ComiVariable = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@ComiVariableString)
+		set @ComiEnvio = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@ComiEnvioString)
 		select top 1 @VisiIdAnterior = VisiId from ROAD_TO_PROYECTO.Visibilidad order by VisiId desc
 		set @VisiId = @VisiIdAnterior +1
 		if not exists (select descripcion from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @Descripcion)
@@ -1017,11 +1027,15 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Visibilidad
  	@VisiId int,
  	@Descripcion nvarchar(255),
- 	@ComiFija numeric(18,2),
- 	@ComiVariable numeric(18,2),
- 	@ComiEnvio numeric(18,2)
+ 	@ComiFijaString nvarchar(255),
+ 	@ComiVariableString nvarchar(255),
+ 	@ComiEnvioString nvarchar(255)
  	as begin
- 		update ROAD_TO_PROYECTO.Visibilidad 
+		declare	@ComiFija numeric(18,2), @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
+		set @ComiFija = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@ComiFijaString)
+		set @ComiVariable = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@ComiVariableString)
+		set @ComiEnvio = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@ComiEnvioString)
+		update ROAD_TO_PROYECTO.Visibilidad 
  		set Descripcion = @Descripcion, ComiFija = @ComiFija, ComiVariable = @ComiVariable, ComiEnvio = @ComiEnvio
  		where VisiId = @VisiId
  	end
@@ -1029,10 +1043,14 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Visibilidad
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Visibilidad
 	@Descripcion nvarchar(255),
- 	@ComiFija numeric(18,2),
- 	@ComiVariable numeric(18,2),
- 	@ComiEnvio numeric(18,2)
+ 	@ComiFijaString nvarchar(255),
+ 	@ComiVariableString nvarchar(255),
+ 	@ComiEnvioString nvarchar(255)
 	as begin
+		declare	@ComiFija numeric(18,2), @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
+		if(@ComifijaString is not null) set @ComiFija = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@ComiFijaString)
+		if(@ComiVariableString is not null) set @ComiVariable = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@ComiVariableString)
+		if(@ComiEnvioString is not null) set @ComiEnvio = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@ComiEnvioString)
 		select VisiId, Descripcion, ComiFija, ComiVariable, ComiEnvio 
 		from ROAD_TO_PROYECTO.Visibilidad 
 		where (Descripcion like '%' + @Descripcion + '%' or @Descripcion is null)

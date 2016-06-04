@@ -43,6 +43,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbComiVariable = new System.Windows.Forms.TextBox();
+            this.tbComiEnvio = new System.Windows.Forms.TextBox();
             this.panelFiltros.SuspendLayout();
             this.panelResultados.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -51,6 +53,8 @@
             // 
             // panelFiltros
             // 
+            this.panelFiltros.Controls.Add(this.tbComiEnvio);
+            this.panelFiltros.Controls.Add(this.tbComiVariable);
             this.panelFiltros.Controls.Add(this.cmdLimpiarFiltros);
             this.panelFiltros.Controls.Add(this.cmdBuscar);
             this.panelFiltros.Controls.Add(this.tbComiFija);
@@ -194,6 +198,20 @@
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
+            // tbComiVariable
+            // 
+            this.tbComiVariable.Location = new System.Drawing.Point(9, 58);
+            this.tbComiVariable.Name = "tbComiVariable";
+            this.tbComiVariable.Size = new System.Drawing.Size(100, 20);
+            this.tbComiVariable.TabIndex = 6;
+            // 
+            // tbComiEnvio
+            // 
+            this.tbComiEnvio.Location = new System.Drawing.Point(116, 58);
+            this.tbComiEnvio.Name = "tbComiEnvio";
+            this.tbComiEnvio.Size = new System.Drawing.Size(100, 20);
+            this.tbComiEnvio.TabIndex = 7;
+            // 
             // BusquedaVisibilidad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -237,6 +255,8 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
+        private System.Windows.Forms.TextBox tbComiEnvio;
+        private System.Windows.Forms.TextBox tbComiVariable;
 
     }
 }

@@ -12,6 +12,7 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
+        public string user;
         public static Form1 f1;
         public Form1()
         {
@@ -32,7 +33,7 @@ namespace WindowsFormsApplication1
         {
             
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion aPub = new WindowsFormsApplication1.Generar_Publicación.AltaPublicacion();
-            aPub.lblUsername.Text = lblUsuario.Text;
+            aPub.lblUsername.Text = user;
             aPub.Show();
             this.Hide();
         }

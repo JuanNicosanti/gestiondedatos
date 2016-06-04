@@ -140,6 +140,7 @@ namespace WindowsFormsApplication1
                 usuarioResultado = LoadObject(sdr);
             }
             sdr.Close();
+            WindowsFormsApplication1.Form1.f1.user = username;
             return usuarioResultado;
         }
 

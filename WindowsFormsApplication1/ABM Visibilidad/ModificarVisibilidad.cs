@@ -52,9 +52,9 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@VisiId", SqlDbType.Int).Value = visiId;                
                 cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = tbDescripcion.Text;
-                cmd.Parameters.AddWithValue("@ComiFija", SqlDbType.Int).Value = tbComiFija.Text;
-                cmd.Parameters.AddWithValue("@ComiVariable", SqlDbType.Int).Value = tbComiVariable.Text;
-                cmd.Parameters.AddWithValue("@ComiEnvio", SqlDbType.Int).Value = tbEnvio.Text;
+                cmd.Parameters.AddWithValue("@ComiFijaString", SqlDbType.NVarChar).Value = tbComiFija.Text;
+                cmd.Parameters.AddWithValue("@ComiVariableString", SqlDbType.NVarChar).Value = tbComiVariable.Text;
+                cmd.Parameters.AddWithValue("@ComiEnvioString", SqlDbType.NVarChar).Value = tbEnvio.Text;
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Elemento modificado", "LISTO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 

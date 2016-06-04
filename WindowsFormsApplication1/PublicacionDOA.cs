@@ -27,7 +27,7 @@ namespace WindowsFormsApplication1
             cmd.Parameters.AddWithValue("@VisiDesc", SqlDbType.NVarChar).Value = visidesc;
             cmd.Parameters.AddWithValue("@RubroDesc", SqlDbType.NVarChar).Value = rubrodesc;
             cmd.Parameters.AddWithValue("@TipoDesc", SqlDbType.NVarChar).Value = tipodesc;
-            cmd.Parameters.AddWithValue("@VendedorId", SqlDbType.NVarChar).Value = "ariasz";
+            cmd.Parameters.AddWithValue("@VendedorId", SqlDbType.NVarChar).Value = vendedor;
             cmd.Parameters.AddWithValue("@EnvioHabilitado", SqlDbType.Bit).Value = envioHabilitado;
             cmd.ExecuteNonQuery();
 
