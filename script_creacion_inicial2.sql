@@ -814,6 +814,16 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comisiones_Visibilidad
 	end
 GO
 
+CREATE PROCEDURE ROAD_TO_PROYECTO.Lista_Visibilidades
+	@Descripcion nvarchar(255),
+	@ComiFija numeric(18,2)
+	as
+	begin
+		select * from ROAD_TO_PROYECTO.Visibilidad 
+		where Descripcion = @Descripcion and ComiFija < @ComiFija
+	end
+GO
+
 CREATE PROCEDURE ROAD_TO_PROYECTO.Comisiones_Valores
 	@Visibilidad nvarchar(255)
 	as
@@ -997,9 +1007,9 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Visibilidad
 GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Eliminar_Visibilidad
-	@Descripcion nvarchar(255)
+	@VisiId int
 	as begin
-		delete from Visibilidad where Descripcion = @Descripcion
+		delete from Visibilidad where VisiId = @VisiId
 	end
 GO
 

@@ -50,6 +50,7 @@
             this.label1.Size = new System.Drawing.Size(179, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Ingrese los valores correspondientes";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -59,6 +60,7 @@
             this.label2.Size = new System.Drawing.Size(63, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Descripción";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -68,6 +70,7 @@
             this.label3.Size = new System.Drawing.Size(159, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "Comisión por tipo de publicación";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
@@ -77,6 +80,7 @@
             this.label4.Size = new System.Drawing.Size(153, 13);
             this.label4.TabIndex = 3;
             this.label4.Text = "Comisión por producto vendido";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // tbDescripcion
             // 
@@ -84,6 +88,7 @@
             this.tbDescripcion.Name = "tbDescripcion";
             this.tbDescripcion.Size = new System.Drawing.Size(114, 20);
             this.tbDescripcion.TabIndex = 4;
+            this.tbDescripcion.TextChanged += new System.EventHandler(this.tbDescripcion_TextChanged);
             // 
             // tbComiFija
             // 
@@ -91,6 +96,7 @@
             this.tbComiFija.Name = "tbComiFija";
             this.tbComiFija.Size = new System.Drawing.Size(74, 20);
             this.tbComiFija.TabIndex = 5;
+            this.tbComiFija.TextChanged += new System.EventHandler(this.tbComiFija_TextChanged);
             // 
             // tbComiVariable
             // 
@@ -98,6 +104,7 @@
             this.tbComiVariable.Name = "tbComiVariable";
             this.tbComiVariable.Size = new System.Drawing.Size(74, 20);
             this.tbComiVariable.TabIndex = 6;
+            this.tbComiVariable.TextChanged += new System.EventHandler(this.tbComiVariable_TextChanged);
             // 
             // cmdAceptarVis
             // 
@@ -137,6 +144,7 @@
             this.label5.Size = new System.Drawing.Size(98, 13);
             this.label5.TabIndex = 10;
             this.label5.Text = "Comisión por envío";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // tbEnvio
             // 
@@ -144,6 +152,7 @@
             this.tbEnvio.Name = "tbEnvio";
             this.tbEnvio.Size = new System.Drawing.Size(74, 20);
             this.tbEnvio.TabIndex = 11;
+            this.tbEnvio.TextChanged += new System.EventHandler(this.tbEnvio_TextChanged);
             // 
             // AgregarVisibilidad
             // 

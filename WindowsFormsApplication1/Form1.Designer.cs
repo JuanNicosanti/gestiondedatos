@@ -39,12 +39,12 @@
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.cmdVerVisibilidad = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            //this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.cmdBajaRol = new System.Windows.Forms.Button();
             this.cmdModificarRol = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -151,13 +151,13 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::WindowsFormsApplication1.Properties.Resources.FOTO_MERCADO_ENVIO;
+            /*this.pictureBox1.Image = global::WindowsFormsApplication1.Properties.Resources.FOTO_MERCADO_ENVIO;
             this.pictureBox1.Location = new System.Drawing.Point(0, 27);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(222, 190);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 9;
-            this.pictureBox1.TabStop = false;
+            this.pictureBox1.TabStop = false;*/
             // 
             // button1
             // 
@@ -198,7 +198,7 @@
             this.Controls.Add(this.cmdModificarRol);
             this.Controls.Add(this.cmdBajaRol);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.pictureBox1);
+//            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.cmdVerVisibilidad);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cmdPublicacion);
@@ -212,7 +212,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+//            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,7 +231,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem desconectarseToolStripMenuItem;
         private System.Windows.Forms.Button cmdVerVisibilidad;
-        private System.Windows.Forms.PictureBox pictureBox1;
+//        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button cmdBajaRol;
         private System.Windows.Forms.Button cmdModificarRol;
