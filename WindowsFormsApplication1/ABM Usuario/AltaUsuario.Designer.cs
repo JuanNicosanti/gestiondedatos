@@ -85,6 +85,8 @@
             this.lblRubroEmpresa = new System.Windows.Forms.Label();
             this.lblRubroSel = new System.Windows.Forms.Label();
             this.cmdRubroEmpresa = new System.Windows.Forms.Button();
+            this.lblCiudadEmpresa = new System.Windows.Forms.Label();
+            this.txtCiudadEmpresa = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -236,7 +238,7 @@
             // 
             this.lblDom.AllowDrop = true;
             this.lblDom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDom.Location = new System.Drawing.Point(143, 303);
+            this.lblDom.Location = new System.Drawing.Point(146, 328);
             this.lblDom.Name = "lblDom";
             this.lblDom.Size = new System.Drawing.Size(286, 200);
             this.lblDom.TabIndex = 19;
@@ -245,7 +247,7 @@
             // lblCalle
             // 
             this.lblCalle.AutoSize = true;
-            this.lblCalle.Location = new System.Drawing.Point(209, 340);
+            this.lblCalle.Location = new System.Drawing.Point(209, 368);
             this.lblCalle.Name = "lblCalle";
             this.lblCalle.Size = new System.Drawing.Size(33, 13);
             this.lblCalle.TabIndex = 20;
@@ -254,7 +256,7 @@
             // lblNum
             // 
             this.lblNum.AutoSize = true;
-            this.lblNum.Location = new System.Drawing.Point(194, 363);
+            this.lblNum.Location = new System.Drawing.Point(194, 391);
             this.lblNum.Name = "lblNum";
             this.lblNum.Size = new System.Drawing.Size(50, 13);
             this.lblNum.TabIndex = 21;
@@ -263,7 +265,7 @@
             // lblPiso
             // 
             this.lblPiso.AutoSize = true;
-            this.lblPiso.Location = new System.Drawing.Point(209, 390);
+            this.lblPiso.Location = new System.Drawing.Point(209, 418);
             this.lblPiso.Name = "lblPiso";
             this.lblPiso.Size = new System.Drawing.Size(33, 13);
             this.lblPiso.TabIndex = 22;
@@ -272,7 +274,7 @@
             // lblDpto
             // 
             this.lblDpto.AutoSize = true;
-            this.lblDpto.Location = new System.Drawing.Point(163, 412);
+            this.lblDpto.Location = new System.Drawing.Point(163, 440);
             this.lblDpto.Name = "lblDpto";
             this.lblDpto.Size = new System.Drawing.Size(80, 13);
             this.lblDpto.TabIndex = 23;
@@ -281,7 +283,7 @@
             // lblLocal
             // 
             this.lblLocal.AutoSize = true;
-            this.lblLocal.Location = new System.Drawing.Point(184, 467);
+            this.lblLocal.Location = new System.Drawing.Point(184, 495);
             this.lblLocal.Name = "lblLocal";
             this.lblLocal.Size = new System.Drawing.Size(59, 13);
             this.lblLocal.TabIndex = 24;
@@ -290,7 +292,7 @@
             // lblCodPos
             // 
             this.lblCodPos.AutoSize = true;
-            this.lblCodPos.Location = new System.Drawing.Point(165, 441);
+            this.lblCodPos.Location = new System.Drawing.Point(165, 469);
             this.lblCodPos.Name = "lblCodPos";
             this.lblCodPos.Size = new System.Drawing.Size(78, 13);
             this.lblCodPos.TabIndex = 25;
@@ -324,14 +326,14 @@
             // 
             // txtNombreCliente
             // 
-            this.txtNombreCliente.Location = new System.Drawing.Point(257, 134);
+            this.txtNombreCliente.Location = new System.Drawing.Point(257, 132);
             this.txtNombreCliente.Name = "txtNombreCliente";
             this.txtNombreCliente.Size = new System.Drawing.Size(100, 20);
             this.txtNombreCliente.TabIndex = 29;
             // 
             // txtApellidoCliente
             // 
-            this.txtApellidoCliente.Location = new System.Drawing.Point(258, 156);
+            this.txtApellidoCliente.Location = new System.Drawing.Point(257, 155);
             this.txtApellidoCliente.Name = "txtApellidoCliente";
             this.txtApellidoCliente.Size = new System.Drawing.Size(100, 20);
             this.txtApellidoCliente.TabIndex = 30;
@@ -345,56 +347,56 @@
             // 
             // txtDNICliente
             // 
-            this.txtDNICliente.Location = new System.Drawing.Point(256, 221);
+            this.txtDNICliente.Location = new System.Drawing.Point(257, 219);
             this.txtDNICliente.Name = "txtDNICliente";
             this.txtDNICliente.Size = new System.Drawing.Size(100, 20);
             this.txtDNICliente.TabIndex = 32;
             // 
             // txtTelCliente
             // 
-            this.txtTelCliente.Location = new System.Drawing.Point(255, 241);
+            this.txtTelCliente.Location = new System.Drawing.Point(257, 242);
             this.txtTelCliente.Name = "txtTelCliente";
             this.txtTelCliente.Size = new System.Drawing.Size(100, 20);
             this.txtTelCliente.TabIndex = 33;
             // 
             // txtCalle
             // 
-            this.txtCalle.Location = new System.Drawing.Point(253, 337);
+            this.txtCalle.Location = new System.Drawing.Point(253, 365);
             this.txtCalle.Name = "txtCalle";
             this.txtCalle.Size = new System.Drawing.Size(100, 20);
             this.txtCalle.TabIndex = 34;
             // 
             // txtNumero
             // 
-            this.txtNumero.Location = new System.Drawing.Point(253, 363);
+            this.txtNumero.Location = new System.Drawing.Point(253, 391);
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(100, 20);
             this.txtNumero.TabIndex = 35;
             // 
             // txtPiso
             // 
-            this.txtPiso.Location = new System.Drawing.Point(253, 389);
+            this.txtPiso.Location = new System.Drawing.Point(253, 417);
             this.txtPiso.Name = "txtPiso";
             this.txtPiso.Size = new System.Drawing.Size(100, 20);
             this.txtPiso.TabIndex = 36;
             // 
             // txtDpto
             // 
-            this.txtDpto.Location = new System.Drawing.Point(253, 412);
+            this.txtDpto.Location = new System.Drawing.Point(253, 440);
             this.txtDpto.Name = "txtDpto";
             this.txtDpto.Size = new System.Drawing.Size(100, 20);
             this.txtDpto.TabIndex = 37;
             // 
             // txtCodPos
             // 
-            this.txtCodPos.Location = new System.Drawing.Point(253, 441);
+            this.txtCodPos.Location = new System.Drawing.Point(253, 469);
             this.txtCodPos.Name = "txtCodPos";
             this.txtCodPos.Size = new System.Drawing.Size(100, 20);
             this.txtCodPos.TabIndex = 38;
             // 
             // txtLocalidad
             // 
-            this.txtLocalidad.Location = new System.Drawing.Point(253, 467);
+            this.txtLocalidad.Location = new System.Drawing.Point(253, 495);
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(100, 20);
             this.txtLocalidad.TabIndex = 39;
@@ -467,28 +469,28 @@
             // 
             // txtRazonEmpresa
             // 
-            this.txtRazonEmpresa.Location = new System.Drawing.Point(258, 134);
+            this.txtRazonEmpresa.Location = new System.Drawing.Point(257, 132);
             this.txtRazonEmpresa.Name = "txtRazonEmpresa";
             this.txtRazonEmpresa.Size = new System.Drawing.Size(100, 20);
             this.txtRazonEmpresa.TabIndex = 48;
             // 
             // txtCUITEmpresa
             // 
-            this.txtCUITEmpresa.Location = new System.Drawing.Point(256, 156);
+            this.txtCUITEmpresa.Location = new System.Drawing.Point(257, 155);
             this.txtCUITEmpresa.Name = "txtCUITEmpresa";
             this.txtCUITEmpresa.Size = new System.Drawing.Size(100, 20);
             this.txtCUITEmpresa.TabIndex = 49;
             // 
             // txtNombreContEmpresa
             // 
-            this.txtNombreContEmpresa.Location = new System.Drawing.Point(258, 199);
+            this.txtNombreContEmpresa.Location = new System.Drawing.Point(257, 199);
             this.txtNombreContEmpresa.Name = "txtNombreContEmpresa";
             this.txtNombreContEmpresa.Size = new System.Drawing.Size(100, 20);
             this.txtNombreContEmpresa.TabIndex = 50;
             // 
             // txtTelEmpresa
             // 
-            this.txtTelEmpresa.Location = new System.Drawing.Point(256, 218);
+            this.txtTelEmpresa.Location = new System.Drawing.Point(257, 219);
             this.txtTelEmpresa.Name = "txtTelEmpresa";
             this.txtTelEmpresa.Size = new System.Drawing.Size(100, 20);
             this.txtTelEmpresa.TabIndex = 51;
@@ -525,7 +527,7 @@
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 547);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 568);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(533, 22);
             this.statusStrip1.TabIndex = 54;
@@ -558,12 +560,30 @@
             this.cmdRubroEmpresa.UseVisualStyleBackColor = true;
             this.cmdRubroEmpresa.Click += new System.EventHandler(this.cmdRubroEmpresa_Click);
             // 
+            // lblCiudadEmpresa
+            // 
+            this.lblCiudadEmpresa.AutoSize = true;
+            this.lblCiudadEmpresa.Location = new System.Drawing.Point(214, 299);
+            this.lblCiudadEmpresa.Name = "lblCiudadEmpresa";
+            this.lblCiudadEmpresa.Size = new System.Drawing.Size(43, 13);
+            this.lblCiudadEmpresa.TabIndex = 58;
+            this.lblCiudadEmpresa.Text = "Ciudad:";
+            // 
+            // txtCiudadEmpresa
+            // 
+            this.txtCiudadEmpresa.Location = new System.Drawing.Point(257, 295);
+            this.txtCiudadEmpresa.Name = "txtCiudadEmpresa";
+            this.txtCiudadEmpresa.Size = new System.Drawing.Size(100, 20);
+            this.txtCiudadEmpresa.TabIndex = 59;
+            // 
             // AltaUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(533, 569);
+            this.ClientSize = new System.Drawing.Size(533, 590);
+            this.Controls.Add(this.txtCiudadEmpresa);
+            this.Controls.Add(this.lblCiudadEmpresa);
             this.Controls.Add(this.cmdRubroEmpresa);
             this.Controls.Add(this.lblRubroSel);
             this.Controls.Add(this.lblRubroEmpresa);
@@ -644,7 +664,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label lblNombreCliente;
         private System.Windows.Forms.Label lblApellidoCliente;
-        private System.Windows.Forms.DateTimePicker dtpCreacion;
         private System.Windows.Forms.Label lblFechaNacCliente;
         private System.Windows.Forms.Label lblTelCliente;
         private System.Windows.Forms.Label lblDom;
@@ -654,32 +673,12 @@
         private System.Windows.Forms.Label lblDpto;
         private System.Windows.Forms.Label lblLocal;
         private System.Windows.Forms.Label lblCodPos;
-        private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.TextBox txtMail;
-        private System.Windows.Forms.TextBox txtNombreCliente;
-        private System.Windows.Forms.TextBox txtApellidoCliente;
-        private System.Windows.Forms.TextBox txtTipoCliente;
-        private System.Windows.Forms.TextBox txtDNICliente;
-        private System.Windows.Forms.TextBox txtTelCliente;
-        private System.Windows.Forms.TextBox txtCalle;
-        private System.Windows.Forms.TextBox txtNumero;
-        private System.Windows.Forms.TextBox txtPiso;
-        private System.Windows.Forms.TextBox txtDpto;
-        private System.Windows.Forms.TextBox txtCodPos;
-        private System.Windows.Forms.TextBox txtLocalidad;
         private System.Windows.Forms.Label lblRazonEmpresa;
         private System.Windows.Forms.Label lblCUITEmpresa;
         private System.Windows.Forms.Label lblFechaEmpresa;
         private System.Windows.Forms.Label lblNombreEmpresa;
         private System.Windows.Forms.Label lblTelefonoEmpresa;
-        private System.Windows.Forms.RadioButton rbCliente;
-        private System.Windows.Forms.RadioButton rbEmpresa;
-        private System.Windows.Forms.TextBox txtRazonEmpresa;
-        private System.Windows.Forms.TextBox txtCUITEmpresa;
-        private System.Windows.Forms.TextBox txtNombreContEmpresa;
-        private System.Windows.Forms.TextBox txtTelEmpresa;
         private System.Windows.Forms.Button cmdVolver;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
@@ -687,5 +686,28 @@
         private System.Windows.Forms.Label lblRubroEmpresa;
         private System.Windows.Forms.Button cmdRubroEmpresa;
         public System.Windows.Forms.Label lblRubroSel;
+        public System.Windows.Forms.DateTimePicker dtpCreacion;
+        public System.Windows.Forms.TextBox txtUsuario;
+        public System.Windows.Forms.TextBox txtPassword;
+        public System.Windows.Forms.TextBox txtMail;
+        public System.Windows.Forms.TextBox txtNombreCliente;
+        public System.Windows.Forms.TextBox txtApellidoCliente;
+        public System.Windows.Forms.TextBox txtTipoCliente;
+        public System.Windows.Forms.TextBox txtDNICliente;
+        public System.Windows.Forms.TextBox txtTelCliente;
+        public System.Windows.Forms.TextBox txtCalle;
+        public System.Windows.Forms.TextBox txtNumero;
+        public System.Windows.Forms.TextBox txtPiso;
+        public System.Windows.Forms.TextBox txtDpto;
+        public System.Windows.Forms.TextBox txtCodPos;
+        public System.Windows.Forms.TextBox txtLocalidad;
+        public System.Windows.Forms.RadioButton rbCliente;
+        public System.Windows.Forms.RadioButton rbEmpresa;
+        public System.Windows.Forms.TextBox txtRazonEmpresa;
+        public System.Windows.Forms.TextBox txtCUITEmpresa;
+        public System.Windows.Forms.TextBox txtNombreContEmpresa;
+        public System.Windows.Forms.TextBox txtTelEmpresa;
+        private System.Windows.Forms.Label lblCiudadEmpresa;
+        public System.Windows.Forms.TextBox txtCiudadEmpresa;
     }
 }

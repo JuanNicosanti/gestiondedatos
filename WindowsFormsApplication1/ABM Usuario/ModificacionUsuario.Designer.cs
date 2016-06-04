@@ -38,14 +38,25 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.chkRazonSocial = new System.Windows.Forms.CheckBox();
-            this.chkCUITEmpresa = new System.Windows.Forms.CheckBox();
-            this.chkEmailCliente = new System.Windows.Forms.CheckBox();
-            this.chkEmailEmpresa = new System.Windows.Forms.CheckBox();
-            this.chkApellido = new System.Windows.Forms.CheckBox();
-            this.chkNombreC = new System.Windows.Forms.CheckBox();
-            this.chkMailCl = new System.Windows.Forms.CheckBox();
+            this.lblNombre = new System.Windows.Forms.Label();
+            this.lblApellido = new System.Windows.Forms.Label();
+            this.lblDNI = new System.Windows.Forms.Label();
+            this.lblEmailC = new System.Windows.Forms.Label();
+            this.lblRazonSocial = new System.Windows.Forms.Label();
+            this.lblCUIT = new System.Windows.Forms.Label();
+            this.lblEmailE = new System.Windows.Forms.Label();
+            this.cmdBusqueda = new System.Windows.Forms.Button();
+            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.txtApellido = new System.Windows.Forms.TextBox();
+            this.txtDNI = new System.Windows.Forms.TextBox();
+            this.txtEmailC = new System.Windows.Forms.TextBox();
+            this.txtRazonSocial = new System.Windows.Forms.TextBox();
+            this.txtCUIT = new System.Windows.Forms.TextBox();
+            this.txtEmailE = new System.Windows.Forms.TextBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.cmdModificar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -77,7 +88,7 @@
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Location = new System.Drawing.Point(12, 197);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(163, 174);
+            this.label2.Size = new System.Drawing.Size(219, 174);
             this.label2.TabIndex = 4;
             this.label2.Text = "Filtrar por..";
             // 
@@ -89,7 +100,7 @@
             // 
             this.label3.AllowDrop = true;
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(237, 29);
+            this.label3.Location = new System.Drawing.Point(307, 29);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(323, 342);
             this.label3.TabIndex = 12;
@@ -97,7 +108,7 @@
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(146, 397);
+            this.cmdVolver.Location = new System.Drawing.Point(449, 393);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(186, 23);
             this.cmdVolver.TabIndex = 13;
@@ -113,7 +124,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(565, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(647, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -129,93 +140,175 @@
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
             this.statusStrip1.Location = new System.Drawing.Point(0, 439);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(565, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(647, 22);
             this.statusStrip1.TabIndex = 15;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // chkRazonSocial
+            // lblNombre
             // 
-            this.chkRazonSocial.AutoSize = true;
-            this.chkRazonSocial.Location = new System.Drawing.Point(33, 224);
-            this.chkRazonSocial.Name = "chkRazonSocial";
-            this.chkRazonSocial.Size = new System.Drawing.Size(89, 17);
-            this.chkRazonSocial.TabIndex = 16;
-            this.chkRazonSocial.Text = "Razon Social";
-            this.chkRazonSocial.UseVisualStyleBackColor = true;
+            this.lblNombre.AutoSize = true;
+            this.lblNombre.Location = new System.Drawing.Point(34, 225);
+            this.lblNombre.Name = "lblNombre";
+            this.lblNombre.Size = new System.Drawing.Size(47, 13);
+            this.lblNombre.TabIndex = 16;
+            this.lblNombre.Text = "Nombre:";
             // 
-            // chkCUITEmpresa
+            // lblApellido
             // 
-            this.chkCUITEmpresa.AutoSize = true;
-            this.chkCUITEmpresa.Location = new System.Drawing.Point(34, 259);
-            this.chkCUITEmpresa.Name = "chkCUITEmpresa";
-            this.chkCUITEmpresa.Size = new System.Drawing.Size(51, 17);
-            this.chkCUITEmpresa.TabIndex = 17;
-            this.chkCUITEmpresa.Text = "CUIT";
-            this.chkCUITEmpresa.UseVisualStyleBackColor = true;
+            this.lblApellido.AutoSize = true;
+            this.lblApellido.Location = new System.Drawing.Point(34, 257);
+            this.lblApellido.Name = "lblApellido";
+            this.lblApellido.Size = new System.Drawing.Size(44, 13);
+            this.lblApellido.TabIndex = 17;
+            this.lblApellido.Text = "Apellido";
             // 
-            // chkEmailCliente
+            // lblDNI
             // 
-            this.chkEmailCliente.AutoSize = true;
-            this.chkEmailCliente.Location = new System.Drawing.Point(34, 294);
-            this.chkEmailCliente.Name = "chkEmailCliente";
-            this.chkEmailCliente.Size = new System.Drawing.Size(45, 17);
-            this.chkEmailCliente.TabIndex = 18;
-            this.chkEmailCliente.Text = "DNI";
-            this.chkEmailCliente.UseVisualStyleBackColor = true;
+            this.lblDNI.AutoSize = true;
+            this.lblDNI.Location = new System.Drawing.Point(34, 291);
+            this.lblDNI.Name = "lblDNI";
+            this.lblDNI.Size = new System.Drawing.Size(26, 13);
+            this.lblDNI.TabIndex = 18;
+            this.lblDNI.Text = "DNI";
             // 
-            // chkEmailEmpresa
+            // lblEmailC
             // 
-            this.chkEmailEmpresa.AutoSize = true;
-            this.chkEmailEmpresa.Location = new System.Drawing.Point(34, 294);
-            this.chkEmailEmpresa.Name = "chkEmailEmpresa";
-            this.chkEmailEmpresa.Size = new System.Drawing.Size(51, 17);
-            this.chkEmailEmpresa.TabIndex = 19;
-            this.chkEmailEmpresa.Text = "Email";
-            this.chkEmailEmpresa.UseVisualStyleBackColor = true;
+            this.lblEmailC.AutoSize = true;
+            this.lblEmailC.Location = new System.Drawing.Point(34, 325);
+            this.lblEmailC.Name = "lblEmailC";
+            this.lblEmailC.Size = new System.Drawing.Size(32, 13);
+            this.lblEmailC.TabIndex = 19;
+            this.lblEmailC.Text = "Email";
             // 
-            // chkApellido
+            // lblRazonSocial
             // 
-            this.chkApellido.AutoSize = true;
-            this.chkApellido.Location = new System.Drawing.Point(34, 259);
-            this.chkApellido.Name = "chkApellido";
-            this.chkApellido.Size = new System.Drawing.Size(63, 17);
-            this.chkApellido.TabIndex = 20;
-            this.chkApellido.Text = "Apellido";
-            this.chkApellido.UseVisualStyleBackColor = true;
+            this.lblRazonSocial.AutoSize = true;
+            this.lblRazonSocial.Location = new System.Drawing.Point(34, 225);
+            this.lblRazonSocial.Name = "lblRazonSocial";
+            this.lblRazonSocial.Size = new System.Drawing.Size(73, 13);
+            this.lblRazonSocial.TabIndex = 20;
+            this.lblRazonSocial.Text = "Razon Social:";
             // 
-            // chkNombreC
+            // lblCUIT
             // 
-            this.chkNombreC.AutoSize = true;
-            this.chkNombreC.Location = new System.Drawing.Point(34, 224);
-            this.chkNombreC.Name = "chkNombreC";
-            this.chkNombreC.Size = new System.Drawing.Size(63, 17);
-            this.chkNombreC.TabIndex = 21;
-            this.chkNombreC.Text = "Nombre";
-            this.chkNombreC.UseVisualStyleBackColor = true;
+            this.lblCUIT.AutoSize = true;
+            this.lblCUIT.Location = new System.Drawing.Point(34, 257);
+            this.lblCUIT.Name = "lblCUIT";
+            this.lblCUIT.Size = new System.Drawing.Size(44, 13);
+            this.lblCUIT.TabIndex = 21;
+            this.lblCUIT.Text = "C.U.I.T:";
             // 
-            // chkMailCl
+            // lblEmailE
             // 
-            this.chkMailCl.AutoSize = true;
-            this.chkMailCl.Location = new System.Drawing.Point(34, 326);
-            this.chkMailCl.Name = "chkMailCl";
-            this.chkMailCl.Size = new System.Drawing.Size(51, 17);
-            this.chkMailCl.TabIndex = 22;
-            this.chkMailCl.Text = "Email";
-            this.chkMailCl.UseVisualStyleBackColor = true;
+            this.lblEmailE.AutoSize = true;
+            this.lblEmailE.Location = new System.Drawing.Point(34, 291);
+            this.lblEmailE.Name = "lblEmailE";
+            this.lblEmailE.Size = new System.Drawing.Size(35, 13);
+            this.lblEmailE.TabIndex = 22;
+            this.lblEmailE.Text = "Email:";
+            // 
+            // cmdBusqueda
+            // 
+            this.cmdBusqueda.Location = new System.Drawing.Point(12, 393);
+            this.cmdBusqueda.Name = "cmdBusqueda";
+            this.cmdBusqueda.Size = new System.Drawing.Size(186, 23);
+            this.cmdBusqueda.TabIndex = 23;
+            this.cmdBusqueda.Text = "Realizar Busqueda";
+            this.cmdBusqueda.UseVisualStyleBackColor = true;
+            this.cmdBusqueda.Click += new System.EventHandler(this.cmdBusqueda_Click);
+            // 
+            // txtNombre
+            // 
+            this.txtNombre.Location = new System.Drawing.Point(119, 225);
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(100, 20);
+            this.txtNombre.TabIndex = 24;
+            // 
+            // txtApellido
+            // 
+            this.txtApellido.Location = new System.Drawing.Point(119, 254);
+            this.txtApellido.Name = "txtApellido";
+            this.txtApellido.Size = new System.Drawing.Size(100, 20);
+            this.txtApellido.TabIndex = 25;
+            // 
+            // txtDNI
+            // 
+            this.txtDNI.Location = new System.Drawing.Point(119, 291);
+            this.txtDNI.Name = "txtDNI";
+            this.txtDNI.Size = new System.Drawing.Size(100, 20);
+            this.txtDNI.TabIndex = 26;
+            // 
+            // txtEmailC
+            // 
+            this.txtEmailC.Location = new System.Drawing.Point(119, 325);
+            this.txtEmailC.Name = "txtEmailC";
+            this.txtEmailC.Size = new System.Drawing.Size(100, 20);
+            this.txtEmailC.TabIndex = 27;
+            // 
+            // txtRazonSocial
+            // 
+            this.txtRazonSocial.Location = new System.Drawing.Point(119, 224);
+            this.txtRazonSocial.Name = "txtRazonSocial";
+            this.txtRazonSocial.Size = new System.Drawing.Size(100, 20);
+            this.txtRazonSocial.TabIndex = 28;
+            // 
+            // txtCUIT
+            // 
+            this.txtCUIT.Location = new System.Drawing.Point(119, 254);
+            this.txtCUIT.Name = "txtCUIT";
+            this.txtCUIT.Size = new System.Drawing.Size(100, 20);
+            this.txtCUIT.TabIndex = 29;
+            // 
+            // txtEmailE
+            // 
+            this.txtEmailE.Location = new System.Drawing.Point(119, 291);
+            this.txtEmailE.Name = "txtEmailE";
+            this.txtEmailE.Size = new System.Drawing.Size(100, 20);
+            this.txtEmailE.TabIndex = 30;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(315, 51);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(304, 312);
+            this.dataGridView1.TabIndex = 31;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // cmdModificar
+            // 
+            this.cmdModificar.Location = new System.Drawing.Point(228, 393);
+            this.cmdModificar.Name = "cmdModificar";
+            this.cmdModificar.Size = new System.Drawing.Size(186, 23);
+            this.cmdModificar.TabIndex = 32;
+            this.cmdModificar.Text = "Modificar Usuario";
+            this.cmdModificar.UseVisualStyleBackColor = true;
+            this.cmdModificar.Visible = false;
+            this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
             // 
             // ModificacionUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(565, 461);
-            this.Controls.Add(this.chkMailCl);
-            this.Controls.Add(this.chkNombreC);
-            this.Controls.Add(this.chkApellido);
-            this.Controls.Add(this.chkEmailEmpresa);
-            this.Controls.Add(this.chkEmailCliente);
-            this.Controls.Add(this.chkCUITEmpresa);
-            this.Controls.Add(this.chkRazonSocial);
+            this.ClientSize = new System.Drawing.Size(647, 461);
+            this.Controls.Add(this.cmdModificar);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.txtEmailE);
+            this.Controls.Add(this.txtCUIT);
+            this.Controls.Add(this.txtRazonSocial);
+            this.Controls.Add(this.txtEmailC);
+            this.Controls.Add(this.txtDNI);
+            this.Controls.Add(this.txtApellido);
+            this.Controls.Add(this.txtNombre);
+            this.Controls.Add(this.cmdBusqueda);
+            this.Controls.Add(this.lblEmailE);
+            this.Controls.Add(this.lblCUIT);
+            this.Controls.Add(this.lblRazonSocial);
+            this.Controls.Add(this.lblEmailC);
+            this.Controls.Add(this.lblDNI);
+            this.Controls.Add(this.lblApellido);
+            this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cmdVolver);
             this.Controls.Add(this.label3);
@@ -229,6 +322,7 @@
             this.Load += new System.EventHandler(this.ModificacionUsuario_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,12 +339,22 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.CheckBox chkRazonSocial;
-        private System.Windows.Forms.CheckBox chkCUITEmpresa;
-        private System.Windows.Forms.CheckBox chkEmailCliente;
-        private System.Windows.Forms.CheckBox chkEmailEmpresa;
-        private System.Windows.Forms.CheckBox chkApellido;
-        private System.Windows.Forms.CheckBox chkNombreC;
-        private System.Windows.Forms.CheckBox chkMailCl;
+        private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.Label lblApellido;
+        private System.Windows.Forms.Label lblDNI;
+        private System.Windows.Forms.Label lblEmailC;
+        private System.Windows.Forms.Label lblRazonSocial;
+        private System.Windows.Forms.Label lblCUIT;
+        private System.Windows.Forms.Label lblEmailE;
+        private System.Windows.Forms.Button cmdBusqueda;
+        private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.TextBox txtApellido;
+        private System.Windows.Forms.TextBox txtDNI;
+        private System.Windows.Forms.TextBox txtEmailC;
+        private System.Windows.Forms.TextBox txtRazonSocial;
+        private System.Windows.Forms.TextBox txtCUIT;
+        private System.Windows.Forms.TextBox txtEmailE;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button cmdModificar;
     }
 }

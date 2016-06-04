@@ -7,28 +7,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace WindowsFormsApplication1.ABM_Usuario
 {
     public partial class ModificacionUsuario : Form
     {
+        int visibilidadCmdModificar = 0;
+        SqlCommand cmd;
+        SqlDataReader sdr;
+        SqlDataAdapter adapter;
+        private DataBase db;
         public ModificacionUsuario()
         {
             InitializeComponent();
+            db = DataBase.GetInstance();
         }
 
         private void ModificacionUsuario_Load(object sender, EventArgs e)
         {
 
-            chkApellido.Visible = false;
-            chkEmailCliente.Visible = false;
-            chkMailCl.Visible = false;
-            chkNombreC.Visible = false;
+            txtRazonSocial.Visible = false;
+            txtEmailE.Visible = false;
+            txtCUIT.Visible = false;
+            lblCUIT.Visible = false;
+            lblEmailE.Visible = false;
+            lblRazonSocial.Visible = false;
 
-            chkRazonSocial.Visible = false;
-            chkEmailEmpresa.Visible = false;
-            chkCUITEmpresa.Visible = false;
-        
+            txtApellido.Visible = false;
+            txtEmailC.Visible = false;
+            txtDNI.Visible = false;
+            txtNombre.Visible = false;
+            lblApellido.Visible = false;
+            lblDNI.Visible = false;
+            lblEmailC.Visible = false;
+            lblNombre.Visible = false;
+
+
+             
             
         }
 
@@ -50,26 +66,49 @@ namespace WindowsFormsApplication1.ABM_Usuario
         {
             if (cboSeleccion.SelectedItem.ToString() == "Cliente")
             {
-                chkApellido.Visible = true;
-                chkEmailCliente.Visible = true;
-                chkMailCl.Visible = true;
-                chkNombreC.Visible = true;
+                txtApellido.Visible = true;
+                txtEmailC.Visible = true;
+                txtDNI.Visible = true;
+                txtNombre.Visible = true;
+                lblApellido.Visible = true;
+                lblDNI.Visible = true;
+                lblEmailC.Visible = true;
+                lblNombre.Visible = true;
 
 
-                chkRazonSocial.Visible = false;
-                chkEmailEmpresa.Visible = false;
-                chkCUITEmpresa.Visible = false;
+                txtRazonSocial.Visible = false;
+                txtEmailE.Visible = false;
+                txtCUIT.Visible = false;
+                lblCUIT.Visible = false;
+                lblEmailE.Visible = false;
+                lblRazonSocial.Visible = false;
+                txtRazonSocial.Text = "";
+                txtEmailE.Text = "";
+                txtCUIT.Text = "";
+              
             }
             if (cboSeleccion.SelectedItem.ToString() == "Empresa")
             {
-                chkRazonSocial.Visible = true;
-                chkEmailEmpresa.Visible = true;
-                chkCUITEmpresa.Visible = true;
+                txtRazonSocial.Visible = true;
+                txtEmailE.Visible = true;
+                txtCUIT.Visible = true;
+                lblCUIT.Visible = true;
+                lblEmailE.Visible = true;
+                lblRazonSocial.Visible = true;
 
-                chkApellido.Visible = false;
-                chkEmailCliente.Visible = false;
-                chkMailCl.Visible = false;
-                chkNombreC.Visible = false;
+                txtApellido.Visible = false;
+                txtEmailC.Visible = false;
+                txtDNI.Visible = false;
+                txtNombre.Visible = false;
+                lblApellido.Visible = false;
+                lblDNI.Visible = false;
+                lblEmailC.Visible = false;
+                lblNombre.Visible = false;
+                txtApellido.Text = "";
+                txtEmailC.Text = "";
+                txtDNI.Text = "";
+                txtNombre.Text = "";
+
 
             }
         }
@@ -77,6 +116,136 @@ namespace WindowsFormsApplication1.ABM_Usuario
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cmdBusqueda_Click(object sender, EventArgs e)
+        {
+           
+            string cadenaDeErrorTipo = "Debe seleccionar un tipo de filtro de busqueda";
+            if (cboSeleccion.SelectedIndex == -1)
+            {
+                MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+            if (cboSeleccion.SelectedItem.ToString() == "Cliente")
+            {
+                if (string.IsNullOrEmpty(txtNombre.Text) && string.IsNullOrEmpty(txtApellido.Text) && string.IsNullOrEmpty(txtDNI.Text) && string.IsNullOrEmpty(txtEmailC.Text))
+                {
+                    MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+
+                if(!(string.IsNullOrEmpty(txtNombre.Text))){
+                    //pasarUnScript
+                    return;
+                }
+                if (!(string.IsNullOrEmpty(txtApellido.Text)))
+                {
+                    //pasarUnScript
+                    return;
+                }
+                if (!(string.IsNullOrEmpty(txtDNI.Text)))
+                {
+                    //pasarUnScript
+                    return;
+                }
+                if (!(string.IsNullOrEmpty(txtEmailC.Text)))
+                {
+                    //pasarUnScript
+                    return;
+                }
+              
+
+               
+            }
+            if (cboSeleccion.SelectedItem.ToString() == "Empresa")
+            {
+                if (string.IsNullOrEmpty(txtRazonSocial.Text) && string.IsNullOrEmpty(txtCUIT.Text) && string.IsNullOrEmpty(txtEmailE.Text))
+                {
+                    MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+                if (!(string.IsNullOrEmpty(txtRazonSocial.Text)))
+                {
+                    //pasarUnScript
+                    return;
+                }
+                if (!(string.IsNullOrEmpty(txtCUIT.Text)))
+                {
+                    //pasarUnScript
+                    return;
+                }
+                if (!(string.IsNullOrEmpty(txtEmailE.Text)))
+                {
+                    //pasarUnScript
+                    return;
+                }
+
+
+            }
+        }
+
+        private void cmdModificar_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+
+                MessageBox.Show("Debe seleccionar un usuario a modificar", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+            if (cboSeleccion.SelectedItem.ToString() == "Cliente")
+            {
+                AltaUsuario.aus.esAltaUsuario = 0;
+                AltaUsuario.aus.rbCliente.Checked = true;
+//                AltaUsuario.aus.txtUsuario.Text =
+//                AltaUsuario.aus.txtPassword.Text =
+//                AltaUsuario.aus.txtTelCliente.Text =
+//                AltaUsuario.aus.txtDpto.Text =
+//                AltaUsuario.aus.txtCalle.Text =
+//                AltaUsuario.aus.txtPiso.Text =
+//                AltaUsuario.aus.txtLocalidad.Text =
+//                AltaUsuario.aus.txtApellidoCliente.Text =
+//                AltaUsuario.aus.txtNombreCliente.Text =
+//                AltaUsuario.aus.txtDNICliente.Text =
+//                AltaUsuario.aus.txtTipoCliente.Text =  
+//                AltaUsuario.aus.txtMail.Text =
+//                AltaUsuario.aus.txtCodPos.Text =
+//                AltaUsuario.aus.dtpCreacion.Value =
+
+
+            }
+            if (cboSeleccion.SelectedItem.ToString() == "Empresa")
+            {
+                AltaUsuario.aus.esAltaUsuario = 0;
+                AltaUsuario.aus.rbEmpresa.Checked = true;
+//                AltaUsuario.aus.txtUsuario.Text =
+//                AltaUsuario.aus.txtPassword.Text =
+//                AltaUsuario.aus.txtTelCliente.Text =
+//                AltaUsuario.aus.txtDpto.Text =
+//                AltaUsuario.aus.txtCalle.Text =
+//                AltaUsuario.aus.txtPiso.Text =
+//                AltaUsuario.aus.txtLocalidad.Text =
+//                AltaUsuario.aus.txtRazonEmpresa.Text =
+//                AltaUsuario.aus.txtMail.Text =
+//                AltaUsuario.aus.txtTelEmpresa.Text =
+//                AltaUsuario.aus.txtCodPos.Text =
+//                AltaUsuario.aus.txtCiudadEmpresa.Text =
+//                AltaUsuario.aus.txtCUITEmpresa.Text =
+//                AltaUsuario.aus.txtNombreContEmpresa.Text =
+//                AltaUsuario.aus.lblRubroSel.Text =
+            }
+            visibilidadCmdModificar = 0;
+            cmdModificar.Visible = false;
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (visibilidadCmdModificar == 0)
+            {
+                cmdModificar.Visible = true;
+            }
+            visibilidadCmdModificar = 1;
+            
         }
     }
 }

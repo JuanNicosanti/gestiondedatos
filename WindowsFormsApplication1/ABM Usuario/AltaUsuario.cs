@@ -17,6 +17,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
     {
         public static AltaUsuario aus;
         private int huboError = 0;
+        public int esAltaUsuario = 1;
         public AltaUsuario()
         {
             InitializeComponent();
@@ -55,6 +56,8 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 this.cmdRubroEmpresa.Visible = false;
                 this.lblRubroEmpresa.Visible = false;
                 this.lblRubroSel.Text = "";
+                this.lblCiudadEmpresa.Visible = false;
+                this.txtCiudadEmpresa.Visible = false;
                              
                
 
@@ -75,6 +78,9 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 this.cmdRubroEmpresa.Visible = true;
                 this.lblRubroEmpresa.Visible = true;
                 this.lblRubroSel.Visible = true;
+
+                this.lblCiudadEmpresa.Visible = true;
+                this.txtCiudadEmpresa.Visible = true;
             
 
                 this.txtApellidoCliente.Text = "";
@@ -135,6 +141,9 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 this.txtNombreContEmpresa.Visible = false;
                 this.txtRazonEmpresa.Visible = false;
                 this.txtTelEmpresa.Visible = false;
+
+                this.lblCiudadEmpresa.Visible = false;
+                this.txtCiudadEmpresa.Visible = false;
             }
          }
         private void AltaUsuario_Load(object sender, EventArgs e)
@@ -177,6 +186,8 @@ namespace WindowsFormsApplication1.ABM_Usuario
             this.txtRazonEmpresa.Visible = false;
             this.txtTelEmpresa.Visible = false;
             this.dtpCreacion.Visible = false;
+            this.lblCiudadEmpresa.Visible = false;
+            this.txtCiudadEmpresa.Visible = false;
             this.timer1.Start();
         }
 
@@ -279,12 +290,21 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
                 string hash = this.encriptacion(txtPassword.Text);
                 UsuarioDOA doa = new UsuarioDOA();
-                doa.crearCliente("Cliente",txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), txtTipoCliente.Text, txtCodPos.Text,txtDpto.Text,txtLocalidad.Text,int.Parse(txtPiso.Text),int.Parse(txtNumero.Text),txtCalle.Text,dtpCreacion.Value);
+                if (esAltaUsuario == 1)
+                {
+                    doa.crearCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), txtTipoCliente.Text, txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
+                }
+                if (esAltaUsuario == 0)
+                {
+                    doa.crearCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), txtTipoCliente.Text, txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
+                    ModificacionUsuario mUsu = new ModificacionUsuario();
+                    this.Hide();
+                }
+                    
 
                 
             }
             if (rbEmpresa.Checked == true)
-          
             {
                 if (string.IsNullOrEmpty(txtUsuario.Text))
                 {
@@ -302,29 +322,29 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     cadenaDeErrores += " Mail \r";
                     huboError++;
                 }
-                if(string.IsNullOrEmpty(txtCUITEmpresa.Text)) 
+                if (string.IsNullOrEmpty(txtCUITEmpresa.Text))
                 {
                     cadenaDeErrores += " CUIT \r";
                     huboError++;
                 }
-                if(string.IsNullOrEmpty(txtNombreContEmpresa.Text)) 
+                if (string.IsNullOrEmpty(txtNombreContEmpresa.Text))
                 {
                     cadenaDeErrores += " Nombre de Contacto \r";
                     huboError++;
                 }
 
-                if(string.IsNullOrEmpty(txtRazonEmpresa.Text))
+                if (string.IsNullOrEmpty(txtRazonEmpresa.Text))
                 {
                     cadenaDeErrores += " Razon Social \r";
                     huboError++;
                 }
-                       
-                if(string.IsNullOrEmpty(txtTelEmpresa.Text))
+
+                if (string.IsNullOrEmpty(txtTelEmpresa.Text))
                 {
                     cadenaDeErrores += " Telefono \r";
                     huboError++;
                 }
-                if (string.IsNullOrEmpty(txtCodPos.Text)) 
+                if (string.IsNullOrEmpty(txtCodPos.Text))
                 {
                     cadenaDeErrores += " CodigoPostal \r";
                     huboError++;
@@ -334,7 +354,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     cadenaDeErrores += " Departamento \r";
                     huboError++;
                 }
-                if (string.IsNullOrEmpty(txtLocalidad.Text)) 
+                if (string.IsNullOrEmpty(txtLocalidad.Text))
                 {
                     cadenaDeErrores += " Localidad \r";
                     huboError++;
@@ -360,6 +380,11 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     cadenaDeErrores += "Rubro \r";
                     huboError++;
                 }
+                if (string.IsNullOrEmpty(txtCiudadEmpresa.Text))
+                {
+                    cadenaDeErrores += "Ciudad \r";
+                    huboError++;
+                }
 
                 if (huboError != 0)
                 {
@@ -371,9 +396,16 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
                 string hash = this.encriptacion(txtPassword.Text);
                 UsuarioDOA doa = new UsuarioDOA();
-                
-                doa.crearEmpresa("Empresa",txtUsuario.Text,hash,txtMail.Text,txtCUITEmpresa.Text,txtNombreContEmpresa.Text,txtRazonEmpresa.Text,int.Parse(txtTelEmpresa.Text),txtCodPos.Text,txtDpto.Text,txtLocalidad.Text,int.Parse(txtPiso.Text),int.Parse(txtNumero.Text),txtCalle.Text,dtpCreacion.Value,lblRubroSel.Text);
-        
+                if (esAltaUsuario == 1)
+                {
+                    doa.crearEmpresa("Empresa", txtUsuario.Text, hash, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text,txtCiudadEmpresa.Text);
+                }
+                if (esAltaUsuario == 0)
+                {
+                    doa.modificarEmpresa("Empresa", txtUsuario.Text, hash, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text,txtCiudadEmpresa.Text);
+                    ModificacionUsuario mUsu = new ModificacionUsuario();
+                    this.Hide();
+                }
             }
 
          

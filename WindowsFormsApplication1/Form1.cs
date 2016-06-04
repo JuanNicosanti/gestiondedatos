@@ -51,7 +51,8 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+          
+            
         }
 
         private void desconectarseToolStripMenuItem_Click(object sender, EventArgs e)
