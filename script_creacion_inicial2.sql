@@ -803,7 +803,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Empresa
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Empresa e, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
 		where rpu.UserId = u.Usuario and rpu.RolId = (select RolId from ROAD_TO_PROYECTO.Rol r where r.Nombre = 'Empresa') and rpu.IdExterno = e.EmprId
 		and e.RazonSocial like '%'+ @RazonSocial +'%'
-		and e.CUIT = @CUIT
+		and (e.CUIT = @CUIT or @CUIT is null)
 		and u.Mail like '%'+ @Mail +'%'
 	end
 GO
@@ -1014,22 +1014,31 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Eliminar_Visibilidad
 	end
 GO
 
-CREATE PROCEDURE ROAD_TO_PROYECTO.Update_Visibilidad
-	@Descripcion nvarchar(255),
-	@ComiFija numeric(18,2),
-	@ComiVariable numeric(18,2),
-	@ComiEnvio numeric(18,2)
-	as begin
-		update ROAD_TO_PROYECTO.Visibilidad
-		set ComiFija = @ComiFija, ComiVariable = @ComiVariable, ComiEnvio = @ComiEnvio
-		where Descripcion = @Descripcion
-	end
-GO
+CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Visibilidad
+ 	@VisiId int,
+ 	@Descripcion nvarchar(255),
+ 	@ComiFija numeric(18,2),
+ 	@ComiVariable numeric(18,2),
+ 	@ComiEnvio numeric(18,2)
+ 	as begin
+ 		update ROAD_TO_PROYECTO.Visibilidad 
+ 		set Descripcion = @Descripcion, ComiFija = @ComiFija, ComiVariable = @ComiVariable, ComiEnvio = @ComiEnvio
+ 		where VisiId = @VisiId
+ 	end
+ GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Visibilidad
-	@Descripcion nvarchar(255)
+	@Descripcion nvarchar(255),
+ 	@ComiFija numeric(18,2),
+ 	@ComiVariable numeric(18,2),
+ 	@ComiEnvio numeric(18,2)
 	as begin
-		select VisiId, Descripcion, ComiFija, ComiVariable, ComiEnvio from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @Descripcion
+		select VisiId, Descripcion, ComiFija, ComiVariable, ComiEnvio 
+		from ROAD_TO_PROYECTO.Visibilidad 
+		where (Descripcion like '%' + @Descripcion + '%' or @Descripcion is null)
+		and (ComiFija < @ComiFija or @ComiFija is null)
+		and (ComiVariable < @ComiVariable or @ComiVariable is null)
+		and (ComiEnvio < @ComiEnvio or @ComiEnvio is null)
 	end
 GO
 
@@ -1042,6 +1051,8 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicaciones_Vencidas
 		update ROAD_TO_PROYECTO.Publicacion
 		set Estado = @FinalizadoId
 		where FechaFin < @FechaActual and Estado <> @FinalizadoId
+	end
+GO
 
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert

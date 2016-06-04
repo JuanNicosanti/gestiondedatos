@@ -187,6 +187,11 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += "Visibilidad \r";
                     huboError++;
                 }
+                if (dtpFin.Value < DateTime.Today)
+                {
+                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la de hoy", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
                 if (string.IsNullOrEmpty(txtPrecio.Text))
                 {
                     cadenaDeErrores += " Precio \r";
@@ -287,6 +292,11 @@ namespace WindowsFormsApplication1.Generar_Publicación
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void dtpFin_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
