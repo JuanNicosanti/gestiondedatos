@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.cmdModificarUsuario = new System.Windows.Forms.Button();
@@ -43,6 +44,8 @@
             this.cmdBajaRol = new System.Windows.Forms.Button();
             this.cmdModificarRol = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.funcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -97,11 +100,13 @@
             this.menuStrip1.Size = new System.Drawing.Size(352, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // usuarioToolStripMenuItem
             // 
             this.usuarioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ingreseUsuarioToolStripMenuItem,
+            this.funcionesToolStripMenuItem,
             this.desconectarseToolStripMenuItem});
             this.usuarioToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.usuarioToolStripMenuItem.Name = "usuarioToolStripMenuItem";
@@ -187,6 +192,17 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // funcionesToolStripMenuItem
+            // 
+            this.funcionesToolStripMenuItem.Name = "funcionesToolStripMenuItem";
+            this.funcionesToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.funcionesToolStripMenuItem.Text = "Funciones";
+            this.funcionesToolStripMenuItem.Click += new System.EventHandler(this.funcionesToolStripMenuItem_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -233,6 +249,8 @@
         private System.Windows.Forms.Button cmdBajaRol;
         private System.Windows.Forms.Button cmdModificarRol;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripMenuItem funcionesToolStripMenuItem;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

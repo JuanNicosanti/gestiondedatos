@@ -18,6 +18,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
         public int intentos_fallidos;
         public bool tieneMasDeUnRol;
         public String unRol;
+        public int idUnRol;
 
         public bool necesita_logueo;
         public SHA256 mySHA256 = SHA256Managed.Create();
@@ -121,6 +122,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             SqlDataReader sdr = cmd.ExecuteReader();
             sdr.Read();
             unRol = sdr["nombreRol"].ToString();
+            idUnRol = idRoles[0];
             this.timer1.Start();              
            
  }
@@ -153,13 +155,16 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 {
                     Form1.f1.rol = unRol;
                     
-                } 
+                }
+                Form1.f1.hayUsuario = true;
                 Form1.f1.Show();
+                Form1.f1.idRol = idUnRol;
                 this.timer1.Stop();
                 
                 this.Hide();
                 
             }
+            
         }
 
         private void progressBar1_Click(object sender, EventArgs e)
@@ -220,6 +225,13 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 MessageBox.Show("Elija un rol", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
             }
+            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.IdBasadoANombreRol", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = idRoles[0];
+
+            SqlDataReader sdr = cmd.ExecuteReader();
+            sdr.Read();
+            idUnRol = (int)sdr["id"];
             this.timer1.Start();
         }
 
