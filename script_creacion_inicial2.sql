@@ -499,6 +499,16 @@ as begin
 end
 GO
 
+--Mostrar idRol en base a un Rol
+CREATE PROCEDURE ROAD_TO_PROYECTO.IdBasadoANombreRol
+@Nombre nvarchar(255)
+as begin
+	select RolId as id
+	from ROAD_TO_PROYECTO.Rol
+	where Nombre = @Nombre
+end
+GO
+
 --Habilitar un rol
 CREATE PROCEDURE ROAD_TO_PROYECTO.HabilitarRol
 @Rol int
