@@ -18,6 +18,11 @@ namespace WindowsFormsApplication1.ABM_Usuario
         SqlDataReader sdr;
         SqlDataAdapter adapter;
         private DataBase db;
+        private Cliente unCliente;
+        private Empresa unaEmpresa;
+        private ClienteDOA doaCliente;
+        private EmpresaDOA doaEmpresa;
+
         public ModificacionUsuario()
         {
             InitializeComponent();
@@ -249,48 +254,82 @@ namespace WindowsFormsApplication1.ABM_Usuario
             }
             if (cboSeleccion.SelectedItem.ToString() == "Cliente")
             {
-//                AltaUsuario.aus.esAltaUsuario = 0;
-//                AltaUsuario.aus.rbCliente.Checked = true;
-//               AltaUsuario.aus.txtUsuario.Text =
-//               AltaUsuario.aus.txtPassword.Text =
-//                AltaUsuario.aus.txtTelCliente.Text =
-//                AltaUsuario.aus.txtDpto.Text =
-//                AltaUsuario.aus.txtCalle.Text =
-//                AltaUsuario.aus.txtPiso.Text =
-//                AltaUsuario.aus.txtLocalidad.Text =
-//                AltaUsuario.aus.txtApellidoCliente.Text =
-//                AltaUsuario.aus.txtNombreCliente.Text =
-//                AltaUsuario.aus.txtDNICliente.Text =
-//                AltaUsuario.aus.cboTipoCliente.SelectedItem = 
-//                AltaUsuario.aus.txtMail.Text =
-//                AltaUsuario.aus.txtCodPos.Text =
-//                AltaUsuario.aus.dtpCreacion.Value =
+              
+
+                int fila = dataGridView1.CurrentRow.Index;
+            
+                int celdaIdCliente = (int)dataGridView1[0, fila].Value;
+
+                cargarUnClienteSeleccionado(celdaIdCliente);
+
+                this.Hide();
+                AltaUsuario.aus.Show();
+
 
 
             }
             if (cboSeleccion.SelectedItem.ToString() == "Empresa")
             {
-                AltaUsuario.aus.esAltaUsuario = 0;
-                AltaUsuario.aus.rbEmpresa.Checked = true;
-//                AltaUsuario.aus.txtUsuario.Text =
-//                AltaUsuario.aus.txtPassword.Text =
-//                AltaUsuario.aus.txtTelCliente.Text =
-//                AltaUsuario.aus.txtDpto.Text =
-//                AltaUsuario.aus.txtCalle.Text =
-//                AltaUsuario.aus.txtPiso.Text =
-//                AltaUsuario.aus.txtLocalidad.Text =
-//                AltaUsuario.aus.txtRazonEmpresa.Text =
-//                AltaUsuario.aus.txtMail.Text =
-//                AltaUsuario.aus.txtTelEmpresa.Text =
-//                AltaUsuario.aus.txtCodPos.Text =
-//                AltaUsuario.aus.txtCiudadEmpresa.Text =
-//                AltaUsuario.aus.txtCUITEmpresa.Text =
-//                AltaUsuario.aus.txtNombreContEmpresa.Text =
-//                AltaUsuario.aus.lblRubroSel.Text =
+               
+
+                int fila = dataGridView1.CurrentRow.Index;
+
+                int celdaIdEmpresa = (int)dataGridView1[0, fila].Value;
+
+                cargarUnaEmpresaSeleccionada(celdaIdEmpresa);
+
+                this.Hide();
+                AltaUsuario.aus.Show();
+
             }
        
         }
 
+        private void cargarUnaEmpresaSeleccionada(int idEmpresa)
+        {
+            unaEmpresa = doaEmpresa.crearUnaEmpresa(idEmpresa);
+
+            AltaUsuario.aus.esAltaUsuario = 0;
+            AltaUsuario.aus.rbEmpresa.Checked = true;
+            AltaUsuario.aus.txtUsuario.Text = unaEmpresa.username;
+            AltaUsuario.aus.txtPassword.Text = unaEmpresa.password;
+            AltaUsuario.aus.txtTelEmpresa.Text = Convert.ToString(unaEmpresa.telefono);
+          
+            AltaUsuario.aus.txtDpto.Text = unaEmpresa.departamento;
+            AltaUsuario.aus.txtCalle.Text = unaEmpresa.calle;
+            AltaUsuario.aus.txtPiso.Text =Convert.ToString(unaEmpresa.piso);
+            AltaUsuario.aus.txtLocalidad.Text =unaEmpresa.localidad;
+            AltaUsuario.aus.txtRazonEmpresa.Text =unaEmpresa.razonSocial;
+            AltaUsuario.aus.txtMail.Text =unaEmpresa.mail;
+            AltaUsuario.aus.txtTelEmpresa.Text =Convert.ToString(unaEmpresa.telefono);
+            AltaUsuario.aus.txtCodPos.Text =Convert.ToString(unaEmpresa.codPostal);
+            AltaUsuario.aus.txtCiudadEmpresa.Text =unaEmpresa.ciudad;
+            AltaUsuario.aus.txtCUITEmpresa.Text =Convert.ToString(unaEmpresa.cuit);
+            AltaUsuario.aus.txtNombreContEmpresa.Text =unaEmpresa.nombreContacto;
+            AltaUsuario.aus.lblRubroSel.Text = unaEmpresa.rubro;
+        }
+        private void cargarUnClienteSeleccionado(int idCliente)
+        {
+            unCliente = doaCliente.crearUnCliente(idCliente);
+
+            AltaUsuario.aus.esAltaUsuario = 0;
+            AltaUsuario.aus.rbCliente.Checked = true;
+
+            AltaUsuario.aus.txtUsuario.Text = unCliente.username;
+            AltaUsuario.aus.txtPassword.Text =unCliente.password;
+            AltaUsuario.aus.txtTelCliente.Text =Convert.ToString(unCliente.telefono);
+            AltaUsuario.aus.txtDpto.Text =unCliente.departamento;
+            AltaUsuario.aus.txtCalle.Text =unCliente.calle;
+            AltaUsuario.aus.txtPiso.Text =Convert.ToString(unCliente.piso);
+            AltaUsuario.aus.txtLocalidad.Text =unCliente.localidad;
+            AltaUsuario.aus.txtApellidoCliente.Text =unCliente.apellido;
+            AltaUsuario.aus.txtNombreCliente.Text =unCliente.nombre;
+            AltaUsuario.aus.txtDNICliente.Text =Convert.ToString(unCliente.dni);
+            AltaUsuario.aus.cboTipoCliente.SelectedItem =unCliente.tipoDocumento; 
+            AltaUsuario.aus.txtMail.Text =unCliente.mail;
+            AltaUsuario.aus.txtCodPos.Text =Convert.ToString(unCliente.codPostal);
+            AltaUsuario.aus.dtpCreacion.Value = unCliente.nacimiento;
+            }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         
