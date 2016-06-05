@@ -32,10 +32,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.cmdModificarUsuario = new System.Windows.Forms.Button();
-            this.cmdPublicacion = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.usuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ingreseUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.funcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.desconectarseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -44,7 +44,6 @@
             this.cmdBajaRol = new System.Windows.Forms.Button();
             this.cmdModificarRol = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.funcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -78,16 +77,6 @@
             this.cmdModificarUsuario.UseVisualStyleBackColor = true;
             this.cmdModificarUsuario.Click += new System.EventHandler(this.cmdModificarUsuario_Click);
             // 
-            // cmdPublicacion
-            // 
-            this.cmdPublicacion.Location = new System.Drawing.Point(228, 78);
-            this.cmdPublicacion.Name = "cmdPublicacion";
-            this.cmdPublicacion.Size = new System.Drawing.Size(111, 23);
-            this.cmdPublicacion.TabIndex = 5;
-            this.cmdPublicacion.Text = "Crear Publicacion";
-            this.cmdPublicacion.UseVisualStyleBackColor = true;
-            this.cmdPublicacion.Click += new System.EventHandler(this.cmdPublicacion_Click);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.NavajoWhite;
@@ -112,6 +101,7 @@
             this.usuarioToolStripMenuItem.Name = "usuarioToolStripMenuItem";
             this.usuarioToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.usuarioToolStripMenuItem.Text = "Usuario";
+            this.usuarioToolStripMenuItem.Click += new System.EventHandler(this.usuarioToolStripMenuItem_Click);
             // 
             // ingreseUsuarioToolStripMenuItem
             // 
@@ -119,6 +109,13 @@
             this.ingreseUsuarioToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.ingreseUsuarioToolStripMenuItem.Text = "Ingrese usuario";
             this.ingreseUsuarioToolStripMenuItem.Click += new System.EventHandler(this.ingreseUsuarioToolStripMenuItem_Click);
+            // 
+            // funcionesToolStripMenuItem
+            // 
+            this.funcionesToolStripMenuItem.Name = "funcionesToolStripMenuItem";
+            this.funcionesToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.funcionesToolStripMenuItem.Text = "Funciones";
+            this.funcionesToolStripMenuItem.Click += new System.EventHandler(this.funcionesToolStripMenuItem_Click);
             // 
             // desconectarseToolStripMenuItem
             // 
@@ -192,13 +189,6 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // funcionesToolStripMenuItem
-            // 
-            this.funcionesToolStripMenuItem.Name = "funcionesToolStripMenuItem";
-            this.funcionesToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.funcionesToolStripMenuItem.Text = "Funciones";
-            this.funcionesToolStripMenuItem.Click += new System.EventHandler(this.funcionesToolStripMenuItem_Click);
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -214,7 +204,6 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.cmdVerVisibilidad);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.cmdPublicacion);
             this.Controls.Add(this.cmdModificarUsuario);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.label1);
@@ -236,7 +225,6 @@
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.Button cmdModificarUsuario;
-        private System.Windows.Forms.Button cmdPublicacion;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem usuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ingreseUsuarioToolStripMenuItem;

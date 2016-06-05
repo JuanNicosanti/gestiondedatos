@@ -25,6 +25,13 @@ namespace WindowsFormsApplication1
         private int tag = 0;
 
 
+        private Boolean seleccionoRubro = false;
+        private Boolean seleccionoUsuario = false;
+        private Boolean seleccionoVisibilidad = false;
+        private Boolean seleccionoRol = false;
+        
+
+
         public Form1()
         {
             InitializeComponent();
@@ -41,14 +48,7 @@ namespace WindowsFormsApplication1
             this.Hide();
         }
 
-        private void cmdPublicacion_Click(object sender, EventArgs e)
-        {
-            
-            WindowsFormsApplication1.Generar_Publicación.AltaPublicacion aPub = new WindowsFormsApplication1.Generar_Publicación.AltaPublicacion();
-            aPub.lblUsername.Text = user;
-            aPub.Show();
-            this.Hide();
-        }
+ 
 
         private void ingreseUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -120,11 +120,7 @@ namespace WindowsFormsApplication1
             this.Hide();
         }
 
-        private void funcionesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
+      
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (hayUsuario)
@@ -138,20 +134,226 @@ namespace WindowsFormsApplication1
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = idRol;
                 SqlDataReader sdr = cmd.ExecuteReader();
+                
                 while (sdr.Read())
-                {               
+                {
+
                     ToolStripMenuItem unMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-                    
                     unMenuToolStripMenuItem.Name = sdr["Descripcion"].ToString();
                     unMenuToolStripMenuItem.Text = sdr["Descripcion"].ToString();
+                    unMenuToolStripMenuItem.Tag = sdr["Descripcion"].ToString();
+                    String unaFuncion = sdr["Descripcion"].ToString();
+                    if (unaFuncion == "ABM Rol" || unaFuncion == "ABM Usuario" || unaFuncion == "ABM Visibilidad" || unaFuncion == "ABM Rubro")
+                    {
+                        cargarMiniMenuABM(unMenuToolStripMenuItem);
+                    }
+                    unMenuToolStripMenuItem.Click += new EventHandler(funcionesPorRol_Click);
+                    
                     
                     funcionesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {unMenuToolStripMenuItem});        
                 }
                 hayUsuario = false;
             }
+          
+
+            
         }
 
+        private void cargarMiniMenuABM(ToolStripMenuItem unMenuToolStripMenuItem){
+            ToolStripMenuItem menuAltaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            menuAltaToolStripMenuItem.Name = "Alta";
+            menuAltaToolStripMenuItem.Text = "Alta";
+            menuAltaToolStripMenuItem.Tag = "Alta";
+            menuAltaToolStripMenuItem.Click += new EventHandler(alta_Click);
+            unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuAltaToolStripMenuItem});
+
+            ToolStripMenuItem menuBajaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            menuBajaToolStripMenuItem.Name = "Baja";
+            menuBajaToolStripMenuItem.Text = "Baja";
+            menuBajaToolStripMenuItem.Tag = "Baja";
+            menuBajaToolStripMenuItem.Click += new EventHandler(baja_Click);
+            unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuBajaToolStripMenuItem });
+
+            ToolStripMenuItem menuModificarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            menuModificarToolStripMenuItem.Name = "Modificar";
+            menuModificarToolStripMenuItem.Text = "Modificar";
+            menuModificarToolStripMenuItem.Tag = "Modificar";
+            menuModificarToolStripMenuItem.Click += new EventHandler(modificar_Click);
+            unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuModificarToolStripMenuItem });
+        }
+
+        private void alta_Click(object sender, EventArgs e)
+        {
+            if (seleccionoRol)
+            {
+
+                seleccionoRol = false;
+                WindowsFormsApplication1.ABM_Rol.AltaRol aRol = new WindowsFormsApplication1.ABM_Rol.AltaRol();
+                aRol.esAltaRol = 1;
+                aRol.Show();
+                this.Hide();
+                return;
+            }
+            if (seleccionoUsuario)
+            {
+                seleccionoUsuario= false;
+                WindowsFormsApplication1.ABM_Usuario.Login login = new WindowsFormsApplication1.ABM_Usuario.Login();
+                login.Show();
+                this.Hide();
+                return;
+            }
+            if (seleccionoVisibilidad)
+            {
+                seleccionoVisibilidad= false;
+                return;
+            }
+            if (seleccionoRubro)
+            {
+                seleccionoRubro = false;
+                return;
+            }
+        }
+        private void baja_Click(object sender, EventArgs e)
+        {
+            if (seleccionoRol)
+            {
+                seleccionoRol = false;
+                WindowsFormsApplication1.ABM_Rol.BajaRol bRol = new WindowsFormsApplication1.ABM_Rol.BajaRol();
+                bRol.Show();
+                this.Hide();
+                return;
+            }
+            if (seleccionoUsuario)
+            {
+                seleccionoUsuario = false;
+                return;
+            }
+            if (seleccionoVisibilidad)
+            {
+                seleccionoVisibilidad = false;
+                return;
+            }
+            if (seleccionoRubro)
+            {
+                seleccionoRubro = false;
+                return;
+            }
+        }
+        private void modificar_Click(object sender, EventArgs e)
+        {
+            if (seleccionoRol)
+            {
+                seleccionoRol = false;
+                WindowsFormsApplication1.ABM_Rol.ModificacionRol mRol = new WindowsFormsApplication1.ABM_Rol.ModificacionRol();
+
+                mRol.Show();
+                this.Hide();
+                return;
+            }
+            if (seleccionoUsuario)
+            {
+                seleccionoUsuario = false;
+                return;
+            }
+            if (seleccionoVisibilidad)
+            {
+                seleccionoVisibilidad = false;
+                return;
+            }
+            if (seleccionoRubro)
+            {
+                seleccionoRubro = false;
+                return;
+            }
+        }
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void funcionesPorRol_Click(object sender, EventArgs e)
+        {
+          
+            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
+            if ((string)clickedItem.Tag == "ABM Rol")
+            {
+                seleccionoRol = true;
+                seleccionoUsuario = false;
+                seleccionoVisibilidad = false;
+                seleccionoRubro = false;
+                  
+                
+            }
+
+            if ((string)clickedItem.Tag == "ABM Usuario")
+            {
+                seleccionoRol = false;
+                seleccionoUsuario = true;
+                seleccionoVisibilidad = false;
+                seleccionoRubro = false;
+            }
+
+            if ((string)clickedItem.Tag == "ABM Visibilidad")
+            {
+                seleccionoRol = false;
+                seleccionoUsuario = false;
+                seleccionoVisibilidad = true;
+                seleccionoRubro = false;
+            }
+
+            if ((string)clickedItem.Tag == "ABM Rubro")
+            {
+                seleccionoRol = false;
+                seleccionoUsuario = false;
+                seleccionoVisibilidad = false;
+                seleccionoRubro = true;
+            }
+
+            if ((string)clickedItem.Tag == "Generar Publicación")
+            {
+                WindowsFormsApplication1.Generar_Publicación.AltaPublicacion aPub = new WindowsFormsApplication1.Generar_Publicación.AltaPublicacion();
+                aPub.lblUsername.Text = user;
+                aPub.Show();
+                this.Hide();
+                
+            }
+            
+            if ((string)clickedItem.Tag == "Comprar/Ofertar")
+            {
+                
+            }
+
+            if ((string)clickedItem.Tag == "Historial de Cliente")
+            {
+                
+            }
+
+            if ((string)clickedItem.Tag == "Calificar al Vendedor")
+            {
+                
+            }
+
+            if ((string)clickedItem.Tag == "Consulta de facturas realizadas al vendedor")
+            {
+                
+            }
+
+            if ((string)clickedItem.Tag == "Listado Estadístico")
+            {
+                
+            }
+            
+
+        }
+        private void usuarioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+    
+
+
+        private void funcionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
