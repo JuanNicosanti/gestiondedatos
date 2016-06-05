@@ -489,6 +489,17 @@ delete ROAD_TO_PROYECTO.Roles_Por_Usuario where RolId = @Rol
 end
 GO
 
+
+--Habilitar un rol
+CREATE PROCEDURE ROAD_TO_PROYECTO.HabilitarRol
+@Rol int
+as begin
+	update ROAD_TO_PROYECTO.Rol set Habilitado = 1 where RolId = @Rol
+end
+GO
+
+
+
 --Modificar Rol
 CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Rol
 	@RolId int,

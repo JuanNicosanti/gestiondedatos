@@ -55,6 +55,7 @@
             this.txtEmailE = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.cmdModificar = new System.Windows.Forms.Button();
+            this.cmdBorrar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -277,14 +278,23 @@
             // 
             // cmdModificar
             // 
-            this.cmdModificar.Location = new System.Drawing.Point(340, 393);
+            this.cmdModificar.Location = new System.Drawing.Point(438, 393);
             this.cmdModificar.Name = "cmdModificar";
             this.cmdModificar.Size = new System.Drawing.Size(186, 23);
             this.cmdModificar.TabIndex = 32;
             this.cmdModificar.Text = "Modificar Usuario";
             this.cmdModificar.UseVisualStyleBackColor = true;
-            this.cmdModificar.Visible = false;
             this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
+            // 
+            // cmdBorrar
+            // 
+            this.cmdBorrar.Location = new System.Drawing.Point(225, 393);
+            this.cmdBorrar.Name = "cmdBorrar";
+            this.cmdBorrar.Size = new System.Drawing.Size(186, 23);
+            this.cmdBorrar.TabIndex = 33;
+            this.cmdBorrar.Text = "Borrar todo";
+            this.cmdBorrar.UseVisualStyleBackColor = true;
+            this.cmdBorrar.Click += new System.EventHandler(this.cmdBorrar_Click);
             // 
             // ModificacionUsuario
             // 
@@ -292,6 +302,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(860, 461);
+            this.Controls.Add(this.cmdBorrar);
             this.Controls.Add(this.cmdModificar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.txtEmailE);
@@ -356,5 +367,6 @@
         private System.Windows.Forms.TextBox txtEmailE;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button cmdModificar;
+        private System.Windows.Forms.Button cmdBorrar;
     }
 }

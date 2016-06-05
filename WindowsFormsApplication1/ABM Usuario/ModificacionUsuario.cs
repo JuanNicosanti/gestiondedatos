@@ -13,7 +13,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
 {
     public partial class ModificacionUsuario : Form
     {
-        int visibilidadCmdModificar = 0;
+       
         SqlCommand cmd;
         SqlDataReader sdr;
         SqlDataAdapter adapter;
@@ -161,7 +161,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                
                 if (string.IsNullOrEmpty(txtApellido.Text))
                 {
-                    cmd.Parameters.AddWithValue("@Apellido", SqlDbType.Int).Value = "";
+                    cmd.Parameters.AddWithValue("@Apellido", SqlDbType.NVarChar).Value = "";
                 }
                 else {
                     cmd.Parameters.AddWithValue("@Apellido", SqlDbType.NVarChar).Value = txtApellido.Text;
@@ -170,7 +170,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
                 if (string.IsNullOrEmpty(txtNombre.Text))
                 {
-                    cmd.Parameters.AddWithValue("@Nombres", SqlDbType.Int).Value = "";
+                    cmd.Parameters.AddWithValue("@Nombres", SqlDbType.NVarChar).Value = "";
                 }
                 else {
                     cmd.Parameters.AddWithValue("@Nombres", SqlDbType.NVarChar).Value = txtNombre.Text;
@@ -192,14 +192,48 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     return;
                 }
-                /*cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Cliente", db.Connection);
+                cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Empresa", db.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = txtEmailC.Text;
-                cmd.Parameters.AddWithValue("@NroDocumento", SqlDbType.Int).Value = txtDNI.Text;
-                cmd.Parameters.AddWithValue("@Apellido", SqlDbType.Int).Value = txtApellido.Text;
-                cmd.Parameters.AddWithValue("@Nombres", SqlDbType.Int).Value = txtNombre.Text;
-                cmd.ExecuteNonQuery();*/
-             
+
+
+                if (string.IsNullOrEmpty(txtEmailE.Text))
+                {
+                    cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = "";
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@Mail", SqlDbType.NVarChar).Value = txtEmailE.Text;
+                }
+
+
+                if (string.IsNullOrEmpty(txtCUIT.Text))
+                {
+                    cmd.Parameters.AddWithValue("@CUIT", SqlDbType.NVarChar).Value = "";
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@CUIT", SqlDbType.Int).Value = txtCUIT.Text;
+                }
+
+
+
+                if (string.IsNullOrEmpty(txtRazonSocial.Text))
+                {
+                    cmd.Parameters.AddWithValue("@RazonSocial", SqlDbType.NVarChar).Value = "";
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@RazonSocial", SqlDbType.NVarChar).Value = txtRazonSocial.Text;
+                }
+
+
+                adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable("ROAD_TO_PROYECTO.Empresa");
+                adapter.Fill(dt);
+                this.dataGridView1.DataSource = dt;
+
+       
+        
 
 
             }
@@ -215,10 +249,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
             }
             if (cboSeleccion.SelectedItem.ToString() == "Cliente")
             {
-                AltaUsuario.aus.esAltaUsuario = 0;
-                AltaUsuario.aus.rbCliente.Checked = true;
-//                AltaUsuario.aus.txtUsuario.Text =
-//                AltaUsuario.aus.txtPassword.Text =
+//                AltaUsuario.aus.esAltaUsuario = 0;
+//                AltaUsuario.aus.rbCliente.Checked = true;
+//               AltaUsuario.aus.txtUsuario.Text =
+//               AltaUsuario.aus.txtPassword.Text =
 //                AltaUsuario.aus.txtTelCliente.Text =
 //                AltaUsuario.aus.txtDpto.Text =
 //                AltaUsuario.aus.txtCalle.Text =
@@ -254,18 +288,27 @@ namespace WindowsFormsApplication1.ABM_Usuario
 //                AltaUsuario.aus.txtNombreContEmpresa.Text =
 //                AltaUsuario.aus.lblRubroSel.Text =
             }
-            visibilidadCmdModificar = 0;
-            cmdModificar.Visible = false;
+       
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (visibilidadCmdModificar == 0)
-            {
-                cmdModificar.Visible = true;
-            }
-            visibilidadCmdModificar = 1;
+        
             
+        }
+
+        private void cmdBorrar_Click(object sender, EventArgs e)
+        {
+            cboSeleccion.SelectedItem = "";
+            //dataGridView1.Rows.Clear();
+            //dataGridView1.Refresh();
+            txtRazonSocial.Text = "";
+            txtEmailE.Text = "";
+            txtCUIT.Text = "";          
+            txtApellido.Text = "";
+            txtEmailC.Text = "";
+            txtDNI.Text = "";
+            txtNombre.Text = "";
         }
     }
 }
