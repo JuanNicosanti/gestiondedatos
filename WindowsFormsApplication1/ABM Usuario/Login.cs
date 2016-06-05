@@ -16,20 +16,30 @@ namespace WindowsFormsApplication1.ABM_Usuario
     public partial class Login : Form
     {
         public int intentos_fallidos;
+        public bool tieneMasDeUnRol;
+        public String unRol;
+
         public bool necesita_logueo;
         public SHA256 mySHA256 = SHA256Managed.Create();
-      
         public static Login lg;
+        private List<int> idRoles = new List<int>();
+        private DataBase db;
+
+
+    
         public Login()
         {
 
             InitializeComponent();
+            db = DataBase.GetInstance();
             intentos_fallidos=0;
             Login.lg = this;
         }
 
         private void Login_Load(object sender, EventArgs e)
         {
+            cboRoles.Visible = false;
+            cmdLoguear.Visible = false;
             
         }
 
@@ -70,26 +80,60 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
             string hash = this.encriptacion(txtContrasenia.Text);
             UsuarioDOA doa = new UsuarioDOA();
-            Usuario user = doa.Login(txtUsuario.Text, hash);
+            List<Usuario> user = doa.Login(txtUsuario.Text, hash);
             if (user == null)
             {
                 MessageBox.Show("Datos incorrectos", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-              
+
 
                 return;
             }
-            else if (!user.Habilitado)
+            else if (!user[0].Habilitado)
             {
                 MessageBox.Show("Usuario bloqueado", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
                 //doa.Bloquear(txtUsuario.Text);
             }
-           
-               // Program.UsuarioLogueado = user;
-               // Program.UsuarioLogueado.EsAdmin = necesita_logueo;
+    
+            if (user.Count > 1)
+            {
+                for(int i = 0; user.Count > i  ; i++){
+                   idRoles.Add(user[i].Id_rol);
+                }
 
-                this.timer1.Start();              
-//            }
+                this.cargarComboBoxDeRoles(idRoles);
+
+                MessageBox.Show("Elija un rol", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                cboRoles.Visible = true;
+                cboRoles.SelectedIndex = -1;
+                cmdLoguear.Visible = true;
+                tieneMasDeUnRol = true;
+                return;
+            }
+
+
+            idRoles.Add(user[0].Id_rol);
+            tieneMasDeUnRol = false;
+            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.DetalleDeUnRol", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = idRoles[0];
+             
+            SqlDataReader sdr = cmd.ExecuteReader();
+            sdr.Read();
+            unRol = sdr["nombreRol"].ToString();
+            this.timer1.Start();              
+           
+ }
+
+        private void cargarComboBoxDeRoles(List<int> idRoles){
+            for(int i = 0; idRoles.Count > i ; i++){
+                SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.DetalleDeUnRol", db.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = idRoles[i];
+                SqlDataReader sdr = cmd.ExecuteReader();
+                sdr.Read();
+                cboRoles.Items.Add(sdr["nombreRol"].ToString());
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -100,7 +144,16 @@ namespace WindowsFormsApplication1.ABM_Usuario
             {
                 this.toolStripProgressBar1.Value = 0;
 
-                Form1.f1.lblUsuario.Text = this.txtUsuario.Text;
+                Form1.f1.user = this.txtUsuario.Text;
+                if (tieneMasDeUnRol)
+                {
+                    Form1.f1.rol = this.cboRoles.SelectedItem.ToString();
+                }
+                else
+                {
+                    Form1.f1.rol = unRol;
+                    
+                } 
                 Form1.f1.Show();
                 this.timer1.Stop();
                 
@@ -153,6 +206,21 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 output.Append(hashedBytes[i].ToString("x2").ToLower());
 
             return output.ToString();
+        }
+
+        private void cboRoles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdLoguear_Click(object sender, EventArgs e)
+        {
+            if (cboRoles.SelectedIndex == -1)
+            {
+                MessageBox.Show("Elija un rol", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+            this.timer1.Start();
         }
 
     }

@@ -11,6 +11,7 @@ namespace WindowsFormsApplication1
     class UsuarioDOA
     {
         private DataBase db;
+        public List<Usuario> listaUsuarios = new List<Usuario>();
         public UsuarioDOA()
         {
             db = DataBase.GetInstance();
@@ -122,7 +123,7 @@ namespace WindowsFormsApplication1
 
 
 
-        public Usuario Login(string username, string password)
+        public List<Usuario> Login(string username, string password)
         {
             
 
@@ -133,15 +134,17 @@ namespace WindowsFormsApplication1
             cmd.Parameters.AddWithValue("@username", SqlDbType.NVarChar).Value = username;
             cmd.Parameters.AddWithValue("@password", SqlDbType.NVarChar).Value = password;
             //ejecuto la consulta y traigo el resultado
-            Usuario usuarioResultado = null;
+            
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {
+                Usuario usuarioResultado = null;
                 usuarioResultado = LoadObject(sdr);
+                listaUsuarios.Add(usuarioResultado);
             }
             sdr.Close();
             WindowsFormsApplication1.Form1.f1.user = username;
-            return usuarioResultado;
+            return listaUsuarios;
         }
 
         private Usuario LoadObject(SqlDataReader reader)

@@ -489,6 +489,15 @@ delete ROAD_TO_PROYECTO.Roles_Por_Usuario where RolId = @Rol
 end
 GO
 
+--Mostrar un Rol en base a un idRol
+CREATE PROCEDURE ROAD_TO_PROYECTO.DetalleDeUnRol
+@Rol int
+as begin
+	select Nombre as nombreRol
+	from ROAD_TO_PROYECTO.Rol
+	where Rol.RolId = @Rol
+end
+GO
 
 --Habilitar un rol
 CREATE PROCEDURE ROAD_TO_PROYECTO.HabilitarRol

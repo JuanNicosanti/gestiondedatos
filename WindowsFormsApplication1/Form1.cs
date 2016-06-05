@@ -12,8 +12,12 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-        public string user;
+        public String user;
         public static Form1 f1;
+        
+        public String rol;
+
+
         public Form1()
         {
             InitializeComponent();
