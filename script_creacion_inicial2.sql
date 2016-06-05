@@ -540,6 +540,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.ListaRubros
 	end
 GO
 
+--Actualización de los logs fallidos de un usuario
 CREATE PROCEDURE ROAD_TO_PROYECTO.Usuario_Logs_Fallidos
 	@Usuario nvarchar(255),
 	@Contraseña nvarchar(255)
@@ -547,11 +548,14 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Usuario_Logs_Fallidos
 	begin
 	if(select habilitado from ROAD_TO_PROYECTO.Usuario where @Usuario = Usuario)=1
 	begin
+		--Incremento el contrador si no coinciden las contraseñas
 		update ROAD_TO_PROYECTO.Usuario set LogsFallidos = LogsFallidos + 1
 		where Usuario = @Usuario and Contraseña != @Contraseña
+		--Reinicio el contador si coinciden las contraseñas
 		update ROAD_TO_PROYECTO.Usuario set LogsFallidos = 0
 		where Usuario = @Usuario and Contraseña = @Contraseña
 	end
+		--Inhabilito a los usuarios con 3 logs fallidos
 		update ROAD_TO_PROYECTO.Usuario set Habilitado = 0
 		where LogsFallidos = 3
 	end
@@ -810,6 +814,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cambiar_Contraseña
 	end
 GO
 
+--Busqueda de un cliente según parámetros
 CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Cliente
 	@Mail nvarchar(50),
 	@NroDocumento numeric(18,0),
@@ -829,6 +834,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Cliente
 	end
 GO
 
+--Busqueda de una empresa según parámetros
 CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Empresa
 	@RazonSocial nvarchar(255),
 	@CUIT nvarchar(50),
@@ -882,6 +888,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comisiones_Valores
 	end
 GO
 
+--Alta de una publicación, las publicaciones recién creadas se suponen como Borrador hasta la fecha de inicio
 CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Publicacion
 	@Descipcion nvarchar(255),
 	@Stock numeric(18,0),
@@ -908,6 +915,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Publicacion
 	end
 GO
 
+--Modificación de una publicación en estado Borrador
 CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Publicacion
 	@PubliId int,
 	@Descipcion nvarchar(255),
@@ -940,6 +948,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Publicacion
 	end
 GO
 
+--Cambio de estado de una publicacion
 CREATE PROCEDURE ROAD_TO_PROYECTO.Activar_Publicacion
 	@PubliId int
 	as begin
@@ -952,6 +961,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Activar_Publicacion
 	end
 GO
 
+--Facturacion inicial de una publicacion, se cobra la comisión inicial por tipo de publicacion siempre y cuando no sea una publicación gratuita
 CREATE PROCEDURE ROAD_TO_PROYECTO.Facturar_Publicacion
 	@PubliId int
 	as begin
@@ -972,6 +982,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Facturar_Publicacion
 	end
 GO
 
+--Cambio de estado de una publicacion
 CREATE PROCEDURE ROAD_TO_PROYECTO.Pausar_Publicacion
 	@PubliId int
 	as begin
@@ -983,6 +994,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Pausar_Publicacion
 	end
 GO
 
+--Cambio de estado de una publicacion
 CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicacion
 	@PubliId int
 	as begin
@@ -994,6 +1006,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicacion
 	end
 GO
 
+--Compra en una compra inmediata
 CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	@PubliId int,
 	--@FechaActual datetime,
@@ -1001,6 +1014,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	@CompradorId int, --Es cliente, no usuario, por eso es int y no nvarchar(255)
 	@ConEnvio bit
 	as begin
+		--Verific si la cantidad a comprar es menor que el stock disponible
 		if((select Stock from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) > @Cantidad)
 		begin
 			insert into ROAD_TO_PROYECTO.Transaccion(TipoTransac, Fecha, Cantidad, PubliId, ClieId, ConEnvio)
@@ -1009,6 +1023,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	end
 GO
 
+--Oferta en una subasta
 CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	@PubliId int,
 	--@FechaActual datetime,
@@ -1016,11 +1031,14 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	@OfertanteId int, --Es cliente, no usuario, por eso es int y no nvarchar(255)
 	@ConEnvio bit
 	as begin
-		if((select top 1 Monto from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId and TipoTransac = 'Oferta' order by Monto desc) < @MontoOferta)
+		--Verifico que la oferta sea mayor al precio actual de la subasta
+		if((select Precio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) < @MontoOferta)
+--		if((select top 1 Monto from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId and TipoTransac = 'Oferta' order by Monto desc) < @MontoOferta)
 		begin
 			insert into ROAD_TO_PROYECTO.Transaccion (TipoTransac, Fecha, Monto, PubliId, ClieId, ConEnvio)
 			values('Oferta', getdate()/*@FechaActual*/, @MontoOferta, @PubliId, @OfertanteId, @ConEnvio)
 
+			--Actualizo el precio de la subasta
 			update ROAD_TO_PROYECTO.Publicacion 
 			set Precio = @MontoOferta
 			where PublId = @PubliId
@@ -1028,6 +1046,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	end
 GO
 
+--Alta de una visiblidad
 CREATE PROCEDURE ROAD_TO_PROYECTO.Agregar_Visibilidad
 	@Descripcion nvarchar(255),
 	@ComiFijaString nvarchar(255),
@@ -1046,7 +1065,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Agregar_Visibilidad
 	end
 GO
 
-
+--Baja de una visiblidad
 CREATE PROCEDURE ROAD_TO_PROYECTO.Eliminar_Visibilidad
 	@VisiId int
 	as begin
@@ -1054,6 +1073,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Eliminar_Visibilidad
 	end
 GO
 
+--Modificacion de los atributos de una visiblidad
 CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Visibilidad
  	@VisiId int,
  	@Descripcion nvarchar(255),
@@ -1071,6 +1091,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Visibilidad
  	end
  GO
 
+ --Busco visibilidad segun parámetros exactos y no exactos
 CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Visibilidad
 	@Descripcion nvarchar(255),
  	@ComiFijaString nvarchar(255),
@@ -1090,6 +1111,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Visibilidad
 	end
 GO
 
+--Finalizo las publicaciones cuya fecha de fin sea posterior a la fecha actual, les cambio el estado
 CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicaciones_Vencidas
 	@FechaActual datetime
 	as begin
@@ -1099,6 +1121,34 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicaciones_Vencidas
 		update ROAD_TO_PROYECTO.Publicacion
 		set Estado = @FinalizadoId
 		where FechaFin < @FechaActual and Estado <> @FinalizadoId
+	end
+GO
+
+--Muestro los datos relevantes a la transacción para que usuario pueda elegir sabiendo que va a calificar
+CREATE PROCEDURE ROAD_TO_PROYECTO.Transacciones_Sin_Calificar
+	@Usuario nvarchar(255)
+	as begin
+		select TranId, TipoTransac, Fecha, p.Descipcion, p.Precio, p.UserId
+		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r
+		where t.PubliId = p.PublId and TranId not in (select TranId from ROAD_TO_PROYECTO.Calificacion)
+		and (t.TipoTransac = 'Compra' or t.Ganadora = 1)
+		and t.TranId not in (select TranId from ROAD_TO_PROYECTO.Calificacion)
+		and rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = t.ClieId
+	end
+GO
+
+--Califico una transaccion
+CREATE PROCEDURE ROAD_TO_PROYECTO.Calificar_Transaccion
+	@TranId int,
+	@CantidadEstrellas numeric(18,0),
+	@Descripcion nvarchar(255)
+	as begin
+		declare @CaliIdAnterior int, @CaliId int
+		select @CaliIdAnterior = Max(caliId)
+		from ROAD_TO_PROYECTO.Calificacion
+		set @CaliId = @CaliIdAnterior + 1
+		insert into ROAD_TO_PROYECTO.Calificacion (CaliId, TranId, CantEstrellas, Descipcion)
+		values(@TranId, @CaliId, @CantidadEstrellas, @Descripcion)
 	end
 GO
 
