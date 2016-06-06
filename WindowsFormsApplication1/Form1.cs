@@ -69,10 +69,6 @@ namespace WindowsFormsApplication1
             desconectarseToolStripMenuItem.Enabled = false;
 
             
-                
-     
-
-            
             
         }
 
@@ -187,23 +183,29 @@ namespace WindowsFormsApplication1
             if (seleccionoRol)
             {
 
-                seleccionoRol = false;
+                
                 WindowsFormsApplication1.ABM_Rol.AltaRol aRol = new WindowsFormsApplication1.ABM_Rol.AltaRol();
                 aRol.esAltaRol = 1;
                 aRol.Show();
+                seleccionoRol = false;
                 this.Hide();
                 return;
             }
             if (seleccionoUsuario)
             {
-                seleccionoUsuario= false;
-                WindowsFormsApplication1.ABM_Usuario.Login login = new WindowsFormsApplication1.ABM_Usuario.Login();
-                login.Show();
+
+                WindowsFormsApplication1.ABM_Usuario.AltaUsuario altaUsuario = new WindowsFormsApplication1.ABM_Usuario.AltaUsuario();
+                altaUsuario.esAltaUsuario = 1;
+                altaUsuario.Show();    
+                seleccionoUsuario = false;
                 this.Hide();
                 return;
             }
             if (seleccionoVisibilidad)
             {
+                WindowsFormsApplication1.ABM_Visibilidad.AgregarVisibilidad newVisibilidad = new WindowsFormsApplication1.ABM_Visibilidad.AgregarVisibilidad();
+                newVisibilidad.Show();
+                this.Hide();
                 seleccionoVisibilidad= false;
                 return;
             }
@@ -217,9 +219,10 @@ namespace WindowsFormsApplication1
         {
             if (seleccionoRol)
             {
-                seleccionoRol = false;
+                
                 WindowsFormsApplication1.ABM_Rol.BajaRol bRol = new WindowsFormsApplication1.ABM_Rol.BajaRol();
                 bRol.Show();
+                seleccionoRol = false;
                 this.Hide();
                 return;
             }
@@ -230,7 +233,10 @@ namespace WindowsFormsApplication1
             }
             if (seleccionoVisibilidad)
             {
+                WindowsFormsApplication1.ABM_Visibilidad.BusquedaVisibilidad bVis = new WindowsFormsApplication1.ABM_Visibilidad.BusquedaVisibilidad();
+                bVis.Show();
                 seleccionoVisibilidad = false;
+                this.Hide();
                 return;
             }
             if (seleccionoRubro)
@@ -243,10 +249,11 @@ namespace WindowsFormsApplication1
         {
             if (seleccionoRol)
             {
-                seleccionoRol = false;
+                
                 WindowsFormsApplication1.ABM_Rol.ModificacionRol mRol = new WindowsFormsApplication1.ABM_Rol.ModificacionRol();
 
                 mRol.Show();
+                seleccionoRol = false;
                 this.Hide();
                 return;
             }
@@ -315,32 +322,53 @@ namespace WindowsFormsApplication1
                 aPub.lblUsername.Text = user;
                 aPub.Show();
                 this.Hide();
+
+                seleccionoRol = false;
+                seleccionoUsuario = false;
+                seleccionoVisibilidad = false;
+                seleccionoRubro = false;
                 
             }
             
             if ((string)clickedItem.Tag == "Comprar/Ofertar")
             {
+                seleccionoRol = false;
+                seleccionoUsuario = false;
+                seleccionoVisibilidad = false;
+                seleccionoRubro = false;
                 
             }
 
             if ((string)clickedItem.Tag == "Historial de Cliente")
             {
-                
+                seleccionoRol = false;
+                seleccionoUsuario = false;
+                seleccionoVisibilidad = false;
+                seleccionoRubro = false;
             }
 
             if ((string)clickedItem.Tag == "Calificar al Vendedor")
             {
-                
+                seleccionoRol = false;
+                seleccionoUsuario = false;
+                seleccionoVisibilidad = false;
+                seleccionoRubro = false;
             }
 
             if ((string)clickedItem.Tag == "Consulta de facturas realizadas al vendedor")
             {
-                
+                seleccionoRol = false;
+                seleccionoUsuario = false;
+                seleccionoVisibilidad = false;
+                seleccionoRubro = false;
             }
 
             if ((string)clickedItem.Tag == "Listado Estadístico")
             {
-                
+                seleccionoRol = false;
+                seleccionoUsuario = false;
+                seleccionoVisibilidad = false;
+                seleccionoRubro = false;
             }
             
 
