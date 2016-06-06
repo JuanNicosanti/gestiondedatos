@@ -19,6 +19,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         SqlDataReader sdr;
         SqlDataAdapter adapter;
         private DataBase db;
+        public string user;
         public static Form1 visibilidad;
 
         public Form1()
@@ -85,6 +86,8 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Comisiones_Visibilidad", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             adapter = new SqlDataAdapter(cmd);
+            cmd.Parameters.AddWithValue("@UserId", SqlDbType.NVarChar).Value = user;
+
             DataTable dt = new DataTable("ROAD_TO_PROYECTO.Visibilidad");
             adapter.Fill(dt);
             this.cboTipoVis.DataSource = dt;

@@ -101,6 +101,8 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         {
             tbDescripcion.Text = "";
             tbComiFija.Text = "";
+            tbComiVariable.Text = "";
+            tbComiEnvio.Text = "";
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -109,6 +111,11 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         }
 
         private void BusquedaVisibilidad_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }
