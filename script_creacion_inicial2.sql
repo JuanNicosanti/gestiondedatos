@@ -983,6 +983,10 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Facturar_Publicacion
 		insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto) 
 		values (@FacturaActual, 1, 'Precio por tipo publicación', (select ComiFija from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId and p.Visibilidad = v.VisiId))
 
+		update ROAD_TO_PROYECTO.Factura
+		set Monto = (select sum(Monto) from ROAD_TO_PROYECTO.Item_Factura where FactNro = @FacturaActual)
+		where FactNro = @FacturaActual
+
 		end
 	end
 GO
@@ -1172,6 +1176,56 @@ from ROAD_TO_PROYECTO.DatosCliente dc
 where dc.Usuario = @IdUsuario 
 end
 GO
+
+-- VISTA DATOS EMPRESA
+CREATE VIEW ROAD_TO_PROYECTO.DatosEmpresa
+as
+select u.Usuario, u.Contraseña, u.Mail, e.RazonSocial, e.CUIT, e.FechaCreacion, e.NombreContacto, r.DescripLarga, isnull(e.Telefono,0) as Telefono, d.Calle, d.Numero, d.Piso, d.Depto, d.Codpostal, isnull(d.Localidad,'') as Localidad
+from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Empresa e, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Domicilio d, ROAD_TO_PROYECTO.Rubro r
+where u.Usuario = rpu.UserId and rpu.rolid = (select rolid from ROAD_TO_PROYECTO.Rol where nombre = 'Empresa') and rpu.IdExterno = e.EmprId
+and u.Domicilio = d.DomiId and e.Rubro = r.RubrId
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.ObtenerDatosEmpresa
+@IdUsuario nvarchar(255)
+as begin
+select Usuario, Contraseña, Mail, RazonSocial, CUIT, FechaCreacion, NombreContacto, Telefono, DescripLarga, Calle, Numero, Piso, Depto, CodPostal, Localidad
+from ROAD_TO_PROYECTO.DatosEmpresa de
+where de.Usuario = @IdUsuario 
+end
+GO
+
+--Consulta y filtrado de facturas hechas a un vendedor
+CREATE PROCEDURE ROAD_TO_PROYECTO.Consulta_Facturas_Vendedor
+	@FechaInicioIntervalo datetime,
+	@FechaFinIntervalo datetime,
+	@MontoInicioIntervalo numeric(18,2),
+	@MontoFinIntervalo numeric(18,2),
+	@Detalle nvarchar(255),
+	@Usuario nvarchar(255)
+	as begin
+		select f.FactNro, f.PubliId, f.Fecha, f.Monto as Total, f.FormaPago, i.Cantidad, i.Detalle, i.Monto as Subtotal
+		from ROAD_TO_PROYECTO.Factura f, ROAD_TO_PROYECTO.Item_Factura i, ROAD_TO_PROYECTO.Publicacion p
+		where f.Monto between @MontoInicioIntervalo and @MontoFinIntervalo
+		and f.Fecha between @FechaInicioIntervalo and @FechaFinIntervalo
+		and i.Detalle like '%' + @Detalle + '%'
+		and f.PubliId = p.PublId and p.UserId = @Usuario
+	end
+GO
+
+--Filtrado inicial de publicaciones. FALTA MUCHO
+CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
+	@RubroDesc nvarchar(255),
+	@PubliDesc nvarchar(255)
+	as begin
+		select *
+		from ROAD_TO_PROYECTO.Publicacion p
+		where p.Descipcion like '%' + @PubliDesc + '%'
+		and p.Rubro = (select RubrId from ROAD_TO_PROYECTO.Rubro where DescripLarga = @RubroDesc)
+	end
+GO
+
+
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert
 	as begin
@@ -1220,6 +1274,10 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.
 						insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto)
 						values(@FacturaActual, @Cantidad, 'Comisión por envío de producto', @Cantidad * @ComiEnvio * (select Precio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
 					end
+				
+				update ROAD_TO_PROYECTO.Factura
+				set Monto = (select sum(Monto) from ROAD_TO_PROYECTO.Item_Factura where FactNro = @FacturaActual)
+				where FactNro = @FacturaActual
 
 				fetch next from c1 into @Fecha, @Cantidad, @PubliId, @ConEnvio
 				commit
@@ -1278,6 +1336,12 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.P
 						insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto)
 						values(@FacturaActual, 1, 'Comisión por envío de producto', @ComiEnvio * (select Monto from ROAD_TO_PROYECTO.Transaccion where Ganadora = 1 and PubliId = @PubliId))
 					end
+
+				update ROAD_TO_PROYECTO.Factura
+				set Monto = (select sum(Monto) from ROAD_TO_PROYECTO.Item_Factura where FactNro = @FacturaActual)
+				where FactNro = @FacturaActual
+
+			fetch next from c1 into @PubliId
 			commit
 		end
 		
