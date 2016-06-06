@@ -18,6 +18,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
         public static AltaUsuario aus;
         private int huboError = 0;
         public int esAltaUsuario = 1;
+        public int irAlMenuPrincipal;
         public AltaUsuario()
         {
             InitializeComponent();
@@ -294,11 +295,24 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 if (esAltaUsuario == 1)
                 {
                     doa.crearCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
+                    if (irAlMenuPrincipal == 1)
+                    {
+                        Form1.f1.Show();
+                        this.Hide();
+                    }
+                    if (irAlMenuPrincipal == 0)
+                    {
+                        Login.lg.Show();
+                        this.Hide();
+                    }
+                     
                 }
+                
                 if (esAltaUsuario == 0)
                 {
                     doa.modificarCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
                     ModificacionUsuario mUsu = new ModificacionUsuario();
+                    mUsu.Show();
                     this.Hide();
                 }
                     
@@ -474,14 +488,22 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
         private void cmdVolver_Click(object sender, EventArgs e)
         {
-            if (esAltaUsuario == 1) {
-                Login.lg.Show();
-                this.Hide();
-
+            if (esAltaUsuario == 1) {     
+                if (irAlMenuPrincipal == 1)
+                {
+                    Form1.f1.Show();
+                    this.Hide();
+                }
+                if (irAlMenuPrincipal == 0)
+                {
+                    Login.lg.Show();
+                    this.Hide();
+                }
             }
             if (esAltaUsuario == 0)
             {
                 ModificacionUsuario mUsu = new ModificacionUsuario();
+                mUsu.Show();
                 this.Hide();
 
             }

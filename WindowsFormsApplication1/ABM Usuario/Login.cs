@@ -82,20 +82,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             string hash = this.encriptacion(txtContrasenia.Text);
             UsuarioDOA doa = new UsuarioDOA();
             List<Usuario> user = doa.Login(txtUsuario.Text, hash);
-            if (user == null)
-            {
-                MessageBox.Show("Datos incorrectos", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-
-
-                return;
-            }
-            else if (!user[0].Habilitado)
-            {
-                MessageBox.Show("Usuario bloqueado", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                return;
-                //doa.Bloquear(txtUsuario.Text);
-            }
-    
+          
             if (user.Count > 1)
             {
                 for(int i = 0; user.Count > i  ; i++){
@@ -112,7 +99,19 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 return;
             }
 
+            if (!user.Any<Usuario>())
+            {
+                MessageBox.Show("Datos incorrectos", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
 
+                return;
+            }
+            else if (!user[0].Habilitado)
+            {
+                MessageBox.Show("Usuario bloqueado", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+                //doa.Bloquear(txtUsuario.Text);
+            }
+    
             idRoles.Add(user[0].Id_rol);
             tieneMasDeUnRol = false;
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.DetalleDeUnRol", db.Connection);
@@ -176,6 +175,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
         {
             AltaUsuario altaUsuario = new AltaUsuario();
             altaUsuario.esAltaUsuario = 1;
+            altaUsuario.irAlMenuPrincipal = 0;
             altaUsuario.Show();
             this.Hide();
             

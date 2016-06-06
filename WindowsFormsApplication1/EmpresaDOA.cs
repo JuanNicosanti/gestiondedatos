@@ -12,6 +12,11 @@ namespace WindowsFormsApplication1
     {
         private DataBase db;
 
+        public EmpresaDOA()
+        {
+            db = DataBase.GetInstance();
+        }
+
         public Empresa crearUnaEmpresa(String userEmpresa)
         {
             //especifico que SP voy a ejecutar
@@ -21,8 +26,11 @@ namespace WindowsFormsApplication1
             cmd.Parameters.AddWithValue("@idEmpresa", SqlDbType.NVarChar).Value = userEmpresa;
             Empresa unaEmpresa = null;
             SqlDataReader sdr = cmd.ExecuteReader();
-            sdr.Read();
-            unaEmpresa = LoadObject(sdr);
+            while (sdr.Read())
+            {
+                unaEmpresa = LoadObject(sdr);
+            }
+            sdr.Close();
             return unaEmpresa;
         }
 
@@ -33,17 +41,18 @@ namespace WindowsFormsApplication1
             unaEmpresa.username = reader["username"].ToString();
             unaEmpresa.password = reader["password"].ToString();
             unaEmpresa.mail = reader["mail"].ToString();
-            unaEmpresa.cuit = (int)reader["cuit"];
+            unaEmpresa.cuit = int.Parse(reader["cuit"].ToString());
             unaEmpresa.nombreContacto = reader["nombreContacto"].ToString();
             unaEmpresa.razonSocial = reader["razonSocial"].ToString();
-            unaEmpresa.telefono = (int)reader["telefono"];
+            unaEmpresa.telefono = int.Parse(reader["telefono"].ToString());
             unaEmpresa.rubro = reader["rubro"].ToString();
-            unaEmpresa.codPostal = (int)reader["codPostal"];
+            unaEmpresa.codPostal = int.Parse(reader["codPostal"].ToString());
             unaEmpresa.localidad = reader["localidad"].ToString();
-            unaEmpresa.piso = (int)reader["piso"];
-            unaEmpresa.numero = (int)reader["numero"];
+            unaEmpresa.piso = int.Parse(reader["piso"].ToString());
+            unaEmpresa.numero = int.Parse(reader["numero"].ToString());
             unaEmpresa.calle = reader["calle"].ToString();
             unaEmpresa.departamento = reader["departamento"].ToString();
+            unaEmpresa.creacion = Convert.ToDateTime(reader["Creacion"]);
             return unaEmpresa;
         }
     }

@@ -69,7 +69,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
         private void cboSeleccion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboSeleccion.SelectedItem.ToString() == "Cliente")
+            if (cboSeleccion.SelectedItem.ToString() == "Cliente" )
             {
                 txtApellido.Visible = true;
                 txtEmailC.Visible = true;
@@ -342,9 +342,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
         private void cmdBorrar_Click(object sender, EventArgs e)
         {
-            cboSeleccion.SelectedItem = "";
-            //dataGridView1.Rows.Clear();
-            //dataGridView1.Refresh();
+            cboSeleccion.Text = "";
+            dataGridView1.DataSource = null;
+            dataGridView1.Refresh();
+            
             txtRazonSocial.Text = "";
             txtEmailE.Text = "";
             txtCUIT.Text = "";          
@@ -362,22 +363,25 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 MessageBox.Show("Debe seleccionar un usuario a modificar", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
             }
-            if (cboSeleccion.SelectedItem.ToString() == "Cliente")
-            {
+         
+
+                int fila = dataGridView1.CurrentRow.Index;
+
+                String celdaUser = (String)dataGridView1[0, fila].Value;
+
+                borrarUserSeleccionado(celdaUser);
 
 
-                
-
-
-
-            }
-            if (cboSeleccion.SelectedItem.ToString() == "Empresa")
-            {
-
-
-              
-
-            }
         }
+
+
+        private void borrarUserSeleccionado(String celdaUser)
+        {
+            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Baja_Usuario", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = celdaUser;
+            cmd.ExecuteNonQuery();
+        }
+    
     }
 }

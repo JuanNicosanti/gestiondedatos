@@ -192,6 +192,7 @@ namespace WindowsFormsApplication1
 
                 WindowsFormsApplication1.ABM_Usuario.AltaUsuario altaUsuario = new WindowsFormsApplication1.ABM_Usuario.AltaUsuario();
                 altaUsuario.esAltaUsuario = 1;
+                altaUsuario.irAlMenuPrincipal = 1;
                 altaUsuario.Show();    
                 seleccionoUsuario = false;
                 this.Hide();

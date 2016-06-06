@@ -23,6 +23,7 @@ namespace WindowsFormsApplication1
         public int numero;
         public String calle;
         public String departamento;
+        public DateTime creacion;
 
      
 
