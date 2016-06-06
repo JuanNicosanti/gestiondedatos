@@ -213,11 +213,11 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
                 if (string.IsNullOrEmpty(txtCUIT.Text))
                 {
-                    cmd.Parameters.AddWithValue("@CUIT", SqlDbType.NVarChar).Value = "";
+                    cmd.Parameters.AddWithValue("@CUIT", DBNull.Value);
                 }
                 else
                 {
-                    cmd.Parameters.AddWithValue("@CUIT", SqlDbType.Int).Value = txtCUIT.Text;
+                    cmd.Parameters.AddWithValue("@CUIT", SqlDbType.NVarChar).Value = txtCUIT.Text;
                 }
 
 
