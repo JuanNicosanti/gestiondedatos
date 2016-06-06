@@ -93,5 +93,23 @@ namespace WindowsFormsApplication1.ABM_Rol
 
         }
 
+        private void cmdEliminar_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+
+                MessageBox.Show("Debe seleccionar un Rol", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            int fila = dataGridView1.CurrentRow.Index;
+            int celdaIdRol = (int)dataGridView1[0, fila].Value;
+
+            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.BajaRol", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = celdaIdRol;
+            cmd.ExecuteNonQuery();
+        }
+
     }
 }

@@ -32,7 +32,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
 
         private void cmdVolverComs_Click(object sender, EventArgs e)
         {
-            ABMVisibilidad.abmVis.Show();
+            BusquedaVisibilidad.bVisi.Show();
             this.Hide();
         }
 
@@ -57,8 +57,8 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
                 cmd.Parameters.AddWithValue("@ComiEnvioString", SqlDbType.NVarChar).Value = tbEnvio.Text;
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Elemento modificado", "LISTO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                
-                WindowsFormsApplication1.ABM_Visibilidad.ABMVisibilidad.abmVis.Show();
+
+                BusquedaVisibilidad.bVisi.Show();
                 this.Close();
             }
             else

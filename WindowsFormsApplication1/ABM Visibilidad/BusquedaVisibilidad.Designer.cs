@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panelFiltros = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.tbComiEnvio = new System.Windows.Forms.TextBox();
             this.tbComiVariable = new System.Windows.Forms.TextBox();
             this.cmdLimpiarFiltros = new System.Windows.Forms.Button();
@@ -45,8 +47,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.panelFiltros.SuspendLayout();
             this.panelResultados.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -69,6 +69,24 @@
             this.panelFiltros.Name = "panelFiltros";
             this.panelFiltros.Size = new System.Drawing.Size(440, 115);
             this.panelFiltros.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 87);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(142, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Comisión por envío menor a:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 61);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(156, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Comisión por producto menor a:";
             // 
             // tbComiEnvio
             // 
@@ -150,17 +168,17 @@
             // 
             // cmdEliminar
             // 
-            this.cmdEliminar.Location = new System.Drawing.Point(272, 165);
+            this.cmdEliminar.Location = new System.Drawing.Point(154, 160);
             this.cmdEliminar.Name = "cmdEliminar";
             this.cmdEliminar.Size = new System.Drawing.Size(124, 23);
             this.cmdEliminar.TabIndex = 2;
-            this.cmdEliminar.Text = "Eliminar";
+            this.cmdEliminar.Text = " Eliminar";
             this.cmdEliminar.UseVisualStyleBackColor = true;
             this.cmdEliminar.Click += new System.EventHandler(this.cmdEliminar_Click);
             // 
             // cmdModificar
             // 
-            this.cmdModificar.Location = new System.Drawing.Point(71, 165);
+            this.cmdModificar.Location = new System.Drawing.Point(154, 160);
             this.cmdModificar.Name = "cmdModificar";
             this.cmdModificar.Size = new System.Drawing.Size(124, 23);
             this.cmdModificar.TabIndex = 1;
@@ -217,24 +235,6 @@
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 61);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(156, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Comisión por producto menor a:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 87);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(142, 13);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Comisión por envío menor a:";
-            // 
             // BusquedaVisibilidad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -271,8 +271,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panelResultados;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button cmdEliminar;
-        private System.Windows.Forms.Button cmdModificar;
         private System.Windows.Forms.Button cmdVolver;
         private System.Windows.Forms.Button cmdLimpiarFiltros;
         private System.Windows.Forms.StatusStrip statusStrip1;
@@ -282,6 +280,8 @@
         private System.Windows.Forms.TextBox tbComiVariable;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        public System.Windows.Forms.Button cmdEliminar;
+        public System.Windows.Forms.Button cmdModificar;
 
     }
 }

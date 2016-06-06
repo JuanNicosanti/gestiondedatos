@@ -37,6 +37,7 @@
             this.cmdModificarRol = new System.Windows.Forms.Button();
             this.cmdVolver = new System.Windows.Forms.Button();
             this.cmdHabilitarRol = new System.Windows.Forms.Button();
+            this.cmdEliminar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -125,12 +126,23 @@
             this.cmdHabilitarRol.UseVisualStyleBackColor = true;
             this.cmdHabilitarRol.Click += new System.EventHandler(this.cmdHabilitarRol_Click);
             // 
+            // cmdEliminar
+            // 
+            this.cmdEliminar.Location = new System.Drawing.Point(207, 58);
+            this.cmdEliminar.Name = "cmdEliminar";
+            this.cmdEliminar.Size = new System.Drawing.Size(112, 23);
+            this.cmdEliminar.TabIndex = 6;
+            this.cmdEliminar.Text = "Eliminar";
+            this.cmdEliminar.UseVisualStyleBackColor = true;
+            this.cmdEliminar.Click += new System.EventHandler(this.cmdEliminar_Click);
+            // 
             // ModificacionRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(325, 326);
+            this.Controls.Add(this.cmdEliminar);
             this.Controls.Add(this.cmdHabilitarRol);
             this.Controls.Add(this.cmdVolver);
             this.Controls.Add(this.cmdModificarRol);
@@ -155,8 +167,9 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.Button cmdModificarRol;
         private System.Windows.Forms.Button cmdVolver;
-        private System.Windows.Forms.Button cmdHabilitarRol;
+        public System.Windows.Forms.Button cmdModificarRol;
+        public System.Windows.Forms.Button cmdHabilitarRol;
+        public System.Windows.Forms.Button cmdEliminar;
     }
 }

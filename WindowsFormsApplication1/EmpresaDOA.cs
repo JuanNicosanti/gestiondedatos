@@ -12,13 +12,13 @@ namespace WindowsFormsApplication1
     {
         private DataBase db;
 
-        public Empresa crearUnaEmpresa(int idEmpresa)
+        public Empresa crearUnaEmpresa(String userEmpresa)
         {
             //especifico que SP voy a ejecutar
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Traer_Empresa_Completo", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             //seteo los parametros que recibe el stored procedure
-            cmd.Parameters.AddWithValue("@idEmpresa", SqlDbType.Int).Value = idEmpresa;
+            cmd.Parameters.AddWithValue("@idEmpresa", SqlDbType.NVarChar).Value = userEmpresa;
             Empresa unaEmpresa = null;
             SqlDataReader sdr = cmd.ExecuteReader();
             sdr.Read();

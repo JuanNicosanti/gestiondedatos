@@ -826,11 +826,11 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Cliente
 		select u.Usuario, u.Mail, c.TipoDocumento, c.NroDocumento, c.Apellido, c.Nombres
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Cliente c, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
 		where rpu.UserId = u.Usuario and rpu.RolId = (select RolId from ROAD_TO_PROYECTO.Rol r where r.Nombre = 'Cliente') and rpu.IdExterno = c.ClieId
-		and c.Nombres like @Nombres +'%'
-		and c.Apellido like @Apellido +'%'
+		and c.Nombres like '%' + @Nombres +'%'
+		and c.Apellido like '%' + @Apellido +'%'
 		and c.TipoDocumento = 'DNI'
 		and (c.NroDocumento = @NroDocumento or @NroDocumento is null)
-        and u.Mail like @Mail +'%'
+        and u.Mail like '%' + @Mail +'%'
 	end
 GO
 
@@ -1156,7 +1156,22 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Calificar_Transaccion
 		values(@TranId, @CaliId, @CantidadEstrellas, @Descripcion)
 	end
 GO
+-- VISTA DATOS CLIENTE
+CREATE VIEW ROAD_TO_PROYECTO.DatosCliente
+as
+select u.Usuario,u.Contraseña,u.Mail, c.Nombres, c.Apellido, c.Tipodocumento, c.Nrodocumento, isnull(c.Telefono,0) as Telefono, c.Fechanacimiento, d.Calle, d.Numero,d.Piso,d.Depto, d.Codpostal,isnull(d.Localidad,'') as Localidad
+from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.cliente c, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Domicilio d
+where u.domicilio = d.domiid and u.usuario = rpu.userid and rpu.rolid = (select rolid from ROAD_TO_PROYECTO.Rol where nombre = 'Cliente') and rpu.idexterno = c.clieid
+GO
 
+CREATE PROCEDURE ROAD_TO_PROYECTO.ObtenerDatosCliente
+@IdUsuario nvarchar(255)
+as begin
+select Usuario, Contraseña, Mail, Nombres, Apellido, Tipodocumento,NroDocumento,Telefono,FechaNacimiento,Calle,Numero,Piso,Depto,CodPostal,Localidad
+from ROAD_TO_PROYECTO.DatosCliente dc
+where dc.Usuario = @IdUsuario 
+end
+GO
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert
 	as begin
@@ -1270,3 +1285,10 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.P
 		deallocate c1
 	end
 GO
+
+--ATRODEN UN ROGER
+insert into ROAD_TO_PROYECTO.Usuario (Usuario, Contraseña, Mail)
+values('rogerfederer', SUBSTRING(master.dbo.fn_varbintohexstr(HashBytes('SHA2_256', 'wimbledon')), 3, 255), 'rogerferer@atp.org')
+
+insert into ROAD_TO_PROYECTO.Roles_Por_Usuario (UserId, RolId)
+values('rogerfederer', (select RolId from ROAD_TO_PROYECTO.Rol where Nombre = 'Administrador'))

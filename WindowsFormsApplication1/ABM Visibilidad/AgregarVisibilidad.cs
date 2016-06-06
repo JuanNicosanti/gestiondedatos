@@ -35,7 +35,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
                 cmd.Parameters.AddWithValue("@ComiEnvioString", SqlDbType.NVarChar).Value = tbEnvio.Text;
                 cmd.ExecuteNonQuery();
 
-                ABMVisibilidad.abmVis.Show();
+                WindowsFormsApplication1.Form1.f1.Show();
                 this.Close();
             }
             else
@@ -55,7 +55,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
 
         private void cmdVolverComs_Click(object sender, EventArgs e)
         {
-            ABMVisibilidad.abmVis.Show();
+            WindowsFormsApplication1.Form1.f1.Show();
             this.Hide();
         }
 

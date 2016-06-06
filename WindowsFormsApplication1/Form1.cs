@@ -25,7 +25,7 @@ namespace WindowsFormsApplication1
         private int tag = 0;
 
 
-        private Boolean seleccionoRubro = false;
+        
         private Boolean seleccionoUsuario = false;
         private Boolean seleccionoVisibilidad = false;
         private Boolean seleccionoRol = false;
@@ -86,12 +86,7 @@ namespace WindowsFormsApplication1
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            WindowsFormsApplication1.ABM_Visibilidad.ABMVisibilidad abmVisibilidad = new WindowsFormsApplication1.ABM_Visibilidad.ABMVisibilidad();
-            abmVisibilidad.Show();
-            this.Hide();
-        }
+     
 
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -103,7 +98,9 @@ namespace WindowsFormsApplication1
 
         private void cmdBajaRol_Click(object sender, EventArgs e)
         {
-            WindowsFormsApplication1.ABM_Rol.BajaRol bRol = new WindowsFormsApplication1.ABM_Rol.BajaRol();
+            WindowsFormsApplication1.ABM_Rol.ModificacionRol bRol = new WindowsFormsApplication1.ABM_Rol.ModificacionRol();
+            bRol.cmdEliminar.Visible = true;
+            bRol.cmdModificarRol.Visible = false;
             bRol.Show();
             this.Hide();
         }
@@ -139,7 +136,7 @@ namespace WindowsFormsApplication1
                     unMenuToolStripMenuItem.Text = sdr["Descripcion"].ToString();
                     unMenuToolStripMenuItem.Tag = sdr["Descripcion"].ToString();
                     String unaFuncion = sdr["Descripcion"].ToString();
-                    if (unaFuncion == "ABM Rol" || unaFuncion == "ABM Usuario" || unaFuncion == "ABM Visibilidad" || unaFuncion == "ABM Rubro")
+                    if (unaFuncion == "ABM Rol" || unaFuncion == "ABM Usuario" || unaFuncion == "ABM Visibilidad")
                     {
                         cargarMiniMenuABM(unMenuToolStripMenuItem);
                     }
@@ -182,8 +179,7 @@ namespace WindowsFormsApplication1
         {
             if (seleccionoRol)
             {
-
-                
+  
                 WindowsFormsApplication1.ABM_Rol.AltaRol aRol = new WindowsFormsApplication1.ABM_Rol.AltaRol();
                 aRol.esAltaRol = 1;
                 aRol.Show();
@@ -209,69 +205,79 @@ namespace WindowsFormsApplication1
                 seleccionoVisibilidad= false;
                 return;
             }
-            if (seleccionoRubro)
-            {
-                seleccionoRubro = false;
-                return;
-            }
+         
         }
         private void baja_Click(object sender, EventArgs e)
         {
             if (seleccionoRol)
             {
-                
-                WindowsFormsApplication1.ABM_Rol.BajaRol bRol = new WindowsFormsApplication1.ABM_Rol.BajaRol();
+
+                WindowsFormsApplication1.ABM_Rol.ModificacionRol bRol = new WindowsFormsApplication1.ABM_Rol.ModificacionRol();
+                bRol.cmdEliminar.Visible = true;
+                bRol.cmdHabilitarRol.Visible = true;
                 bRol.Show();
+                bRol.cmdModificarRol.Visible = false;
                 seleccionoRol = false;
                 this.Hide();
                 return;
             }
             if (seleccionoUsuario)
             {
+                WindowsFormsApplication1.ABM_Usuario.ModificacionUsuario mdUsuario = new WindowsFormsApplication1.ABM_Usuario.ModificacionUsuario();
+                mdUsuario.cmdModificar.Visible = false;
+                mdUsuario.cmdEliminar.Visible = true;
+                mdUsuario.Show();
                 seleccionoUsuario = false;
+                this.Hide();
                 return;
             }
             if (seleccionoVisibilidad)
             {
                 WindowsFormsApplication1.ABM_Visibilidad.BusquedaVisibilidad bVis = new WindowsFormsApplication1.ABM_Visibilidad.BusquedaVisibilidad();
+                bVis.cmdModificar.Visible = false;
+                bVis.cmdEliminar.Visible = true;
                 bVis.Show();
                 seleccionoVisibilidad = false;
                 this.Hide();
                 return;
             }
-            if (seleccionoRubro)
-            {
-                seleccionoRubro = false;
-                return;
-            }
+        
         }
         private void modificar_Click(object sender, EventArgs e)
         {
             if (seleccionoRol)
             {
-                
-                WindowsFormsApplication1.ABM_Rol.ModificacionRol mRol = new WindowsFormsApplication1.ABM_Rol.ModificacionRol();
 
+                WindowsFormsApplication1.ABM_Rol.ModificacionRol mRol = new WindowsFormsApplication1.ABM_Rol.ModificacionRol();
+                mRol.cmdModificarRol.Visible = true;
                 mRol.Show();
+                mRol.cmdEliminar.Visible = false;
+                mRol.cmdHabilitarRol.Visible = false;
                 seleccionoRol = false;
                 this.Hide();
                 return;
             }
             if (seleccionoUsuario)
             {
+                WindowsFormsApplication1.ABM_Usuario.ModificacionUsuario mdUsuario = new WindowsFormsApplication1.ABM_Usuario.ModificacionUsuario();
+                mdUsuario.cmdModificar.Visible = true;
+                mdUsuario.cmdEliminar.Visible = false;
+                mdUsuario.Show();
                 seleccionoUsuario = false;
+                this.Hide();    
                 return;
             }
             if (seleccionoVisibilidad)
             {
+                WindowsFormsApplication1.ABM_Visibilidad.BusquedaVisibilidad bVis = new WindowsFormsApplication1.ABM_Visibilidad.BusquedaVisibilidad();
+                bVis.cmdModificar.Visible = true;
+                bVis.cmdEliminar.Visible = false;
+                bVis.Show();
                 seleccionoVisibilidad = false;
+                this.Hide();
                 return;
             }
-            if (seleccionoRubro)
-            {
-                seleccionoRubro = false;
-                return;
-            }
+      
         }
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -287,7 +293,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = true;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
-                seleccionoRubro = false;
+                
                   
                 
             }
@@ -297,7 +303,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = true;
                 seleccionoVisibilidad = false;
-                seleccionoRubro = false;
+                
             }
 
             if ((string)clickedItem.Tag == "ABM Visibilidad")
@@ -305,15 +311,16 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = true;
-                seleccionoRubro = false;
+                
             }
 
             if ((string)clickedItem.Tag == "ABM Rubro")
             {
+                MessageBox.Show("No existe la ABM seleccionada", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
-                seleccionoRubro = true;
+                
             }
 
             if ((string)clickedItem.Tag == "Generar Publicación")
@@ -326,7 +333,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
-                seleccionoRubro = false;
+                
                 
             }
             
@@ -335,7 +342,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
-                seleccionoRubro = false;
+               
                 
             }
 
@@ -344,7 +351,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
-                seleccionoRubro = false;
+                
             }
 
             if ((string)clickedItem.Tag == "Calificar al Vendedor")
@@ -352,7 +359,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
-                seleccionoRubro = false;
+              
             }
 
             if ((string)clickedItem.Tag == "Consulta de facturas realizadas al vendedor")
@@ -360,7 +367,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
-                seleccionoRubro = false;
+               
             }
 
             if ((string)clickedItem.Tag == "Listado Estadístico")
@@ -368,7 +375,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
-                seleccionoRubro = false;
+                
             }
             
 

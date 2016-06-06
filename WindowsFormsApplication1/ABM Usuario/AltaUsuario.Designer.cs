@@ -415,7 +415,7 @@
             // lblFechaEmpresa
             // 
             this.lblFechaEmpresa.AutoSize = true;
-            this.lblFechaEmpresa.Location = new System.Drawing.Point(155, 179);
+            this.lblFechaEmpresa.Location = new System.Drawing.Point(151, 179);
             this.lblFechaEmpresa.Name = "lblFechaEmpresa";
             this.lblFechaEmpresa.Size = new System.Drawing.Size(98, 13);
             this.lblFechaEmpresa.TabIndex = 42;

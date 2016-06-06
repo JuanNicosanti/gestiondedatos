@@ -56,6 +56,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.cmdModificar = new System.Windows.Forms.Button();
             this.cmdBorrar = new System.Windows.Forms.Button();
+            this.cmdEliminar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -296,12 +297,23 @@
             this.cmdBorrar.UseVisualStyleBackColor = true;
             this.cmdBorrar.Click += new System.EventHandler(this.cmdBorrar_Click);
             // 
+            // cmdEliminar
+            // 
+            this.cmdEliminar.Location = new System.Drawing.Point(438, 393);
+            this.cmdEliminar.Name = "cmdEliminar";
+            this.cmdEliminar.Size = new System.Drawing.Size(186, 23);
+            this.cmdEliminar.TabIndex = 34;
+            this.cmdEliminar.Text = "Eliminar";
+            this.cmdEliminar.UseVisualStyleBackColor = true;
+            this.cmdEliminar.Click += new System.EventHandler(this.cmdEliminar_Click);
+            // 
             // ModificacionUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(860, 461);
+            this.Controls.Add(this.cmdEliminar);
             this.Controls.Add(this.cmdBorrar);
             this.Controls.Add(this.cmdModificar);
             this.Controls.Add(this.dataGridView1);
@@ -366,7 +378,8 @@
         private System.Windows.Forms.TextBox txtCUIT;
         private System.Windows.Forms.TextBox txtEmailE;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button cmdModificar;
         private System.Windows.Forms.Button cmdBorrar;
+        public System.Windows.Forms.Button cmdEliminar;
+        public System.Windows.Forms.Button cmdModificar;
     }
 }

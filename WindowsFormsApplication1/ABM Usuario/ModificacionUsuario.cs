@@ -20,8 +20,8 @@ namespace WindowsFormsApplication1.ABM_Usuario
         private DataBase db;
         private Cliente unCliente;
         private Empresa unaEmpresa;
-        private ClienteDOA doaCliente;
-        private EmpresaDOA doaEmpresa;
+        private ClienteDOA doaCliente = new ClienteDOA();
+        private EmpresaDOA doaEmpresa = new EmpresaDOA();
 
         public ModificacionUsuario()
         {
@@ -127,9 +127,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
         {
            
             string cadenaDeErrorTipo = "Debe seleccionar un tipo de filtro de busqueda";
+            string cadenaDeErrorTipoUsuario = "Debe seleccionar un tipo de usuario";
             if (cboSeleccion.SelectedIndex == -1)
             {
-                MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                MessageBox.Show(cadenaDeErrorTipoUsuario, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
             }
             if (cboSeleccion.SelectedItem.ToString() == "Cliente")
@@ -258,13 +259,13 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
                 int fila = dataGridView1.CurrentRow.Index;
             
-                int celdaIdCliente = (int)dataGridView1[0, fila].Value;
+                String celdaUserCliente = (String)dataGridView1[0, fila].Value;
 
-                cargarUnClienteSeleccionado(celdaIdCliente);
+                cargarUnClienteSeleccionado(celdaUserCliente);
 
                 this.Hide();
                 AltaUsuario.aus.Show();
-
+                return;
 
 
             }
@@ -274,20 +275,21 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
                 int fila = dataGridView1.CurrentRow.Index;
 
-                int celdaIdEmpresa = (int)dataGridView1[0, fila].Value;
+                String celdaUserEmpresa = (String)dataGridView1[0, fila].Value;
 
-                cargarUnaEmpresaSeleccionada(celdaIdEmpresa);
+                cargarUnaEmpresaSeleccionada(celdaUserEmpresa);
 
                 this.Hide();
                 AltaUsuario.aus.Show();
+                return;
 
             }
        
         }
 
-        private void cargarUnaEmpresaSeleccionada(int idEmpresa)
+        private void cargarUnaEmpresaSeleccionada(String userEmpresa)
         {
-            unaEmpresa = doaEmpresa.crearUnaEmpresa(idEmpresa);
+            unaEmpresa = doaEmpresa.crearUnaEmpresa(userEmpresa);
 
             AltaUsuario.aus.esAltaUsuario = 0;
             AltaUsuario.aus.rbEmpresa.Checked = true;
@@ -308,27 +310,29 @@ namespace WindowsFormsApplication1.ABM_Usuario
             AltaUsuario.aus.txtNombreContEmpresa.Text =unaEmpresa.nombreContacto;
             AltaUsuario.aus.lblRubroSel.Text = unaEmpresa.rubro;
         }
-        private void cargarUnClienteSeleccionado(int idCliente)
+        private void cargarUnClienteSeleccionado(String userCliente)
         {
-            unCliente = doaCliente.crearUnCliente(idCliente);
+            unCliente = doaCliente.crearUnCliente(userCliente);
 
-            AltaUsuario.aus.esAltaUsuario = 0;
-            AltaUsuario.aus.rbCliente.Checked = true;
+            AltaUsuario aus = new AltaUsuario();
+            aus.esAltaUsuario = 0;
+            aus.rbCliente.Checked = true;
 
-            AltaUsuario.aus.txtUsuario.Text = unCliente.username;
-            AltaUsuario.aus.txtPassword.Text =unCliente.password;
-            AltaUsuario.aus.txtTelCliente.Text =Convert.ToString(unCliente.telefono);
-            AltaUsuario.aus.txtDpto.Text =unCliente.departamento;
-            AltaUsuario.aus.txtCalle.Text =unCliente.calle;
-            AltaUsuario.aus.txtPiso.Text =Convert.ToString(unCliente.piso);
-            AltaUsuario.aus.txtLocalidad.Text =unCliente.localidad;
-            AltaUsuario.aus.txtApellidoCliente.Text =unCliente.apellido;
-            AltaUsuario.aus.txtNombreCliente.Text =unCliente.nombre;
-            AltaUsuario.aus.txtDNICliente.Text =Convert.ToString(unCliente.dni);
-            AltaUsuario.aus.cboTipoCliente.SelectedItem =unCliente.tipoDocumento; 
-            AltaUsuario.aus.txtMail.Text =unCliente.mail;
-            AltaUsuario.aus.txtCodPos.Text =Convert.ToString(unCliente.codPostal);
-            AltaUsuario.aus.dtpCreacion.Value = unCliente.nacimiento;
+            aus.txtUsuario.Text = unCliente.username;
+            aus.txtPassword.Text =unCliente.password;
+            aus.txtTelCliente.Text =Convert.ToString(unCliente.telefono);
+            aus.txtDpto.Text =unCliente.departamento;
+            aus.txtCalle.Text =unCliente.calle;
+            aus.txtPiso.Text =Convert.ToString(unCliente.piso);
+            aus.txtLocalidad.Text =unCliente.localidad;
+            aus.txtApellidoCliente.Text =unCliente.apellido;
+            aus.txtNombreCliente.Text =unCliente.nombre;
+            aus.txtDNICliente.Text =Convert.ToString(unCliente.dni);
+            aus.cboTipoCliente.SelectedItem =unCliente.tipoDocumento; 
+            aus.txtMail.Text =unCliente.mail;
+            aus.txtCodPos.Text =Convert.ToString(unCliente.codPostal);
+            aus.dtpCreacion.Value = unCliente.nacimiento;
+            aus.txtNumero.Text = Convert.ToString(unCliente.numero);
             }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -348,6 +352,32 @@ namespace WindowsFormsApplication1.ABM_Usuario
             txtEmailC.Text = "";
             txtDNI.Text = "";
             txtNombre.Text = "";
+        }
+
+        private void cmdEliminar_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+
+                MessageBox.Show("Debe seleccionar un usuario a modificar", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+            if (cboSeleccion.SelectedItem.ToString() == "Cliente")
+            {
+
+
+                
+
+
+
+            }
+            if (cboSeleccion.SelectedItem.ToString() == "Empresa")
+            {
+
+
+              
+
+            }
         }
     }
 }

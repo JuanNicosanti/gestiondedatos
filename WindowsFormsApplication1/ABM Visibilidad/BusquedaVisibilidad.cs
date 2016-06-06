@@ -17,12 +17,14 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         SqlDataReader sdr;
         SqlDataAdapter adapter;
         private DataBase db;
+        public static BusquedaVisibilidad bVisi;
         public int fila;
         
         public BusquedaVisibilidad()
         {
             InitializeComponent();
             db = DataBase.GetInstance();
+            BusquedaVisibilidad.bVisi = this;
         }
 
         private void BusquedaVisibilidad_Load(object sender, EventArgs e)
@@ -93,7 +95,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
 
         private void cmdVolver_Click(object sender, EventArgs e)
         {
-            WindowsFormsApplication1.ABM_Visibilidad.ABMVisibilidad.abmVis.Show();
+            WindowsFormsApplication1.Form1.f1.Show();
             this.Close();
         }
 

@@ -61,7 +61,7 @@
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(297, 25);
+            this.lblUsuario.Location = new System.Drawing.Point(290, 25);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(10, 13);
             this.lblUsuario.TabIndex = 3;
@@ -143,17 +143,16 @@
             // 
             // cmdVerVisibilidad
             // 
-            this.cmdVerVisibilidad.Location = new System.Drawing.Point(228, 107);
+            this.cmdVerVisibilidad.Location = new System.Drawing.Point(12, 78);
             this.cmdVerVisibilidad.Name = "cmdVerVisibilidad";
             this.cmdVerVisibilidad.Size = new System.Drawing.Size(111, 23);
             this.cmdVerVisibilidad.TabIndex = 8;
             this.cmdVerVisibilidad.Text = "Ver visibilidad";
             this.cmdVerVisibilidad.UseVisualStyleBackColor = true;
-            this.cmdVerVisibilidad.Click += new System.EventHandler(this.button1_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(228, 136);
+            this.button1.Location = new System.Drawing.Point(12, 107);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(111, 23);
             this.button1.TabIndex = 10;
@@ -163,7 +162,7 @@
             // 
             // cmdBajaRol
             // 
-            this.cmdBajaRol.Location = new System.Drawing.Point(228, 166);
+            this.cmdBajaRol.Location = new System.Drawing.Point(12, 136);
             this.cmdBajaRol.Name = "cmdBajaRol";
             this.cmdBajaRol.Size = new System.Drawing.Size(111, 23);
             this.cmdBajaRol.TabIndex = 11;
@@ -173,7 +172,7 @@
             // 
             // cmdModificarRol
             // 
-            this.cmdModificarRol.Location = new System.Drawing.Point(228, 193);
+            this.cmdModificarRol.Location = new System.Drawing.Point(12, 165);
             this.cmdModificarRol.Name = "cmdModificarRol";
             this.cmdModificarRol.Size = new System.Drawing.Size(111, 23);
             this.cmdModificarRol.TabIndex = 12;
