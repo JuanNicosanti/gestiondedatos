@@ -340,6 +340,9 @@ namespace WindowsFormsApplication1
             
             if ((string)clickedItem.Tag == "Comprar/Ofertar")
             {
+                WindowsFormsApplication1.ComprarOfertar.ComprarOfertar cF = new WindowsFormsApplication1.ComprarOfertar.ComprarOfertar();
+                cF.Show();
+                this.Hide();
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
