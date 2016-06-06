@@ -862,21 +862,26 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Baja_Usuario
 GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Comisiones_Visibilidad
+	@UserId nvarchar(255)
 	as
 	begin
-		select Descripcion
-		from ROAD_TO_PROYECTO.Visibilidad
-		 order by Descripcion
-	end
-GO
-
-CREATE PROCEDURE ROAD_TO_PROYECTO.Lista_Visibilidades
-	@Descripcion nvarchar(255),
-	@ComiFija numeric(18,2)
-	as
-	begin
-		select * from ROAD_TO_PROYECTO.Visibilidad 
-		where Descripcion = @Descripcion and ComiFija < @ComiFija
+		declare @cantPubli int
+		select @cantPubli = COUNT(*)
+		from ROAD_TO_PROYECTO.Publicacion
+		where UserId = @UserId
+		if(@cantPubli = 0)
+		begin
+			select Descripcion
+			from ROAD_TO_PROYECTO.Visibilidad
+			order by Descripcion
+		end
+		if(@cantPubli > 0)
+		begin
+			select Descripcion
+			from ROAD_TO_PROYECTO.Visibilidad
+			where Descripcion != 'Gratis'
+			order by Descripcion
+		end
 	end
 GO
 

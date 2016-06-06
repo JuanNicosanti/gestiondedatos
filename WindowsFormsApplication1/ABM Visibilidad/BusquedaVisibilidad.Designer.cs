@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.panelFiltros = new System.Windows.Forms.Panel();
+            this.tbComiEnvio = new System.Windows.Forms.TextBox();
+            this.tbComiVariable = new System.Windows.Forms.TextBox();
             this.cmdLimpiarFiltros = new System.Windows.Forms.Button();
             this.cmdBuscar = new System.Windows.Forms.Button();
             this.tbComiFija = new System.Windows.Forms.TextBox();
@@ -43,8 +45,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbComiVariable = new System.Windows.Forms.TextBox();
-            this.tbComiEnvio = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.panelFiltros.SuspendLayout();
             this.panelResultados.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -53,6 +55,8 @@
             // 
             // panelFiltros
             // 
+            this.panelFiltros.Controls.Add(this.label4);
+            this.panelFiltros.Controls.Add(this.label3);
             this.panelFiltros.Controls.Add(this.tbComiEnvio);
             this.panelFiltros.Controls.Add(this.tbComiVariable);
             this.panelFiltros.Controls.Add(this.cmdLimpiarFiltros);
@@ -63,12 +67,26 @@
             this.panelFiltros.Controls.Add(this.label1);
             this.panelFiltros.Location = new System.Drawing.Point(9, 33);
             this.panelFiltros.Name = "panelFiltros";
-            this.panelFiltros.Size = new System.Drawing.Size(430, 88);
+            this.panelFiltros.Size = new System.Drawing.Size(440, 115);
             this.panelFiltros.TabIndex = 4;
+            // 
+            // tbComiEnvio
+            // 
+            this.tbComiEnvio.Location = new System.Drawing.Point(177, 58);
+            this.tbComiEnvio.Name = "tbComiEnvio";
+            this.tbComiEnvio.Size = new System.Drawing.Size(100, 20);
+            this.tbComiEnvio.TabIndex = 7;
+            // 
+            // tbComiVariable
+            // 
+            this.tbComiVariable.Location = new System.Drawing.Point(177, 84);
+            this.tbComiVariable.Name = "tbComiVariable";
+            this.tbComiVariable.Size = new System.Drawing.Size(100, 20);
+            this.tbComiVariable.TabIndex = 6;
             // 
             // cmdLimpiarFiltros
             // 
-            this.cmdLimpiarFiltros.Location = new System.Drawing.Point(321, 36);
+            this.cmdLimpiarFiltros.Location = new System.Drawing.Point(320, 26);
             this.cmdLimpiarFiltros.Name = "cmdLimpiarFiltros";
             this.cmdLimpiarFiltros.Size = new System.Drawing.Size(75, 23);
             this.cmdLimpiarFiltros.TabIndex = 5;
@@ -78,7 +96,7 @@
             // 
             // cmdBuscar
             // 
-            this.cmdBuscar.Location = new System.Drawing.Point(321, 4);
+            this.cmdBuscar.Location = new System.Drawing.Point(320, 61);
             this.cmdBuscar.Name = "cmdBuscar";
             this.cmdBuscar.Size = new System.Drawing.Size(75, 23);
             this.cmdBuscar.TabIndex = 4;
@@ -88,7 +106,7 @@
             // 
             // tbComiFija
             // 
-            this.tbComiFija.Location = new System.Drawing.Point(177, 38);
+            this.tbComiFija.Location = new System.Drawing.Point(177, 32);
             this.tbComiFija.Name = "tbComiFija";
             this.tbComiFija.Size = new System.Drawing.Size(100, 20);
             this.tbComiFija.TabIndex = 3;
@@ -103,11 +121,12 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 41);
+            this.label2.Location = new System.Drawing.Point(3, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(168, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Comisión por publicación menor a:";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
             // 
@@ -123,7 +142,7 @@
             this.panelResultados.Controls.Add(this.cmdEliminar);
             this.panelResultados.Controls.Add(this.cmdModificar);
             this.panelResultados.Controls.Add(this.dataGridView1);
-            this.panelResultados.Location = new System.Drawing.Point(9, 144);
+            this.panelResultados.Location = new System.Drawing.Point(8, 169);
             this.panelResultados.Name = "panelResultados";
             this.panelResultados.Size = new System.Drawing.Size(450, 195);
             this.panelResultados.TabIndex = 5;
@@ -162,7 +181,7 @@
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(201, 360);
+            this.cmdVolver.Location = new System.Drawing.Point(383, 363);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(75, 23);
             this.cmdVolver.TabIndex = 6;
@@ -198,19 +217,23 @@
             this.salirToolStripMenuItem.Text = "Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
-            // tbComiVariable
+            // label3
             // 
-            this.tbComiVariable.Location = new System.Drawing.Point(9, 58);
-            this.tbComiVariable.Name = "tbComiVariable";
-            this.tbComiVariable.Size = new System.Drawing.Size(100, 20);
-            this.tbComiVariable.TabIndex = 6;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 61);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(156, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Comisión por producto menor a:";
             // 
-            // tbComiEnvio
+            // label4
             // 
-            this.tbComiEnvio.Location = new System.Drawing.Point(116, 58);
-            this.tbComiEnvio.Name = "tbComiEnvio";
-            this.tbComiEnvio.Size = new System.Drawing.Size(100, 20);
-            this.tbComiEnvio.TabIndex = 7;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 87);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(142, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Comisión por envío menor a:";
             // 
             // BusquedaVisibilidad
             // 
@@ -257,6 +280,8 @@
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.TextBox tbComiEnvio;
         private System.Windows.Forms.TextBox tbComiVariable;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
 
     }
 }
