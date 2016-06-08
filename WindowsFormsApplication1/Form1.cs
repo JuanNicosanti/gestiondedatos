@@ -138,7 +138,7 @@ namespace WindowsFormsApplication1
                     String unaFuncion = sdr["Descripcion"].ToString();
                     if (unaFuncion == "ABM Rol" || unaFuncion == "ABM Usuario" || unaFuncion == "ABM Visibilidad")
                     {
-                        cargarMiniMenuABM(unMenuToolStripMenuItem);
+                        cargarMiniMenuABM(unMenuToolStripMenuItem, unaFuncion);
                     }
                     unMenuToolStripMenuItem.Click += new EventHandler(funcionesPorRol_Click);
                     
@@ -152,7 +152,7 @@ namespace WindowsFormsApplication1
             
         }
 
-        private void cargarMiniMenuABM(ToolStripMenuItem unMenuToolStripMenuItem){
+        private void cargarMiniMenuABM(ToolStripMenuItem unMenuToolStripMenuItem,String unaFuncion){
             ToolStripMenuItem menuAltaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             menuAltaToolStripMenuItem.Name = "Alta";
             menuAltaToolStripMenuItem.Text = "Alta";
@@ -173,7 +173,23 @@ namespace WindowsFormsApplication1
             menuModificarToolStripMenuItem.Tag = "Modificar";
             menuModificarToolStripMenuItem.Click += new EventHandler(modificar_Click);
             unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuModificarToolStripMenuItem });
+            /*if (unaFuncion == "ABM Usuario")
+            {
+                menuModificarToolStripMenuItem.Name = "Cambiar contraseña";
+                menuModificarToolStripMenuItem.Text = "Cambiar contraseña";
+                menuModificarToolStripMenuItem.Tag = "Cambiar contraseña";
+                menuModificarToolStripMenuItem.Click += new EventHandler(cambiarContrasenia_Click);
+                unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuModificarToolStripMenuItem });
+            }*/
         }
+
+        private void cambiarContrasenia_Click(object sender, EventArgs e) {
+            WindowsFormsApplication1.ABM_Usuario.CambiarContrasenia cambiarContra = new WindowsFormsApplication1.ABM_Usuario.CambiarContrasenia();
+            cambiarContra.soyAdmin = true;
+            cambiarContra.Show();
+            this.Hide();
+        }
+
 
         private void alta_Click(object sender, EventArgs e)
         {
@@ -226,6 +242,7 @@ namespace WindowsFormsApplication1
             {
                 WindowsFormsApplication1.ABM_Usuario.ModificacionUsuario mdUsuario = new WindowsFormsApplication1.ABM_Usuario.ModificacionUsuario();
                 mdUsuario.cmdModificar.Visible = false;
+                mdUsuario.esModificar = false;
                 mdUsuario.cmdEliminar.Visible = true;
                 mdUsuario.Show();
                 seleccionoUsuario = false;
@@ -262,6 +279,7 @@ namespace WindowsFormsApplication1
             {
                 WindowsFormsApplication1.ABM_Usuario.ModificacionUsuario mdUsuario = new WindowsFormsApplication1.ABM_Usuario.ModificacionUsuario();
                 mdUsuario.cmdModificar.Visible = true;
+                mdUsuario.esModificar = true;
                 mdUsuario.cmdEliminar.Visible = false;
                 mdUsuario.Show();
                 seleccionoUsuario = false;

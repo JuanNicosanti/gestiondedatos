@@ -57,6 +57,9 @@
             this.cmdModificar = new System.Windows.Forms.Button();
             this.cmdBorrar = new System.Windows.Forms.Button();
             this.cmdEliminar = new System.Windows.Forms.Button();
+            this.lblRoles = new System.Windows.Forms.Label();
+            this.lstRoles = new System.Windows.Forms.ListBox();
+            this.cmdAsignarRol = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -110,7 +113,7 @@
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(662, 393);
+            this.cmdVolver.Location = new System.Drawing.Point(640, 393);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(186, 23);
             this.cmdVolver.TabIndex = 13;
@@ -126,7 +129,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(860, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1046, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -142,7 +145,7 @@
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
             this.statusStrip1.Location = new System.Drawing.Point(0, 439);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(860, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1046, 22);
             this.statusStrip1.TabIndex = 15;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -211,7 +214,7 @@
             // 
             // cmdBusqueda
             // 
-            this.cmdBusqueda.Location = new System.Drawing.Point(19, 393);
+            this.cmdBusqueda.Location = new System.Drawing.Point(12, 393);
             this.cmdBusqueda.Name = "cmdBusqueda";
             this.cmdBusqueda.Size = new System.Drawing.Size(186, 23);
             this.cmdBusqueda.TabIndex = 23;
@@ -279,7 +282,7 @@
             // 
             // cmdModificar
             // 
-            this.cmdModificar.Location = new System.Drawing.Point(438, 393);
+            this.cmdModificar.Location = new System.Drawing.Point(434, 393);
             this.cmdModificar.Name = "cmdModificar";
             this.cmdModificar.Size = new System.Drawing.Size(186, 23);
             this.cmdModificar.TabIndex = 32;
@@ -289,7 +292,7 @@
             // 
             // cmdBorrar
             // 
-            this.cmdBorrar.Location = new System.Drawing.Point(225, 393);
+            this.cmdBorrar.Location = new System.Drawing.Point(222, 393);
             this.cmdBorrar.Name = "cmdBorrar";
             this.cmdBorrar.Size = new System.Drawing.Size(186, 23);
             this.cmdBorrar.TabIndex = 33;
@@ -299,7 +302,7 @@
             // 
             // cmdEliminar
             // 
-            this.cmdEliminar.Location = new System.Drawing.Point(438, 393);
+            this.cmdEliminar.Location = new System.Drawing.Point(433, 393);
             this.cmdEliminar.Name = "cmdEliminar";
             this.cmdEliminar.Size = new System.Drawing.Size(186, 23);
             this.cmdEliminar.TabIndex = 34;
@@ -307,12 +310,46 @@
             this.cmdEliminar.UseVisualStyleBackColor = true;
             this.cmdEliminar.Click += new System.EventHandler(this.cmdEliminar_Click);
             // 
+            // lblRoles
+            // 
+            this.lblRoles.AllowDrop = true;
+            this.lblRoles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblRoles.Location = new System.Drawing.Point(854, 29);
+            this.lblRoles.Name = "lblRoles";
+            this.lblRoles.Size = new System.Drawing.Size(146, 342);
+            this.lblRoles.TabIndex = 36;
+            this.lblRoles.Text = "Roles disponibles";
+            this.lblRoles.Visible = false;
+            // 
+            // lstRoles
+            // 
+            this.lstRoles.FormattingEnabled = true;
+            this.lstRoles.Location = new System.Drawing.Point(865, 48);
+            this.lstRoles.Name = "lstRoles";
+            this.lstRoles.Size = new System.Drawing.Size(120, 316);
+            this.lstRoles.TabIndex = 37;
+            this.lstRoles.Visible = false;
+            // 
+            // cmdAsignarRol
+            // 
+            this.cmdAsignarRol.Location = new System.Drawing.Point(844, 393);
+            this.cmdAsignarRol.Name = "cmdAsignarRol";
+            this.cmdAsignarRol.Size = new System.Drawing.Size(186, 23);
+            this.cmdAsignarRol.TabIndex = 38;
+            this.cmdAsignarRol.Text = "Asignar rol";
+            this.cmdAsignarRol.UseVisualStyleBackColor = true;
+            this.cmdAsignarRol.Visible = false;
+            this.cmdAsignarRol.Click += new System.EventHandler(this.cmdAsignarRol_Click);
+            // 
             // ModificacionUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(860, 461);
+            this.ClientSize = new System.Drawing.Size(1046, 461);
+            this.Controls.Add(this.cmdAsignarRol);
+            this.Controls.Add(this.lstRoles);
+            this.Controls.Add(this.lblRoles);
             this.Controls.Add(this.cmdEliminar);
             this.Controls.Add(this.cmdBorrar);
             this.Controls.Add(this.cmdModificar);
@@ -381,5 +418,8 @@
         private System.Windows.Forms.Button cmdBorrar;
         public System.Windows.Forms.Button cmdEliminar;
         public System.Windows.Forms.Button cmdModificar;
+        public System.Windows.Forms.Label lblRoles;
+        public System.Windows.Forms.ListBox lstRoles;
+        public System.Windows.Forms.Button cmdAsignarRol;
     }
 }

@@ -54,18 +54,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(228, 25);
+            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(201, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 13);
+            this.label1.Size = new System.Drawing.Size(83, 16);
             this.label1.TabIndex = 2;
             this.label1.Text = "Bienvenido:";
             // 
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(290, 25);
+            this.lblUsuario.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.Location = new System.Drawing.Point(282, 25);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(10, 13);
+            this.lblUsuario.Size = new System.Drawing.Size(11, 14);
             this.lblUsuario.TabIndex = 3;
             this.lblUsuario.Text = " ";
             // 
@@ -88,7 +90,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(352, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(373, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -139,7 +141,7 @@
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
             this.statusStrip1.Location = new System.Drawing.Point(0, 219);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(352, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(373, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -197,7 +199,7 @@
             // 
             // cmdCOmprar
             // 
-            this.cmdCOmprar.Location = new System.Drawing.Point(215, 93);
+            this.cmdCOmprar.Location = new System.Drawing.Point(215, 107);
             this.cmdCOmprar.Name = "cmdCOmprar";
             this.cmdCOmprar.Size = new System.Drawing.Size(75, 23);
             this.cmdCOmprar.TabIndex = 13;
@@ -220,7 +222,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(352, 241);
+            this.ClientSize = new System.Drawing.Size(373, 241);
             this.Controls.Add(this.cmdHist);
             this.Controls.Add(this.cmdCOmprar);
             this.Controls.Add(this.cmdModificarRol);

@@ -23,6 +23,8 @@ namespace WindowsFormsApplication1.ABM_Usuario
         private ClienteDOA doaCliente = new ClienteDOA();
         private EmpresaDOA doaEmpresa = new EmpresaDOA();
 
+        public Boolean esModificar;
+
         public ModificacionUsuario()
         {
             InitializeComponent();
@@ -47,6 +49,15 @@ namespace WindowsFormsApplication1.ABM_Usuario
             lblDNI.Visible = false;
             lblEmailC.Visible = false;
             lblNombre.Visible = false;
+
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.ListaRoles", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Rol");
+            adapter.Fill(dt);
+            this.lstRoles.DataSource = dt;
+            this.lstRoles.DisplayMember = "Nombre";
 
 
              
@@ -236,13 +247,16 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable("ROAD_TO_PROYECTO.Empresa");
                 adapter.Fill(dt);
-                this.dataGridView1.DataSource = dt;
-
-       
-        
-
+                this.dataGridView1.DataSource = dt;      
 
             }
+            if (esModificar)
+            {
+                lstRoles.Visible = true;
+                cmdAsignarRol.Visible = true;
+                lblRoles.Visible = true;
+            }
+           
         }
 
         private void cmdModificar_Click(object sender, EventArgs e)
@@ -353,6 +367,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
             txtEmailC.Text = "";
             txtDNI.Text = "";
             txtNombre.Text = "";
+
+            lblRoles.Visible = false;
+            lstRoles.Visible = false;
+            cmdAsignarRol.Visible = false;
         }
 
         private void cmdEliminar_Click(object sender, EventArgs e)
@@ -380,6 +398,28 @@ namespace WindowsFormsApplication1.ABM_Usuario
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Baja_Usuario", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = celdaUser;
+            cmd.ExecuteNonQuery();
+        }
+
+        private void cmdAsignarRol_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+
+                MessageBox.Show("Debe seleccionar un usuario a asignarle un rol", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+
+            int fila = dataGridView1.CurrentRow.Index;
+
+            String celdaUser = (String)dataGridView1[0, fila].Value;
+            String nuevoRol = lstRoles.SelectedValue.ToString();
+
+            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Asignar_Rol_A_Usuario", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = celdaUser;
+            cmd.Parameters.AddWithValue("@Rol", SqlDbType.NVarChar).Value = nuevoRol;
             cmd.ExecuteNonQuery();
         }
     

@@ -188,6 +188,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "CambiarContrasenia";
             this.Text = "CambiarContrasenia";
+            this.Load += new System.EventHandler(this.CambiarContrasenia_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

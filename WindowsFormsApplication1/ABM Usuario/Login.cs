@@ -184,6 +184,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
         private void cmdCambiarContrasenia_Click(object sender, EventArgs e)
         {
             CambiarContrasenia cambioContrasenia = new CambiarContrasenia();
+            cambioContrasenia.soyAdmin = false;
             cambioContrasenia.Show();
             this.Hide();
         }

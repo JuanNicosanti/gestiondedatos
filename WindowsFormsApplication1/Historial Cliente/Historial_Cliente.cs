@@ -166,6 +166,13 @@ namespace WindowsFormsApplication1.Historial_Cliente
 
         private void cmdVerHistorial_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.CurrentRow == null)
+            {
+
+                MessageBox.Show("Debe seleccionar un cliente para revisar su historial de compras/subastas", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+
             int fila = dataGridView1.CurrentRow.Index;
             int clienteID = (int)dataGridView1[0, fila].Value;
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Historial_Cliente", db.Connection);
