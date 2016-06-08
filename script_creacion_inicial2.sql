@@ -1215,12 +1215,12 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Consulta_Facturas_Vendedor
 GO
 
 --Filtrado inicial de publicaciones. FALTA MUCHO
-CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
+ALTER PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 	@Rubros nvarchar(1000),
 	@PubliDesc nvarchar(255)
 	as begin
-		DROP TABLE ROAD_TO_PROYECTO.##parametros;
-		DROP TABLE ROAD_TO_PROYECTO.#temporalPublic;
+		IF OBJECT_ID('ROAD_TO_PROYECTO.##parametros') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.##parametros
+		IF OBJECT_ID('ROAD_TO_PROYECTO.#temporalPublic') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#temporalPublic
 
 		EXECUTE ROAD_TO_PROYECTO.RecibirParametros @Parametros = @Rubros
 
@@ -1237,7 +1237,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 		)
 
 		declare @RubroId int, @param varchar(1000)
-		declare c1 cursor for SELECT * FROM ROAD_TO_PROYECTO.parametros
+		declare c1 cursor for SELECT * FROM ROAD_TO_PROYECTO.##parametros
 		open c1
 		fetch from c1 into @RubroId, @param
 		while @@FETCH_STATUS = 0
@@ -1299,7 +1299,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos
 GO
 
 --Clientes con mayor cantidad de productos comprados
-CREATE PROCEDURE ROAD_TO_PROYECTO.Clientes_Producots_Comprados
+CREATE PROCEDURE ROAD_TO_PROYECTO.Clientes_Productos_Comprados
 	@Trimestre int,
 	@Año int,
 	@RubroDesc nvarchar(255)
@@ -1321,7 +1321,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cantidad_Facturas_Vendedores
 	@Trimestre int,
 	@Año int
 	as begin
-		DROP TABLE ROAD_TO_PROYECTO.#consulta3;
+		IF OBJECT_ID('ROAD_TO_PROYECTO.#consulta3') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#consulta3
 		create table ROAD_TO_PROYECTO.#consulta3(
 		Usuario nvarchar(255),
 		Detalle nvarchar(255),
@@ -1357,7 +1357,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Monto_Facturado_Vendedor
 	@Trimestre int,
 	@Año int
 	as begin
-		DROP TABLE ROAD_TO_PROYECTO.#consulta4;
+		IF OBJECT_ID('ROAD_TO_PROYECTO.#consulta4') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#consulta4
 		create table ROAD_TO_PROYECTO.#consulta4(
 		Usuario nvarchar(255),
 		Detalle nvarchar(255),

@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1.Historial_Cliente
 {
-    public partial class Form1 : Form
+    public partial class Historial_Cliente : Form
     {
-        public Form1()
+        public Historial_Cliente()
         {
             InitializeComponent();
+        }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

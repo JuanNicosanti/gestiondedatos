@@ -242,7 +242,7 @@ WindowsFormsApplication1.ComprarOfertar
                 listaDeRubrosFiltros += lstRubrosElegidos.Items[i].ToString() +",";
             }
             descripcionFiltros = txtDescripcion.Text.ToString();
-
+            listaDeRubrosFiltros = listaDeRubrosFiltros.TrimEnd(',');
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Publicaciones", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
 
