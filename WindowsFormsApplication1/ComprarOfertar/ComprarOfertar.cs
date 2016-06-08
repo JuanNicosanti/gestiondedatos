@@ -71,35 +71,7 @@ WindowsFormsApplication1.ComprarOfertar
             
         }
 
-       /* private void cmdBuscar_Click(object sender, EventArgs e)
-        {
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Publicaciones", db.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            //cmd.Parameters.AddWithValue("@PubliDesc", SqlDbType.NVarChar).Value = "Descripcion Publicación 212351";
-            cmd.Parameters.AddWithValue("@RubroDesc", SqlDbType.NVarChar).Value = "Accesorios para Audio y Video";
-            adapter = new SqlDataAdapter(cmd);
-            dtPublicaciones = new DataTable("ROAD_TO_PROYECTO.Publicacion");
-            adapter.Fill(dtPublicaciones);
-
-            //this.dataGridView1.DataSource = dtPublicaciones;           // 
-            if (dtPublicaciones.Rows.Count > 0)
-            {
-                this.numPaginas(); //Funcion para calcular el numero total de paginas que tendra nuestra vista
-                this.paginar();//empezamos con la paginacion             
-                lblCantidadTotal.Text = "Publicaciones Encontradas: " + dtPublicaciones.Rows.Count.ToString();//Cantidad totoal de registros encontrados
-                cantidadMaximaDeFilas = dtPublicaciones.Rows.Count;
-                dataGridView1.Select();
-            }
-            else
-            {
-                dataGridView1.Rows.Clear();//En el caso de que la busqueda no genere ningun registro limopiamos el datagridview
-
-                lblCantidadTotal.Text = "Publicaciones Encontradas: 0";
-                cantidadMaximaDeFilas = 0;
-            }
-        }*/
-
+     
         private void paginar()
         {
             nroPagina = Convert.ToInt32(lblPaginaActual.Text);//Obtenemos el numero de paginaactual 
