@@ -1222,7 +1222,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 		DROP TABLE ROAD_TO_PROYECTO.##parametros;
 		DROP TABLE ROAD_TO_PROYECTO.#temporalPublic;
 
-		EXECUTE RecibirParametros @Parametros = @Rubros
+		EXECUTE ROAD_TO_PROYECTO.RecibirParametros @Parametros = @Rubros
 
 		create table ROAD_TO_PROYECTO.#temporalPublic(
 		PublId int PRIMARY KEY,
@@ -1256,7 +1256,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 	end
 GO
 
-CREATE PROCEDURE RecibirParametros @Parametros varchar(1000)
+CREATE PROCEDURE ROAD_TO_PROYECTO.RecibirParametros @Parametros varchar(1000)
 --@Parametros es la cadena de entrada
 AS
 --Creamos una tabla temporal por simplificar el trabajo y almacenar los parametros que vayamos obteniendo
