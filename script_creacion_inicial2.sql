@@ -1020,9 +1020,11 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	@PubliId int,
 	--@FechaActual datetime,
 	@Cantidad numeric(18,0),
-	@CompradorId int, --Es cliente, no usuario, por eso es int y no nvarchar(255)
+	@Usuario nvarchar(255), --Es cliente, no usuario, por eso es int y no nvarchar(255)
 	@ConEnvio bit
 	as begin
+		declare @CompradorId int 
+		set @CompradorId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
 		--Verific si la cantidad a comprar es menor que el stock disponible
 		if((select Stock from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) > @Cantidad)
 		begin
@@ -1037,9 +1039,11 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	@PubliId int,
 	--@FechaActual datetime,
 	@MontoOferta numeric(18,2),
-	@OfertanteId int, --Es cliente, no usuario, por eso es int y no nvarchar(255)
+	@Usuario nvarchar(255), --Es cliente, no usuario, por eso es int y no nvarchar(255)
 	@ConEnvio bit
 	as begin
+		declare @OfertanteId int 
+		set @OfertanteId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
 		--Verifico que la oferta sea mayor al precio actual de la subasta
 		if((select Precio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) < @MontoOferta)
 --		if((select top 1 Monto from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId and TipoTransac = 'Oferta' order by Monto desc) < @MontoOferta)
@@ -1214,15 +1218,41 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Consulta_Facturas_Vendedor
 	end
 GO
 
---Filtrado inicial de publicaciones. FALTA MUCHO
-ALTER PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
-	@Rubros nvarchar(1000),
+--Filtrado inicial de publicaciones.
+CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
+	@Parametros nvarchar(1000),
 	@PubliDesc nvarchar(255)
 	as begin
-		IF OBJECT_ID('ROAD_TO_PROYECTO.##parametros') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.##parametros
+		IF OBJECT_ID('ROAD_TO_PROYECTO.#parametros') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#parametros
 		IF OBJECT_ID('ROAD_TO_PROYECTO.#temporalPublic') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#temporalPublic
 
-		EXECUTE ROAD_TO_PROYECTO.RecibirParametros @Parametros = @Rubros
+		--EXECUTE ROAD_TO_PROYECTO.RecibirParametros @Parametros = @Rubros
+
+		CREATE TABLE ROAD_TO_PROYECTO.#parametros (RubrId int primary key, parametro varchar(1000))
+		SET NOCOUNT ON
+		--El separador de nuestros parametros sera una ,
+		DECLARE @Posicion int
+		--@Posicion es la posicion de cada uno de nuestros separadores
+		DECLARE @Parametro varchar(1000)
+		--@Parametro es cada uno de los valores obtenidos que almacenaremos en #parametros
+		SET @Parametros = @Parametros + ','
+		--Colocamos un separador al final de los parametros para que funcione bien nuestro codigo
+		--Hacemos un bucle que se repite mientras haya separadores
+		WHILE patindex('%,%' , @Parametros) <> 0
+		--patindex busca un patron en una cadena y nos devuelve su posicion
+		BEGIN
+		  SELECT @Posicion =  patindex('%,%' , @Parametros)
+		  --Buscamos la posicion de la primera ,
+		  SELECT @Parametro = left(@Parametros, @Posicion - 1)
+		  --Y cogemos los caracteres hasta esa posicion
+		  INSERT INTO ROAD_TO_PROYECTO.#parametros values ((select RubrId from ROAD_TO_PROYECTO.Rubro where DescripLarga = @Parametro), @Parametro)
+		  --y ese parámetro lo guardamos en la tabla temporal
+		  --Reemplazamos lo procesado con nada con la funcion stuff
+		  SELECT @Parametros = stuff(@Parametros, 1, @Posicion, '')
+		END
+		--Y cuando se han recorrido todos los parametros sacamos por pantalla el resultado
+		--SELECT * FROM ROAD_TO_PROYECTO.##parametros
+		SET NOCOUNT OFF
 
 		create table ROAD_TO_PROYECTO.#temporalPublic(
 		PublId int PRIMARY KEY,
@@ -1234,16 +1264,17 @@ ALTER PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 		Rubro nvarchar(255),
 		Tipo nvarchar(255),
 		UserId nvarchar(255),
+		EnvioHabilitado bit
 		)
 
 		declare @RubroId int, @param varchar(1000)
-		declare c1 cursor for SELECT * FROM ROAD_TO_PROYECTO.##parametros
+		declare c1 cursor for SELECT * FROM ROAD_TO_PROYECTO.#parametros
 		open c1
 		fetch from c1 into @RubroId, @param
 		while @@FETCH_STATUS = 0
 		begin
 			insert into ROAD_TO_PROYECTO.#temporalPublic
-			select p.PublId, Descipcion, Stock, FechaInicio, FechaFin, Precio, (select DescripLarga from ROAD_TO_PROYECTO.Rubro where RubrId = @RubroId) as 'Rubro', (select Descipcion from ROAD_TO_PROYECTO.Tipo_Publicacion where TipoPubliId = Tipo) as 'Tipo', p.UserId
+			select p.PublId, Descipcion, Stock, FechaInicio, FechaFin, Precio, (select DescripLarga from ROAD_TO_PROYECTO.Rubro where RubrId = @RubroId) as 'Rubro', (select tp.Descripcion from ROAD_TO_PROYECTO.Tipo_Publicacion tp where tp.TipoPubliId = Tipo) as 'Tipo', p.UserId, p.EnvioHabilitado
 			from ROAD_TO_PROYECTO.Publicacion p
 			where Rubro = @RubroId
 
@@ -1254,37 +1285,6 @@ ALTER PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 		close  c1
 		deallocate c1
 	end
-GO
-
-CREATE PROCEDURE ROAD_TO_PROYECTO.RecibirParametros @Parametros varchar(1000)
---@Parametros es la cadena de entrada
-AS
---Creamos una tabla temporal por simplificar el trabajo y almacenar los parametros que vayamos obteniendo
-CREATE TABLE ROAD_TO_PROYECTO.##parametros (RubrId int primary key, parametro varchar(1000))
-SET NOCOUNT ON
---El separador de nuestros parametros sera una ,
-DECLARE @Posicion int
---@Posicion es la posicion de cada uno de nuestros separadores
-DECLARE @Parametro varchar(1000)
---@Parametro es cada uno de los valores obtenidos que almacenaremos en #parametros
-SET @Parametros = @Parametros + ','
---Colocamos un separador al final de los parametros para que funcione bien nuestro codigo
---Hacemos un bucle que se repite mientras haya separadores
-WHILE patindex('%,%' , @Parametros) <> 0
---patindex busca un patron en una cadena y nos devuelve su posicion
-BEGIN
-  SELECT @Posicion =  patindex('%,%' , @Parametros)
-  --Buscamos la posicion de la primera ,
-  SELECT @Parametro = left(@Parametros, @Posicion - 1)
-  --Y cogemos los caracteres hasta esa posicion
-  INSERT INTO ROAD_TO_PROYECTO.##parametros values ((select RubrId from ROAD_TO_PROYECTO.Rubro where DescripLarga = @Parametro), @Parametro)
-  --y ese parámetro lo guardamos en la tabla temporal
-  --Reemplazamos lo procesado con nada con la funcion stuff
-  SELECT @Parametros = stuff(@Parametros, 1, @Posicion, '')
-END
---Y cuando se han recorrido todos los parametros sacamos por pantalla el resultado
---SELECT * FROM ROAD_TO_PROYECTO.##parametros
-SET NOCOUNT OFF
 GO
 
 --Top 5: listados estadísticos
