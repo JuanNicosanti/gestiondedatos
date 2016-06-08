@@ -149,6 +149,7 @@
             this.cmdVerVisibilidad.TabIndex = 8;
             this.cmdVerVisibilidad.Text = "Ver visibilidad";
             this.cmdVerVisibilidad.UseVisualStyleBackColor = true;
+            this.cmdVerVisibilidad.Click += new System.EventHandler(this.cmdVerVisibilidad_Click);
             // 
             // button1
             // 

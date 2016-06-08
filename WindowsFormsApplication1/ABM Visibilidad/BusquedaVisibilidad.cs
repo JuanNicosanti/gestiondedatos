@@ -14,7 +14,6 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
     public partial class BusquedaVisibilidad : Form
     {
         SqlCommand cmd;
-        SqlDataReader sdr;
         SqlDataAdapter adapter;
         private DataBase db;
         public static BusquedaVisibilidad bVisi;
@@ -30,7 +29,6 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         private void BusquedaVisibilidad_Load(object sender, EventArgs e)
         {
             
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -39,13 +37,16 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         }
 
         private void cmdBuscar_Click(object sender, EventArgs e)
-        {            
+        {       
+            string comiFija = controlarFiltros(tbComiFija.Text);
+            string comiVariable = controlarFiltros(tbComiVariable.Text);
+            string comiEnvio = controlarFiltros(tbComiEnvio.Text);
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Visibilidad", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = tbDescripcion.Text;
-            cmd.Parameters.AddWithValue("@ComiFijaString", SqlDbType.NVarChar).Value = tbComiFija.Text;
-            cmd.Parameters.AddWithValue("@ComiVariableString", SqlDbType.NVarChar).Value = tbComiVariable.Text;
-            cmd.Parameters.AddWithValue("@ComiEnvioString", SqlDbType.NVarChar).Value = tbComiEnvio.Text;
+            cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = tbDescripcion.Text;            
+            cmd.Parameters.AddWithValue("@ComiFijaString", SqlDbType.Int).Value = comiFija;
+            cmd.Parameters.AddWithValue("@ComiVariableString", SqlDbType.Int).Value = comiVariable;
+            cmd.Parameters.AddWithValue("@ComiEnvioString", SqlDbType.Int).Value = comiEnvio;
 
             adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("ROAD_TO_PROYECTO.Visibilidad");
@@ -53,6 +54,20 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
             this.dataGridView1.DataSource = dt;
 
             panelResultados.Visible = true;
+        }
+
+        private string controlarFiltros(string comiFiltro)
+        {
+            string comiDevuelta;
+            if (string.IsNullOrEmpty(comiFiltro))
+            {
+                comiDevuelta = int.MaxValue.ToString();
+            }
+            else
+            {
+                comiDevuelta = comiFiltro;
+            }
+            return comiDevuelta;
         }
 
         private void cmdModificar_Click(object sender, EventArgs e)

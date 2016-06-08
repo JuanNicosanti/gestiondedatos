@@ -1388,6 +1388,16 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Monto_Facturado_Vendedor
 	end
 GO
 
+CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Factura
+	@FactId int
+	as 
+	begin
+		select f.FactNro, f.Fecha, c.Nombres, c.Apellido
+		from ROAD_TO_PROYECTO.Factura f, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Cliente c
+		where f.PubliId = p.PublId and p.UserId = u.Usuario	and u.Usuario = c.ClieId
+	end
+GO
+
 
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert

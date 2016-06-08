@@ -90,14 +90,14 @@
             // 
             // tbComiEnvio
             // 
-            this.tbComiEnvio.Location = new System.Drawing.Point(177, 58);
+            this.tbComiEnvio.Location = new System.Drawing.Point(177, 84);
             this.tbComiEnvio.Name = "tbComiEnvio";
             this.tbComiEnvio.Size = new System.Drawing.Size(100, 20);
             this.tbComiEnvio.TabIndex = 7;
             // 
             // tbComiVariable
             // 
-            this.tbComiVariable.Location = new System.Drawing.Point(177, 84);
+            this.tbComiVariable.Location = new System.Drawing.Point(177, 58);
             this.tbComiVariable.Name = "tbComiVariable";
             this.tbComiVariable.Size = new System.Drawing.Size(100, 20);
             this.tbComiVariable.TabIndex = 6;

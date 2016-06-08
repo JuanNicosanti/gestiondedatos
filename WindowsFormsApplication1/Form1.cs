@@ -396,5 +396,13 @@ namespace WindowsFormsApplication1
         {
 
         }
+
+        private void cmdVerVisibilidad_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.ABM_Visibilidad.BusquedaVisibilidad bVis = new WindowsFormsApplication1.ABM_Visibilidad.BusquedaVisibilidad();
+            bVis.Show();
+            this.Hide();
+            return;
+        }
     }
 }
