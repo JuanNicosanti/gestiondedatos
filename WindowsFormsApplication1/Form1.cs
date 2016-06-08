@@ -404,5 +404,12 @@ namespace WindowsFormsApplication1
             this.Hide();
             return;
         }
+
+        private void cmdCOmprar_Click(object sender, EventArgs e)
+        {
+            ComprarOfertar.ComprarOfertar cf = new ComprarOfertar.ComprarOfertar();
+            cf.Show();
+            this.Hide();
+        }
     }
 }

@@ -94,7 +94,7 @@ namespace WindowsFormsApplication1.ABM_Rol
                 cmd.ExecuteNonQuery();
                 txtNuevoRol.Text = "";
 
-                for (int i = 0; i < lstFuncElegidas.Items.Count - 1; i++)
+                for (int i = 0; i < lstFuncElegidas.Items.Count; i++)
                 {
                     string unaFunc = lstFuncElegidas.Items[i].ToString();
                     SqlCommand cmd2 = new SqlCommand("ROAD_TO_PROYECTO.AsignarFuncionARol", db.Connection);

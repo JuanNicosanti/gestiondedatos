@@ -45,6 +45,7 @@
             this.cmdModificarRol = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.cmdCOmprar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -69,7 +70,7 @@
             // 
             // cmdModificarUsuario
             // 
-            this.cmdModificarUsuario.Location = new System.Drawing.Point(228, 49);
+            this.cmdModificarUsuario.Location = new System.Drawing.Point(12, 49);
             this.cmdModificarUsuario.Name = "cmdModificarUsuario";
             this.cmdModificarUsuario.Size = new System.Drawing.Size(111, 23);
             this.cmdModificarUsuario.TabIndex = 4;
@@ -193,12 +194,23 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // cmdCOmprar
+            // 
+            this.cmdCOmprar.Location = new System.Drawing.Point(215, 93);
+            this.cmdCOmprar.Name = "cmdCOmprar";
+            this.cmdCOmprar.Size = new System.Drawing.Size(75, 23);
+            this.cmdCOmprar.TabIndex = 13;
+            this.cmdCOmprar.Text = "COMPRAROFERTAR";
+            this.cmdCOmprar.UseVisualStyleBackColor = true;
+            this.cmdCOmprar.Click += new System.EventHandler(this.cmdCOmprar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(352, 241);
+            this.Controls.Add(this.cmdCOmprar);
             this.Controls.Add(this.cmdModificarRol);
             this.Controls.Add(this.cmdBajaRol);
             this.Controls.Add(this.button1);
@@ -239,6 +251,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem funcionesToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button cmdCOmprar;
     }
 }
 

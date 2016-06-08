@@ -22,6 +22,8 @@ WindowsFormsApplication1.ComprarOfertar
         private int contadorDeFilas;
         private int cantidadMaximaDeFilas;
         private DataBase db;
+        private String listaDeRubrosFiltros;
+        String descripcionFiltros;
         
         int filasPagina = 10; // Definimos el numero de filas que deseamos ver por pagina
         int nroPagina = 1;//Esto define el numero de pagina actual en al que nos encontramos
@@ -52,10 +54,22 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void ComprarOfertar_Load(object sender, EventArgs e)
         {
+            
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.ListaRubros", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Rubro");
+            adapter.Fill(dt);
+            this.lstRubros.DataSource = dt;
+            this.lstRubros.DisplayMember = "DescripLarga";
 
+            lstRubros.ValueMember = lstRubros.DisplayMember;
+           
+            lstRubrosElegidos.Items.Clear();
+            
         }
 
-        private void cmdBuscar_Click(object sender, EventArgs e)
+       /* private void cmdBuscar_Click(object sender, EventArgs e)
         {
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Publicaciones", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -82,7 +96,7 @@ WindowsFormsApplication1.ComprarOfertar
                 lblCantidadTotal.Text = "Publicaciones Encontradas: 0";
                 cantidadMaximaDeFilas = 0;
             }
-        }
+        }*/
 
         private void paginar()
         {
@@ -103,19 +117,19 @@ WindowsFormsApplication1.ComprarOfertar
             dataGridView1.Rows.Clear();
             int indiceInsertar;//
             numeroRegistro = this.ini;
-            dataGridView1.ColumnCount = 12;
+            dataGridView1.ColumnCount = 9;
             dataGridView1.Columns[0].Name = "PublId";
             dataGridView1.Columns[1].Name = "Descripcion";
             dataGridView1.Columns[2].Name = "Stock";
             dataGridView1.Columns[3].Name = "FechaInicio";
             dataGridView1.Columns[4].Name = "FechaFin";
             dataGridView1.Columns[5].Name = "Precio";
-            dataGridView1.Columns[6].Name = "Visibilidad";
-            dataGridView1.Columns[7].Name = "Rubro";
-            dataGridView1.Columns[8].Name = "Tipo";
-            dataGridView1.Columns[9].Name = "Estado";
-            dataGridView1.Columns[10].Name = "UserId";
-            dataGridView1.Columns[11].Name = "EnvioHabilitado";
+            dataGridView1.Columns[6].Name = "Rubro";
+            dataGridView1.Columns[7].Name = "Tipo";
+            dataGridView1.Columns[8].Name = "UserId";
+            //dataGridView1.Columns[9].Name = "Estado";
+            //dataGridView1.Columns[10].Name = "UserId";
+            //dataGridView1.Columns[11].Name = "EnvioHabilitado";
             contadorDeFilas = 0;
             for (int i = ini; i < filasPagina * nroPagina; i++)
             {
@@ -135,9 +149,9 @@ WindowsFormsApplication1.ComprarOfertar
                 dataGridView1.Rows[contadorDeFilas].Cells[6].Value = fila[6].ToString();
                 dataGridView1.Rows[contadorDeFilas].Cells[7].Value = fila[7].ToString();
                 dataGridView1.Rows[contadorDeFilas].Cells[8].Value = fila[8].ToString();
-                dataGridView1.Rows[contadorDeFilas].Cells[9].Value = fila[9].ToString();
-                dataGridView1.Rows[contadorDeFilas].Cells[10].Value = fila[10].ToString();
-                dataGridView1.Rows[contadorDeFilas].Cells[11].Value = fila[11].ToString();
+                //dataGridView1.Rows[contadorDeFilas].Cells[9].Value = fila[9].ToString();
+                //dataGridView1.Rows[contadorDeFilas].Cells[10].Value = fila[10].ToString();
+                //dataGridView1.Rows[contadorDeFilas].Cells[11].Value = fila[11].ToString();
                 contadorDeFilas++;
 
                 if (numeroRegistro == cantidadMaximaDeFilas && nroPagina == int.Parse(lblTotalPagina.Text))
@@ -165,7 +179,7 @@ WindowsFormsApplication1.ComprarOfertar
             lblPaginaActual.Text = "1";
         }
 
-        private void cmdPrimera_Click(object sender, EventArgs e)
+       /* private void cmdPrimera_Click(object sender, EventArgs e)
         {
             if (Convert.ToInt32(lblTotalPagina.Text) > 1)
             {
@@ -209,7 +223,112 @@ WindowsFormsApplication1.ComprarOfertar
                 lblPaginaActual.Text = this.nroPagina.ToString();
                 this.paginar();
             }
+        }*/
+
+        private void cmdSeleccionarRubro_Click(object sender, EventArgs e)
+        {
+            lstRubrosElegidos.Items.Add(lstRubros.SelectedValue.ToString());
         }
+
+        private void cmdBorrarFiltro_Click(object sender, EventArgs e)
+        {
+            lstRubrosElegidos.Items.RemoveAt(lstRubrosElegidos.SelectedIndex);
+        }
+
+        private void cmdBuscar_Click_1(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstRubrosElegidos.Items.Count ; i++)
+            {
+                listaDeRubrosFiltros += lstRubrosElegidos.Items[i].ToString() +",";
+            }
+            descripcionFiltros = txtDescripcion.Text.ToString();
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Publicaciones", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+           
+            cmd.Parameters.AddWithValue("@Rubros", SqlDbType.NVarChar).Value = listaDeRubrosFiltros;
+            cmd.Parameters.AddWithValue("@PubliDesc", SqlDbType.NVarChar).Value = descripcionFiltros;
+            adapter = new SqlDataAdapter(cmd);
+            dtPublicaciones = new DataTable("ROAD_TO_PROYECTO.Publicacion");
+            adapter.Fill(dtPublicaciones);
+
+            //this.dataGridView1.DataSource = dtPublicaciones;           // 
+            if (dtPublicaciones.Rows.Count > 0)
+            {
+                this.numPaginas(); //Funcion para calcular el numero total de paginas que tendra nuestra vista
+                this.paginar();//empezamos con la paginacion             
+                lblCantidadTotal.Text = "Publicaciones Encontradas: " + dtPublicaciones.Rows.Count.ToString();//Cantidad totoal de registros encontrados
+                cantidadMaximaDeFilas = dtPublicaciones.Rows.Count;
+                dataGridView1.Select();
+            }
+            else
+            {
+                dataGridView1.Rows.Clear();//En el caso de que la busqueda no genere ningun registro limopiamos el datagridview
+
+                lblCantidadTotal.Text = "Publicaciones Encontradas: 0";
+                cantidadMaximaDeFilas = 0;
+            }
+        }
+
+        private void cmdLimpiar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmdVolver_Click_1(object sender, EventArgs e)
+        {
+            Form1.f1.Show();
+            this.Hide();
+        }
+
+        private void cmdPrimera_Click_1(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(lblTotalPagina.Text) > 1)
+            {
+                this.nroPagina = 1;
+
+                lblPaginaActual.Text = this.nroPagina.ToString();
+                this.paginar();
+            }
+        }
+
+        private void cmdProxima_Click_1(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(lblPaginaActual.Text) < Convert.ToInt32(lblTotalPagina.Text))
+            {
+                this.nroPagina += 1;
+
+
+                lblPaginaActual.Text = this.nroPagina.ToString();
+                this.paginar();
+            }
+        }
+
+        private void cmdAnterior_Click_1(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(lblPaginaActual.Text) > 1)
+            {
+                this.nroPagina -= 1;
+
+
+                lblPaginaActual.Text = this.nroPagina.ToString();
+                this.paginar();
+            }
+        }
+
+        private void cmdUltima_Click_1(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(lblTotalPagina.Text) > 1)
+            {
+                this.nroPagina = Convert.ToInt32(lblTotalPagina.Text);
+
+                lblPaginaActual.Text = this.nroPagina.ToString();
+                this.paginar();
+            }
+        }
+
+       
     }
 }
         
