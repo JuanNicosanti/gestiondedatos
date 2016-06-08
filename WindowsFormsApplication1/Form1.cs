@@ -341,6 +341,7 @@ namespace WindowsFormsApplication1
             if ((string)clickedItem.Tag == "Comprar/Ofertar")
             {
                 WindowsFormsApplication1.ComprarOfertar.ComprarOfertar cF = new WindowsFormsApplication1.ComprarOfertar.ComprarOfertar();
+                cF.compradorID = lblUsuario.Text.ToString();
                 cF.Show();
                 this.Hide();
                 seleccionoRol = false;
@@ -352,6 +353,9 @@ namespace WindowsFormsApplication1
 
             if ((string)clickedItem.Tag == "Historial de Cliente")
             {
+                WindowsFormsApplication1.Historial_Cliente.Historial_Cliente hC = new WindowsFormsApplication1.Historial_Cliente.Historial_Cliente();
+                hC.Show();
+                this.Hide();
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
@@ -409,6 +413,13 @@ namespace WindowsFormsApplication1
         {
             ComprarOfertar.ComprarOfertar cf = new ComprarOfertar.ComprarOfertar();
             cf.Show();
+            this.Hide();
+        }
+
+        private void cmdHist_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Historial_Cliente.Historial_Cliente hC = new WindowsFormsApplication1.Historial_Cliente.Historial_Cliente();
+            hC.Show();
             this.Hide();
         }
     }

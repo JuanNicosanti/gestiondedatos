@@ -46,6 +46,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.cmdCOmprar = new System.Windows.Forms.Button();
+            this.cmdHist = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -204,12 +205,23 @@
             this.cmdCOmprar.UseVisualStyleBackColor = true;
             this.cmdCOmprar.Click += new System.EventHandler(this.cmdCOmprar_Click);
             // 
+            // cmdHist
+            // 
+            this.cmdHist.Location = new System.Drawing.Point(215, 136);
+            this.cmdHist.Name = "cmdHist";
+            this.cmdHist.Size = new System.Drawing.Size(75, 23);
+            this.cmdHist.TabIndex = 14;
+            this.cmdHist.Text = "HISTORIAL";
+            this.cmdHist.UseVisualStyleBackColor = true;
+            this.cmdHist.Click += new System.EventHandler(this.cmdHist_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(352, 241);
+            this.Controls.Add(this.cmdHist);
             this.Controls.Add(this.cmdCOmprar);
             this.Controls.Add(this.cmdModificarRol);
             this.Controls.Add(this.cmdBajaRol);
@@ -252,6 +264,7 @@
         private System.Windows.Forms.ToolStripMenuItem funcionesToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button cmdCOmprar;
+        private System.Windows.Forms.Button cmdHist;
     }
 }
 

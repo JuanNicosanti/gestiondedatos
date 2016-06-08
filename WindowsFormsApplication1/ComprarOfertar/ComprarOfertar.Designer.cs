@@ -52,6 +52,7 @@
             this.txtDescripcion = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cmdBorrarFiltro = new System.Windows.Forms.Button();
+            this.cmdComprarOfertar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +64,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(946, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(972, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -77,9 +78,9 @@
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 449);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 502);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(946, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(972, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -202,31 +203,32 @@
             // lblCantidadTotal
             // 
             this.lblCantidadTotal.AutoSize = true;
-            this.lblCantidadTotal.Location = new System.Drawing.Point(879, 77);
+            this.lblCantidadTotal.BackColor = System.Drawing.Color.LightGray;
+            this.lblCantidadTotal.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCantidadTotal.Location = new System.Drawing.Point(665, 367);
             this.lblCantidadTotal.Name = "lblCantidadTotal";
-            this.lblCantidadTotal.Size = new System.Drawing.Size(35, 13);
+            this.lblCantidadTotal.Size = new System.Drawing.Size(0, 13);
             this.lblCantidadTotal.TabIndex = 18;
-            this.lblCantidadTotal.Text = "label5";
             // 
             // lblPaginaActual
             // 
             this.lblPaginaActual.AutoSize = true;
             this.lblPaginaActual.BackColor = System.Drawing.Color.LightGray;
-            this.lblPaginaActual.Location = new System.Drawing.Point(571, 359);
+            this.lblPaginaActual.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPaginaActual.Location = new System.Drawing.Point(574, 359);
             this.lblPaginaActual.Name = "lblPaginaActual";
-            this.lblPaginaActual.Size = new System.Drawing.Size(35, 13);
+            this.lblPaginaActual.Size = new System.Drawing.Size(0, 16);
             this.lblPaginaActual.TabIndex = 19;
-            this.lblPaginaActual.Text = "label6";
             // 
             // lblTotalPagina
             // 
             this.lblTotalPagina.AutoSize = true;
             this.lblTotalPagina.BackColor = System.Drawing.Color.LightGray;
-            this.lblTotalPagina.Location = new System.Drawing.Point(609, 359);
+            this.lblTotalPagina.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalPagina.Location = new System.Drawing.Point(611, 359);
             this.lblTotalPagina.Name = "lblTotalPagina";
-            this.lblTotalPagina.Size = new System.Drawing.Size(35, 13);
+            this.lblTotalPagina.Size = new System.Drawing.Size(0, 16);
             this.lblTotalPagina.TabIndex = 20;
-            this.lblTotalPagina.Text = "label7";
             // 
             // lstRubros
             // 
@@ -265,9 +267,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.LightGray;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(600, 359);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(12, 13);
+            this.label5.Size = new System.Drawing.Size(16, 16);
             this.label5.TabIndex = 25;
             this.label5.Text = "/";
             // 
@@ -281,12 +284,23 @@
             this.cmdBorrarFiltro.UseVisualStyleBackColor = true;
             this.cmdBorrarFiltro.Click += new System.EventHandler(this.cmdBorrarFiltro_Click);
             // 
+            // cmdComprarOfertar
+            // 
+            this.cmdComprarOfertar.Location = new System.Drawing.Point(340, 445);
+            this.cmdComprarOfertar.Name = "cmdComprarOfertar";
+            this.cmdComprarOfertar.Size = new System.Drawing.Size(519, 23);
+            this.cmdComprarOfertar.TabIndex = 27;
+            this.cmdComprarOfertar.Text = "COMPRAR/OFERTAR";
+            this.cmdComprarOfertar.UseVisualStyleBackColor = true;
+            this.cmdComprarOfertar.Click += new System.EventHandler(this.cmdComprarOfertar_Click);
+            // 
             // ComprarOfertar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(946, 471);
+            this.ClientSize = new System.Drawing.Size(972, 524);
+            this.Controls.Add(this.cmdComprarOfertar);
             this.Controls.Add(this.cmdBorrarFiltro);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtDescripcion);
@@ -348,5 +362,6 @@
         private System.Windows.Forms.TextBox txtDescripcion;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button cmdBorrarFiltro;
+        private System.Windows.Forms.Button cmdComprarOfertar;
     }
 }
