@@ -1219,14 +1219,14 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 	@Rubros nvarchar(1000),
 	@PubliDesc nvarchar(255)
 	as begin
-		IF OBJECT_ID('ROAD_TO_PROYECTO.##parametros', 'U') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.##parametros;
-		IF OBJECT_ID('ROAD_TO_PROYECTO.#temporalPublic', 'U') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#temporalPublic;
+		DROP TABLE ROAD_TO_PROYECTO.##parametros;
+		DROP TABLE ROAD_TO_PROYECTO.#temporalPublic;
 
 		EXECUTE RecibirParametros @Parametros = @Rubros
 
 		create table ROAD_TO_PROYECTO.#temporalPublic(
 		PublId int PRIMARY KEY,
-		Descipcion nvarchar(255) NOT NULL,
+		Descripcion nvarchar(255) NOT NULL,
 		Stock numeric(18,0) NOT NULL,
 		FechaInicio datetime NOT NULL,
 		FechaFin datetime NOT NULL,
@@ -1243,14 +1243,14 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 		while @@FETCH_STATUS = 0
 		begin
 			insert into ROAD_TO_PROYECTO.#temporalPublic
-			select PubliId, Descipcion, Stock, FechaInicio, FechaFin, Precio, DescripLarga, (select descriplarga from ROAD_TO_PROYECTO.Rubro where RubrId = @Rubro) as 'Rubro', (select Descipcion from ROAD_TO_PROYECTO.Tipo_Publicacion where TipoPubliId = Tipo) as 'Tipo'
-			from ROAD_TO_PROYECTO.Publicacion
+			select p.PublId, Descipcion, Stock, FechaInicio, FechaFin, Precio, (select DescripLarga from ROAD_TO_PROYECTO.Rubro where RubrId = @RubroId) as 'Rubro', (select Descipcion from ROAD_TO_PROYECTO.Tipo_Publicacion where TipoPubliId = Tipo) as 'Tipo', p.UserId
+			from ROAD_TO_PROYECTO.Publicacion p
 			where Rubro = @RubroId
 
 			fetch from c1 into @RubroId, @param
 		end
 		select * from ROAD_TO_PROYECTO.#temporalPublic
-		where Descipcion like '%' + @PubliDesc + '%'
+		where Descripcion like '%' + @PubliDesc + '%'
 		close  c1
 		deallocate c1
 	end
@@ -1283,7 +1283,7 @@ BEGIN
   SELECT @Parametros = stuff(@Parametros, 1, @Posicion, '')
 END
 --Y cuando se han recorrido todos los parametros sacamos por pantalla el resultado
-SELECT * FROM ROAD_TO_PROYECTO.##parametros
+--SELECT * FROM ROAD_TO_PROYECTO.##parametros
 SET NOCOUNT OFF
 GO
 
@@ -1321,7 +1321,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cantidad_Facturas_Vendedores
 	@Trimestre int,
 	@Año int
 	as begin
-		IF OBJECT_ID('ROAD_TO_PROYECTO.#consulta3', 'U') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#consulta3;
+		DROP TABLE ROAD_TO_PROYECTO.#consulta3;
 		create table ROAD_TO_PROYECTO.#consulta3(
 		Usuario nvarchar(255),
 		Detalle nvarchar(255),
@@ -1357,7 +1357,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Monto_Facturado_Vendedor
 	@Trimestre int,
 	@Año int
 	as begin
-		IF OBJECT_ID('ROAD_TO_PROYECTO.#consulta4', 'U') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#consulta4;
+		DROP TABLE ROAD_TO_PROYECTO.#consulta4;
 		create table ROAD_TO_PROYECTO.#consulta4(
 		Usuario nvarchar(255),
 		Detalle nvarchar(255),
