@@ -350,7 +350,7 @@ GO
 --Publicacion
 PRINT 'Migrando publicaciones...'
 insert into ROAD_TO_PROYECTO.Publicacion
-select Publicacion_Cod, Publicacion_Descripcion, Publicacion_Stock, Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio, Publicacion_Visibilidad_Cod, (select RubrId from ROAD_TO_PROYECTO.Rubro where publicacion_rubro_descripcion = DescripLarga) as Rubro, (select TipoPubliId from ROAD_TO_PROYECTO.Tipo_Publicacion where Publicacion_Tipo = Descripcion) as TipoPublicacion, 3 as Estado, (select Usuario from ROAD_TO_PROYECTO.Usuario where Mail = Publ_Cli_Mail or Mail = Publ_Empresa_Mail) as Usuario, 0
+select Publicacion_Cod, Publicacion_Descripcion, Publicacion_Stock, Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio, Publicacion_Visibilidad_Cod, (select RubrId from ROAD_TO_PROYECTO.Rubro where publicacion_rubro_descripcion = DescripLarga) as Rubro, (select TipoPubliId from ROAD_TO_PROYECTO.Tipo_Publicacion where Publicacion_Tipo = Descripcion) as TipoPublicacion, 4 as Estado, (select Usuario from ROAD_TO_PROYECTO.Usuario where Mail = Publ_Cli_Mail or Mail = Publ_Empresa_Mail) as Usuario, 0
 from gd_esquema.Maestra
 where Publicacion_Cod is not null
 group by Publicacion_Cod, Publicacion_Descripcion, Publicacion_Stock, Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio, Publicacion_Visibilidad_Cod, Publicacion_Rubro_Descripcion,Publ_Cli_Mail, Publicacion_Tipo, Publ_Empresa_Mail
@@ -1352,7 +1352,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cantidad_Facturas_Vendedores
 		Usuario nvarchar(255),
 		Detalle nvarchar(255),
 		AñoMes nvarchar(255),
-		Monto numeric(18,2)
+		Monto numeric(18,0)
 		)
 		insert into ROAD_TO_PROYECTO.#consulta3
 		select top 5 u.Usuario, concat(c.Apellido, c.Nombres) , right('0000' + cast(year(f.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(f.Fecha) as varchar(2)), 2) as 'Año-Mes', count(*) as 'Cantidad Facturas'
@@ -1372,7 +1372,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cantidad_Facturas_Vendedores
 		group by u.Usuario, e.RazonSocial, right('0000' + cast(year(f.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(f.Fecha) as varchar(2)), 2)
 		order by count(*) desc
 
-		select top 5 *
+		select top 5 Usuario, Detalle, AñoMes, Monto as 'Cantidad'
 		from ROAD_TO_PROYECTO.#consulta3
 		order by Monto desc
 	end
@@ -1424,6 +1424,28 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Factura
 	end
 GO
 
+
+Alter PROCEDURE ROAD_TO_PROYECTO.Historial_Cliente_Compras_Subastas
+	@Usuario nvarchar(255)
+	as begin
+		declare @ClieId int
+		set @ClieId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
+		select t.TipoTransac, t.Fecha, isnull(t.Monto, p.Precio) as 'Monto', p.Descipcion, p.UserId
+		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p
+		where t.PubliId = p.PublId and t.ClieId = @ClieId
+	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Historial_Cliente_Acumulados
+	@Usuario nvarchar(255)
+	as begin
+		declare @ClieId int
+		set @ClieId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
+		select count (*) as 'Sin Calificar', (select sum(c.CantEstrellas)/count(c.CantEstrellas) from ROAD_TO_PROYECTO.Calificacion c, ROAD_TO_PROYECTO.Transaccion t where c.TranId = t.TranId and t.ClieId = @ClieId) as 'Prom Calif'
+		from ROAD_TO_PROYECTO.Transaccion t
+		where t.ClieId = @ClieId and t.TranId not in (select c.TranId from ROAD_TO_PROYECTO.Calificacion c)
+	end
+GO
 
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert
