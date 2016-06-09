@@ -1023,6 +1023,8 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	@Usuario nvarchar(255),
 	@ConEnvio bit
 	as begin
+		if(@Usuario <> (select UserId from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
+		begin
 		declare @CompradorId int 
 		set @CompradorId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
 		--Verific si la cantidad a comprar es menor que el stock disponible
@@ -1030,6 +1032,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 		begin
 			insert into ROAD_TO_PROYECTO.Transaccion(TipoTransac, Fecha, Cantidad, PubliId, ClieId, ConEnvio)
 			values('Compra', getdate()/*@FechaActual*/, @Cantidad, @PubliId, @CompradorId, @ConEnvio)
+		end
 		end
 	end
 GO
@@ -1042,19 +1045,22 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	@Usuario nvarchar(255),
 	@ConEnvio bit
 	as begin
-		declare @OfertanteId int 
-		set @OfertanteId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
-		--Verifico que la oferta sea mayor al precio actual de la subasta
-		if((select Precio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) < @MontoOferta)
---		if((select top 1 Monto from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId and TipoTransac = 'Oferta' order by Monto desc) < @MontoOferta)
+		if(@Usuario <> (select UserId from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
 		begin
-			insert into ROAD_TO_PROYECTO.Transaccion (TipoTransac, Fecha, Monto, PubliId, ClieId, ConEnvio)
-			values('Oferta', getdate()/*@FechaActual*/, @MontoOferta, @PubliId, @OfertanteId, @ConEnvio)
+			declare @OfertanteId int 
+			set @OfertanteId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
+			--Verifico que la oferta sea mayor al precio actual de la subasta
+			if((select Precio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) < @MontoOferta)
+	--		if((select top 1 Monto from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId and TipoTransac = 'Oferta' order by Monto desc) < @MontoOferta)
+			begin
+				insert into ROAD_TO_PROYECTO.Transaccion (TipoTransac, Fecha, Monto, PubliId, ClieId, ConEnvio)
+				values('Oferta', getdate()/*@FechaActual*/, @MontoOferta, @PubliId, @OfertanteId, @ConEnvio)
 
-			--Actualizo el precio de la subasta
-			update ROAD_TO_PROYECTO.Publicacion 
-			set Precio = @MontoOferta
-			where PublId = @PubliId
+				--Actualizo el precio de la subasta
+				update ROAD_TO_PROYECTO.Publicacion 
+				set Precio = @MontoOferta
+				where PublId = @PubliId
+			end
 		end
 	end
 GO
@@ -1134,6 +1140,18 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicaciones_Vencidas
 		update ROAD_TO_PROYECTO.Publicacion
 		set Estado = @FinalizadoId
 		where FechaFin < @FechaActual and Estado <> @FinalizadoId
+	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Activar_Publicaciones_Segun_Fecha
+	@FechaActual datetime
+	as begin
+		declare @ActivadoId int
+		select @ActivadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Activa'
+
+		update ROAD_TO_PROYECTO.Publicacion
+		set Estado = @ActivadoId
+		where FechaInicio < @FechaActual and Estado <> (select EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Borrador')
 	end
 GO
 
