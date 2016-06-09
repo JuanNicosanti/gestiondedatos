@@ -47,6 +47,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.cmdCOmprar = new System.Windows.Forms.Button();
             this.cmdHist = new System.Windows.Forms.Button();
+            this.cmdCalificar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -217,12 +218,23 @@
             this.cmdHist.UseVisualStyleBackColor = true;
             this.cmdHist.Click += new System.EventHandler(this.cmdHist_Click);
             // 
+            // cmdCalificar
+            // 
+            this.cmdCalificar.Location = new System.Drawing.Point(215, 78);
+            this.cmdCalificar.Name = "cmdCalificar";
+            this.cmdCalificar.Size = new System.Drawing.Size(75, 23);
+            this.cmdCalificar.TabIndex = 15;
+            this.cmdCalificar.Text = "CALIFICAR";
+            this.cmdCalificar.UseVisualStyleBackColor = true;
+            this.cmdCalificar.Click += new System.EventHandler(this.cmdCalificar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(373, 241);
+            this.Controls.Add(this.cmdCalificar);
             this.Controls.Add(this.cmdHist);
             this.Controls.Add(this.cmdCOmprar);
             this.Controls.Add(this.cmdModificarRol);
@@ -267,6 +279,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button cmdCOmprar;
         private System.Windows.Forms.Button cmdHist;
+        private System.Windows.Forms.Button cmdCalificar;
     }
 }
 

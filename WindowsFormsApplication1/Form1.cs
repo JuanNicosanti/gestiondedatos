@@ -442,5 +442,13 @@ namespace WindowsFormsApplication1
             hC.Show();
             this.Hide();
         }
+
+        private void cmdCalificar_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Calificar.CalificarVendedor cf = new WindowsFormsApplication1.Calificar.CalificarVendedor();
+            cf.user = user;
+            cf.Show();
+            this.Hide();
+        }
     }
 }
