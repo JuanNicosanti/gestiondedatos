@@ -24,6 +24,9 @@ WindowsFormsApplication1.ComprarOfertar
         private DataBase db;
         private String listaDeRubrosFiltros;
         String descripcionFiltros;
+        private int tieneEnvio;
+        private int cash;
+        private int cantidad;
 
         public String compradorID;
         
@@ -56,7 +59,11 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void ComprarOfertar_Load(object sender, EventArgs e)
         {
-            
+
+            txtGuita.Visible = false;
+            txtCantidad.Visible = false;
+            lblGuita.Visible = false;
+            lblCantidad.Visible = false;
             cmd = new SqlCommand("ROAD_TO_PROYECTO.ListaRubros", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             adapter = new SqlDataAdapter(cmd);
@@ -91,7 +98,7 @@ WindowsFormsApplication1.ComprarOfertar
             dataGridView1.Rows.Clear();
             int indiceInsertar;//
             numeroRegistro = this.ini;
-            dataGridView1.ColumnCount = 9;
+            dataGridView1.ColumnCount = 10;
             dataGridView1.Columns[0].Name = "PublId";
             dataGridView1.Columns[1].Name = "Descripcion";
             dataGridView1.Columns[2].Name = "Stock";
@@ -101,6 +108,7 @@ WindowsFormsApplication1.ComprarOfertar
             dataGridView1.Columns[6].Name = "Rubro";
             dataGridView1.Columns[7].Name = "Tipo";
             dataGridView1.Columns[8].Name = "UserId";
+            dataGridView1.Columns[9].Name = "EnvioHabilitado";
          
             contadorDeFilas = 0;
             for (int i = ini; i < filasPagina * nroPagina; i++)
@@ -121,6 +129,14 @@ WindowsFormsApplication1.ComprarOfertar
                 dataGridView1.Rows[contadorDeFilas].Cells[6].Value = fila[6].ToString();
                 dataGridView1.Rows[contadorDeFilas].Cells[7].Value = fila[7].ToString();
                 dataGridView1.Rows[contadorDeFilas].Cells[8].Value = fila[8].ToString();
+                if(fila[9].Equals(0))
+                {
+                    dataGridView1.Rows[contadorDeFilas].Cells[9].Value = "No";
+                }
+                else
+                   {
+                       dataGridView1.Rows[contadorDeFilas].Cells[9].Value = "Si";
+                   }
                
                 contadorDeFilas++;
 
@@ -158,6 +174,11 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void cmdBorrarFiltro_Click(object sender, EventArgs e)
         {
+            if(lstRubrosElegidos.SelectedIndex == -1){
+                MessageBox.Show("Debe seleccionar un rubro", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+              
             lstRubrosElegidos.Items.RemoveAt(lstRubrosElegidos.SelectedIndex);
         }
 
@@ -168,12 +189,18 @@ WindowsFormsApplication1.ComprarOfertar
                 listaDeRubrosFiltros += lstRubrosElegidos.Items[i].ToString() +",";
             }
             descripcionFiltros = txtDescripcion.Text.ToString();
-            listaDeRubrosFiltros = listaDeRubrosFiltros.TrimEnd(',');
+            if(!lstRubrosElegidos.Items.Count.Equals(0))
+            {
+                    listaDeRubrosFiltros = listaDeRubrosFiltros.TrimEnd(',');
+            }
+            else {
+                listaDeRubrosFiltros = "";
+            }
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Publicaciones", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
 
-           
-            cmd.Parameters.AddWithValue("@Rubros", SqlDbType.NVarChar).Value = listaDeRubrosFiltros;
+
+            cmd.Parameters.AddWithValue("@Parametros", SqlDbType.NVarChar).Value = listaDeRubrosFiltros;
             cmd.Parameters.AddWithValue("@PubliDesc", SqlDbType.NVarChar).Value = descripcionFiltros;
             adapter = new SqlDataAdapter(cmd);
             dtPublicaciones = new DataTable("ROAD_TO_PROYECTO.Publicacion");
@@ -270,27 +297,72 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void cmdComprarOfertar_Click(object sender, EventArgs e)
         {
-
+            
+          
             if (dataGridView1.CurrentRow == null)
             {
 
                 MessageBox.Show("Debe seleccionar una publicacion", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
             }
+
             int fila = dataGridView1.CurrentRow.Index;
-            String ofertaOCompra = dataGridView1[7,fila].Value.ToString();
-            int celdaIdPublicacion = (int)dataGridView1[0, fila].Value;
-            int precio = (int)dataGridView1[5, fila].Value;
-            int cantidad = (int)dataGridView1[2, fila].Value;
+            String ofertaOCompra = dataGridView1[7, fila].Value.ToString();
+          
+            
+            if(rbEnvioNo.Checked == false && rbEnvioSi.Checked == false)
+            {
+                MessageBox.Show("Debe completar la informacion de pago", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+            
+            if (ofertaOCompra.Equals("Subasta"))
+            {
+                if(string.IsNullOrEmpty(txtGuita.Text))
+                {
+                    MessageBox.Show("Debe completar la informacion de pago", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+            }
+            if (ofertaOCompra.Equals("Compra Inmediata"))
+            {
+                if (string.IsNullOrEmpty(txtCantidad.Text))
+                {
+                    MessageBox.Show("Debe completar la informacion de pago", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+            }
+            if (ofertaOCompra.Equals("Subasta"))
+            {
+                cash = int.Parse(txtGuita.Text.ToString());
+            }
+            if (ofertaOCompra.Equals("Compra Inmediata"))
+            {
+                cantidad = int.Parse(txtCantidad.Text.ToString());
+            }  
+
+            int celdaIdPublicacion = int.Parse(dataGridView1[0, fila].Value.ToString());
+            
+            
             String ofertanteID = dataGridView1[8, fila].Value.ToString();
+            if(rbEnvioSi.Checked)
+            {
+                tieneEnvio = 1;
+            }
+            else {
+                tieneEnvio = 0;
+            }
+            
+           
+
             if (ofertaOCompra == "Compra Inmediata")
             {
                 SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Comprar_Publicacion", db.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = celdaIdPublicacion;
-                cmd.Parameters.AddWithValue("@Cantidad", SqlDbType.Int).Value = cantidad;
-                cmd.Parameters.AddWithValue("@CompradorId", SqlDbType.NVarChar).Value = compradorID;
-                //cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Bit).Value = celdaIdPublicacion;
+                cmd.Parameters.AddWithValue("@Cantidad", SqlDbType.Int).Value =  cantidad;
+                cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = compradorID;
+                cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Int).Value = tieneEnvio;
 
                 cmd.ExecuteNonQuery();
             }
@@ -299,15 +371,40 @@ WindowsFormsApplication1.ComprarOfertar
                 cmd.CommandType = CommandType.StoredProcedure;
                 
                 cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = celdaIdPublicacion;
-                cmd.Parameters.AddWithValue("@MontoOferta", SqlDbType.Int).Value = precio;
-                cmd.Parameters.AddWithValue("@OfertanteId", SqlDbType.NVarChar).Value = ofertanteID;
-                //cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Bit).Value = celdaIdPublicacion;
+                cmd.Parameters.AddWithValue("@MontoOferta", SqlDbType.Int).Value = cash;
+                cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = ofertanteID;
+                cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Int).Value = tieneEnvio;
 
                 cmd.ExecuteNonQuery();
             }
           
             
         
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int filaAux = dataGridView1.CurrentRow.Index;
+            String ofertaOCompra = dataGridView1[7, filaAux].Value.ToString();
+            if (ofertaOCompra.Equals("Subasta"))
+            {
+                txtCantidad.Visible = false;
+                txtGuita.Visible = true;
+                lblGuita.Visible = true;
+                lblCantidad.Visible = false;
+              
+            }
+            if(ofertaOCompra.Equals("Compra Inmediata")){
+                txtGuita.Visible = false;
+                txtCantidad.Visible = true;
+                lblGuita.Visible = false;
+                lblCantidad.Visible = true;
+            }
         }
 
        

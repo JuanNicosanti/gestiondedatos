@@ -146,6 +146,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 this.toolStripProgressBar1.Value = 0;
 
                 Form1.f1.user = this.txtUsuario.Text;
+                
                 if (tieneMasDeUnRol)
                 {
                     Form1.f1.rol = this.cboRoles.SelectedItem.ToString();

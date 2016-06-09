@@ -359,7 +359,7 @@ namespace WindowsFormsApplication1
             if ((string)clickedItem.Tag == "Comprar/Ofertar")
             {
                 WindowsFormsApplication1.ComprarOfertar.ComprarOfertar cF = new WindowsFormsApplication1.ComprarOfertar.ComprarOfertar();
-                cF.compradorID = lblUsuario.Text.ToString();
+                cF.compradorID = user;
                 cF.Show();
                 this.Hide();
                 seleccionoRol = false;
