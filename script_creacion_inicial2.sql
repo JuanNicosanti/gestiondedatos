@@ -1016,7 +1016,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicacion
 GO
 
 --Compra en una compra inmediata
-CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
+ALTER PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	@PubliId int,
 	--@FechaActual datetime,
 	@Cantidad numeric(18,0),
