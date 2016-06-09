@@ -28,6 +28,8 @@ WindowsFormsApplication1.ComprarOfertar
         private int cash;
         private int cantidad;
 
+
+        public static ComprarOfertar cO;
         public String compradorID;
         
         int filasPagina = 10; // Definimos el numero de filas que deseamos ver por pagina
@@ -44,6 +46,7 @@ WindowsFormsApplication1.ComprarOfertar
         {
             InitializeComponent();
             db = DataBase.GetInstance();
+            ComprarOfertar.cO = this;
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)

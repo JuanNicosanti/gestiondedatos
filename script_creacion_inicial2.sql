@@ -1016,7 +1016,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicacion
 GO
 
 --Compra en una compra inmediata
-ALTER PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
+CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	@PubliId int,
 	--@FechaActual datetime,
 	@Cantidad numeric(18,0),
@@ -1229,6 +1229,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 		begin
 			select PublId, Descipcion, Stock, FechaInicio, FechaFin, Precio, (select DescripLarga from ROAD_TO_PROYECTO.Rubro where RubrId = Rubro) as 'Rubro', (select tp.Descripcion from ROAD_TO_PROYECTO.Tipo_Publicacion tp where tp.TipoPubliId = Tipo) as 'Tipo', UserId, EnvioHabilitado
 			from ROAD_TO_PROYECTO.Publicacion
+			where Estado = 2
 		end
 		ELSE
 		begin
@@ -1282,7 +1283,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 				insert into ROAD_TO_PROYECTO.#temporalPublic
 				select p.PublId, Descipcion, Stock, FechaInicio, FechaFin, Precio, (select DescripLarga from ROAD_TO_PROYECTO.Rubro where RubrId = @RubroId) as 'Rubro', (select tp.Descripcion from ROAD_TO_PROYECTO.Tipo_Publicacion tp where tp.TipoPubliId = Tipo) as 'Tipo', p.UserId, p.EnvioHabilitado
 				from ROAD_TO_PROYECTO.Publicacion p
-				where Rubro = @RubroId
+				where Rubro = @RubroId and p.Estado = 2
 
 				fetch from c1 into @RubroId, @param
 			end
@@ -1462,8 +1463,8 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.
 				fetch next from c1 into @Fecha, @Cantidad, @PubliId, @ConEnvio
 				commit
 			end
-		close c1
-		deallocate c1
+		close c1;
+		deallocate c1;
 	end
 GO
 
@@ -1472,12 +1473,12 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.P
 		--Variables
 		declare @PubliId int, @UltimaFactura int, @FacturaActual int, @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
 		--Cursor con subastas finalizadas 
-		declare c1 cursor for select PublId from inserted 
+		declare c2 cursor for select PublId from inserted 
 		where Tipo = (select tp.TipoPubliId from ROAD_TO_PROYECTO.Tipo_Publicacion tp where tp.Descripcion = 'Subasta') 
 		and Estado = (select EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Finalizada')
 		
-		open c1
-		fetch next from c1 into @PubliId
+		open c2
+		fetch next from c2 into @PubliId
 		
 		while @@FETCH_STATUS = 0
 			begin
@@ -1485,7 +1486,7 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.P
 				update ROAD_TO_PROYECTO.Transaccion
 				set Ganadora = 1
 				where TranId = (select top 1 TranId  from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId order by Monto desc)
-				fetch next from c1 into @PubliId
+				fetch next from c2 into @PubliId
 
 				--Busco el último número de factura y determino el siguiente
 				select top 1 @UltimaFactura = FactNro from ROAD_TO_PROYECTO.Factura order by FactNro desc
@@ -1521,12 +1522,12 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.P
 				set Monto = (select sum(Monto) from ROAD_TO_PROYECTO.Item_Factura where FactNro = @FacturaActual)
 				where FactNro = @FacturaActual
 
-			fetch next from c1 into @PubliId
+			fetch next from c2 into @PubliId
 			commit
 		end
 		
-		close c1
-		deallocate c1
+		close c2;
+		deallocate c2;
 	end
 GO
 

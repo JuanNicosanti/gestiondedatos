@@ -358,9 +358,11 @@ namespace WindowsFormsApplication1
             
             if ((string)clickedItem.Tag == "Comprar/Ofertar")
             {
-                WindowsFormsApplication1.ComprarOfertar.ComprarOfertar cF = new WindowsFormsApplication1.ComprarOfertar.ComprarOfertar();
-                cF.compradorID = user;
-                cF.Show();
+                WindowsFormsApplication1.ComprarOfertar.ComprarOfertar.cO = new WindowsFormsApplication1.ComprarOfertar.ComprarOfertar();
+                WindowsFormsApplication1.ComprarOfertar.ComprarOfertar.cO.compradorID = user;
+               
+              
+                WindowsFormsApplication1.ComprarOfertar.ComprarOfertar.cO.Show();
                 this.Hide();
                 seleccionoRol = false;
                 seleccionoUsuario = false;
