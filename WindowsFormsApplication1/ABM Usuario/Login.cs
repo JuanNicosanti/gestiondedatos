@@ -100,7 +100,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     Form1.f1.estaHabilitado = true;
                 }
                 this.cargarComboBoxDeRoles(idRoles);
-
+                cmdAceptar.Enabled = false;
                 MessageBox.Show("Elija un rol", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 cboRoles.Visible = true;
                 cboRoles.SelectedIndex = -1;
@@ -246,6 +246,8 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 MessageBox.Show("Elija un rol", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
             }
+
+            cmdAceptar.Enabled = true;
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.IdBasadoANombreRol", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = rolElegido;
