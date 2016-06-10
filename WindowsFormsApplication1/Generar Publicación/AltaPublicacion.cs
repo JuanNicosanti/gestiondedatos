@@ -151,7 +151,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            WindowsFormsApplication1.Form1.f1.Close();
         }
 
         private void cmdAceptar_Click(object sender, EventArgs e)

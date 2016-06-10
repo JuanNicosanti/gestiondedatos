@@ -32,7 +32,7 @@ namespace WindowsFormsApplication1.Listado_Estadistico
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            WindowsFormsApplication1.Form1.f1.Close();
         }
 
         private void cmdVolver_Click(object sender, EventArgs e)

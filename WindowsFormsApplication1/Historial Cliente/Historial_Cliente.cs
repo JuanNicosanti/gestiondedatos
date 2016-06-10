@@ -43,7 +43,7 @@ namespace WindowsFormsApplication1.Historial_Cliente
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            WindowsFormsApplication1.Form1.f1.Close(); 
         }
 
         private void cmdPrimera_Click(object sender, EventArgs e)
