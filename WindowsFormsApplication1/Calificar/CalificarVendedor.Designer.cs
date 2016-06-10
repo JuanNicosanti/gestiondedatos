@@ -41,14 +41,18 @@
             this.dgPublis = new System.Windows.Forms.DataGridView();
             this.lblDetalle = new System.Windows.Forms.Label();
             this.taDetalle = new System.Windows.Forms.RichTextBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelCalificaciones.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPublis)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 21);
+            this.label1.Location = new System.Drawing.Point(10, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(223, 13);
             this.label1.TabIndex = 0;
@@ -62,7 +66,7 @@
             this.panelCalificaciones.Controls.Add(this.rb2);
             this.panelCalificaciones.Controls.Add(this.rb1);
             this.panelCalificaciones.Controls.Add(this.label2);
-            this.panelCalificaciones.Location = new System.Drawing.Point(24, 176);
+            this.panelCalificaciones.Location = new System.Drawing.Point(13, 185);
             this.panelCalificaciones.Name = "panelCalificaciones";
             this.panelCalificaciones.Size = new System.Drawing.Size(157, 145);
             this.panelCalificaciones.TabIndex = 2;
@@ -135,7 +139,7 @@
             // 
             // cmdCalificar
             // 
-            this.cmdCalificar.Location = new System.Drawing.Point(211, 298);
+            this.cmdCalificar.Location = new System.Drawing.Point(200, 307);
             this.cmdCalificar.Name = "cmdCalificar";
             this.cmdCalificar.Size = new System.Drawing.Size(75, 23);
             this.cmdCalificar.TabIndex = 6;
@@ -146,7 +150,7 @@
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(337, 298);
+            this.cmdVolver.Location = new System.Drawing.Point(326, 307);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(75, 23);
             this.cmdVolver.TabIndex = 7;
@@ -159,7 +163,7 @@
             this.dgPublis.AllowUserToAddRows = false;
             this.dgPublis.AllowUserToDeleteRows = false;
             this.dgPublis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgPublis.Location = new System.Drawing.Point(24, 38);
+            this.dgPublis.Location = new System.Drawing.Point(13, 47);
             this.dgPublis.Name = "dgPublis";
             this.dgPublis.ReadOnly = true;
             this.dgPublis.Size = new System.Drawing.Size(388, 120);
@@ -169,7 +173,7 @@
             // lblDetalle
             // 
             this.lblDetalle.AutoSize = true;
-            this.lblDetalle.Location = new System.Drawing.Point(208, 176);
+            this.lblDetalle.Location = new System.Drawing.Point(197, 185);
             this.lblDetalle.Name = "lblDetalle";
             this.lblDetalle.Size = new System.Drawing.Size(192, 13);
             this.lblDetalle.TabIndex = 9;
@@ -178,18 +182,48 @@
             // 
             // taDetalle
             // 
-            this.taDetalle.Location = new System.Drawing.Point(211, 197);
+            this.taDetalle.Location = new System.Drawing.Point(200, 206);
             this.taDetalle.Name = "taDetalle";
             this.taDetalle.Size = new System.Drawing.Size(201, 89);
             this.taDetalle.TabIndex = 10;
             this.taDetalle.Text = "";
             this.taDetalle.Visible = false;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.Color.NavajoWhite;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.salirToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(409, 24);
+            this.menuStrip1.TabIndex = 11;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
+            this.statusStrip1.Location = new System.Drawing.Point(0, 350);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(409, 22);
+            this.statusStrip1.TabIndex = 12;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // salirToolStripMenuItem
+            // 
+            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
+            // 
             // CalificarVendedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(431, 334);
+            this.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.ClientSize = new System.Drawing.Size(409, 372);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.taDetalle);
             this.Controls.Add(this.lblDetalle);
             this.Controls.Add(this.dgPublis);
@@ -197,11 +231,15 @@
             this.Controls.Add(this.cmdCalificar);
             this.Controls.Add(this.panelCalificaciones);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "CalificarVendedor";
             this.Text = "CalificarVendedor";
             this.panelCalificaciones.ResumeLayout(false);
             this.panelCalificaciones.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPublis)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,5 +260,8 @@
         private System.Windows.Forms.DataGridView dgPublis;
         private System.Windows.Forms.Label lblDetalle;
         private System.Windows.Forms.RichTextBox taDetalle;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
     }
 }

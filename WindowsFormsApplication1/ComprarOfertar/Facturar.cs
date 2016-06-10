@@ -28,5 +28,10 @@ namespace WindowsFormsApplication1.ComprarOfertar
             dataGridView1[0, 1].Value = "Comisión por productos vendidos";
             dataGridView1[1, 1].Value = "Comisión por envío";
         }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

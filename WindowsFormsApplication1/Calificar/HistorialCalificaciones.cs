@@ -25,5 +25,10 @@ namespace WindowsFormsApplication1.Calificar
             WindowsFormsApplication1.Calificar.MenuCalificaciones.menuCalif.Show();
             this.Close();
         }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
