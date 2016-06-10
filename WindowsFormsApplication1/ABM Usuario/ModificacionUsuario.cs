@@ -58,6 +58,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             adapter.Fill(dt);
             this.lstRoles.DataSource = dt;
             this.lstRoles.DisplayMember = "Nombre";
+            lstRoles.ValueMember = lstRoles.DisplayMember;
 
 
              
@@ -416,10 +417,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
             String celdaUser = (String)dataGridView1[0, fila].Value;
             String nuevoRol = lstRoles.SelectedValue.ToString();
 
-            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Asignar_Rol_A_Usuario", db.Connection);
+            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.AsignarRolAUsuario", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = celdaUser;
-            cmd.Parameters.AddWithValue("@Rol", SqlDbType.NVarChar).Value = nuevoRol;
+            cmd.Parameters.AddWithValue("@RolAsignado", SqlDbType.NVarChar).Value = nuevoRol;
             cmd.ExecuteNonQuery();
         }
     

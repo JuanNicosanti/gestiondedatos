@@ -38,8 +38,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cmdVolver = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label4 = new System.Windows.Forms.Label();
-            this.cmdRegistrarse = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.cmdCambiarContrasenia = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -118,9 +116,9 @@
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(333, 244);
+            this.cmdVolver.Location = new System.Drawing.Point(316, 114);
             this.cmdVolver.Name = "cmdVolver";
-            this.cmdVolver.Size = new System.Drawing.Size(127, 23);
+            this.cmdVolver.Size = new System.Drawing.Size(175, 104);
             this.cmdVolver.TabIndex = 22;
             this.cmdVolver.Text = "Volver";
             this.cmdVolver.UseVisualStyleBackColor = true;
@@ -131,31 +129,11 @@
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label4
-            // 
-            this.label4.AllowDrop = true;
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(316, 42);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(175, 69);
-            this.label4.TabIndex = 23;
-            this.label4.Text = "Registrarse!";
-            // 
-            // cmdRegistrarse
-            // 
-            this.cmdRegistrarse.Location = new System.Drawing.Point(333, 70);
-            this.cmdRegistrarse.Name = "cmdRegistrarse";
-            this.cmdRegistrarse.Size = new System.Drawing.Size(146, 23);
-            this.cmdRegistrarse.TabIndex = 24;
-            this.cmdRegistrarse.Text = "Registrarse";
-            this.cmdRegistrarse.UseVisualStyleBackColor = true;
-            this.cmdRegistrarse.Click += new System.EventHandler(this.cmdRegistrarse_Click);
-            // 
             // label5
             // 
             this.label5.AllowDrop = true;
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label5.Location = new System.Drawing.Point(316, 150);
+            this.label5.Location = new System.Drawing.Point(316, 43);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(175, 68);
             this.label5.TabIndex = 25;
@@ -163,7 +141,7 @@
             // 
             // cmdCambiarContrasenia
             // 
-            this.cmdCambiarContrasenia.Location = new System.Drawing.Point(333, 176);
+            this.cmdCambiarContrasenia.Location = new System.Drawing.Point(333, 69);
             this.cmdCambiarContrasenia.Name = "cmdCambiarContrasenia";
             this.cmdCambiarContrasenia.Size = new System.Drawing.Size(146, 23);
             this.cmdCambiarContrasenia.TabIndex = 26;
@@ -195,7 +173,7 @@
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 285);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 230);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(522, 22);
             this.statusStrip1.TabIndex = 28;
@@ -232,14 +210,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(522, 307);
+            this.ClientSize = new System.Drawing.Size(522, 252);
             this.Controls.Add(this.cmdLoguear);
             this.Controls.Add(this.cboRoles);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cmdCambiarContrasenia);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.cmdRegistrarse);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.cmdVolver);
             this.Controls.Add(this.cmdCancelar);
             this.Controls.Add(this.cmdAceptar);
@@ -273,8 +249,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button cmdVolver;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button cmdRegistrarse;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button cmdCambiarContrasenia;
         private System.Windows.Forms.MenuStrip menuStrip1;
