@@ -17,7 +17,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
     {
         public static AltaUsuario aus;
         private int huboError = 0;
-        public int esAltaUsuario = 1;
+        public int esAltaUsuario =1;
         public int irAlMenuPrincipal;
         public AltaUsuario()
         {
@@ -290,10 +290,11 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     return;
                 }
 
-                string hash = this.encriptacion(txtPassword.Text);
+                
                 UsuarioDOA doa = new UsuarioDOA();
                 if (esAltaUsuario == 1)
                 {
+                    string hash = this.encriptacion(txtPassword.Text);
                     doa.crearCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
                     if (irAlMenuPrincipal == 1)
                     {
@@ -310,7 +311,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 
                 if (esAltaUsuario == 0)
                 {
-                    doa.modificarCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
+                    doa.modificarCliente("Cliente", txtUsuario.Text, txtPassword.Text, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
                     ModificacionUsuario mUsu = new ModificacionUsuario();
                     mUsu.Show();
                     this.Hide();

@@ -306,8 +306,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
         {
             unaEmpresa = doaEmpresa.crearUnaEmpresa(userEmpresa);
 
+            AltaUsuario aus = new AltaUsuario();
             AltaUsuario.aus.esAltaUsuario = 0;
             AltaUsuario.aus.rbEmpresa.Checked = true;
+            AltaUsuario.aus.txtPassword.PasswordChar = '*';
             AltaUsuario.aus.txtUsuario.Text = unaEmpresa.username;
             AltaUsuario.aus.txtPassword.Text = unaEmpresa.password;
             AltaUsuario.aus.txtTelEmpresa.Text = Convert.ToString(unaEmpresa.telefono);
@@ -324,6 +326,11 @@ namespace WindowsFormsApplication1.ABM_Usuario
             AltaUsuario.aus.txtCUITEmpresa.Text =Convert.ToString(unaEmpresa.cuit);
             AltaUsuario.aus.txtNombreContEmpresa.Text =unaEmpresa.nombreContacto;
             AltaUsuario.aus.lblRubroSel.Text = unaEmpresa.rubro;
+
+            AltaUsuario.aus.rbCliente.Enabled = false;
+            AltaUsuario.aus.rbEmpresa.Enabled = false;
+            AltaUsuario.aus.txtUsuario.Enabled = false;
+            AltaUsuario.aus.txtPassword.Enabled = false;
         }
         private void cargarUnClienteSeleccionado(String userCliente)
         {
@@ -334,6 +341,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             aus.rbCliente.Checked = true;
 
             aus.txtUsuario.Text = unCliente.username;
+            aus.txtPassword.PasswordChar = '*';
             aus.txtPassword.Text =unCliente.password;
             aus.txtTelCliente.Text =Convert.ToString(unCliente.telefono);
             aus.txtDpto.Text =unCliente.departamento;
@@ -348,6 +356,11 @@ namespace WindowsFormsApplication1.ABM_Usuario
             aus.txtCodPos.Text =Convert.ToString(unCliente.codPostal);
             aus.dtpCreacion.Value = unCliente.nacimiento;
             aus.txtNumero.Text = Convert.ToString(unCliente.numero);
+
+            AltaUsuario.aus.rbCliente.Enabled = false;
+            AltaUsuario.aus.rbEmpresa.Enabled = false;
+            AltaUsuario.aus.txtUsuario.Enabled = false;
+            AltaUsuario.aus.txtPassword.Enabled = false;
             }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

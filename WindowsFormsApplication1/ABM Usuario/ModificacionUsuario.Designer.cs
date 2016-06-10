@@ -302,7 +302,7 @@
             // 
             // cmdEliminar
             // 
-            this.cmdEliminar.Location = new System.Drawing.Point(433, 393);
+            this.cmdEliminar.Location = new System.Drawing.Point(434, 393);
             this.cmdEliminar.Name = "cmdEliminar";
             this.cmdEliminar.Size = new System.Drawing.Size(186, 23);
             this.cmdEliminar.TabIndex = 34;
