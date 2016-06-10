@@ -85,6 +85,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
             WindowsFormsApplication1.ABM_Visibilidad.ModificarVisibilidad.modVis.tbEnvio.Text = dataGridView1[4, fila].Value.ToString();
             WindowsFormsApplication1.ABM_Visibilidad.ModificarVisibilidad.modVis.visiId = (int)dataGridView1[0, fila].Value;
             modVisibilidad.Show();
+            panelResultados.Visible = false;
             this.Hide();
         }
 

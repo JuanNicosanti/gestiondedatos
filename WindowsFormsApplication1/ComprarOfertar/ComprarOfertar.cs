@@ -16,6 +16,8 @@ WindowsFormsApplication1.ComprarOfertar
     public partial class ComprarOfertar : Form
     {
 
+        private int proximaFila = 0;
+
         SqlCommand cmd;
         SqlDataReader sdr;
         SqlDataAdapter adapter;
@@ -87,6 +89,7 @@ WindowsFormsApplication1.ComprarOfertar
      
         private void paginar()
         {
+            
             nroPagina = Convert.ToInt32(lblPaginaActual.Text);//Obtenemos el numero de paginaactual 
             if (dataGridView1.Rows.Count > filasPagina)
             {
@@ -100,7 +103,7 @@ WindowsFormsApplication1.ComprarOfertar
                 this.ini = 0;
                 this.fin = dataGridView1.Rows.Count;
                 dataGridView1.Rows.Clear();
-
+                
                 
                 numeroRegistro = this.ini;
                 dataGridView1.ColumnCount = 10;
@@ -117,6 +120,10 @@ WindowsFormsApplication1.ComprarOfertar
                 
                 while (seSigueCargandoPrimeraPagina)
                 {
+                    fila = dtPublicaciones.Rows[ini];
+
+                   
+                    dataGridView1.Rows.Add();
                     dataGridView1.Rows[contadorDeFilas].Cells[0].Value = fila[0].ToString();
                     dataGridView1.Rows[contadorDeFilas].Cells[1].Value = fila[1].ToString();
                     dataGridView1.Rows[contadorDeFilas].Cells[2].Value = fila[2].ToString();
@@ -136,8 +143,8 @@ WindowsFormsApplication1.ComprarOfertar
                     }
 
                     contadorDeFilas++;
-
-                    if (ini++ == dtPublicaciones.Rows.Count)
+                    proximaFila++;
+                    if (proximaFila == dtPublicaciones.Rows.Count)
                     {
                         seSigueCargandoPrimeraPagina = false;
                     }
