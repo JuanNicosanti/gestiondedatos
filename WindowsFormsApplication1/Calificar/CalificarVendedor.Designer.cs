@@ -39,6 +39,8 @@
             this.cmdCalificar = new System.Windows.Forms.Button();
             this.cmdVolver = new System.Windows.Forms.Button();
             this.dgPublis = new System.Windows.Forms.DataGridView();
+            this.lblDetalle = new System.Windows.Forms.Label();
+            this.taDetalle = new System.Windows.Forms.RichTextBox();
             this.panelCalificaciones.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPublis)).BeginInit();
             this.SuspendLayout();
@@ -62,7 +64,7 @@
             this.panelCalificaciones.Controls.Add(this.label2);
             this.panelCalificaciones.Location = new System.Drawing.Point(24, 176);
             this.panelCalificaciones.Name = "panelCalificaciones";
-            this.panelCalificaciones.Size = new System.Drawing.Size(198, 145);
+            this.panelCalificaciones.Size = new System.Drawing.Size(157, 145);
             this.panelCalificaciones.TabIndex = 2;
             this.panelCalificaciones.Visible = false;
             this.panelCalificaciones.Paint += new System.Windows.Forms.PaintEventHandler(this.panelCalificaciones_Paint);
@@ -133,17 +135,18 @@
             // 
             // cmdCalificar
             // 
-            this.cmdCalificar.Location = new System.Drawing.Point(304, 239);
+            this.cmdCalificar.Location = new System.Drawing.Point(211, 298);
             this.cmdCalificar.Name = "cmdCalificar";
             this.cmdCalificar.Size = new System.Drawing.Size(75, 23);
             this.cmdCalificar.TabIndex = 6;
             this.cmdCalificar.Text = "Calificar";
             this.cmdCalificar.UseVisualStyleBackColor = true;
+            this.cmdCalificar.Visible = false;
             this.cmdCalificar.Click += new System.EventHandler(this.cmdCalificar_Click);
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(304, 298);
+            this.cmdVolver.Location = new System.Drawing.Point(337, 298);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(75, 23);
             this.cmdVolver.TabIndex = 7;
@@ -153,18 +156,42 @@
             // 
             // dgPublis
             // 
+            this.dgPublis.AllowUserToAddRows = false;
+            this.dgPublis.AllowUserToDeleteRows = false;
             this.dgPublis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgPublis.Location = new System.Drawing.Point(24, 38);
             this.dgPublis.Name = "dgPublis";
+            this.dgPublis.ReadOnly = true;
             this.dgPublis.Size = new System.Drawing.Size(388, 120);
             this.dgPublis.TabIndex = 8;
             this.dgPublis.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgPublis_CellContentClick);
+            // 
+            // lblDetalle
+            // 
+            this.lblDetalle.AutoSize = true;
+            this.lblDetalle.Location = new System.Drawing.Point(208, 176);
+            this.lblDetalle.Name = "lblDetalle";
+            this.lblDetalle.Size = new System.Drawing.Size(192, 13);
+            this.lblDetalle.TabIndex = 9;
+            this.lblDetalle.Text = "Agregar un detalle sobre la calificación:";
+            this.lblDetalle.Visible = false;
+            // 
+            // taDetalle
+            // 
+            this.taDetalle.Location = new System.Drawing.Point(211, 197);
+            this.taDetalle.Name = "taDetalle";
+            this.taDetalle.Size = new System.Drawing.Size(201, 89);
+            this.taDetalle.TabIndex = 10;
+            this.taDetalle.Text = "";
+            this.taDetalle.Visible = false;
             // 
             // CalificarVendedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(441, 349);
+            this.ClientSize = new System.Drawing.Size(431, 334);
+            this.Controls.Add(this.taDetalle);
+            this.Controls.Add(this.lblDetalle);
             this.Controls.Add(this.dgPublis);
             this.Controls.Add(this.cmdVolver);
             this.Controls.Add(this.cmdCalificar);
@@ -193,5 +220,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button cmdVolver;
         private System.Windows.Forms.DataGridView dgPublis;
+        private System.Windows.Forms.Label lblDetalle;
+        private System.Windows.Forms.RichTextBox taDetalle;
     }
 }

@@ -27,7 +27,7 @@ namespace WindowsFormsApplication1.Calificar
             CalificarVendedor.calif = this;
             InitializeComponent();           
             user = WindowsFormsApplication1.Form1.f1.user;            
-            cargarTabla();
+            cargarTabla();           
         }
 
         private void CalificarVendedor_Load(object sender, EventArgs e)
@@ -63,10 +63,15 @@ namespace WindowsFormsApplication1.Calificar
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@TranId", SqlDbType.Int).Value = (int)dgPublis[0, fila].Value;
             cmd.Parameters.AddWithValue("@CantidadEstrellas", SqlDbType.Int).Value = calificacion;
-            cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = dgPublis[3, fila].Value.ToString();
+            cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = taDetalle.Text;
             cmd.ExecuteNonQuery();
             
             MessageBox.Show("Publicación calificada", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+            cargarTabla();
+            panelCalificaciones.Visible = false;
+            lblDetalle.Visible = false;
+            taDetalle.Visible = false;
+            cmdCalificar.Visible = false;
         }
 
         private void panelCalificaciones_Paint(object sender, PaintEventArgs e)
@@ -76,8 +81,8 @@ namespace WindowsFormsApplication1.Calificar
 
         private void cmdVolver_Click(object sender, EventArgs e)
         {
-            WindowsFormsApplication1.Form1.f1.Show();
-            this.Hide();
+            WindowsFormsApplication1.Calificar.MenuCalificaciones.menuCalif.Show();
+            this.Close();
         }
 
         private void dgPublis_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -85,6 +90,9 @@ namespace WindowsFormsApplication1.Calificar
             if (dgPublis.CurrentRow != null)
             {
                 panelCalificaciones.Visible = true;
+                cmdCalificar.Visible = true;
+                lblDetalle.Visible = true;
+                taDetalle.Visible = true;
             }
         }
     }
