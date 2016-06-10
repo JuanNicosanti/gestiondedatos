@@ -15,7 +15,13 @@ namespace WindowsFormsApplication1.Listado_Estadistico
     {
         public static Listado_Estadistico lE;
         private DataBase db;
+        SqlCommand cmd;
+        SqlDataReader sdr;
+        SqlDataAdapter adapter;
+
         private int indexTrimestreSeleccionado;
+        private int anio;
+        private String rubroElegido;
 
         public Listado_Estadistico()
         {
@@ -46,6 +52,11 @@ namespace WindowsFormsApplication1.Listado_Estadistico
             cmdTop2.Visible = false;
             cmdTop3.Visible = false;
             cmdTop4.Visible = false;
+
+            lblRubro.Visible = false;
+            cmdRubro.Visible = false;
+            cboRubro.Visible = false;
+
         }
 
         private void cmdAnio_Click(object sender, EventArgs e)
@@ -56,6 +67,8 @@ namespace WindowsFormsApplication1.Listado_Estadistico
                 return;
                
             }
+            txtAnio.Enabled = false;
+            anio = int.Parse(txtAnio.Text.ToString());
             lblTrim.Visible = true;
             cmdTrimestre.Visible = true;
             cboTrim.Visible = true;
@@ -70,11 +83,124 @@ namespace WindowsFormsApplication1.Listado_Estadistico
 
             }
             indexTrimestreSeleccionado = cboTrim.SelectedIndex;
+            cboTrim.Enabled = false;
             lblTopp.Visible = true;
             cmdTop1.Visible = true;
             cmdTop2.Visible = true;
             cmdTop3.Visible = true;
             cmdTop4.Visible = true;
+        }
+
+        private void cmdTop1_Click(object sender, EventArgs e)
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Usuario");
+            adapter.Fill(dt);
+            this.dataGridView1.DataSource = dt;
+
+            lblRubro.Visible = false;
+            cmdRubro.Visible = false;
+            cboRubro.Visible = false;
+            cboRubro.Enabled = true;
+        }
+
+        private void cmdTop3_Click(object sender, EventArgs e)
+        {
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Cantidad_Facturas_Vendedores", db.Connection);
+            cmd.Parameters.AddWithValue("@Trimestre", SqlDbType.Int).Value = (indexTrimestreSeleccionado+1);
+            cmd.Parameters.AddWithValue("@Año", SqlDbType.Int).Value = anio;
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Usuario");
+            adapter.Fill(dt);
+            this.dataGridView1.DataSource = dt;
+
+            lblRubro.Visible = false;
+            cmdRubro.Visible = false;
+            cboRubro.Visible = false;
+            cboRubro.Enabled = true;
+        }
+
+        private void cmdVerOtro_Click(object sender, EventArgs e)
+        {
+          
+            txtAnio.Enabled = true;
+            txtAnio.Text = "";
+
+            cboTrim.Enabled = true;
+            cboTrim.SelectedIndex = -1;
+            cboTrim.Visible = false;
+            cmdTrimestre.Visible = false;
+            lblTrim.Visible = false;
+
+            lblTopp.Visible = false;
+            cmdTop1.Visible = false;
+            cmdTop2.Visible = false;
+            cmdTop3.Visible = false;
+            cmdTop4.Visible = false;
+
+            lblRubro.Visible = false;
+            cmdRubro.Visible = false;
+            cboRubro.Visible = false;
+            cboRubro.Enabled = true;
+
+            
+        }
+
+        private void cmdTop4_Click(object sender, EventArgs e)
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Monto_Facturado_Vendedor", db.Connection);
+            cmd.Parameters.AddWithValue("@Trimestre", SqlDbType.Int).Value = (indexTrimestreSeleccionado+1);
+            cmd.Parameters.AddWithValue("@Año", SqlDbType.Int).Value = anio;
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Usuario");
+            adapter.Fill(dt);
+            this.dataGridView1.DataSource = dt;
+
+            lblRubro.Visible = false;
+            cmdRubro.Visible = false;
+            cboRubro.Visible = false;
+            cboRubro.Enabled = true;
+        }
+
+        private void cmdTop2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Seleccione un Rubro", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+
+            lblRubro.Visible = true;
+            cmdRubro.Visible = true;
+            cboRubro.Visible = true;
+
+            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.ListaRubros", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while(sdr.Read())
+            {
+                cboRubro.Items.Add(sdr["DescripLarga"].ToString());
+            }
+
+            cboRubro.ValueMember = cboRubro.DisplayMember;
+        }
+
+        private void cmdRubro_Click(object sender, EventArgs e)
+        {
+            rubroElegido = cboRubro.SelectedItem.ToString();
+            cboRubro.Enabled = false;
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Clientes_Productos_Comprados", db.Connection);
+            cmd.Parameters.AddWithValue("@Trimestre", SqlDbType.Int).Value = (indexTrimestreSeleccionado + 1);
+            cmd.Parameters.AddWithValue("@Año", SqlDbType.Int).Value = anio;
+            cmd.Parameters.AddWithValue("@RubroDesc", SqlDbType.NVarChar).Value = rubroElegido;
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Usuario");
+            adapter.Fill(dt);
+            this.dataGridView1.DataSource = dt;
         }
     }
 }
