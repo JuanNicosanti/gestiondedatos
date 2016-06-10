@@ -90,6 +90,15 @@ namespace WindowsFormsApplication1.ABM_Usuario
                    idRoles.Add(user[i].Id_rol);
                 }
 
+                if (!user[0].Habilitado)
+                {
+                    MessageBox.Show("Usuario inhabilitado", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    Form1.f1.estaHabilitado = false;
+                }
+                else
+                {
+                    Form1.f1.estaHabilitado = true;
+                }
                 this.cargarComboBoxDeRoles(idRoles);
 
                 MessageBox.Show("Elija un rol", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
@@ -108,9 +117,12 @@ namespace WindowsFormsApplication1.ABM_Usuario
             }
             else if (!user[0].Habilitado)
             {
-                MessageBox.Show("Usuario bloqueado", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                return;
-                //doa.Bloquear(txtUsuario.Text);
+                MessageBox.Show("Usuario inhabilitado", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                Form1.f1.estaHabilitado = false;                
+            }
+            else
+            {
+                Form1.f1.estaHabilitado = true;
             }
     
             idRoles.Add(user[0].Id_rol);

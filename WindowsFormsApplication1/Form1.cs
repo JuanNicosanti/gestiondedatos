@@ -24,7 +24,7 @@ namespace WindowsFormsApplication1
         public int idRol;
         private int tag = 0;
 
-
+        public Boolean estaHabilitado;
         
         private Boolean seleccionoUsuario = false;
         private Boolean seleccionoVisibilidad = false;
@@ -127,24 +127,55 @@ namespace WindowsFormsApplication1
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = idRol;
                 SqlDataReader sdr = cmd.ExecuteReader();
-                
-                while (sdr.Read())
-                {
 
-                    ToolStripMenuItem unMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-                    unMenuToolStripMenuItem.Name = sdr["Descripcion"].ToString();
-                    unMenuToolStripMenuItem.Text = sdr["Descripcion"].ToString();
-                    unMenuToolStripMenuItem.Tag = sdr["Descripcion"].ToString();
-                    String unaFuncion = sdr["Descripcion"].ToString();
-                    if (unaFuncion == "ABM Rol" || unaFuncion == "ABM Usuario" || unaFuncion == "ABM Visibilidad")
+                if (estaHabilitado)
+                {
+                    while (sdr.Read())
                     {
-                        cargarMiniMenuABM(unMenuToolStripMenuItem, unaFuncion);
+
+                        ToolStripMenuItem unMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+                        String unaFuncion = sdr["Descripcion"].ToString();
+
+                        unMenuToolStripMenuItem.Name = unaFuncion;
+                        unMenuToolStripMenuItem.Text = unaFuncion;
+                        unMenuToolStripMenuItem.Tag = unaFuncion;
+
+                        if (unaFuncion == "ABM Rol" || unaFuncion == "ABM Usuario" || unaFuncion == "ABM Visibilidad")
+                        {
+                            cargarMiniMenuABM(unMenuToolStripMenuItem, unaFuncion);
+                        }
+                        unMenuToolStripMenuItem.Click += new EventHandler(funcionesPorRol_Click);
+
+
+                        funcionesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { unMenuToolStripMenuItem });
                     }
-                    unMenuToolStripMenuItem.Click += new EventHandler(funcionesPorRol_Click);
-                    
-                    
-                    funcionesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {unMenuToolStripMenuItem});        
                 }
+                else
+                {
+                    while (sdr.Read())
+                    {
+                        ToolStripMenuItem unMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+                        String unaFuncion = sdr["Descripcion"].ToString();
+
+                        unMenuToolStripMenuItem.Name = unaFuncion;
+                        unMenuToolStripMenuItem.Text = unaFuncion;
+                        unMenuToolStripMenuItem.Tag = unaFuncion;
+
+                        if (unaFuncion == "ABM Rol" || unaFuncion == "ABM Usuario" || unaFuncion == "ABM Visibilidad")
+                        {
+                            cargarMiniMenuABM(unMenuToolStripMenuItem, unaFuncion);
+                        }
+                        unMenuToolStripMenuItem.Click += new EventHandler(funcionesPorRol_Click);
+
+                        if (!unaFuncion.Equals("Comprar/Ofertar") && !unaFuncion.Equals("Generar Publicación"))
+                        {
+                            funcionesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { unMenuToolStripMenuItem });
+                        }
+                        
+                    }
+                }
+               
+               
                 hayUsuario = false;
             }
           
