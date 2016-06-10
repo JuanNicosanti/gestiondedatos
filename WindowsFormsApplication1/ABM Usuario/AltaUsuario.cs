@@ -17,6 +17,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
     {
         public static AltaUsuario aus;
         private int huboError = 0;
+
         public int esAltaUsuario =1;
         public int irAlMenuPrincipal;
         public AltaUsuario()
@@ -306,6 +307,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                         Login.lg.Show();
                         this.Hide();
                     }
+                    return;
                      
                 }
                 
@@ -313,8 +315,12 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 {
                     doa.modificarCliente("Cliente", txtUsuario.Text, txtPassword.Text, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
                     ModificacionUsuario mUsu = new ModificacionUsuario();
+                    mUsu.esModificar = true;
+                    mUsu.cmdModificar.Visible = true;
+                    mUsu.cmdEliminar.Visible = false;
                     mUsu.Show();
                     this.Hide();
+                    return;
                 }
                     
 
@@ -414,12 +420,29 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 UsuarioDOA doa = new UsuarioDOA();
                 if (esAltaUsuario == 1)
                 {
-                    doa.crearEmpresa("Empresa", txtUsuario.Text, hash, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text,txtCiudadEmpresa.Text);
+                    string hashE = this.encriptacion(txtPassword.Text);
+                    doa.crearEmpresa("Empresa", txtUsuario.Text, hashE, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text, txtCiudadEmpresa.Text);
+                    if (irAlMenuPrincipal == 1)
+                    {
+                        Form1.f1.Show();
+                        this.Hide();
+                    }
+                    if (irAlMenuPrincipal == 0)
+                    {
+                        Login.lg.Show();
+                        this.Hide();
+                    }
+                    return;
+                   
                 }
                 if (esAltaUsuario == 0)
                 {
-                    doa.modificarEmpresa("Empresa", txtUsuario.Text, hash, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text,txtCiudadEmpresa.Text);
+                    doa.modificarEmpresa("Empresa", txtUsuario.Text, txtPassword.Text, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text,txtCiudadEmpresa.Text);
                     ModificacionUsuario mUsu = new ModificacionUsuario();
+                    mUsu.esModificar = true;
+                    mUsu.cmdModificar.Visible = true;
+                    mUsu.cmdEliminar.Visible = false;
+                    mUsu.Show();
                     this.Hide();
                 }
             }
@@ -505,6 +528,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
             {
                 ModificacionUsuario mUsu = new ModificacionUsuario();
                 mUsu.Show();
+                mUsu.cmdModificar.Visible = true;
+                mUsu.cmdEliminar.Visible = false;
+                mUsu.esModificar = true;
+                
                 this.Hide();
 
             }
