@@ -108,7 +108,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            WindowsFormsApplication1.Form1.f1.Close();
         }              
 
     }

@@ -507,6 +507,11 @@ WindowsFormsApplication1.ComprarOfertar
             }
         }
 
+        private void salirToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Form1.f1.Close();
+        }
+
        
     }
 }
