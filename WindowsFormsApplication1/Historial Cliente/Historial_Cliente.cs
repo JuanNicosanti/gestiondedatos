@@ -20,6 +20,8 @@ namespace WindowsFormsApplication1.Historial_Cliente
         private int cantidadMaximaDeFilas;
         private DataBase db;
 
+        public String username;
+
         int filasPagina = 10; // Definimos el numero de filas que deseamos ver por pagina
         int nroPagina = 1;//Esto define el numero de pagina actual en al que nos encontramos
         int ini = 0; //inicio del paginado
@@ -27,13 +29,16 @@ namespace WindowsFormsApplication1.Historial_Cliente
 
         int numeroRegistro;
 
-        DataTable dtClientes = new DataTable();
+        DataTable dtComprasYSubastas = new DataTable();
         DataRow fila;
+
+        public static Historial_Cliente hc;
 
         public Historial_Cliente()
         {
             InitializeComponent();
             db = DataBase.GetInstance();
+            Historial_Cliente.hc = this;
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,35 +48,35 @@ namespace WindowsFormsApplication1.Historial_Cliente
 
         private void cmdPrimera_Click(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(lblTotalPagina.Text) > 1)
+            if (Convert.ToInt32(lblActual.Text) > 1)
             {
                 this.nroPagina = 1;
 
-                lblPaginaActual.Text = this.nroPagina.ToString();
+                lblActual.Text = this.nroPagina.ToString();
                 this.paginar();
             }
         }
 
         private void cmdAnterior_Click(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(lblPaginaActual.Text) > 1)
+            if (Convert.ToInt32(lblActual.Text) > 1)
             {
                 this.nroPagina -= 1;
 
 
-                lblPaginaActual.Text = this.nroPagina.ToString();
+                lblActual.Text = this.nroPagina.ToString();
                 this.paginar();
             }
         }
 
         private void cmdSiguiente_Click(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(lblPaginaActual.Text) < Convert.ToInt32(lblTotalPagina.Text))
+            if (Convert.ToInt32(lblActual.Text) < Convert.ToInt32(lblTotalPagina.Text))
             {
                 this.nroPagina += 1;
 
 
-                lblPaginaActual.Text = this.nroPagina.ToString();
+                lblActual.Text = this.nroPagina.ToString();
                 this.paginar();
             }
         }
@@ -82,14 +87,14 @@ namespace WindowsFormsApplication1.Historial_Cliente
             {
                 this.nroPagina = Convert.ToInt32(lblTotalPagina.Text);
 
-                lblPaginaActual.Text = this.nroPagina.ToString();
+                lblActual.Text = this.nroPagina.ToString();
                 this.paginar();
             }
         }
 
         private void paginar()
         {
-            nroPagina = Convert.ToInt32(lblPaginaActual.Text);//Obtenemos el numero de paginaactual 
+            nroPagina = Convert.ToInt32(lblActual.Text);//Obtenemos el numero de paginaactual 
             if (dataGridView2.Rows.Count > filasPagina)
             {
                 this.ini = nroPagina * filasPagina - filasPagina;
@@ -100,31 +105,27 @@ namespace WindowsFormsApplication1.Historial_Cliente
             else
             {
                 this.ini = 0;
-                this.fin = dataGridView1.Rows.Count;
+                this.fin = dataGridView2.Rows.Count;
             }
 
-            dataGridView1.Rows.Clear();
+            dataGridView2.Rows.Clear();
             int indiceInsertar;//
             numeroRegistro = this.ini;
-            dataGridView2.ColumnCount = 9;
-            dataGridView2.Columns[0].Name = "PublId";
-            dataGridView2.Columns[1].Name = "Descripcion";
-            dataGridView2.Columns[2].Name = "Stock";
-            dataGridView2.Columns[3].Name = "FechaInicio";
-            dataGridView2.Columns[4].Name = "FechaFin";
-            dataGridView2.Columns[5].Name = "Precio";
-            dataGridView2.Columns[6].Name = "Rubro";
-            dataGridView2.Columns[7].Name = "Tipo";
-            dataGridView2.Columns[8].Name = "UserId";
-
+            dataGridView2.ColumnCount = 5;
+            dataGridView2.Columns[0].Name = "Tipo Transac";
+            dataGridView2.Columns[1].Name = "Fecha";
+            dataGridView2.Columns[2].Name = "Monto";
+            dataGridView2.Columns[3].Name = "Descripcion";
+            dataGridView2.Columns[4].Name = "UserId";
+         
             contadorDeFilas = 0;
             for (int i = ini; i < filasPagina * nroPagina; i++)
             {
 
-                fila = dtClientes.Rows[i];
+                fila = dtComprasYSubastas.Rows[i];
 
                 numeroRegistro = numeroRegistro + 1;
-                dataGridView1.Rows.Add();
+                dataGridView2.Rows.Add();
 
                 indiceInsertar = i;
                 dataGridView2.Rows[contadorDeFilas].Cells[0].Value = fila[0].ToString();
@@ -132,10 +133,7 @@ namespace WindowsFormsApplication1.Historial_Cliente
                 dataGridView2.Rows[contadorDeFilas].Cells[2].Value = fila[2].ToString();
                 dataGridView2.Rows[contadorDeFilas].Cells[3].Value = fila[3].ToString();
                 dataGridView2.Rows[contadorDeFilas].Cells[4].Value = fila[4].ToString();
-                dataGridView2.Rows[contadorDeFilas].Cells[5].Value = fila[5].ToString();
-                dataGridView2.Rows[contadorDeFilas].Cells[6].Value = fila[6].ToString();
-                dataGridView2.Rows[contadorDeFilas].Cells[7].Value = fila[7].ToString();
-                dataGridView2.Rows[contadorDeFilas].Cells[8].Value = fila[8].ToString();
+ 
 
                 contadorDeFilas++;
 
@@ -152,46 +150,54 @@ namespace WindowsFormsApplication1.Historial_Cliente
 
         private void numPaginas()
         {
-            if (dtClientes.Rows.Count % filasPagina == 0)
-                lblTotalPagina.Text = (dtClientes.Rows.Count / filasPagina).ToString();
+            if (dtComprasYSubastas.Rows.Count % filasPagina == 0)
+                lblTotalPagina.Text = (dtComprasYSubastas.Rows.Count / filasPagina).ToString();
             else
             {
-                double valor = dtClientes.Rows.Count / filasPagina;
+                double valor = dtComprasYSubastas.Rows.Count / filasPagina;
                 lblTotalPagina.Text = (Convert.ToInt32(valor) + 1).ToString();
 
             }
 
-            lblPaginaActual.Text = "1";
+            lblActual.Text = "1";
         }
 
-        private void cmdVerHistorial_Click(object sender, EventArgs e)
+
+
+        private void cargarOtrosDatos()
         {
-            if (dataGridView1.CurrentRow == null)
-            {
-
-                MessageBox.Show("Debe seleccionar un cliente para revisar su historial de compras/subastas", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                return;
-            }
-
-            int fila = dataGridView1.CurrentRow.Index;
-            int clienteID = (int)dataGridView1[0, fila].Value;
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Historial_Cliente", db.Connection);
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Historial_Cliente_Acumulados", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
-
-
-            cmd.Parameters.AddWithValue("@ClienteId", SqlDbType.Int).Value = clienteID;
-            
+            cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = username;
             adapter = new SqlDataAdapter(cmd);
-            dtClientes = new DataTable("ROAD_TO_PROYECTO.Clientes");
-            adapter.Fill(dtClientes);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                lblSinCalif.Text = sdr["Sin Calificar"].ToString();
+                lblPromedio.Text = sdr["Promedio Estrellas"].ToString();
+                lblCantEstrellas.Text = sdr["Estrellas Totales"].ToString();
+            }
+            //dtComprasYSubastas = new DataTable("ROAD_TO_PROYECTO.Transaccion");
+            //adapter.Fill(dtComprasYSubastas);
+        }
 
-            
-            if (dtClientes.Rows.Count > 0)
+        private void Historial_Cliente_Load(object sender, EventArgs e)
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Historial_Cliente_Compras_Subastas", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = username;
+            adapter = new SqlDataAdapter(cmd);
+            dtComprasYSubastas = new DataTable("ROAD_TO_PROYECTO.Transaccion");
+            adapter.Fill(dtComprasYSubastas);
+
+            this.cargarOtrosDatos();
+
+            if (dtComprasYSubastas.Rows.Count > 0)
             {
                 this.numPaginas(); //Funcion para calcular el numero total de paginas que tendra nuestra vista
                 this.paginar();//empezamos con la paginacion             
-                lblCantidadTotal.Text = "Compras/Subastas Encontradas: " + dtClientes.Rows.Count.ToString();//Cantidad totoal de registros encontrados
-                cantidadMaximaDeFilas = dtClientes.Rows.Count;
+                lblCantidadTotal.Text = "Compras/Subastas Encontradas: " + dtComprasYSubastas.Rows.Count.ToString();//Cantidad totoal de registros encontrados
+                cantidadMaximaDeFilas = dtComprasYSubastas.Rows.Count;
                 dataGridView2.Select();
             }
             else
@@ -201,17 +207,6 @@ namespace WindowsFormsApplication1.Historial_Cliente
                 lblCantidadTotal.Text = "Compras/Subastas Encontradas: 0";
                 cantidadMaximaDeFilas = 0;
             }
-           
-        }
-
-        private void Historial_Cliente_Load(object sender, EventArgs e)
-        {
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.DatosCliente", db.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            adapter = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Cliente");
-            adapter.Fill(dt);
-            dataGridView1.DataSource = dt;
         }
 
         private void cmdVolver_Click(object sender, EventArgs e)
@@ -224,6 +219,16 @@ namespace WindowsFormsApplication1.Historial_Cliente
         {
             dataGridView2.Rows.Clear();
             dataGridView2.Refresh();
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblCantEstrellas_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

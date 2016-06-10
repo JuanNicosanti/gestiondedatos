@@ -173,21 +173,26 @@ namespace WindowsFormsApplication1
             menuModificarToolStripMenuItem.Tag = "Modificar";
             menuModificarToolStripMenuItem.Click += new EventHandler(modificar_Click);
             unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuModificarToolStripMenuItem });
-            /*if (unaFuncion == "ABM Usuario")
+            if (unaFuncion.Equals("ABM Usuario"))
             {
-                menuModificarToolStripMenuItem.Name = "Cambiar contraseña";
-                menuModificarToolStripMenuItem.Text = "Cambiar contraseña";
-                menuModificarToolStripMenuItem.Tag = "Cambiar contraseña";
-                menuModificarToolStripMenuItem.Click += new EventHandler(cambiarContrasenia_Click);
-                unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuModificarToolStripMenuItem });
-            }*/
+                ToolStripMenuItem menuCambiarContraseñaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+                menuCambiarContraseñaToolStripMenuItem.Name = "Cambiar contraseña";
+                menuCambiarContraseñaToolStripMenuItem.Text = "Cambiar contraseña";
+                menuCambiarContraseñaToolStripMenuItem.Tag = "Cambiar contraseña";
+                menuCambiarContraseñaToolStripMenuItem.Click += new EventHandler(cambiarContrasenia_Click);
+                unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuCambiarContraseñaToolStripMenuItem });
+            }
         }
 
         private void cambiarContrasenia_Click(object sender, EventArgs e) {
-            WindowsFormsApplication1.ABM_Usuario.CambiarContrasenia cambiarContra = new WindowsFormsApplication1.ABM_Usuario.CambiarContrasenia();
-            cambiarContra.soyAdmin = true;
-            cambiarContra.Show();
-            this.Hide();
+            if (seleccionoUsuario)
+            {
+                WindowsFormsApplication1.ABM_Usuario.CambiarContrasenia cambiarContra = new WindowsFormsApplication1.ABM_Usuario.CambiarContrasenia();
+                cambiarContra.soyAdmin = true;
+                cambiarContra.Show();
+                this.Hide();
+            }
+            
         }
 
 
@@ -373,8 +378,9 @@ namespace WindowsFormsApplication1
 
             if ((string)clickedItem.Tag == "Historial de Cliente")
             {
-                WindowsFormsApplication1.Historial_Cliente.Historial_Cliente hC = new WindowsFormsApplication1.Historial_Cliente.Historial_Cliente();
-                hC.Show();
+                WindowsFormsApplication1.Historial_Cliente.Historial_Cliente.hc = new WindowsFormsApplication1.Historial_Cliente.Historial_Cliente();
+                WindowsFormsApplication1.Historial_Cliente.Historial_Cliente.hc.username = user;
+                WindowsFormsApplication1.Historial_Cliente.Historial_Cliente.hc.Show();
                 this.Hide();
                 seleccionoRol = false;
                 seleccionoUsuario = false;

@@ -1441,11 +1441,59 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Historial_Cliente_Acumulados
 	as begin
 		declare @ClieId int
 		set @ClieId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
-		select count (*) as 'Sin Calificar', (select sum(c.CantEstrellas)/count(c.CantEstrellas) from ROAD_TO_PROYECTO.Calificacion c, ROAD_TO_PROYECTO.Transaccion t where c.TranId = t.TranId and t.ClieId = @ClieId) as 'Prom Calif'
+		select count (*) as 'Sin Calificar', ROAD_TO_PROYECTO.EstrellasPromedioCliente(@ClieId) as 'Promedio Estrellas', ROAD_TO_PROYECTO.EstrellasTotalesCliente(@ClieId) as 'Estrellas Totales'
 		from ROAD_TO_PROYECTO.Transaccion t
 		where t.ClieId = @ClieId and t.TranId not in (select c.TranId from ROAD_TO_PROYECTO.Calificacion c)
 	end
 GO
+
+CREATE FUNCTION ROAD_TO_PROYECTO.EstrellasPromedioCliente(@ClieId int)
+returns numeric(18,2)
+as begin
+declare @CantEstrellas numeric(18,2)
+select @CantEstrellas = avg(c.CantEstrellas) from ROAD_TO_PROYECTO.Calificacion c, ROAD_TO_PROYECTO.Transaccion t where c.TranId = t.TranId and t.ClieId = @ClieId
+return @CantEstrellas
+end
+GO
+
+CREATE FUNCTION ROAD_TO_PROYECTO.EstrellasTotalesCliente(@ClieId int)
+returns int
+as begin
+declare @CantEstrellas int
+select @CantEstrellas = sum(c.CantEstrellas) from ROAD_TO_PROYECTO.Calificacion c, ROAD_TO_PROYECTO.Transaccion t where c.TranId = t.TranId and t.ClieId = @ClieId
+return @CantEstrellas
+end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.AsignarRolAUsuario 
+@Usuario nvarchar(255),
+@RolAsignado nvarchar(255)
+as begin
+if(@RolAsignado ='Cliente')
+exec ROAD_TO_PROYECTO.Alta_Rol_Usuario @Usuario, @RolAsignado,AsignarUltimoIdCliente
+else if(@RolAsignado = 'Empresa')
+exec ROAD_TO_PROYECTO.Alta_Rol_Usuario @Usuario, @RolAsignado, AsignarUltimoIdEmpresa
+else
+if not exists(select rpu.UserId,rpu.RolId from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu where rpu.UserId = @Usuario and rpu.RolId = (select RolId from ROAD_TO_PROYECTO.Rol r where r.Nombre = @RolAsignado))
+insert into ROAD_TO_PROYECTO.Roles_Por_Usuario values (@Usuario,(select rolid from ROAD_TO_PROYECTO.Rol where nombre = @RolAsignado),NULL)
+end
+GO
+
+CREATE FUNCTION ROAD_TO_PROYECTO.AsignarUltimoIdEmpresa()
+returns int
+as begin
+return (select max(EmprId)+1 from ROAD_TO_PROYECTO.Empresa)
+end
+GO
+
+
+CREATE FUNCTION ROAD_TO_PROYECTO.AsignarUltimoIdCliente()
+returns int
+as begin
+return (select max(ClieId)+1 from ROAD_TO_PROYECTO.Cliente)
+end
+GO
+
 
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert
@@ -1570,6 +1618,9 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.P
 		deallocate c2;
 	end
 GO
+
+
+
 
 --ATRODEN UN ROGER
 insert into ROAD_TO_PROYECTO.Usuario (Usuario, Contraseña, Mail)

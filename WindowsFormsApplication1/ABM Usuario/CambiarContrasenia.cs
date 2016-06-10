@@ -25,6 +25,12 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
         private void cmdVolver_Click(object sender, EventArgs e)
         {
+            if (soyAdmin)
+            {
+                Form1.f1.Show();
+                this.Hide();
+                return;
+            }
             Login.lg.Show();
             this.Hide();
         }

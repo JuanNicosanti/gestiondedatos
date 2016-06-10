@@ -32,7 +32,7 @@ WindowsFormsApplication1.ComprarOfertar
         public static ComprarOfertar cO;
         public String compradorID;
         
-        int filasPagina = 1; // Definimos el numero de filas que deseamos ver por pagina
+        int filasPagina = 10; // Definimos el numero de filas que deseamos ver por pagina
         int nroPagina = 1;//Esto define el numero de pagina actual en al que nos encontramos
         int ini = 0; //inicio del paginado
         int fin = 0;//fin del paginado
@@ -185,20 +185,9 @@ WindowsFormsApplication1.ComprarOfertar
             lstRubrosElegidos.Items.RemoveAt(lstRubrosElegidos.SelectedIndex);
         }
 
-        private void cmdBuscar_Click_1(object sender, EventArgs e)
+
+        private void pedirPublicacionesYOrdenar()
         {
-            for (int i = 0; i < lstRubrosElegidos.Items.Count ; i++)
-            {
-                listaDeRubrosFiltros += lstRubrosElegidos.Items[i].ToString() +",";
-            }
-            descripcionFiltros = txtDescripcion.Text.ToString();
-            if(!lstRubrosElegidos.Items.Count.Equals(0))
-            {
-                    listaDeRubrosFiltros = listaDeRubrosFiltros.TrimEnd(',');
-            }
-            else {
-                listaDeRubrosFiltros = "";
-            }
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Publicaciones", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -208,8 +197,6 @@ WindowsFormsApplication1.ComprarOfertar
             adapter = new SqlDataAdapter(cmd);
             dtPublicaciones = new DataTable("ROAD_TO_PROYECTO.Publicacion");
             adapter.Fill(dtPublicaciones);
-
-            //this.dataGridView1.DataSource = dtPublicaciones;           // 
             if (dtPublicaciones.Rows.Count > 0)
             {
                 this.numPaginas(); //Funcion para calcular el numero total de paginas que tendra nuestra vista
@@ -225,6 +212,26 @@ WindowsFormsApplication1.ComprarOfertar
                 lblCantidadTotal.Text = "Publicaciones Encontradas: 0";
                 cantidadMaximaDeFilas = 0;
             }
+        }
+
+        private void cmdBuscar_Click_1(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstRubrosElegidos.Items.Count ; i++)
+            {
+                listaDeRubrosFiltros += lstRubrosElegidos.Items[i].ToString() +",";
+            }
+            descripcionFiltros = txtDescripcion.Text.ToString();
+            if(!lstRubrosElegidos.Items.Count.Equals(0))
+            {
+                    listaDeRubrosFiltros = listaDeRubrosFiltros.TrimEnd(',');
+            }
+            else {
+                listaDeRubrosFiltros = "";
+            }
+
+            this.pedirPublicacionesYOrdenar();
+            //this.dataGridView1.DataSource = dtPublicaciones;           // 
+          
 
             listaDeRubrosFiltros = "";
            
@@ -300,7 +307,13 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void cmdComprarOfertar_Click(object sender, EventArgs e)
         {
-            
+            int fila = dataGridView1.CurrentRow.Index;
+            String envioOfertante = dataGridView1[9, fila].Value.ToString();
+            if (rbEnvioSi.Checked == true && envioOfertante.Equals("No"))
+            {
+                MessageBox.Show("La publicacion no permite envio", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
           
             if (dataGridView1.CurrentRow == null)
             {
@@ -309,7 +322,7 @@ WindowsFormsApplication1.ComprarOfertar
                 return;
             }
 
-            int fila = dataGridView1.CurrentRow.Index;
+            
             String ofertaOCompra = dataGridView1[7, fila].Value.ToString();
           
             
@@ -381,9 +394,16 @@ WindowsFormsApplication1.ComprarOfertar
 
                 cmd.ExecuteNonQuery();
             }
+
+            this.hacerRefresh();
           
             
         
+        }
+        //FALTA DIRIGIRME A LA PAG NUEVA
+        private void hacerRefresh()
+        {
+            this.pedirPublicacionesYOrdenar();
         }
 
         private void label6_Click(object sender, EventArgs e)

@@ -313,7 +313,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(168, 212);
             this.label6.TabIndex = 28;
-            this.label6.Text = "META DATO";
+            this.label6.Text = "Pago";
             this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // label7

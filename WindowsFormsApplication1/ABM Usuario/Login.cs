@@ -26,6 +26,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
         private List<int> idRoles = new List<int>();
         private DataBase db;
 
+        private String rolElegido;
 
     
         public Login()
@@ -135,6 +136,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 sdr.Read();
                 cboRoles.Items.Add(sdr["nombreRol"].ToString());
             }
+            cboRoles.ValueMember = cboRoles.DisplayMember;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -217,7 +219,8 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
         private void cboRoles_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            rolElegido = cboRoles.SelectedItem.ToString();
+            
         }
 
         private void cmdLoguear_Click(object sender, EventArgs e)
@@ -229,7 +232,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             }
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.IdBasadoANombreRol", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = idRoles[0];
+            cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = rolElegido;
 
             SqlDataReader sdr = cmd.ExecuteReader();
             sdr.Read();
