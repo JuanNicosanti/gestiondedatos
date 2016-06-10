@@ -1179,7 +1179,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Calificar_Transaccion
 		from ROAD_TO_PROYECTO.Calificacion
 		set @CaliId = @CaliIdAnterior + 1
 		insert into ROAD_TO_PROYECTO.Calificacion (CaliId, TranId, CantEstrellas, Descipcion)
-		values(@TranId, @CaliId, @CantidadEstrellas, @Descripcion)
+		values(@CaliId, @TranId, @CantidadEstrellas, @Descripcion)
 	end
 GO
 -- VISTA DATOS CLIENTE
@@ -1425,7 +1425,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Factura
 GO
 
 
-Alter PROCEDURE ROAD_TO_PROYECTO.Historial_Cliente_Compras_Subastas
+CREATE PROCEDURE ROAD_TO_PROYECTO.Historial_Cliente_Compras_Subastas
 	@Usuario nvarchar(255)
 	as begin
 		declare @ClieId int

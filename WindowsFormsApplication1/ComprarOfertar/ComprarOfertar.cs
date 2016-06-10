@@ -32,7 +32,7 @@ WindowsFormsApplication1.ComprarOfertar
         public static ComprarOfertar cO;
         public String compradorID;
         
-        int filasPagina = 10; // Definimos el numero de filas que deseamos ver por pagina
+        int filasPagina = 1; // Definimos el numero de filas que deseamos ver por pagina
         int nroPagina = 1;//Esto define el numero de pagina actual en al que nos encontramos
         int ini = 0; //inicio del paginado
         int fin = 0;//fin del paginado
@@ -328,13 +328,14 @@ WindowsFormsApplication1.ComprarOfertar
                 }
             }
             if (ofertaOCompra.Equals("Compra Inmediata"))
-            {
+            {               
                 if (string.IsNullOrEmpty(txtCantidad.Text))
                 {
                     MessageBox.Show("Debe completar la informacion de pago", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     return;
                 }
             }
+            
             if (ofertaOCompra.Equals("Subasta"))
             {
                 cash = int.Parse(txtGuita.Text.ToString());
@@ -394,20 +395,29 @@ WindowsFormsApplication1.ComprarOfertar
         {
             int filaAux = dataGridView1.CurrentRow.Index;
             String ofertaOCompra = dataGridView1[7, filaAux].Value.ToString();
-            if (ofertaOCompra.Equals("Subasta"))
+            if (dataGridView1.CurrentRow != null)
             {
-                txtCantidad.Visible = false;
-                txtGuita.Visible = true;
-                lblGuita.Visible = true;
-                lblCantidad.Visible = false;
-              
+                if (ofertaOCompra.Equals("Subasta"))
+                {
+                    txtCantidad.Visible = false;
+                    txtGuita.Visible = true;
+                    lblGuita.Visible = true;
+                    lblCantidad.Visible = false;
+
+                }
+                if (ofertaOCompra.Equals("Compra Inmediata"))
+                {
+                    txtGuita.Visible = false;
+                    txtCantidad.Visible = true;
+                    lblGuita.Visible = false;
+                    lblCantidad.Visible = true;
+                }
             }
-            if(ofertaOCompra.Equals("Compra Inmediata")){
-                txtGuita.Visible = false;
-                txtCantidad.Visible = true;
-                lblGuita.Visible = false;
-                lblCantidad.Visible = true;
-            }
+        }
+
+        private void txtCantidad_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
        

@@ -18,51 +18,33 @@ namespace WindowsFormsApplication1.Calificar
         SqlDataAdapter adapter;
         private DataBase db;
         public string user;
-        public int calificacion;
-        public int transId;
+        public int calificacion;        
         public static CalificarVendedor calif;
 
         public CalificarVendedor()
         {
-            InitializeComponent();
+            db = DataBase.GetInstance();
+            CalificarVendedor.calif = this;
+            InitializeComponent();           
+            user = WindowsFormsApplication1.Form1.f1.user;            
+            cargarTabla();
         }
 
         private void CalificarVendedor_Load(object sender, EventArgs e)
         {           
-            cargarComboBox();
+            
         }
 
-        public void cargarComboBox() //Traigo las publicaciones que puede calificar
-        {
+        public void cargarTabla() {
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Transacciones_Sin_Calificar", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = user;            
+
             adapter = new SqlDataAdapter(cmd);
-            cmd.Parameters.AddWithValue("@UserId", SqlDbType.NVarChar).Value = user;
-
-            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Publicacion");
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Transaccion");
             adapter.Fill(dt);
-            this.cboCalif.DataSource = dt;
-            this.cboCalif.DisplayMember = "Descripcion";
-
-            cboCalif.ValueMember = cboCalif.DisplayMember;
-            cboCalif.SelectedIndex = -1;
-            cboCalif.Text = "Seleccione una publicación";
-
-            sdr = cmd.ExecuteReader();
-            while (sdr.Read())
-            {
-                transId = (int)sdr["TranId"];
-            }
-            sdr.Close();
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cboCalif.SelectedIndex != -1)
-            {
-                panelCalificaciones.Visible = true;
-            }
-        }
+            this.dgPublis.DataSource = dt;
+        }    
 
         private void cmdCalificar_Click(object sender, EventArgs e)
         {
@@ -75,12 +57,13 @@ namespace WindowsFormsApplication1.Calificar
                 MessageBox.Show("Debe ingresar una calificación", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
             }
+            int fila = dgPublis.CurrentRow.Index;
 
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Calificar_Transaccion", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@TranId", SqlDbType.Int).Value = transId;
+            cmd.Parameters.AddWithValue("@TranId", SqlDbType.Int).Value = (int)dgPublis[0, fila].Value;
             cmd.Parameters.AddWithValue("@CantidadEstrellas", SqlDbType.Int).Value = calificacion;
-            cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = cboCalif.SelectedValue.ToString();
+            cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = dgPublis[3, fila].Value.ToString();
             cmd.ExecuteNonQuery();
             
             MessageBox.Show("Publicación calificada", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
@@ -89,6 +72,20 @@ namespace WindowsFormsApplication1.Calificar
         private void panelCalificaciones_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void cmdVolver_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Form1.f1.Show();
+            this.Hide();
+        }
+
+        private void dgPublis_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgPublis.CurrentRow != null)
+            {
+                panelCalificaciones.Visible = true;
+            }
         }
     }
 }

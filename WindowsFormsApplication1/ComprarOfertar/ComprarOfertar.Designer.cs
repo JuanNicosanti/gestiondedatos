@@ -331,7 +331,7 @@
             // 
             this.rbEnvioSi.AutoSize = true;
             this.rbEnvioSi.Location = new System.Drawing.Point(78, 107);
-            this.rbEnvioSi.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rbEnvioSi.Margin = new System.Windows.Forms.Padding(2);
             this.rbEnvioSi.Name = "rbEnvioSi";
             this.rbEnvioSi.Size = new System.Drawing.Size(35, 17);
             this.rbEnvioSi.TabIndex = 31;
@@ -343,7 +343,7 @@
             // 
             this.rbEnvioNo.AutoSize = true;
             this.rbEnvioNo.Location = new System.Drawing.Point(78, 136);
-            this.rbEnvioNo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rbEnvioNo.Margin = new System.Windows.Forms.Padding(2);
             this.rbEnvioNo.Name = "rbEnvioNo";
             this.rbEnvioNo.Size = new System.Drawing.Size(41, 17);
             this.rbEnvioNo.TabIndex = 32;
@@ -364,7 +364,7 @@
             // txtGuita
             // 
             this.txtGuita.Location = new System.Drawing.Point(78, 183);
-            this.txtGuita.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtGuita.Margin = new System.Windows.Forms.Padding(2);
             this.txtGuita.Name = "txtGuita";
             this.txtGuita.Size = new System.Drawing.Size(76, 20);
             this.txtGuita.TabIndex = 34;
@@ -382,10 +382,11 @@
             // txtCantidad
             // 
             this.txtCantidad.Location = new System.Drawing.Point(78, 183);
-            this.txtCantidad.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCantidad.Margin = new System.Windows.Forms.Padding(2);
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Size = new System.Drawing.Size(76, 20);
             this.txtCantidad.TabIndex = 36;
+            this.txtCantidad.TextChanged += new System.EventHandler(this.txtCantidad_TextChanged);
             // 
             // ComprarOfertar
             // 
