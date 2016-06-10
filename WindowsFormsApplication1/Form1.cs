@@ -437,6 +437,9 @@ namespace WindowsFormsApplication1
 
             if ((string)clickedItem.Tag == "Listado Estadístico")
             {
+                WindowsFormsApplication1.Listado_Estadistico.Listado_Estadistico.lE = new WindowsFormsApplication1.Listado_Estadistico.Listado_Estadistico();
+                WindowsFormsApplication1.Listado_Estadistico.Listado_Estadistico.lE.Show();
+                this.Hide();
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;

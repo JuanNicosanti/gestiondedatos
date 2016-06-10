@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
-            this.cmdModificarUsuario = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.usuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ingreseUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,14 +38,8 @@
             this.desconectarseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.cmdVerVisibilidad = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.cmdBajaRol = new System.Windows.Forms.Button();
-            this.cmdModificarRol = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.cmdCOmprar = new System.Windows.Forms.Button();
-            this.cmdHist = new System.Windows.Forms.Button();
             this.cmdCalificar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -71,16 +64,6 @@
             this.lblUsuario.Size = new System.Drawing.Size(11, 14);
             this.lblUsuario.TabIndex = 3;
             this.lblUsuario.Text = " ";
-            // 
-            // cmdModificarUsuario
-            // 
-            this.cmdModificarUsuario.Location = new System.Drawing.Point(12, 49);
-            this.cmdModificarUsuario.Name = "cmdModificarUsuario";
-            this.cmdModificarUsuario.Size = new System.Drawing.Size(111, 23);
-            this.cmdModificarUsuario.TabIndex = 4;
-            this.cmdModificarUsuario.Text = "Modificar Usuario";
-            this.cmdModificarUsuario.UseVisualStyleBackColor = true;
-            this.cmdModificarUsuario.Click += new System.EventHandler(this.cmdModificarUsuario_Click);
             // 
             // menuStrip1
             // 
@@ -146,46 +129,6 @@
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // cmdVerVisibilidad
-            // 
-            this.cmdVerVisibilidad.Location = new System.Drawing.Point(12, 78);
-            this.cmdVerVisibilidad.Name = "cmdVerVisibilidad";
-            this.cmdVerVisibilidad.Size = new System.Drawing.Size(111, 23);
-            this.cmdVerVisibilidad.TabIndex = 8;
-            this.cmdVerVisibilidad.Text = "Ver visibilidad";
-            this.cmdVerVisibilidad.UseVisualStyleBackColor = true;
-            this.cmdVerVisibilidad.Click += new System.EventHandler(this.cmdVerVisibilidad_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 107);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 23);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Alta Rol";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // cmdBajaRol
-            // 
-            this.cmdBajaRol.Location = new System.Drawing.Point(12, 136);
-            this.cmdBajaRol.Name = "cmdBajaRol";
-            this.cmdBajaRol.Size = new System.Drawing.Size(111, 23);
-            this.cmdBajaRol.TabIndex = 11;
-            this.cmdBajaRol.Text = "Baja Rol";
-            this.cmdBajaRol.UseVisualStyleBackColor = true;
-            this.cmdBajaRol.Click += new System.EventHandler(this.cmdBajaRol_Click);
-            // 
-            // cmdModificarRol
-            // 
-            this.cmdModificarRol.Location = new System.Drawing.Point(12, 165);
-            this.cmdModificarRol.Name = "cmdModificarRol";
-            this.cmdModificarRol.Size = new System.Drawing.Size(111, 23);
-            this.cmdModificarRol.TabIndex = 12;
-            this.cmdModificarRol.Text = "Modificar Rol";
-            this.cmdModificarRol.UseVisualStyleBackColor = true;
-            this.cmdModificarRol.Click += new System.EventHandler(this.cmdModificarRol_Click);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
@@ -198,29 +141,9 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // cmdCOmprar
-            // 
-            this.cmdCOmprar.Location = new System.Drawing.Point(215, 107);
-            this.cmdCOmprar.Name = "cmdCOmprar";
-            this.cmdCOmprar.Size = new System.Drawing.Size(75, 23);
-            this.cmdCOmprar.TabIndex = 13;
-            this.cmdCOmprar.Text = "COMPRAROFERTAR";
-            this.cmdCOmprar.UseVisualStyleBackColor = true;
-            this.cmdCOmprar.Click += new System.EventHandler(this.cmdCOmprar_Click);
-            // 
-            // cmdHist
-            // 
-            this.cmdHist.Location = new System.Drawing.Point(215, 136);
-            this.cmdHist.Name = "cmdHist";
-            this.cmdHist.Size = new System.Drawing.Size(75, 23);
-            this.cmdHist.TabIndex = 14;
-            this.cmdHist.Text = "HISTORIAL";
-            this.cmdHist.UseVisualStyleBackColor = true;
-            this.cmdHist.Click += new System.EventHandler(this.cmdHist_Click);
-            // 
             // cmdCalificar
             // 
-            this.cmdCalificar.Location = new System.Drawing.Point(215, 78);
+            this.cmdCalificar.Location = new System.Drawing.Point(12, 45);
             this.cmdCalificar.Name = "cmdCalificar";
             this.cmdCalificar.Size = new System.Drawing.Size(75, 23);
             this.cmdCalificar.TabIndex = 15;
@@ -235,14 +158,7 @@
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(373, 241);
             this.Controls.Add(this.cmdCalificar);
-            this.Controls.Add(this.cmdHist);
-            this.Controls.Add(this.cmdCOmprar);
-            this.Controls.Add(this.cmdModificarRol);
-            this.Controls.Add(this.cmdBajaRol);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.cmdVerVisibilidad);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.cmdModificarUsuario);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
@@ -262,23 +178,16 @@
 
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.Label lblUsuario;
-        private System.Windows.Forms.Button cmdModificarUsuario;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem usuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ingreseUsuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem desconectarseToolStripMenuItem;
-        private System.Windows.Forms.Button cmdVerVisibilidad;
-//        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button cmdBajaRol;
-        private System.Windows.Forms.Button cmdModificarRol;
+        //        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem funcionesToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Button cmdCOmprar;
-        private System.Windows.Forms.Button cmdHist;
         private System.Windows.Forms.Button cmdCalificar;
     }
 }
