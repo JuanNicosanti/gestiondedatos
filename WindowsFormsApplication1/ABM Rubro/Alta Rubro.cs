@@ -75,8 +75,8 @@ namespace WindowsFormsApplication1.ABM_Rubro
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            this.Close();
+            Form1.f1.Close(); 
+           
         }
 
         private void cboRubro_SelectedIndexChanged(object sender, EventArgs e)

@@ -105,7 +105,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
         private void salirToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            this.Close();
+            Form1.f1.Close();
         }
 
         private void CambiarContrasenia_Load(object sender, EventArgs e)

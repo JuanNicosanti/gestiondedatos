@@ -132,7 +132,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Form1.f1.Close(); 
         }
 
         private void cmdBusqueda_Click(object sender, EventArgs e)

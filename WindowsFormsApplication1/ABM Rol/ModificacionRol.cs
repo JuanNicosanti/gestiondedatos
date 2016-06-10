@@ -26,7 +26,7 @@ namespace WindowsFormsApplication1.ABM_Rol
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Form1.f1.Close(); 
         }
 
         private void ModificacionRol_Load(object sender, EventArgs e)
