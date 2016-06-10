@@ -39,7 +39,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(43, 32);
+            this.button1.Location = new System.Drawing.Point(43, 42);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(192, 23);
             this.button1.TabIndex = 0;
@@ -87,9 +87,9 @@
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(43, 132);
+            this.cmdVolver.Location = new System.Drawing.Point(94, 132);
             this.cmdVolver.Name = "cmdVolver";
-            this.cmdVolver.Size = new System.Drawing.Size(192, 23);
+            this.cmdVolver.Size = new System.Drawing.Size(88, 23);
             this.cmdVolver.TabIndex = 4;
             this.cmdVolver.Text = "Volver";
             this.cmdVolver.UseVisualStyleBackColor = true;

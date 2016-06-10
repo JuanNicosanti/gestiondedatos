@@ -495,9 +495,8 @@ namespace WindowsFormsApplication1
 
         private void cmdCalificar_Click(object sender, EventArgs e)
         {
-            WindowsFormsApplication1.Calificar.CalificarVendedor calificarVendedor = new WindowsFormsApplication1.Calificar.CalificarVendedor();
-            calificarVendedor.user = this.user;
-            calificarVendedor.Show();
+            WindowsFormsApplication1.Calificar.MenuCalificaciones mc = new WindowsFormsApplication1.Calificar.MenuCalificaciones();            
+            mc.Show();
             this.Hide();
         }
     }

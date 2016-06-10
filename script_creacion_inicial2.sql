@@ -1436,6 +1436,18 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Historial_Cliente_Compras_Subastas
 	end
 GO
 
+CREATE PROCEDURE ROAD_TO_PROYECTO.Ultimas_Cinco_Transacciones_Calificadas
+	@Usuario nvarchar(255)
+	as begin
+		declare @ClieId int
+		set @ClieId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
+		select top 5 t.TipoTransac, t.Fecha, isnull(t.Monto, p.Precio) as 'Monto', p.Descipcion, p.UserId
+		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Calificacion c
+		where t.PubliId = p.PublId and t.ClieId = @ClieId and t.TranId = c.TranId
+		order by t.Fecha desc
+	end
+GO
+
 CREATE PROCEDURE ROAD_TO_PROYECTO.Historial_Cliente_Acumulados
 	@Usuario nvarchar(255)
 	as begin
