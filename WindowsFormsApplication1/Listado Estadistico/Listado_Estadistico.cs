@@ -189,6 +189,12 @@ namespace WindowsFormsApplication1.Listado_Estadistico
 
         private void cmdRubro_Click(object sender, EventArgs e)
         {
+            if (cboRubro.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccione un rubro", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+
+            }
             rubroElegido = cboRubro.SelectedItem.ToString();
             cboRubro.Enabled = false;
 

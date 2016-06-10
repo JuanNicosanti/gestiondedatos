@@ -27,6 +27,9 @@ WindowsFormsApplication1.ComprarOfertar
         private int tieneEnvio;
         private int cash;
         private int cantidad;
+        private int indiceInsertar;//
+
+        private Boolean seSigueCargandoPrimeraPagina=true;
 
 
         public static ComprarOfertar cO;
@@ -96,10 +99,54 @@ WindowsFormsApplication1.ComprarOfertar
             {
                 this.ini = 0;
                 this.fin = dataGridView1.Rows.Count;
+                dataGridView1.Rows.Clear();
+
+                
+                numeroRegistro = this.ini;
+                dataGridView1.ColumnCount = 10;
+                dataGridView1.Columns[0].Name = "PublId";
+                dataGridView1.Columns[1].Name = "Descripcion";
+                dataGridView1.Columns[2].Name = "Stock";
+                dataGridView1.Columns[3].Name = "FechaInicio";
+                dataGridView1.Columns[4].Name = "FechaFin";
+                dataGridView1.Columns[5].Name = "Precio";
+                dataGridView1.Columns[6].Name = "Rubro";
+                dataGridView1.Columns[7].Name = "Tipo";
+                dataGridView1.Columns[8].Name = "UserId";
+                dataGridView1.Columns[9].Name = "EnvioHabilitado";
+                
+                while (seSigueCargandoPrimeraPagina)
+                {
+                    dataGridView1.Rows[contadorDeFilas].Cells[0].Value = fila[0].ToString();
+                    dataGridView1.Rows[contadorDeFilas].Cells[1].Value = fila[1].ToString();
+                    dataGridView1.Rows[contadorDeFilas].Cells[2].Value = fila[2].ToString();
+                    dataGridView1.Rows[contadorDeFilas].Cells[3].Value = fila[3].ToString();
+                    dataGridView1.Rows[contadorDeFilas].Cells[4].Value = fila[4].ToString();
+                    dataGridView1.Rows[contadorDeFilas].Cells[5].Value = fila[5].ToString();
+                    dataGridView1.Rows[contadorDeFilas].Cells[6].Value = fila[6].ToString();
+                    dataGridView1.Rows[contadorDeFilas].Cells[7].Value = fila[7].ToString();
+                    dataGridView1.Rows[contadorDeFilas].Cells[8].Value = fila[8].ToString();
+                    if (fila[9].Equals(0))
+                    {
+                        dataGridView1.Rows[contadorDeFilas].Cells[9].Value = "No";
+                    }
+                    else
+                    {
+                        dataGridView1.Rows[contadorDeFilas].Cells[9].Value = "Si";
+                    }
+
+                    contadorDeFilas++;
+
+                    if (ini++ == dtPublicaciones.Rows.Count)
+                    {
+                        seSigueCargandoPrimeraPagina = false;
+                    }
+                }
+                return;
             }
 
             dataGridView1.Rows.Clear();
-            int indiceInsertar;//
+           
             numeroRegistro = this.ini;
             dataGridView1.ColumnCount = 10;
             dataGridView1.Columns[0].Name = "PublId";
@@ -197,13 +244,18 @@ WindowsFormsApplication1.ComprarOfertar
             adapter = new SqlDataAdapter(cmd);
             dtPublicaciones = new DataTable("ROAD_TO_PROYECTO.Publicacion");
             adapter.Fill(dtPublicaciones);
+
+
             if (dtPublicaciones.Rows.Count > 0)
             {
+              
                 this.numPaginas(); //Funcion para calcular el numero total de paginas que tendra nuestra vista
                 this.paginar();//empezamos con la paginacion             
                 lblCantidadTotal.Text = "Publicaciones Encontradas: " + dtPublicaciones.Rows.Count.ToString();//Cantidad totoal de registros encontrados
                 cantidadMaximaDeFilas = dtPublicaciones.Rows.Count;
                 dataGridView1.Select();
+                
+                
             }
             else
             {
@@ -214,8 +266,11 @@ WindowsFormsApplication1.ComprarOfertar
             }
         }
 
+       
+
         private void cmdBuscar_Click_1(object sender, EventArgs e)
         {
+           
             for (int i = 0; i < lstRubrosElegidos.Items.Count ; i++)
             {
                 listaDeRubrosFiltros += lstRubrosElegidos.Items[i].ToString() +",";
@@ -230,7 +285,7 @@ WindowsFormsApplication1.ComprarOfertar
             }
 
             this.pedirPublicacionesYOrdenar();
-            //this.dataGridView1.DataSource = dtPublicaciones;           // 
+           
           
 
             listaDeRubrosFiltros = "";
@@ -239,7 +294,7 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void cmdLimpiar_Click(object sender, EventArgs e)
         {
-            
+            timer1.Stop();
             
             dataGridView1.Rows.Clear();
             dataGridView1.Refresh();
@@ -404,6 +459,13 @@ WindowsFormsApplication1.ComprarOfertar
         private void hacerRefresh()
         {
             this.pedirPublicacionesYOrdenar();
+            this.irAPagina(nroPagina);
+        }
+
+        private void irAPagina(int nroPagina)
+        {
+            lblPaginaActual.Text = this.nroPagina.ToString();
+            this.paginar();
         }
 
         private void label6_Click(object sender, EventArgs e)
@@ -412,6 +474,16 @@ WindowsFormsApplication1.ComprarOfertar
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            timer1.Start();
+        }
+
+        private void txtCantidad_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
         {
             int filaAux = dataGridView1.CurrentRow.Index;
             String ofertaOCompra = dataGridView1[7, filaAux].Value.ToString();
@@ -433,11 +505,6 @@ WindowsFormsApplication1.ComprarOfertar
                     lblCantidad.Visible = true;
                 }
             }
-        }
-
-        private void txtCantidad_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
        

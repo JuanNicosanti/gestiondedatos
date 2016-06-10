@@ -38,5 +38,11 @@ namespace WindowsFormsApplication1.Calificar
         {
             this.Close();
         }
+
+        private void cmdVolver_Click(object sender, EventArgs e)
+        {
+            Form1.f1.Show();
+            this.Hide();
+        }
     }
 }

@@ -134,6 +134,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
             SqlDataReader sdr = cmd.ExecuteReader();
             sdr.Read();
             unRol = sdr["nombreRol"].ToString();
+            if (unRol.Equals("Administrador"))
+            {
+                Form1.f1.esAdmin = true;
+            }
             idUnRol = idRoles[0];
             this.timer1.Start();              
            
