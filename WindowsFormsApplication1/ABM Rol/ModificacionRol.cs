@@ -67,7 +67,9 @@ namespace WindowsFormsApplication1.ABM_Rol
             String filaNombreRol = dataGridView1[1,fila].Value.ToString();
             AltaRol aRol = new AltaRol();
             aRol.txtNuevoRol.Text = filaNombreRol;
+            aRol.esAltaRol = 0;
             aRol.cargarFuncionalidadesElegidasDeDeterminadoRol(celdaIdRol);
+            aRol.lstFuncElegidas.SelectedIndex = 0;
             aRol.Show();
             this.Hide();
 

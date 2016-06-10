@@ -29,15 +29,15 @@ namespace WindowsFormsApplication1.ABM_Rol
         public void cargarFuncionalidadesElegidasDeDeterminadoRol(int idRol)
         {
             cmd = new SqlCommand("ROAD_TO_PROYECTO.FuncionesDeUnRol", db.Connection);
-            cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = idRol;
             cmd.CommandType = CommandType.StoredProcedure;
-            adapter = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Funcion");
-            adapter.Fill(dt);
-            this.lstFuncElegidas.DataSource = dt;
-            this.lstFuncElegidas.DisplayMember = "Descripcion";
-
+            cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = idRol;
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                lstFuncElegidas.Items.Add(sdr["Descripcion"].ToString());
+            }
             lstFuncElegidas.ValueMember = lstFuncElegidas.DisplayMember;
+         
         }
 
         private void AltaRol_Load(object sender, EventArgs e)
@@ -157,7 +157,16 @@ namespace WindowsFormsApplication1.ABM_Rol
 
         private void cmdSeleccionar_Click(object sender, EventArgs e)
         {
-            lstFuncElegidas.Items.Add(lstFuncionalidades.SelectedValue.ToString());
+            for (int i = 0; i < lstFuncElegidas.Items.Count; i++)
+            {
+                if (lstFuncElegidas.Items[i].ToString().Equals(lstFuncionalidades.SelectedValue.ToString()))
+                {
+                    MessageBox.Show("Ya ha seleccionado esa funcionalidad", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }                
+            }
+           
+             lstFuncElegidas.Items.Add(lstFuncionalidades.SelectedValue.ToString());     
         }
 
       
