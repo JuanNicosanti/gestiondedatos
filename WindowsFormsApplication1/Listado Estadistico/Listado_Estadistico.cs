@@ -22,6 +22,8 @@ namespace WindowsFormsApplication1.Listado_Estadistico
         private int indexTrimestreSeleccionado;
         private int anio;
         private String rubroElegido;
+        private String visibilidadesElegidas;
+        
 
         public Listado_Estadistico()
         {
@@ -56,6 +58,13 @@ namespace WindowsFormsApplication1.Listado_Estadistico
             lblRubro.Visible = false;
             cmdRubro.Visible = false;
             cboRubro.Visible = false;
+
+            lstVisi.Visible = false;
+            lstVisiSel.Visible = false;
+            cmdVisiAceptar.Visible = false;
+            cmdVisiBorrar.Visible = false;
+            cmdVisiSel.Visible = false;
+            lblVisi.Visible = false;
 
         }
 
@@ -93,17 +102,34 @@ namespace WindowsFormsApplication1.Listado_Estadistico
 
         private void cmdTop1_Click(object sender, EventArgs e)
         {
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos", db.Connection);
+
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Ver_Visibilidades", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             adapter = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Usuario");
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Funcion");
             adapter.Fill(dt);
-            this.dataGridView1.DataSource = dt;
+            this.lstVisi.DataSource = dt;
+            this.lstVisi.DisplayMember = "Descripcion";
+            lstVisi.ValueMember = lstVisi.DisplayMember;
+            lstVisiSel.Items.Clear();
+
+            MessageBox.Show("Seleccione si desea filtrar por visibilidad", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
 
             lblRubro.Visible = false;
             cmdRubro.Visible = false;
             cboRubro.Visible = false;
             cboRubro.Enabled = true;
+
+            lstVisi.Visible = true;
+            lstVisiSel.Visible = true;
+            cmdVisiAceptar.Visible = true;
+            cmdVisiBorrar.Visible = true;
+            cmdVisiSel.Visible = true;
+            lblVisi.Visible = true;
+            
+
+
         }
 
         private void cmdTop3_Click(object sender, EventArgs e)
@@ -122,6 +148,14 @@ namespace WindowsFormsApplication1.Listado_Estadistico
             cmdRubro.Visible = false;
             cboRubro.Visible = false;
             cboRubro.Enabled = true;
+
+            lstVisi.Visible = false;
+            lstVisiSel.Visible = false;
+            cmdVisiAceptar.Visible = false;
+            cmdVisiBorrar.Visible = false;
+            cmdVisiSel.Visible = false;
+            lblVisi.Visible = false;
+
         }
 
         private void cmdVerOtro_Click(object sender, EventArgs e)
@@ -147,6 +181,12 @@ namespace WindowsFormsApplication1.Listado_Estadistico
             cboRubro.Visible = false;
             cboRubro.Enabled = true;
 
+            lstVisi.Visible = false;
+            lstVisiSel.Visible = false;
+            cmdVisiAceptar.Visible = false;
+            cmdVisiBorrar.Visible = false;
+            cmdVisiSel.Visible = false;
+            lblVisi.Visible = false;
             
         }
 
@@ -165,6 +205,13 @@ namespace WindowsFormsApplication1.Listado_Estadistico
             cmdRubro.Visible = false;
             cboRubro.Visible = false;
             cboRubro.Enabled = true;
+
+            lstVisi.Visible = false;
+            lstVisiSel.Visible = false;
+            cmdVisiAceptar.Visible = false;
+            cmdVisiBorrar.Visible = false;
+            cmdVisiSel.Visible = false;
+            lblVisi.Visible = false;
         }
 
         private void cmdTop2_Click(object sender, EventArgs e)
@@ -174,6 +221,7 @@ namespace WindowsFormsApplication1.Listado_Estadistico
             lblRubro.Visible = true;
             cmdRubro.Visible = true;
             cboRubro.Visible = true;
+
 
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.ListaRubros", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -185,6 +233,13 @@ namespace WindowsFormsApplication1.Listado_Estadistico
             }
 
             cboRubro.ValueMember = cboRubro.DisplayMember;
+
+            lstVisi.Visible = false;
+            lstVisiSel.Visible = false;
+            cmdVisiAceptar.Visible = false;
+            cmdVisiBorrar.Visible = false;
+            cmdVisiSel.Visible = false;
+            lblVisi.Visible = false;
         }
 
         private void cmdRubro_Click(object sender, EventArgs e)
@@ -207,6 +262,53 @@ namespace WindowsFormsApplication1.Listado_Estadistico
             DataTable dt = new DataTable("ROAD_TO_PROYECTO.Usuario");
             adapter.Fill(dt);
             this.dataGridView1.DataSource = dt;
+        }
+
+        private void cmdVisiAceptar_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstVisiSel.Items.Count; i++)
+            {
+                visibilidadesElegidas += lstVisiSel.Items[i].ToString() + ",";
+            }
+
+            if (!lstVisiSel.Items.Count.Equals(0))
+            {
+                visibilidadesElegidas = visibilidadesElegidas.TrimEnd(',');
+            }
+            else
+            {
+                visibilidadesElegidas = "";
+            }
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos", db.Connection);
+            cmd.Parameters.AddWithValue("@Trimestre", SqlDbType.Int).Value = (indexTrimestreSeleccionado + 1);
+            cmd.Parameters.AddWithValue("@Año", SqlDbType.Int).Value = anio;
+            cmd.Parameters.AddWithValue("@Parametros", SqlDbType.NVarChar).Value = visibilidadesElegidas;
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Usuario");
+            adapter.Fill(dt);
+            this.dataGridView1.DataSource = dt;
+
+
+        }
+
+        private void cmdVisiSel_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstVisiSel.Items.Count; i++)
+            {
+                if (lstVisiSel.Items[i].ToString().Equals(lstVisi.SelectedValue.ToString()))
+                {
+                    MessageBox.Show("Ya ha seleccionado la visibilidad", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+            }
+            lstVisiSel.Items.Add(lstVisi.SelectedValue.ToString()); 
+        }
+
+        private void cmdVisiBorrar_Click(object sender, EventArgs e)
+        {
+            lstVisiSel.Items.RemoveAt(lstVisiSel.SelectedIndex);
         }
     }
 }

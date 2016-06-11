@@ -1334,16 +1334,20 @@ end
 GO
 
 --SP para crear tabla temporal de parametros de visibilidad
-CREATE PROCEDURE [ROAD_TO_PROYECTO].[CrearTemporalVisibilidades]
-	@Parametros nvarchar(1000)
-	as begin
-		IF OBJECT_ID('ROAD_TO_PROYECTO.##parametrosvisibilidad') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.##parametrosvisibilidad
-		    --EXECUTE ROAD_TO_PROYECTO.RecibirParametros @Parametros = @Rubros
+ALTER PROCEDURE [ROAD_TO_PROYECTO].[CrearTemporalVisibilidades]
+	 @Parametros nvarchar(1000) = 'Oro,Platino,Gratis'
+	 as begin
+		IF OBJECT_ID('tempdb..##parametrosvisibilidad') IS NOT NULL 
+		DROP TABLE ROAD_TO_PROYECTO.##parametrosvisibilidad
+		
+		   --EXECUTE ROAD_TO_PROYECTO.RecibirParametros @Parametros = @Rubros
 
 			CREATE TABLE ROAD_TO_PROYECTO.##parametrosvisibilidad (VisiId int primary key, parametro varchar(255))
 			IF (@Parametros = '' or @Parametros is null)
 			insert into ROAD_TO_PROYECTO.##parametrosvisibilidad select visiid,descripcion from ROAD_TO_PROYECTO.Visibilidad
-
+	      
+		    else if (@Parametros <> '' or @Parametros is not null)
+			begin
 			SET NOCOUNT ON
 			--El separador de nuestros parametros sera una ,
 			DECLARE @Posicion int
@@ -1366,25 +1370,45 @@ CREATE PROCEDURE [ROAD_TO_PROYECTO].[CrearTemporalVisibilidades]
 			  SELECT @Parametros = stuff(@Parametros, 1, @Posicion, '')
 			END
 			--Y cuando se han recorrido todos los parametros sacamos por pantalla el resultado
-			--SELECT * FROM ROAD_TO_PROYECTO.##parametros
 			SET NOCOUNT OFF
-
+			end
+	
 	end
+	GO
+--Funcion que devuelve el trimestre de un mes
+	CREATE FUNCTION ROAD_TO_PROYECTO.ObtenerTrimestre(@Mes int)
+returns int
+as begin
+if(@Mes<=3) return 1
+else if (@Mes<=6) return 2
+else if (@Mes<=9) return 3
+return 4
+end
+GO
 
+create view ROAD_TO_PROYECTO.FacturasUsuarios 
+as
+select u.Usuario as Usuario,year(p.fechainicio) as Año,ROAD_TO_PROYECTO.ObtenerTrimestre (month(p.fechainicio)) as Trimestre, count(*) as ProdNoVendidos
+from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p,ROAD_TO_PROYECTO.Factura f
+where u.usuario = p.userid and p.publid not in(select f.publiid from ROAD_TO_PROYECTO.Factura)
+group by u.usuario, year(p.fechainicio), ROAD_TO_PROYECTO.ObtenerTrimestre (month(p.fechainicio))
+GO
 		
 
 --Top 5: listados estadísticos
 --right('0000' + cast(year(fact_fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(fact_fecha) as varchar(2)), 2)
 --Vendedores con mayor cantidad de productos no vendidos. NO LO ENTIENDO
 ALTER PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos
-	@Trimestre int,
-	@Año int,
+	@Trimestre int, 
+	@Año int, 
 	@Parametros nvarchar(1000)
 
 	as begin
 		exec ROAD_TO_PROYECTO.CrearTemporalVisibilidades @Parametros
-		
-		IF OBJECT_ID('ROAD_TO_PROYECTO.#consulta1') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#consulta1
+
+		IF OBJECT_ID('tempdb..#consulta1') IS NOT NULL 
+		DROP TABLE ROAD_TO_PROYECTO.#consulta1
+
 		create table ROAD_TO_PROYECTO.#consulta1(
 		Usuario nvarchar(255),
 		Detalle nvarchar(255),
@@ -1392,29 +1416,20 @@ ALTER PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos
 		Visibilidad int,
 		Monto numeric(18,0)
 		)
+		
 		insert into ROAD_TO_PROYECTO.#consulta1
-		select top 5 u.Usuario, concat(c.Apellido, ' ' ,c.Nombres) , right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', p.Visibilidad, count(*) as 'Cantidad Facturas'
-		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Cliente c, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
-		where u.Usuario = p.UserId
-		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = c.ClieId 
-		and year(p.FechaInicio) = @Año
-		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, p.FechaInicio) = 1
-		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, f.Fecha) = 1)
-		and p.Visibilidad in (select visiid from ROAD_TO_PROYECTO.##parametrosvisibilidad)
-		group by u.Usuario, c.Apellido, c.Nombres, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), p.Visibilidad
-		union
-		select top 5 u.Usuario, e.RazonSocial, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', p.Visibilidad, count(*) as 'Cantidad Facturas'
-		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Empresa e, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
-		where u.Usuario = p.UserId
-		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Empresa' and rpu.IdExterno = e.EmprId 
-		and year(p.FechaInicio) = @Año
-		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, p.FechaInicio) = 1
-		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, p.FechaInicio) = 1)
-		and Visibilidad in (select visiid from ROAD_TO_PROYECTO.##parametrosvisibilidad)
-		group by u.Usuario, e.RazonSocial, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), p.Visibilidad
+		select* from ROAD_TO_PROYECTO.FacturasUsuarios
+		select top 5 fu.Usuario, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', p.Visibilidad, count(*) as 'Cantidad Facturas'
+		from ROAD_TO_PROYECTO.FacturasUsuarios fu,ROAD_TO_PROYECTO.Publicacion p
+		where fu.Usuario = p.userid
+		and p.visibilidad in(select visiid from ROAD_TO_PROYECTO.##parametrosvisibilidad)
+		and 
+		group by fu.Usuario, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), p.Visibilidad
 		order by count(*) desc
+		
+		
 
-		select top 5 Usuario, Detalle, AñoMes, (select Descripcion from ROAD_TO_PROYECTO.Visibilidad where VisiId = Visibilidad) as 'Visibilidad', Monto as 'Prods No Vendidos'
+		select top 5 Usuario, AñoMes, (select Descripcion from ROAD_TO_PROYECTO.Visibilidad where VisiId = Visibilidad) as 'Visibilidad', Monto as 'Prods No Vendidos'
 		from ROAD_TO_PROYECTO.#consulta1
 		order by Monto desc, AñoMes desc,Visibilidad desc
 
