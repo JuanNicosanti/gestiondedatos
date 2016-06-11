@@ -1323,6 +1323,16 @@ return 0
 end
 GO
 
+
+--nombres de visibilidades
+CREATE PROCEDURE ROAD_TO_PROYECTO.Ver_Visibilidades
+as begin	
+	select Descripcion
+	from ROAD_TO_PROYECTO.Visibilidad
+	order by Descripcion
+end
+GO
+
 --SP para crear tabla temporal de parametros de visibilidad
 CREATE PROCEDURE [ROAD_TO_PROYECTO].[CrearTemporalVisibilidades]
 	@Parametros nvarchar(1000)
