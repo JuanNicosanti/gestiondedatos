@@ -49,6 +49,11 @@
             this.lblRubro = new System.Windows.Forms.Label();
             this.cmdRubro = new System.Windows.Forms.Button();
             this.cboRubro = new System.Windows.Forms.ComboBox();
+            this.lblVisi = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -75,7 +80,7 @@
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 460);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 526);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(827, 22);
             this.statusStrip1.TabIndex = 1;
@@ -86,7 +91,7 @@
             this.lblTopp.AllowDrop = true;
             this.lblTopp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblTopp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTopp.Location = new System.Drawing.Point(0, 182);
+            this.lblTopp.Location = new System.Drawing.Point(0, 277);
             this.lblTopp.Name = "lblTopp";
             this.lblTopp.Size = new System.Drawing.Size(282, 245);
             this.lblTopp.TabIndex = 2;
@@ -94,7 +99,7 @@
             // 
             // cmdTop1
             // 
-            this.cmdTop1.Location = new System.Drawing.Point(11, 214);
+            this.cmdTop1.Location = new System.Drawing.Point(11, 309);
             this.cmdTop1.Name = "cmdTop1";
             this.cmdTop1.Size = new System.Drawing.Size(261, 43);
             this.cmdTop1.TabIndex = 3;
@@ -104,7 +109,7 @@
             // 
             // cmdTop2
             // 
-            this.cmdTop2.Location = new System.Drawing.Point(11, 263);
+            this.cmdTop2.Location = new System.Drawing.Point(11, 358);
             this.cmdTop2.Name = "cmdTop2";
             this.cmdTop2.Size = new System.Drawing.Size(261, 43);
             this.cmdTop2.TabIndex = 4;
@@ -114,7 +119,7 @@
             // 
             // cmdTop3
             // 
-            this.cmdTop3.Location = new System.Drawing.Point(11, 312);
+            this.cmdTop3.Location = new System.Drawing.Point(11, 407);
             this.cmdTop3.Name = "cmdTop3";
             this.cmdTop3.Size = new System.Drawing.Size(261, 43);
             this.cmdTop3.TabIndex = 5;
@@ -124,7 +129,7 @@
             // 
             // cmdTop4
             // 
-            this.cmdTop4.Location = new System.Drawing.Point(11, 361);
+            this.cmdTop4.Location = new System.Drawing.Point(11, 456);
             this.cmdTop4.Name = "cmdTop4";
             this.cmdTop4.Size = new System.Drawing.Size(261, 43);
             this.cmdTop4.TabIndex = 6;
@@ -139,13 +144,13 @@
             this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(1, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(281, 134);
+            this.label2.Size = new System.Drawing.Size(281, 244);
             this.label2.TabIndex = 7;
             this.label2.Text = "Ingrese:";
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(580, 260);
+            this.cmdVolver.Location = new System.Drawing.Point(580, 314);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(237, 164);
             this.cmdVolver.TabIndex = 8;
@@ -156,9 +161,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(296, 29);
+            this.dataGridView1.Location = new System.Drawing.Point(296, 28);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(521, 225);
+            this.dataGridView1.Size = new System.Drawing.Size(521, 245);
             this.dataGridView1.TabIndex = 9;
             // 
             // label3
@@ -221,7 +226,7 @@
             // 
             // cmdVerOtro
             // 
-            this.cmdVerOtro.Location = new System.Drawing.Point(296, 260);
+            this.cmdVerOtro.Location = new System.Drawing.Point(296, 313);
             this.cmdVerOtro.Name = "cmdVerOtro";
             this.cmdVerOtro.Size = new System.Drawing.Size(268, 164);
             this.cmdVerOtro.TabIndex = 16;
@@ -257,12 +262,61 @@
             this.cboRubro.Size = new System.Drawing.Size(100, 21);
             this.cboRubro.TabIndex = 19;
             // 
+            // lblVisi
+            // 
+            this.lblVisi.AllowDrop = true;
+            this.lblVisi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblVisi.Location = new System.Drawing.Point(12, 106);
+            this.lblVisi.Name = "lblVisi";
+            this.lblVisi.Size = new System.Drawing.Size(259, 158);
+            this.lblVisi.TabIndex = 20;
+            this.lblVisi.Text = "Visibilidad:";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(17, 124);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(120, 95);
+            this.listBox1.TabIndex = 21;
+            // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.Location = new System.Drawing.Point(143, 124);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(120, 95);
+            this.listBox2.TabIndex = 22;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(42, 225);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(166, 225);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 24;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // Listado_Estadistico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(827, 482);
+            this.ClientSize = new System.Drawing.Size(827, 548);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.listBox2);
+            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.lblVisi);
             this.Controls.Add(this.cboRubro);
             this.Controls.Add(this.cmdRubro);
             this.Controls.Add(this.lblRubro);
@@ -318,5 +372,10 @@
         private System.Windows.Forms.Label lblRubro;
         private System.Windows.Forms.Button cmdRubro;
         private System.Windows.Forms.ComboBox cboRubro;
+        private System.Windows.Forms.Label lblVisi;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
