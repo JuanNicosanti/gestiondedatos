@@ -1313,15 +1313,29 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 	end
 GO
 
+--Funcion para saber si la fecha especificada esta dentro del trimestre pedido
+CREATE FUNCTION ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre int, @FechaInicio datetime)
+returns int
+as begin
+if ((@Trimestre*3) - month(@FechaInicio) = 0 or (@Trimestre*3) - month(@FechaInicio) = 1 or (@Trimestre*3) - month(@FechaInicio) = 2)
+return 1
+return 0
+end
+GO
+
+		
+
 --Top 5: listados estadísticos
 --right('0000' + cast(year(fact_fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(fact_fecha) as varchar(2)), 2)
 --Vendedores con mayor cantidad de productos no vendidos. NO LO ENTIENDO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos
 	@Trimestre int,
-	@Año int
+	@Año int,
+	@Visibilidad nvarchar(255)
+
 	as begin
-		--declare @VisiId int
-		--select @VisiId = VisiId from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @VisiDesc
+		declare @VisiId int
+		select @VisiId = VisiId from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @Visibilidad
 		
 		IF OBJECT_ID('ROAD_TO_PROYECTO.#consulta1') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#consulta1
 		create table ROAD_TO_PROYECTO.#consulta1(
@@ -1332,23 +1346,25 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos
 		Monto numeric(18,0)
 		)
 		insert into ROAD_TO_PROYECTO.#consulta1
-		select top 5 u.Usuario, concat(c.Apellido, ' ' ,c.Nombres) , right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', Visibilidad, count(*) as 'Cantidad Facturas'
+		select top 5 u.Usuario, concat(c.Apellido, ' ' ,c.Nombres) , right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', p.Visibilidad, count(*) as 'Cantidad Facturas'
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Cliente c, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
 		where u.Usuario = p.UserId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = c.ClieId 
 		and year(p.FechaInicio) = @Año
-		and ((@Trimestre*3) - month(p.FechaInicio) = 0 or (@Trimestre*3) - month(p.FechaInicio) = 1 or (@Trimestre*3) - month(p.FechaInicio) = 2)
-		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2))
-		group by u.Usuario, c.Apellido, c.Nombres, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), Visibilidad
+		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, p.FechaInicio) = 1
+		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, f.Fecha) = 1)
+		and p.Visibilidad = @VisiId
+		group by u.Usuario, c.Apellido, c.Nombres, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), p.Visibilidad
 		union
-		select top 5 u.Usuario, e.RazonSocial, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', Visibilidad, count(*) as 'Cantidad Facturas'
+		select top 5 u.Usuario, e.RazonSocial, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', p.Visibilidad, count(*) as 'Cantidad Facturas'
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Empresa e, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
 		where u.Usuario = p.UserId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Empresa' and rpu.IdExterno = e.EmprId 
 		and year(p.FechaInicio) = @Año
-		and ((@Trimestre*3) - month(p.FechaInicio) = 0 or (@Trimestre*3) - month(p.FechaInicio) = 1 or (@Trimestre*3) - month(p.FechaInicio) = 2)
-		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2))
-		group by u.Usuario, e.RazonSocial, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), Visibilidad
+		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, p.FechaInicio) = 1
+		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, p.FechaInicio) = 1)
+		and Visibilidad = @VisiId
+		group by u.Usuario, e.RazonSocial, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), p.Visibilidad
 		order by count(*) desc
 
 		select top 5 Usuario, Detalle, AñoMes, (select Descripcion from ROAD_TO_PROYECTO.Visibilidad where VisiId = Visibilidad) as 'Visibilidad', Monto as 'Prods No Vendidos'
@@ -1370,7 +1386,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Clientes_Productos_Comprados
 		where u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = c.ClieId and t.ClieId = c.ClieId
 		and t.PubliId = p.PublId and p.Rubro = rub.RubrId and rub.DescripLarga = @RubroDesc
 		and year(t.Fecha) = @Año
-		and ((@Trimestre*3) - month(t.Fecha) = 0 or (@Trimestre*3) - month(t.Fecha) = 1 or (@Trimestre*3) - month(t.Fecha) = 2)
+		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, t.Fecha) = 1
 		group by u.Usuario, c.ClieId, c.Apellido, c.Nombres,  right('0000' + cast(year(t.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(t.Fecha) as varchar(2)), 2)
 		order by sum(t.Cantidad) desc
 	end
@@ -1394,7 +1410,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cantidad_Facturas_Vendedores
 		where u.Usuario = p.UserId and p.PublId = f.PubliId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = c.ClieId 
 		and year(f.Fecha) = @Año
-		and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2)
+		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, f.Fecha) = 1
 		group by u.Usuario, c.Apellido, c.Nombres, right('0000' + cast(year(f.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(f.Fecha) as varchar(2)), 2)
 		union
 		select top 5 u.Usuario, e.RazonSocial, right('0000' + cast(year(f.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(f.Fecha) as varchar(2)), 2) as 'Año-Mes', count(*) as 'Cantidad Facturas'
@@ -1402,7 +1418,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cantidad_Facturas_Vendedores
 		where u.Usuario = p.UserId and p.PublId = f.PubliId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Empresa' and rpu.IdExterno = e.EmprId 
 		and year(f.Fecha) = @Año
-		and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2)
+		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, f.Fecha) = 1
 		group by u.Usuario, e.RazonSocial, right('0000' + cast(year(f.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(f.Fecha) as varchar(2)), 2)
 		order by count(*) desc
 
@@ -1430,7 +1446,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Monto_Facturado_Vendedor
 		where u.Usuario = p.UserId and p.PublId = f.PubliId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = c.ClieId 
 		and year(f.Fecha) = @Año
-		and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2)
+		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, f.Fecha) = 1
 		group by u.Usuario, c.Apellido, c.Nombres, right('0000' + cast(year(f.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(f.Fecha) as varchar(2)), 2)
 		union
 		select top 5 u.Usuario, e.RazonSocial, right('0000' + cast(year(f.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(f.Fecha) as varchar(2)), 2) as 'Año-Mes', sum(f.Monto)  as 'Monto Facturado'
@@ -1438,7 +1454,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Monto_Facturado_Vendedor
 		where u.Usuario = p.UserId and p.PublId = f.PubliId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Empresa' and rpu.IdExterno = e.EmprId 
 		and year(f.Fecha) = @Año
-		and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2)
+		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, f.Fecha) = 1
 		group by u.Usuario, e.RazonSocial, right('0000' + cast(year(f.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(f.Fecha) as varchar(2)), 2)
 		order by sum(f.Monto) desc
 

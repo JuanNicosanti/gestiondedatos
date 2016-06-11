@@ -20,10 +20,10 @@ namespace WindowsFormsApplication1
         public Empresa crearUnaEmpresa(String userEmpresa)
         {
             //especifico que SP voy a ejecutar
-            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Traer_Empresa_Completo", db.Connection);
+            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.ObtenerDatosEmpresa", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             //seteo los parametros que recibe el stored procedure
-            cmd.Parameters.AddWithValue("@idEmpresa", SqlDbType.NVarChar).Value = userEmpresa;
+            cmd.Parameters.AddWithValue("@IdUsuario", SqlDbType.NVarChar).Value = userEmpresa;
             Empresa unaEmpresa = null;
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
