@@ -35,16 +35,17 @@ namespace WindowsFormsApplication1.Calificar
         }
 
         public void cargarLabels() {
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Comisiones_Valores", db.Connection);
+            int valor = 1;
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Transacciones_Con_X_Estrellas", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
-            //cmd.Parameters.AddWithValue("@Visibilidad", SqlDbType.NVarChar).Value = cboTipoVis.SelectedValue.ToString();
+            cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = user;
+            cmd.Parameters.AddWithValue("@CantEstrellas", SqlDbType.Int).Value = valor;
 
             sdr = cmd.ExecuteReader();
             while (sdr.Read())
-            {
-                //textBoxTipo.Text = sdr["ComiFija"].ToString();
-                //textBoxProd.Text = sdr["ComiVariable"].ToString();
-                //textBoxEnvio.Text = sdr["ComiEnvio"].ToString();
+            {                
+                lblUnaStar.Text = sdr["cantPublis"].ToString();
             }
             sdr.Close();
         }
