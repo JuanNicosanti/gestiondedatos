@@ -35,17 +35,39 @@ namespace WindowsFormsApplication1.Calificar
         }
 
         public void cargarLabels() {
-            int valor = 1;
+            cargarLabel(lblCompras, 0);
+            cargarLabel(lblComprasSinCalificar, -1);
+            cargarLabel(lblUnaStar, 1);
+            cargarLabel(lblDosStar, 2);
+            cargarLabel(lblTresStar, 3);
+            cargarLabel(lblCuatroStar, 4);
+            cargarLabel(lblCincoStar, 5);
+        }
 
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Transacciones_Con_X_Estrellas", db.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = user;
-            cmd.Parameters.AddWithValue("@CantEstrellas", SqlDbType.Int).Value = valor;
+        public void cargarLabel(Label lblACargar, int valor) {
+            if (valor == 0)
+            {
+                cmd = new SqlCommand("ROAD_TO_PROYECTO.Cantidad_Compras_Subastas_Realizadas", db.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = user;                
+            }
+            else if (valor == -1)
+            {
+                cmd = new SqlCommand("ROAD_TO_PROYECTO.Cantidad_Compras_Subastas_Sin_Calificar", db.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = user;                
+            } else
+            {
+                cmd = new SqlCommand("ROAD_TO_PROYECTO.Transacciones_Con_X_Estrellas", db.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = user;
+                cmd.Parameters.AddWithValue("@CantEstrellas", SqlDbType.Int).Value = valor;
+            }
 
             sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {                
-                lblUnaStar.Text = sdr["cantPublis"].ToString();
+                lblACargar.Text = sdr["cantPublis"].ToString();
             }
             sdr.Close();
         }
