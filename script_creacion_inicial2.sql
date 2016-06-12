@@ -1221,23 +1221,22 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Consulta_Facturas_Vendedor
 	@FechaInicioIntervalo datetime,
 	@FechaFinIntervalo datetime,
-	@MontoInicioIntervalo numeric(18,2),
-	@MontoFinIntervalo numeric(18,2),
+	@MontoInicioIntervaloString nvarchar(255),
+	@MontoFinIntervaloString nvarchar(255),
 	@Detalle nvarchar(255),
 	@Usuario nvarchar(255)
 	as begin
-		if(@Detalle is null) set @Detalle = ''
+		declare	@ImporteMinimo numeric(18,2), @ImporteMaximo numeric(18,2)
+		set @ImporteMinimo = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@MontoInicioIntervaloString)
+		set @ImporteMaximo = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@MontoFinIntervaloString)		
 		select f.FactNro, f.PubliId, f.Fecha, f.Monto as Total, f.FormaPago, i.Cantidad, i.Detalle, i.Monto as Subtotal
 		from ROAD_TO_PROYECTO.Factura f
 		inner join ROAD_TO_PROYECTO.Item_Factura i on f.FactNro = i.FactNro
 		inner join ROAD_TO_PROYECTO.Publicacion p on f.PubliId = p.PublId
-		where ((f.Monto between @MontoInicioIntervalo and @MontoFinIntervalo)
-		or (f.Monto < @MontoFinIntervalo or @MontoFinIntervalo is null)
-		or (f.Monto > @MontoInicioIntervalo or @MontoInicioIntervalo is null))
-		--or (@MontoInicioIntervalo is null and @MontoFinIntervalo is null))
+		where (f.Monto between @ImporteMinimo and @ImporteMaximo)		
 		and (f.Fecha between @FechaInicioIntervalo and @FechaFinIntervalo)
 		and (i.Detalle like '%' + @Detalle + '%')
-		and (p.UserId = @Usuario or @Usuario is null)
+		and (p.UserId like '%' + @Usuario + '%')
 	end
 GO
 

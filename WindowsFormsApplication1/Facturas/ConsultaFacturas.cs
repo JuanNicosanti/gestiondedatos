@@ -55,13 +55,41 @@ namespace WindowsFormsApplication1.Facturas
         }
 
         private void cmdBuscar_Click(object sender, EventArgs e)
-        {            
+        {
+            string importeMinimo;
+            string importeMaximo;
+            if (dtpFechaFinal.Value < dtpFechaInicial.Value)
+            {
+                MessageBox.Show("La fecha final debe ser menor o igual a la fecha inicial", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }            
+            if (string.IsNullOrEmpty(tbImporteMinimo.Text))
+            {
+                importeMinimo = int.MinValue.ToString();
+            }
+            else
+            {
+                importeMinimo = tbImporteMinimo.Text;
+            }
+            if (string.IsNullOrEmpty(tbImporteMaximo.Text))
+            {
+                importeMaximo = int.MaxValue.ToString();
+            }
+            else
+            {
+                importeMaximo = tbImporteMaximo.Text;
+            }
+            if ((int.Parse(importeMaximo)) < (int.Parse(importeMinimo)))
+            {
+                MessageBox.Show("El importe mínimo debe ser menor o igual al importe máximo", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Consulta_Facturas_Vendedor", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@FechaInicioIntervalo", SqlDbType.DateTime).Value = dtpFechaInicial.Value;
             cmd.Parameters.AddWithValue("@FechaFinIntervalo", SqlDbType.DateTime).Value = dtpFechaFinal.Value;
-            cmd.Parameters.AddWithValue("@MontoInicioIntervalo", SqlDbType.Int).Value = int.Parse(tbImporteMinimo.Text.ToString());
-            cmd.Parameters.AddWithValue("@MontoFinIntervalo", SqlDbType.Int).Value = int.Parse(tbImporteMaximo.Text.ToString());
+            cmd.Parameters.AddWithValue("@MontoInicioIntervaloString", SqlDbType.NVarChar).Value = importeMinimo;
+            cmd.Parameters.AddWithValue("@MontoFinIntervaloString", SqlDbType.NVarChar).Value = importeMaximo;
             cmd.Parameters.AddWithValue("@Detalle", SqlDbType.NVarChar).Value = tbContenido.Text;
             cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = tbVendedor.Text;
 
@@ -90,16 +118,30 @@ namespace WindowsFormsApplication1.Facturas
             }
 
             panelResultados.Visible = true;
+            labelMIL.Visible = true;
+            cmdAnterior.Visible = true;
+            cmdPrimera.Visible = true;
+            cmdProxima.Visible = true;
+            cmdUltima.Visible = true;
+            label9.Visible = true;
+            lblCantidadTotal.Visible = true;
+            lblPaginaActual.Visible = true;
+            lblTotalPagina.Visible = true;
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            if (dataGridView1.CurrentRow.Index != -1)
+            {
+                cmdVerFactura.Visible = true;
+            }
         }
 
         private void cmdVerFactura_Click(object sender, EventArgs e)
         {
+            int fila = dataGridView1.CurrentRow.Index;
             WindowsFormsApplication1.ComprarOfertar.Facturar factura = new WindowsFormsApplication1.ComprarOfertar.Facturar();
+            factura.factId = (int)dataGridView1[0, fila].Value;
             factura.Show();
             this.Hide();
         }

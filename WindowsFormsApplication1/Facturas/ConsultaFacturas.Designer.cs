@@ -231,6 +231,7 @@
             this.cmdVerFactura.TabIndex = 2;
             this.cmdVerFactura.Text = "Ver factura";
             this.cmdVerFactura.UseVisualStyleBackColor = true;
+            this.cmdVerFactura.Visible = false;
             this.cmdVerFactura.Click += new System.EventHandler(this.cmdVerFactura_Click);
             // 
             // menuStrip1
@@ -270,6 +271,7 @@
             this.labelMIL.Name = "labelMIL";
             this.labelMIL.Size = new System.Drawing.Size(728, 82);
             this.labelMIL.TabIndex = 5;
+            this.labelMIL.Visible = false;
             // 
             // cmdPrimera
             // 
@@ -279,6 +281,7 @@
             this.cmdPrimera.TabIndex = 6;
             this.cmdPrimera.Text = "Primera pagina";
             this.cmdPrimera.UseVisualStyleBackColor = true;
+            this.cmdPrimera.Visible = false;
             this.cmdPrimera.Click += new System.EventHandler(this.cmdPrimera_Click);
             // 
             // cmdAnterior
@@ -289,6 +292,7 @@
             this.cmdAnterior.TabIndex = 7;
             this.cmdAnterior.Text = "Pagina anterior";
             this.cmdAnterior.UseVisualStyleBackColor = true;
+            this.cmdAnterior.Visible = false;
             this.cmdAnterior.Click += new System.EventHandler(this.cmdAnterior_Click);
             // 
             // cmdProxima
@@ -299,6 +303,7 @@
             this.cmdProxima.TabIndex = 8;
             this.cmdProxima.Text = "Proxima pagina";
             this.cmdProxima.UseVisualStyleBackColor = true;
+            this.cmdProxima.Visible = false;
             this.cmdProxima.Click += new System.EventHandler(this.cmdProxima_Click);
             // 
             // cmdUltima
@@ -309,6 +314,7 @@
             this.cmdUltima.TabIndex = 9;
             this.cmdUltima.Text = "Ultima pagina";
             this.cmdUltima.UseVisualStyleBackColor = true;
+            this.cmdUltima.Visible = false;
             this.cmdUltima.Click += new System.EventHandler(this.cmdUltima_Click);
             // 
             // lblPaginaActual
@@ -320,6 +326,7 @@
             this.lblPaginaActual.Size = new System.Drawing.Size(35, 13);
             this.lblPaginaActual.TabIndex = 10;
             this.lblPaginaActual.Text = "label8";
+            this.lblPaginaActual.Visible = false;
             // 
             // label9
             // 
@@ -330,6 +337,7 @@
             this.label9.Size = new System.Drawing.Size(12, 13);
             this.label9.TabIndex = 11;
             this.label9.Text = "/";
+            this.label9.Visible = false;
             // 
             // lblTotalPagina
             // 
@@ -340,6 +348,7 @@
             this.lblTotalPagina.Size = new System.Drawing.Size(41, 13);
             this.lblTotalPagina.TabIndex = 12;
             this.lblTotalPagina.Text = "label10";
+            this.lblTotalPagina.Visible = false;
             // 
             // lblCantidadTotal
             // 
@@ -350,6 +359,7 @@
             this.lblCantidadTotal.Size = new System.Drawing.Size(41, 13);
             this.lblCantidadTotal.TabIndex = 13;
             this.lblCantidadTotal.Text = "label11";
+            this.lblCantidadTotal.Visible = false;
             // 
             // ConsultaFacturas
             // 
@@ -365,12 +375,12 @@
             this.Controls.Add(this.cmdProxima);
             this.Controls.Add(this.cmdAnterior);
             this.Controls.Add(this.cmdPrimera);
-            this.Controls.Add(this.labelMIL);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cmdVerFactura);
             this.Controls.Add(this.panelResultados);
             this.Controls.Add(this.panelBusqueda);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.labelMIL);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ConsultaFacturas";
             this.Text = "ConsultaFacturas";
