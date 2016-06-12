@@ -1386,11 +1386,13 @@ return 4
 end
 GO
 
-create view ROAD_TO_PROYECTO.FacturasUsuarios 
+CREATE VIEW ROAD_TO_PROYECTO.ProductosNoVendidosPorUsuario 
 as
 select u.Usuario as Usuario,year(p.fechainicio) as Año,ROAD_TO_PROYECTO.ObtenerTrimestre (month(p.fechainicio)) as Trimestre, count(*) as ProdNoVendidos
 from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p,ROAD_TO_PROYECTO.Factura f
-where u.usuario = p.userid and p.publid not in(select f.publiid from ROAD_TO_PROYECTO.Factura)
+where u.usuario = p.userid
+and f.PubliId = p.PublId
+and p.publid not in(select f.publiid from ROAD_TO_PROYECTO.Factura where f.PubliId= p.PublId and p.UserId = u.Usuario and ROAD_TO_PROYECTO.ObtenerTrimestre(month(f.fecha))=ROAD_TO_PROYECTO.ObtenerTrimestre(MONTH(p.fechainicio)))
 group by u.usuario, year(p.fechainicio), ROAD_TO_PROYECTO.ObtenerTrimestre (month(p.fechainicio))
 GO
 		
