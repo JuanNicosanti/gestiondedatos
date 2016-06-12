@@ -16,27 +16,30 @@ WindowsFormsApplication1.ComprarOfertar
     public partial class ComprarOfertar : Form
     {
 
-        private int proximaFila = 0;
+        
 
         SqlCommand cmd;
         SqlDataReader sdr;
         SqlDataAdapter adapter;
-        private int contadorDeFilas;
-        private int cantidadMaximaDeFilas;
+        
         private DataBase db;
         private String listaDeRubrosFiltros;
         String descripcionFiltros;
         private int tieneEnvio;
         private int cash;
-        private int cantidad;
-        private int indiceInsertar;//
+       
 
         private Boolean seSigueCargandoPrimeraPagina=true;
 
 
         public static ComprarOfertar cO;
         public String compradorID;
-        
+
+        private int proximaFila = 0;
+        private int contadorDeFilas;
+        private int cantidadMaximaDeFilas;
+        private int cantidad;
+        private int indiceInsertar;//
         int filasPagina = 10; // Definimos el numero de filas que deseamos ver por pagina
         int nroPagina = 1;//Esto define el numero de pagina actual en al que nos encontramos
         int ini = 0; //inicio del paginado
@@ -91,7 +94,7 @@ WindowsFormsApplication1.ComprarOfertar
         {
             
             nroPagina = Convert.ToInt32(lblPaginaActual.Text);//Obtenemos el numero de paginaactual 
-            if (dataGridView1.Rows.Count > filasPagina)
+            if (dataGridView1.Rows.Count > 0)
             {
                 this.ini = nroPagina * filasPagina - filasPagina;
                 this.fin = nroPagina * filasPagina;

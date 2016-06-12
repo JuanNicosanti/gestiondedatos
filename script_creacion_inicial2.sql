@@ -1231,14 +1231,11 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Consulta_Facturas_Vendedor
 		from ROAD_TO_PROYECTO.Factura f
 		inner join ROAD_TO_PROYECTO.Item_Factura i on f.FactNro = i.FactNro
 		inner join ROAD_TO_PROYECTO.Publicacion p on f.PubliId = p.PublId
-		where (f.Monto between @MontoInicioIntervalo and @MontoFinIntervalo
-		or (f.Monto < @MontoFinIntervalo and @MontoInicioIntervalo is null)
-		or (f.Monto > @MontoInicioIntervalo and @MontoFinIntervalo is null)
-		or (@MontoInicioIntervalo is null and @MontoFinIntervalo is null))
-		and (f.Fecha between @FechaInicioIntervalo and @FechaFinIntervalo
-		or (f.Fecha < @FechaFinIntervalo and @FechaInicioIntervalo is null)
-		or (f.Fecha > @FechaInicioIntervalo and @FechaFinIntervalo is null)
-		or (@FechaFinIntervalo is null and @FechaInicioIntervalo is null))
+		where ((f.Monto between @MontoInicioIntervalo and @MontoFinIntervalo)
+		or (f.Monto < @MontoFinIntervalo or @MontoFinIntervalo is null)
+		or (f.Monto > @MontoInicioIntervalo or @MontoInicioIntervalo is null))
+		--or (@MontoInicioIntervalo is null and @MontoFinIntervalo is null))
+		and (f.Fecha between @FechaInicioIntervalo and @FechaFinIntervalo)
 		and (i.Detalle like '%' + @Detalle + '%')
 		and (p.UserId = @Usuario or @Usuario is null)
 	end
@@ -1606,7 +1603,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Ultimas_Cinco_Transacciones_Calificadas
 	as begin
 		declare @ClieId int
 		set @ClieId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
-		select top 5 t.TipoTransac, t.Fecha, isnull(t.Monto, p.Precio) as 'Monto', p.Descipcion, p.UserId
+		select top 5 t.TipoTransac, t.Fecha, isnull(t.Monto, p.Precio) as 'Monto', p.Descipcion, p.UserId, c.CantEstrellas
 		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Calificacion c
 		where t.PubliId = p.PublId and t.ClieId = @ClieId and t.TranId = c.TranId
 		order by t.Fecha desc

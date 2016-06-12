@@ -439,6 +439,9 @@ namespace WindowsFormsApplication1
 
             if ((string)clickedItem.Tag == "Consulta de facturas realizadas al vendedor")
             {
+                WindowsFormsApplication1.Facturas.ConsultaFacturas.cf = new WindowsFormsApplication1.Facturas.ConsultaFacturas();
+                WindowsFormsApplication1.Facturas.ConsultaFacturas.cf.Show();
+                this.Hide();
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;

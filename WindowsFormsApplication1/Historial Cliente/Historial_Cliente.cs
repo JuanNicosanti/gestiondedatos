@@ -95,7 +95,7 @@ namespace WindowsFormsApplication1.Historial_Cliente
         private void paginar()
         {
             nroPagina = Convert.ToInt32(lblActual.Text);//Obtenemos el numero de paginaactual 
-            if (dataGridView2.Rows.Count > filasPagina)
+            if (dataGridView2.Rows.Count > 0)
             {
                 this.ini = nroPagina * filasPagina - filasPagina;
                 this.fin = nroPagina * filasPagina;
