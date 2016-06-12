@@ -50,10 +50,11 @@
             this.cmdRubro = new System.Windows.Forms.Button();
             this.cboRubro = new System.Windows.Forms.ComboBox();
             this.lblVisi = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.lstVisi = new System.Windows.Forms.ListBox();
+            this.lstVisiSel = new System.Windows.Forms.ListBox();
+            this.cmdVisiSel = new System.Windows.Forms.Button();
+            this.cmdVisiBorrar = new System.Windows.Forms.Button();
+            this.cmdVisiAceptar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -80,7 +81,7 @@
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 526);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 567);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(827, 22);
             this.statusStrip1.TabIndex = 1;
@@ -91,7 +92,7 @@
             this.lblTopp.AllowDrop = true;
             this.lblTopp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblTopp.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTopp.Location = new System.Drawing.Point(0, 277);
+            this.lblTopp.Location = new System.Drawing.Point(0, 309);
             this.lblTopp.Name = "lblTopp";
             this.lblTopp.Size = new System.Drawing.Size(282, 245);
             this.lblTopp.TabIndex = 2;
@@ -99,7 +100,7 @@
             // 
             // cmdTop1
             // 
-            this.cmdTop1.Location = new System.Drawing.Point(11, 309);
+            this.cmdTop1.Location = new System.Drawing.Point(11, 341);
             this.cmdTop1.Name = "cmdTop1";
             this.cmdTop1.Size = new System.Drawing.Size(261, 43);
             this.cmdTop1.TabIndex = 3;
@@ -109,7 +110,7 @@
             // 
             // cmdTop2
             // 
-            this.cmdTop2.Location = new System.Drawing.Point(11, 358);
+            this.cmdTop2.Location = new System.Drawing.Point(11, 390);
             this.cmdTop2.Name = "cmdTop2";
             this.cmdTop2.Size = new System.Drawing.Size(261, 43);
             this.cmdTop2.TabIndex = 4;
@@ -119,7 +120,7 @@
             // 
             // cmdTop3
             // 
-            this.cmdTop3.Location = new System.Drawing.Point(11, 407);
+            this.cmdTop3.Location = new System.Drawing.Point(11, 439);
             this.cmdTop3.Name = "cmdTop3";
             this.cmdTop3.Size = new System.Drawing.Size(261, 43);
             this.cmdTop3.TabIndex = 5;
@@ -129,7 +130,7 @@
             // 
             // cmdTop4
             // 
-            this.cmdTop4.Location = new System.Drawing.Point(11, 456);
+            this.cmdTop4.Location = new System.Drawing.Point(11, 488);
             this.cmdTop4.Name = "cmdTop4";
             this.cmdTop4.Size = new System.Drawing.Size(261, 43);
             this.cmdTop4.TabIndex = 6;
@@ -144,15 +145,15 @@
             this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(1, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(281, 244);
+            this.label2.Size = new System.Drawing.Size(281, 266);
             this.label2.TabIndex = 7;
             this.label2.Text = "Ingrese:";
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(580, 314);
+            this.cmdVolver.Location = new System.Drawing.Point(578, 309);
             this.cmdVolver.Name = "cmdVolver";
-            this.cmdVolver.Size = new System.Drawing.Size(237, 164);
+            this.cmdVolver.Size = new System.Drawing.Size(237, 245);
             this.cmdVolver.TabIndex = 8;
             this.cmdVolver.Text = "Volver";
             this.cmdVolver.UseVisualStyleBackColor = true;
@@ -163,7 +164,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(296, 28);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(521, 245);
+            this.dataGridView1.Size = new System.Drawing.Size(521, 267);
             this.dataGridView1.TabIndex = 9;
             // 
             // label3
@@ -226,9 +227,9 @@
             // 
             // cmdVerOtro
             // 
-            this.cmdVerOtro.Location = new System.Drawing.Point(296, 313);
+            this.cmdVerOtro.Location = new System.Drawing.Point(296, 309);
             this.cmdVerOtro.Name = "cmdVerOtro";
-            this.cmdVerOtro.Size = new System.Drawing.Size(268, 164);
+            this.cmdVerOtro.Size = new System.Drawing.Size(268, 245);
             this.cmdVerOtro.TabIndex = 16;
             this.cmdVerOtro.Text = "Cambiar informacion de busqueda";
             this.cmdVerOtro.UseVisualStyleBackColor = true;
@@ -268,54 +269,67 @@
             this.lblVisi.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblVisi.Location = new System.Drawing.Point(12, 106);
             this.lblVisi.Name = "lblVisi";
-            this.lblVisi.Size = new System.Drawing.Size(259, 158);
+            this.lblVisi.Size = new System.Drawing.Size(260, 158);
             this.lblVisi.TabIndex = 20;
             this.lblVisi.Text = "Visibilidad:";
             // 
-            // listBox1
+            // lstVisi
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(17, 124);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 95);
-            this.listBox1.TabIndex = 21;
+            this.lstVisi.FormattingEnabled = true;
+            this.lstVisi.Location = new System.Drawing.Point(17, 124);
+            this.lstVisi.Name = "lstVisi";
+            this.lstVisi.Size = new System.Drawing.Size(120, 95);
+            this.lstVisi.TabIndex = 21;
             // 
-            // listBox2
+            // lstVisiSel
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(143, 124);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(120, 95);
-            this.listBox2.TabIndex = 22;
+            this.lstVisiSel.FormattingEnabled = true;
+            this.lstVisiSel.Location = new System.Drawing.Point(143, 124);
+            this.lstVisiSel.Name = "lstVisiSel";
+            this.lstVisiSel.Size = new System.Drawing.Size(120, 95);
+            this.lstVisiSel.TabIndex = 22;
             // 
-            // button1
+            // cmdVisiSel
             // 
-            this.button1.Location = new System.Drawing.Point(42, 225);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 23;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.cmdVisiSel.Location = new System.Drawing.Point(42, 225);
+            this.cmdVisiSel.Name = "cmdVisiSel";
+            this.cmdVisiSel.Size = new System.Drawing.Size(75, 23);
+            this.cmdVisiSel.TabIndex = 23;
+            this.cmdVisiSel.Text = "Seleccionar";
+            this.cmdVisiSel.UseVisualStyleBackColor = true;
+            this.cmdVisiSel.Click += new System.EventHandler(this.cmdVisiSel_Click);
             // 
-            // button2
+            // cmdVisiBorrar
             // 
-            this.button2.Location = new System.Drawing.Point(166, 225);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 24;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.cmdVisiBorrar.Location = new System.Drawing.Point(166, 225);
+            this.cmdVisiBorrar.Name = "cmdVisiBorrar";
+            this.cmdVisiBorrar.Size = new System.Drawing.Size(75, 23);
+            this.cmdVisiBorrar.TabIndex = 24;
+            this.cmdVisiBorrar.Text = "Borrar";
+            this.cmdVisiBorrar.UseVisualStyleBackColor = true;
+            this.cmdVisiBorrar.Click += new System.EventHandler(this.cmdVisiBorrar_Click);
+            // 
+            // cmdVisiAceptar
+            // 
+            this.cmdVisiAceptar.Location = new System.Drawing.Point(42, 267);
+            this.cmdVisiAceptar.Name = "cmdVisiAceptar";
+            this.cmdVisiAceptar.Size = new System.Drawing.Size(199, 23);
+            this.cmdVisiAceptar.TabIndex = 25;
+            this.cmdVisiAceptar.Text = "Aceptar";
+            this.cmdVisiAceptar.UseVisualStyleBackColor = true;
+            this.cmdVisiAceptar.Click += new System.EventHandler(this.cmdVisiAceptar_Click);
             // 
             // Listado_Estadistico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(827, 548);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.listBox2);
-            this.Controls.Add(this.listBox1);
+            this.ClientSize = new System.Drawing.Size(827, 589);
+            this.Controls.Add(this.cmdVisiAceptar);
+            this.Controls.Add(this.cmdVisiBorrar);
+            this.Controls.Add(this.cmdVisiSel);
+            this.Controls.Add(this.lstVisiSel);
+            this.Controls.Add(this.lstVisi);
             this.Controls.Add(this.lblVisi);
             this.Controls.Add(this.cboRubro);
             this.Controls.Add(this.cmdRubro);
@@ -373,9 +387,10 @@
         private System.Windows.Forms.Button cmdRubro;
         private System.Windows.Forms.ComboBox cboRubro;
         private System.Windows.Forms.Label lblVisi;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ListBox lstVisi;
+        private System.Windows.Forms.ListBox lstVisiSel;
+        private System.Windows.Forms.Button cmdVisiSel;
+        private System.Windows.Forms.Button cmdVisiBorrar;
+        private System.Windows.Forms.Button cmdVisiAceptar;
     }
 }

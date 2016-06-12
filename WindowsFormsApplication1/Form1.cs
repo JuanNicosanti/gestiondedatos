@@ -499,5 +499,12 @@ namespace WindowsFormsApplication1
             mc.Show();
             this.Hide();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Facturas.ConsultaFacturas consFact = new WindowsFormsApplication1.Facturas.ConsultaFacturas();
+            consFact.Show();
+            this.Hide();
+        }
     }
 }
