@@ -1386,20 +1386,28 @@ return 4
 end
 GO
 
-CREATE VIEW ROAD_TO_PROYECTO.ProductosNoVendidosPorUsuario 
+CREATE FUNCTION ROAD_TO_PROYECTO.EstaActivaEnTrimestre(@FechaInicio datetime,@FechaFin datetime,@Trimestre int)
+returns int
+as begin
+if ((@Trimestre*3)-2 between month(@FechaInicio) and month(@FechaFin))
+return 1
+return 0
+end
+GO
+
+CREATE VIEW ROAD_TO_PROYECTO.CantidadFacturasPorUsuarioYTrimestre
 as
-select u.Usuario as Usuario,year(p.fechainicio) as Año,ROAD_TO_PROYECTO.ObtenerTrimestre (month(p.fechainicio)) as Trimestre, count(*) as ProdNoVendidos
+select u.Usuario as Usuario,year(f.fecha) as Año,ROAD_TO_PROYECTO.ObtenerTrimestre (month(f.fecha)) as Trimestre, count(*) as CantFacturas
 from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p,ROAD_TO_PROYECTO.Factura f
 where u.usuario = p.userid
 and f.PubliId = p.PublId
-and p.publid not in(select f.publiid from ROAD_TO_PROYECTO.Factura where f.PubliId= p.PublId and p.UserId = u.Usuario and ROAD_TO_PROYECTO.ObtenerTrimestre(month(f.fecha))=ROAD_TO_PROYECTO.ObtenerTrimestre(MONTH(p.fechainicio)))
-group by u.usuario, year(p.fechainicio), ROAD_TO_PROYECTO.ObtenerTrimestre (month(p.fechainicio))
+group by u.usuario, year(f.fecha), ROAD_TO_PROYECTO.ObtenerTrimestre (month(f.fecha))
 GO
-		
+
 
 --Top 5: listados estadísticos
 --right('0000' + cast(year(fact_fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(fact_fecha) as varchar(2)), 2)
---Vendedores con mayor cantidad de productos no vendidos. NO LO ENTIENDO
+--Vendedores con mayor cantidad de productos no vendidos. NO ESTA TERMINADO
 ALTER PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos
 	@Trimestre int, 
 	@Año int, 
@@ -1420,14 +1428,14 @@ ALTER PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos
 		)
 		
 		insert into ROAD_TO_PROYECTO.#consulta1
-		select* from ROAD_TO_PROYECTO.FacturasUsuarios
-		select top 5 fu.Usuario, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', p.Visibilidad, count(*) as 'Cantidad Facturas'
-		from ROAD_TO_PROYECTO.FacturasUsuarios fu,ROAD_TO_PROYECTO.Publicacion p
+		select top 5 fu.Usuario, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', p.Visibilidad, fu.CantFacturas as 'Cantidad Facturas'
+		from ROAD_TO_PROYECTO.CantidadFacturasPorUsuarioYTrimestre fu,ROAD_TO_PROYECTO.Publicacion p
 		where fu.Usuario = p.userid
 		and p.visibilidad in(select visiid from ROAD_TO_PROYECTO.##parametrosvisibilidad)
-		and 
+		and fu.trimestre = @Trimestre
+		and fu.año = @Año
 		group by fu.Usuario, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), p.Visibilidad
-		order by count(*) desc
+		order by fu.CantFacturas desc
 		
 		
 
