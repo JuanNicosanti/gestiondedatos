@@ -1028,7 +1028,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 		declare @CompradorId int 
 		set @CompradorId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
 		--Verific si la cantidad a comprar es menor que el stock disponible
-		if((select Stock from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) > @Cantidad)
+		if((select Stock from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) >= @Cantidad)
 		begin
 			insert into ROAD_TO_PROYECTO.Transaccion(TipoTransac, Fecha, Cantidad, PubliId, ClieId, ConEnvio)
 			values('Compra', getdate()/*@FechaActual*/, @Cantidad, @PubliId, @CompradorId, @ConEnvio)
@@ -1041,14 +1041,16 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	@PubliId int,
 	--@FechaActual datetime,
-	@MontoOferta numeric(18,2),
+	@MontoOfertaString nvarchar(255),
 	@Usuario nvarchar(255),
 	@ConEnvio bit
 	as begin
 		if(@Usuario <> (select UserId from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
 		begin
+			declare @MontoOferta numeric(18,2)
 			declare @OfertanteId int 
 			set @OfertanteId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
+			set @MontoOferta = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@MontoOfertaString)
 			--Verifico que la oferta sea mayor al precio actual de la subasta
 			if((select Precio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) < @MontoOferta)
 	--		if((select top 1 Monto from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId and TipoTransac = 'Oferta' order by Monto desc) < @MontoOferta)
@@ -1686,6 +1688,12 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.
 				update ROAD_TO_PROYECTO.Publicacion
 				set Stock = (Stock - @Cantidad)
 				where PublId = @PubliId
+				if ((select Stock from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) = 0)
+				begin
+					update ROAD_TO_PROYECTO.Publicacion
+					set Estado = '3'
+					where PublId = @PubliId
+				end
 				
 				--Busco el último número de factura y determino el siguiente
 				select top 1 @UltimaFactura = FactNro from ROAD_TO_PROYECTO.Factura order by FactNro desc

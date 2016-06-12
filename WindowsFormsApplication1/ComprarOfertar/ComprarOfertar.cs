@@ -30,7 +30,7 @@ WindowsFormsApplication1.ComprarOfertar
        
 
         private Boolean seSigueCargandoPrimeraPagina=true;
-
+        private Boolean yaSeCompro = false;
 
         public static ComprarOfertar cO;
         public String compradorID;
@@ -94,6 +94,8 @@ WindowsFormsApplication1.ComprarOfertar
         {
             
             nroPagina = Convert.ToInt32(lblPaginaActual.Text);//Obtenemos el numero de paginaactual 
+         
+
             if (dataGridView1.Rows.Count > 0)
             {
                 this.ini = nroPagina * filasPagina - filasPagina;
@@ -106,7 +108,11 @@ WindowsFormsApplication1.ComprarOfertar
                 this.ini = 0;
                 this.fin = dataGridView1.Rows.Count;
                 dataGridView1.Rows.Clear();
-                
+
+                if (filasPagina > dtPublicaciones.Rows.Count)
+                {
+                    filasPagina = dtPublicaciones.Rows.Count;
+                }
                 
                 numeroRegistro = this.ini;
                 dataGridView1.ColumnCount = 10;
@@ -144,10 +150,11 @@ WindowsFormsApplication1.ComprarOfertar
                     {
                         dataGridView1.Rows[contadorDeFilas].Cells[9].Value = "Si";
                     }
-
+                    ini++;
                     contadorDeFilas++;
                     proximaFila++;
-                    if (proximaFila == dtPublicaciones.Rows.Count)
+
+                    if (proximaFila == filasPagina)
                     {
                         seSigueCargandoPrimeraPagina = false;
                     }
@@ -254,6 +261,11 @@ WindowsFormsApplication1.ComprarOfertar
             adapter = new SqlDataAdapter(cmd);
             dtPublicaciones = new DataTable("ROAD_TO_PROYECTO.Publicacion");
             adapter.Fill(dtPublicaciones);
+            if (yaSeCompro)
+            {
+                cantidadMaximaDeFilas = dtPublicaciones.Rows.Count;
+            }
+            
 
 
             if (dtPublicaciones.Rows.Count > 0)
@@ -262,7 +274,11 @@ WindowsFormsApplication1.ComprarOfertar
                 this.numPaginas(); //Funcion para calcular el numero total de paginas que tendra nuestra vista
                 this.paginar();//empezamos con la paginacion             
                 lblCantidadTotal.Text = "Publicaciones Encontradas: " + dtPublicaciones.Rows.Count.ToString();//Cantidad totoal de registros encontrados
-                cantidadMaximaDeFilas = dtPublicaciones.Rows.Count;
+                if (!yaSeCompro)
+                {
+                    cantidadMaximaDeFilas = dtPublicaciones.Rows.Count;
+                }
+                
                 dataGridView1.Select();
                 
                 
@@ -280,7 +296,13 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void cmdBuscar_Click_1(object sender, EventArgs e)
         {
-           
+            dataGridView1.Rows.Clear();
+            seSigueCargandoPrimeraPagina = true;
+            yaSeCompro = false;
+            contadorDeFilas = 0;
+            proximaFila = 0;
+            filasPagina = 10;
+            listaDeRubrosFiltros = "";
             for (int i = 0; i < lstRubrosElegidos.Items.Count ; i++)
             {
                 listaDeRubrosFiltros += lstRubrosElegidos.Items[i].ToString() +",";
@@ -298,7 +320,7 @@ WindowsFormsApplication1.ComprarOfertar
            
           
 
-            listaDeRubrosFiltros = "";
+            //listaDeRubrosFiltros = "";
            
         }
 
@@ -372,6 +394,7 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void cmdComprarOfertar_Click(object sender, EventArgs e)
         {
+            
             int fila = dataGridView1.CurrentRow.Index;
             String envioOfertante = dataGridView1[9, fila].Value.ToString();
             if (rbEnvioSi.Checked == true && envioOfertante.Equals("No"))
@@ -416,7 +439,7 @@ WindowsFormsApplication1.ComprarOfertar
             
             if (ofertaOCompra.Equals("Subasta"))
             {
-                cash = int.Parse(txtGuita.Text.ToString());
+                //cash = int.Parse(txtGuita.Text.ToString());
             }
             if (ofertaOCompra.Equals("Compra Inmediata"))
             {
@@ -453,13 +476,15 @@ WindowsFormsApplication1.ComprarOfertar
                 cmd.CommandType = CommandType.StoredProcedure;
                 
                 cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = celdaIdPublicacion;
-                cmd.Parameters.AddWithValue("@MontoOferta", SqlDbType.Int).Value = cash;
+                cmd.Parameters.AddWithValue("@MontoOfertaString", SqlDbType.NVarChar).Value = txtGuita.Text;
                 cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = ofertanteID;
                 cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Int).Value = tieneEnvio;
 
                 cmd.ExecuteNonQuery();
+                MessageBox.Show("ESCUADRON ANTI BUGS");
             }
-
+            //MessageBox.Show("ESCUADRON");
+            yaSeCompro = true;
             this.hacerRefresh();
           
             
@@ -485,16 +510,6 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            timer1.Start();
-        }
-
-        private void txtCantidad_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
             int filaAux = dataGridView1.CurrentRow.Index;
             String ofertaOCompra = dataGridView1[7, filaAux].Value.ToString();
             if (dataGridView1.CurrentRow != null)
@@ -514,7 +529,17 @@ WindowsFormsApplication1.ComprarOfertar
                     lblGuita.Visible = false;
                     lblCantidad.Visible = true;
                 }
-            }
+            } //timer1.Start();
+        }
+
+        private void txtCantidad_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+          
         }
 
         private void salirToolStripMenuItem_Click_1(object sender, EventArgs e)

@@ -155,9 +155,12 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(484, 37);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(519, 279);
             this.dataGridView1.TabIndex = 12;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -217,7 +220,7 @@
             this.lblCantidadTotal.AutoSize = true;
             this.lblCantidadTotal.BackColor = System.Drawing.Color.LightGray;
             this.lblCantidadTotal.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCantidadTotal.Location = new System.Drawing.Point(810, 367);
+            this.lblCantidadTotal.Location = new System.Drawing.Point(801, 367);
             this.lblCantidadTotal.Name = "lblCantidadTotal";
             this.lblCantidadTotal.Size = new System.Drawing.Size(0, 13);
             this.lblCantidadTotal.TabIndex = 18;
@@ -227,7 +230,7 @@
             this.lblPaginaActual.AutoSize = true;
             this.lblPaginaActual.BackColor = System.Drawing.Color.LightGray;
             this.lblPaginaActual.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPaginaActual.Location = new System.Drawing.Point(718, 359);
+            this.lblPaginaActual.Location = new System.Drawing.Point(710, 359);
             this.lblPaginaActual.Name = "lblPaginaActual";
             this.lblPaginaActual.Size = new System.Drawing.Size(0, 16);
             this.lblPaginaActual.TabIndex = 19;
