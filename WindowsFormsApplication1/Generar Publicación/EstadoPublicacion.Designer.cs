@@ -62,12 +62,13 @@
             // 
             // cmdBuscar
             // 
+            this.cmdBuscar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdBuscar.Location = new System.Drawing.Point(295, 50);
             this.cmdBuscar.Name = "cmdBuscar";
-            this.cmdBuscar.Size = new System.Drawing.Size(75, 23);
+            this.cmdBuscar.Size = new System.Drawing.Size(124, 23);
             this.cmdBuscar.TabIndex = 4;
             this.cmdBuscar.Text = "Buscar";
-            this.cmdBuscar.UseVisualStyleBackColor = true;
+            this.cmdBuscar.UseVisualStyleBackColor = false;
             this.cmdBuscar.Click += new System.EventHandler(this.cmdBuscar_Click);
             // 
             // cboEstados
@@ -119,12 +120,13 @@
             // 
             // cmdActivar
             // 
+            this.cmdActivar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdActivar.Location = new System.Drawing.Point(20, 292);
             this.cmdActivar.Name = "cmdActivar";
             this.cmdActivar.Size = new System.Drawing.Size(116, 38);
             this.cmdActivar.TabIndex = 2;
             this.cmdActivar.Text = "Activar publicación";
-            this.cmdActivar.UseVisualStyleBackColor = true;
+            this.cmdActivar.UseVisualStyleBackColor = false;
             this.cmdActivar.Visible = false;
             this.cmdActivar.Click += new System.EventHandler(this.cmdActivar_Click);
             // 
@@ -141,33 +143,36 @@
             // 
             // cmdFinalizar
             // 
+            this.cmdFinalizar.BackColor = System.Drawing.Color.Crimson;
             this.cmdFinalizar.Location = new System.Drawing.Point(353, 292);
             this.cmdFinalizar.Name = "cmdFinalizar";
             this.cmdFinalizar.Size = new System.Drawing.Size(112, 38);
             this.cmdFinalizar.TabIndex = 4;
             this.cmdFinalizar.Text = "Finalizar publicación";
-            this.cmdFinalizar.UseVisualStyleBackColor = true;
+            this.cmdFinalizar.UseVisualStyleBackColor = false;
             this.cmdFinalizar.Visible = false;
             this.cmdFinalizar.Click += new System.EventHandler(this.cmdFinalizar_Click);
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(184, 348);
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
+            this.cmdVolver.Location = new System.Drawing.Point(184, 336);
             this.cmdVolver.Name = "cmdVolver";
-            this.cmdVolver.Size = new System.Drawing.Size(120, 23);
+            this.cmdVolver.Size = new System.Drawing.Size(120, 35);
             this.cmdVolver.TabIndex = 5;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // cmdModificar
             // 
+            this.cmdModificar.BackColor = System.Drawing.Color.PaleGreen;
             this.cmdModificar.Location = new System.Drawing.Point(184, 291);
             this.cmdModificar.Name = "cmdModificar";
             this.cmdModificar.Size = new System.Drawing.Size(120, 39);
             this.cmdModificar.TabIndex = 6;
             this.cmdModificar.Text = "Modificar Publicación";
-            this.cmdModificar.UseVisualStyleBackColor = true;
+            this.cmdModificar.UseVisualStyleBackColor = false;
             this.cmdModificar.Visible = false;
             this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
             // 

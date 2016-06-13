@@ -125,32 +125,35 @@
             // 
             // cmdLimpiar
             // 
+            this.cmdLimpiar.BackColor = System.Drawing.Color.LightCoral;
             this.cmdLimpiar.Location = new System.Drawing.Point(143, 330);
             this.cmdLimpiar.Name = "cmdLimpiar";
             this.cmdLimpiar.Size = new System.Drawing.Size(116, 23);
             this.cmdLimpiar.TabIndex = 6;
             this.cmdLimpiar.Text = "Limpiar";
-            this.cmdLimpiar.UseVisualStyleBackColor = true;
+            this.cmdLimpiar.UseVisualStyleBackColor = false;
             this.cmdLimpiar.Click += new System.EventHandler(this.cmdLimpiar_Click);
             // 
             // cmdVolver
             // 
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
             this.cmdVolver.Location = new System.Drawing.Point(268, 330);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(116, 23);
             this.cmdVolver.TabIndex = 8;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // cmdAceptar
             // 
+            this.cmdAceptar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdAceptar.Location = new System.Drawing.Point(12, 330);
             this.cmdAceptar.Name = "cmdAceptar";
             this.cmdAceptar.Size = new System.Drawing.Size(115, 23);
             this.cmdAceptar.TabIndex = 9;
             this.cmdAceptar.Text = "Aceptar";
-            this.cmdAceptar.UseVisualStyleBackColor = true;
+            this.cmdAceptar.UseVisualStyleBackColor = false;
             this.cmdAceptar.Click += new System.EventHandler(this.cmdAceptar_Click);
             // 
             // dtpFin
@@ -324,12 +327,13 @@
             // 
             // cmdSelVis
             // 
+            this.cmdSelVis.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdSelVis.Location = new System.Drawing.Point(309, 228);
             this.cmdSelVis.Name = "cmdSelVis";
             this.cmdSelVis.Size = new System.Drawing.Size(75, 23);
             this.cmdSelVis.TabIndex = 29;
             this.cmdSelVis.Text = "Seleccionar";
-            this.cmdSelVis.UseVisualStyleBackColor = true;
+            this.cmdSelVis.UseVisualStyleBackColor = false;
             this.cmdSelVis.Click += new System.EventHandler(this.cmdSelVis_Click);
             // 
             // lblUsername
@@ -362,12 +366,13 @@
             // 
             // cmdModificar
             // 
+            this.cmdModificar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdModificar.Location = new System.Drawing.Point(12, 330);
             this.cmdModificar.Name = "cmdModificar";
             this.cmdModificar.Size = new System.Drawing.Size(115, 23);
             this.cmdModificar.TabIndex = 33;
             this.cmdModificar.Text = "Modificar";
-            this.cmdModificar.UseVisualStyleBackColor = true;
+            this.cmdModificar.UseVisualStyleBackColor = false;
             this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
             // 
             // AltaPublicacion

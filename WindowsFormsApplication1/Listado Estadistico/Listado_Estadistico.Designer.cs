@@ -100,42 +100,46 @@
             // 
             // cmdTop1
             // 
+            this.cmdTop1.BackColor = System.Drawing.Color.RosyBrown;
             this.cmdTop1.Location = new System.Drawing.Point(11, 341);
             this.cmdTop1.Name = "cmdTop1";
             this.cmdTop1.Size = new System.Drawing.Size(261, 43);
             this.cmdTop1.TabIndex = 3;
             this.cmdTop1.Text = "Vendedores con mayor cantidad de productos no vendidos";
-            this.cmdTop1.UseVisualStyleBackColor = true;
+            this.cmdTop1.UseVisualStyleBackColor = false;
             this.cmdTop1.Click += new System.EventHandler(this.cmdTop1_Click);
             // 
             // cmdTop2
             // 
+            this.cmdTop2.BackColor = System.Drawing.Color.RosyBrown;
             this.cmdTop2.Location = new System.Drawing.Point(11, 390);
             this.cmdTop2.Name = "cmdTop2";
             this.cmdTop2.Size = new System.Drawing.Size(261, 43);
             this.cmdTop2.TabIndex = 4;
             this.cmdTop2.Text = " Clientes con mayor cantidad de productos comprados";
-            this.cmdTop2.UseVisualStyleBackColor = true;
+            this.cmdTop2.UseVisualStyleBackColor = false;
             this.cmdTop2.Click += new System.EventHandler(this.cmdTop2_Click);
             // 
             // cmdTop3
             // 
+            this.cmdTop3.BackColor = System.Drawing.Color.RosyBrown;
             this.cmdTop3.Location = new System.Drawing.Point(11, 439);
             this.cmdTop3.Name = "cmdTop3";
             this.cmdTop3.Size = new System.Drawing.Size(261, 43);
             this.cmdTop3.TabIndex = 5;
             this.cmdTop3.Text = "Vendedores con mayor cantidad de facturas";
-            this.cmdTop3.UseVisualStyleBackColor = true;
+            this.cmdTop3.UseVisualStyleBackColor = false;
             this.cmdTop3.Click += new System.EventHandler(this.cmdTop3_Click);
             // 
             // cmdTop4
             // 
+            this.cmdTop4.BackColor = System.Drawing.Color.RosyBrown;
             this.cmdTop4.Location = new System.Drawing.Point(11, 488);
             this.cmdTop4.Name = "cmdTop4";
             this.cmdTop4.Size = new System.Drawing.Size(261, 43);
             this.cmdTop4.TabIndex = 6;
             this.cmdTop4.Text = "Vendedores con mayor monto facturado";
-            this.cmdTop4.UseVisualStyleBackColor = true;
+            this.cmdTop4.UseVisualStyleBackColor = false;
             this.cmdTop4.Click += new System.EventHandler(this.cmdTop4_Click);
             // 
             // label2
@@ -151,12 +155,13 @@
             // 
             // cmdVolver
             // 
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
             this.cmdVolver.Location = new System.Drawing.Point(578, 309);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(237, 245);
             this.cmdVolver.TabIndex = 8;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // dataGridView1
@@ -185,12 +190,13 @@
             // 
             // cmdAnio
             // 
+            this.cmdAnio.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdAnio.Location = new System.Drawing.Point(167, 53);
             this.cmdAnio.Name = "cmdAnio";
             this.cmdAnio.Size = new System.Drawing.Size(105, 23);
             this.cmdAnio.TabIndex = 12;
             this.cmdAnio.Text = "Aceptar";
-            this.cmdAnio.UseVisualStyleBackColor = true;
+            this.cmdAnio.UseVisualStyleBackColor = false;
             this.cmdAnio.Click += new System.EventHandler(this.cmdAnio_Click);
             // 
             // lblTrim
@@ -204,12 +210,13 @@
             // 
             // cmdTrimestre
             // 
+            this.cmdTrimestre.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdTrimestre.Location = new System.Drawing.Point(167, 83);
             this.cmdTrimestre.Name = "cmdTrimestre";
             this.cmdTrimestre.Size = new System.Drawing.Size(105, 23);
             this.cmdTrimestre.TabIndex = 14;
             this.cmdTrimestre.Text = "Aceptar";
-            this.cmdTrimestre.UseVisualStyleBackColor = true;
+            this.cmdTrimestre.UseVisualStyleBackColor = false;
             this.cmdTrimestre.Click += new System.EventHandler(this.cmdTrimestre_Click);
             // 
             // cboTrim
@@ -227,12 +234,13 @@
             // 
             // cmdVerOtro
             // 
+            this.cmdVerOtro.BackColor = System.Drawing.Color.LightCoral;
             this.cmdVerOtro.Location = new System.Drawing.Point(296, 309);
             this.cmdVerOtro.Name = "cmdVerOtro";
             this.cmdVerOtro.Size = new System.Drawing.Size(268, 245);
             this.cmdVerOtro.TabIndex = 16;
             this.cmdVerOtro.Text = "Cambiar informacion de busqueda";
-            this.cmdVerOtro.UseVisualStyleBackColor = true;
+            this.cmdVerOtro.UseVisualStyleBackColor = false;
             this.cmdVerOtro.Click += new System.EventHandler(this.cmdVerOtro_Click);
             // 
             // lblRubro
@@ -291,32 +299,35 @@
             // 
             // cmdVisiSel
             // 
+            this.cmdVisiSel.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdVisiSel.Location = new System.Drawing.Point(42, 225);
             this.cmdVisiSel.Name = "cmdVisiSel";
             this.cmdVisiSel.Size = new System.Drawing.Size(75, 23);
             this.cmdVisiSel.TabIndex = 23;
             this.cmdVisiSel.Text = "Seleccionar";
-            this.cmdVisiSel.UseVisualStyleBackColor = true;
+            this.cmdVisiSel.UseVisualStyleBackColor = false;
             this.cmdVisiSel.Click += new System.EventHandler(this.cmdVisiSel_Click);
             // 
             // cmdVisiBorrar
             // 
+            this.cmdVisiBorrar.BackColor = System.Drawing.Color.LightCoral;
             this.cmdVisiBorrar.Location = new System.Drawing.Point(166, 225);
             this.cmdVisiBorrar.Name = "cmdVisiBorrar";
             this.cmdVisiBorrar.Size = new System.Drawing.Size(75, 23);
             this.cmdVisiBorrar.TabIndex = 24;
             this.cmdVisiBorrar.Text = "Borrar";
-            this.cmdVisiBorrar.UseVisualStyleBackColor = true;
+            this.cmdVisiBorrar.UseVisualStyleBackColor = false;
             this.cmdVisiBorrar.Click += new System.EventHandler(this.cmdVisiBorrar_Click);
             // 
             // cmdVisiAceptar
             // 
+            this.cmdVisiAceptar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdVisiAceptar.Location = new System.Drawing.Point(42, 267);
             this.cmdVisiAceptar.Name = "cmdVisiAceptar";
             this.cmdVisiAceptar.Size = new System.Drawing.Size(199, 23);
             this.cmdVisiAceptar.TabIndex = 25;
             this.cmdVisiAceptar.Text = "Aceptar";
-            this.cmdVisiAceptar.UseVisualStyleBackColor = true;
+            this.cmdVisiAceptar.UseVisualStyleBackColor = false;
             this.cmdVisiAceptar.Click += new System.EventHandler(this.cmdVisiAceptar_Click);
             // 
             // Listado_Estadistico
