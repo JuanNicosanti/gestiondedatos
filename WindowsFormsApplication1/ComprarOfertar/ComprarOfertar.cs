@@ -344,6 +344,12 @@ WindowsFormsApplication1.ComprarOfertar
             lblPaginaActual.Text = "";
             lblTotalPagina.Text = "";
 
+            txtCantidad.Text = "";
+            txtGuita.Text ="";
+            txtGuita.Visible = false;
+            txtCantidad.Visible = false;
+            rbEnvioNo.Checked = false;
+            rbEnvioSi.Checked = false;
         }
 
     
@@ -498,6 +504,13 @@ WindowsFormsApplication1.ComprarOfertar
            
             yaSeCompro = true;
             this.hacerRefresh();
+
+            txtCantidad.Text = "";
+            txtGuita.Text = "";
+            txtGuita.Visible = false;
+            txtCantidad.Visible = false;
+            rbEnvioNo.Checked = false;
+            rbEnvioSi.Checked = false;
           
             
         
