@@ -111,6 +111,7 @@ namespace WindowsFormsApplication1.ABM_Rol
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = celdaIdRol;
             cmd.ExecuteNonQuery();
+            MessageBox.Show("Se dio de baja satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
         }
 
     }

@@ -236,6 +236,14 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void cmdSeleccionarRubro_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < lstRubrosElegidos.Items.Count; i++)
+            {
+                if (lstRubrosElegidos.Items[i].ToString().Equals(lstRubros.SelectedValue.ToString()))
+                {
+                    MessageBox.Show("Ya ha seleccionado ese rubro", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+            }
             lstRubrosElegidos.Items.Add(lstRubros.SelectedValue.ToString());
         }
 
@@ -336,6 +344,12 @@ WindowsFormsApplication1.ComprarOfertar
             lblPaginaActual.Text = "";
             lblTotalPagina.Text = "";
 
+            txtCantidad.Text = "";
+            txtGuita.Text ="";
+            txtGuita.Visible = false;
+            txtCantidad.Visible = false;
+            rbEnvioNo.Checked = false;
+            rbEnvioSi.Checked = false;
         }
 
     
@@ -470,6 +484,10 @@ WindowsFormsApplication1.ComprarOfertar
                 cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Int).Value = tieneEnvio;
 
                 cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Se ha realizado la compra satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+
+
             }
             if (ofertaOCompra == "Subasta") {
                 SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Ofertar_Publicacion", db.Connection);
@@ -481,11 +499,18 @@ WindowsFormsApplication1.ComprarOfertar
                 cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Int).Value = tieneEnvio;
 
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("ESCUADRON ANTI BUGS");
+                MessageBox.Show("Se ha ofertado satisfactoriamente", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             }
-            //MessageBox.Show("ESCUADRON");
+           
             yaSeCompro = true;
             this.hacerRefresh();
+
+            txtCantidad.Text = "";
+            txtGuita.Text = "";
+            txtGuita.Visible = false;
+            txtCantidad.Visible = false;
+            rbEnvioNo.Checked = false;
+            rbEnvioSi.Checked = false;
           
             
         

@@ -84,6 +84,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             string hash2 = this.encriptacion(txtActual.Text);
             UsuarioDOA doa = new UsuarioDOA();
             doa.cambiarContrasenia(txtUsuario.Text, hash1, hash2);
+            MessageBox.Show("Se cambio la contraseña satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             Login.lg.Show();
             this.Hide();
         }

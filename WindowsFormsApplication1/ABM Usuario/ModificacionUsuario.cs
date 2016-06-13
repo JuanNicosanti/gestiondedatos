@@ -413,6 +413,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = celdaUser;
             cmd.ExecuteNonQuery();
+            MessageBox.Show("Se dio se baja a un usuario", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
         }
 
         private void cmdAsignarRol_Click(object sender, EventArgs e)

@@ -297,6 +297,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 {
                     string hash = this.encriptacion(txtPassword.Text);
                     doa.crearCliente("Cliente", txtUsuario.Text, hash, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
+                    MessageBox.Show("Se creo el cliente satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     if (irAlMenuPrincipal == 1)
                     {
                         Form1.f1.Show();
@@ -314,6 +315,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 if (esAltaUsuario == 0)
                 {
                     doa.modificarCliente("Cliente", txtUsuario.Text, txtPassword.Text, txtMail.Text, txtApellidoCliente.Text, txtNombreCliente.Text, int.Parse(txtDNICliente.Text), int.Parse(txtTelCliente.Text), this.cboTipoCliente.SelectedItem.ToString(), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value);
+                    MessageBox.Show("Se modifico el cliente satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     ModificacionUsuario mUsu = new ModificacionUsuario();
                     mUsu.esModificar = true;
                     mUsu.cmdModificar.Visible = true;
@@ -422,6 +424,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 {
                     string hashE = this.encriptacion(txtPassword.Text);
                     doa.crearEmpresa("Empresa", txtUsuario.Text, hashE, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text, txtCiudadEmpresa.Text);
+                    MessageBox.Show("Se creo la empresa satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     if (irAlMenuPrincipal == 1)
                     {
                         Form1.f1.Show();
@@ -439,6 +442,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 {
                     doa.modificarEmpresa("Empresa", txtUsuario.Text, txtPassword.Text, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text,txtCiudadEmpresa.Text);
                     ModificacionUsuario mUsu = new ModificacionUsuario();
+                    MessageBox.Show("Se modifico la empresa satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     mUsu.esModificar = true;
                     mUsu.cmdModificar.Visible = true;
                     mUsu.cmdEliminar.Visible = false;

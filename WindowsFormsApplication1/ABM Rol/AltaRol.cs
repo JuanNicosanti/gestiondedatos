@@ -103,9 +103,12 @@ namespace WindowsFormsApplication1.ABM_Rol
                     cmd2.Parameters.AddWithValue("@Funcion", SqlDbType.NVarChar).Value = unaFunc;
                     cmd2.ExecuteNonQuery();
                 }
+                MessageBox.Show("Se creo el rol satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             }
+            
             if (esAltaRol == 0)
             {
+                MessageBox.Show("Se modifico el rol satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             }
 
             
