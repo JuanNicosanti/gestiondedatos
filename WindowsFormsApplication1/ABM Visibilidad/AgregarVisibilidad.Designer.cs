@@ -41,8 +41,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbEnvio = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,32 +112,35 @@
             // 
             // cmdAceptarVis
             // 
+            this.cmdAceptarVis.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdAceptarVis.Location = new System.Drawing.Point(22, 245);
             this.cmdAceptarVis.Name = "cmdAceptarVis";
             this.cmdAceptarVis.Size = new System.Drawing.Size(75, 23);
             this.cmdAceptarVis.TabIndex = 7;
             this.cmdAceptarVis.Text = "Aceptar";
-            this.cmdAceptarVis.UseVisualStyleBackColor = true;
+            this.cmdAceptarVis.UseVisualStyleBackColor = false;
             this.cmdAceptarVis.Click += new System.EventHandler(this.cmdAceptarVis_Click);
             // 
             // cmdLimpiar
             // 
+            this.cmdLimpiar.BackColor = System.Drawing.Color.LightCoral;
             this.cmdLimpiar.Location = new System.Drawing.Point(107, 245);
             this.cmdLimpiar.Name = "cmdLimpiar";
             this.cmdLimpiar.Size = new System.Drawing.Size(75, 23);
             this.cmdLimpiar.TabIndex = 8;
             this.cmdLimpiar.Text = "Limpiar";
-            this.cmdLimpiar.UseVisualStyleBackColor = true;
+            this.cmdLimpiar.UseVisualStyleBackColor = false;
             this.cmdLimpiar.Click += new System.EventHandler(this.cmdLimpiar_Click);
             // 
             // cmdVolverComs
             // 
+            this.cmdVolverComs.BackColor = System.Drawing.Color.Cyan;
             this.cmdVolverComs.Location = new System.Drawing.Point(194, 245);
             this.cmdVolverComs.Name = "cmdVolverComs";
             this.cmdVolverComs.Size = new System.Drawing.Size(75, 23);
             this.cmdVolverComs.TabIndex = 9;
             this.cmdVolverComs.Text = "Volver";
-            this.cmdVolverComs.UseVisualStyleBackColor = true;
+            this.cmdVolverComs.UseVisualStyleBackColor = false;
             this.cmdVolverComs.Click += new System.EventHandler(this.cmdVolverComs_Click);
             // 
             // label5
@@ -169,6 +172,14 @@
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // salirToolStripMenuItem
+            // 
+            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
@@ -177,14 +188,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(363, 22);
             this.statusStrip1.TabIndex = 13;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // salirToolStripMenuItem
-            // 
-            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.salirToolStripMenuItem.Text = "Salir";
-            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // AgregarVisibilidad
             // 

@@ -42,8 +42,8 @@
             this.lblDetalle = new System.Windows.Forms.Label();
             this.taDetalle = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.panelCalificaciones.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPublis)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -139,23 +139,25 @@
             // 
             // cmdCalificar
             // 
+            this.cmdCalificar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdCalificar.Location = new System.Drawing.Point(200, 307);
             this.cmdCalificar.Name = "cmdCalificar";
-            this.cmdCalificar.Size = new System.Drawing.Size(75, 23);
+            this.cmdCalificar.Size = new System.Drawing.Size(90, 23);
             this.cmdCalificar.TabIndex = 6;
             this.cmdCalificar.Text = "Calificar";
-            this.cmdCalificar.UseVisualStyleBackColor = true;
+            this.cmdCalificar.UseVisualStyleBackColor = false;
             this.cmdCalificar.Visible = false;
             this.cmdCalificar.Click += new System.EventHandler(this.cmdCalificar_Click);
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(326, 307);
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
+            this.cmdVolver.Location = new System.Drawing.Point(309, 307);
             this.cmdVolver.Name = "cmdVolver";
-            this.cmdVolver.Size = new System.Drawing.Size(75, 23);
+            this.cmdVolver.Size = new System.Drawing.Size(92, 23);
             this.cmdVolver.TabIndex = 7;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // dgPublis
@@ -200,6 +202,14 @@
             this.menuStrip1.TabIndex = 11;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // salirToolStripMenuItem
+            // 
+            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
@@ -208,14 +218,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(409, 22);
             this.statusStrip1.TabIndex = 12;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // salirToolStripMenuItem
-            // 
-            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.salirToolStripMenuItem.Text = "Salir";
-            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // CalificarVendedor
             // 

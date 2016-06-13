@@ -254,12 +254,13 @@
             // 
             // cmdCerrar
             // 
-            this.cmdCerrar.Location = new System.Drawing.Point(361, 300);
+            this.cmdCerrar.BackColor = System.Drawing.Color.Cyan;
+            this.cmdCerrar.Location = new System.Drawing.Point(298, 300);
             this.cmdCerrar.Name = "cmdCerrar";
-            this.cmdCerrar.Size = new System.Drawing.Size(75, 23);
+            this.cmdCerrar.Size = new System.Drawing.Size(138, 23);
             this.cmdCerrar.TabIndex = 10;
             this.cmdCerrar.Text = "Cerrar";
-            this.cmdCerrar.UseVisualStyleBackColor = true;
+            this.cmdCerrar.UseVisualStyleBackColor = false;
             this.cmdCerrar.Click += new System.EventHandler(this.cmdCerrar_Click);
             // 
             // Facturar

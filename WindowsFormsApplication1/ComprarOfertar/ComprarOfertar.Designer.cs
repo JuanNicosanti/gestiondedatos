@@ -125,32 +125,35 @@
             // 
             // cmdBuscar
             // 
+            this.cmdBuscar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdBuscar.Location = new System.Drawing.Point(218, 404);
             this.cmdBuscar.Name = "cmdBuscar";
             this.cmdBuscar.Size = new System.Drawing.Size(210, 23);
             this.cmdBuscar.TabIndex = 5;
             this.cmdBuscar.Text = "Buscar";
-            this.cmdBuscar.UseVisualStyleBackColor = true;
+            this.cmdBuscar.UseVisualStyleBackColor = false;
             this.cmdBuscar.Click += new System.EventHandler(this.cmdBuscar_Click_1);
             // 
             // cmdLimpiar
             // 
+            this.cmdLimpiar.BackColor = System.Drawing.Color.LightCoral;
             this.cmdLimpiar.Location = new System.Drawing.Point(484, 402);
             this.cmdLimpiar.Name = "cmdLimpiar";
             this.cmdLimpiar.Size = new System.Drawing.Size(210, 23);
             this.cmdLimpiar.TabIndex = 6;
             this.cmdLimpiar.Text = "Limpiar Busqueda";
-            this.cmdLimpiar.UseVisualStyleBackColor = true;
+            this.cmdLimpiar.UseVisualStyleBackColor = false;
             this.cmdLimpiar.Click += new System.EventHandler(this.cmdLimpiar_Click);
             // 
             // cmdVolver
             // 
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
             this.cmdVolver.Location = new System.Drawing.Point(793, 402);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(210, 23);
             this.cmdVolver.TabIndex = 7;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click_1);
             // 
             // dataGridView1
@@ -255,12 +258,13 @@
             // 
             // cmdSeleccionarRubro
             // 
+            this.cmdSeleccionarRubro.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdSeleccionarRubro.Location = new System.Drawing.Point(279, 154);
             this.cmdSeleccionarRubro.Name = "cmdSeleccionarRubro";
             this.cmdSeleccionarRubro.Size = new System.Drawing.Size(75, 23);
             this.cmdSeleccionarRubro.TabIndex = 22;
             this.cmdSeleccionarRubro.Text = "Seleccionar";
-            this.cmdSeleccionarRubro.UseVisualStyleBackColor = true;
+            this.cmdSeleccionarRubro.UseVisualStyleBackColor = false;
             this.cmdSeleccionarRubro.Click += new System.EventHandler(this.cmdSeleccionarRubro_Click);
             // 
             // lstRubrosElegidos
@@ -291,12 +295,13 @@
             // 
             // cmdBorrarFiltro
             // 
+            this.cmdBorrarFiltro.BackColor = System.Drawing.Color.LightCoral;
             this.cmdBorrarFiltro.Location = new System.Drawing.Point(279, 258);
             this.cmdBorrarFiltro.Name = "cmdBorrarFiltro";
             this.cmdBorrarFiltro.Size = new System.Drawing.Size(75, 23);
             this.cmdBorrarFiltro.TabIndex = 26;
             this.cmdBorrarFiltro.Text = "Borrar filtro";
-            this.cmdBorrarFiltro.UseVisualStyleBackColor = true;
+            this.cmdBorrarFiltro.UseVisualStyleBackColor = false;
             this.cmdBorrarFiltro.Click += new System.EventHandler(this.cmdBorrarFiltro_Click);
             // 
             // we

@@ -183,12 +183,13 @@
             // 
             // cmdVolver
             // 
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
             this.cmdVolver.Location = new System.Drawing.Point(389, 338);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(75, 23);
             this.cmdVolver.TabIndex = 14;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // menuStrip1

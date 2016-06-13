@@ -87,22 +87,24 @@
             // 
             // cmdLimpiar
             // 
+            this.cmdLimpiar.BackColor = System.Drawing.Color.LightCoral;
             this.cmdLimpiar.Location = new System.Drawing.Point(570, 13);
             this.cmdLimpiar.Name = "cmdLimpiar";
             this.cmdLimpiar.Size = new System.Drawing.Size(75, 23);
             this.cmdLimpiar.TabIndex = 13;
             this.cmdLimpiar.Text = "Limpiar";
-            this.cmdLimpiar.UseVisualStyleBackColor = true;
+            this.cmdLimpiar.UseVisualStyleBackColor = false;
             this.cmdLimpiar.Click += new System.EventHandler(this.cmdLimpiar_Click);
             // 
             // cmdBuscar
             // 
+            this.cmdBuscar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdBuscar.Location = new System.Drawing.Point(570, 67);
             this.cmdBuscar.Name = "cmdBuscar";
             this.cmdBuscar.Size = new System.Drawing.Size(75, 23);
             this.cmdBuscar.TabIndex = 12;
             this.cmdBuscar.Text = "Buscar";
-            this.cmdBuscar.UseVisualStyleBackColor = true;
+            this.cmdBuscar.UseVisualStyleBackColor = false;
             this.cmdBuscar.Click += new System.EventHandler(this.cmdBuscar_Click);
             // 
             // dtpFechaFinal
@@ -225,12 +227,13 @@
             // 
             // cmdVerFactura
             // 
-            this.cmdVerFactura.Location = new System.Drawing.Point(348, 455);
+            this.cmdVerFactura.BackColor = System.Drawing.Color.NavajoWhite;
+            this.cmdVerFactura.Location = new System.Drawing.Point(305, 455);
             this.cmdVerFactura.Name = "cmdVerFactura";
-            this.cmdVerFactura.Size = new System.Drawing.Size(75, 23);
+            this.cmdVerFactura.Size = new System.Drawing.Size(143, 23);
             this.cmdVerFactura.TabIndex = 2;
             this.cmdVerFactura.Text = "Ver factura";
-            this.cmdVerFactura.UseVisualStyleBackColor = true;
+            this.cmdVerFactura.UseVisualStyleBackColor = false;
             this.cmdVerFactura.Visible = false;
             this.cmdVerFactura.Click += new System.EventHandler(this.cmdVerFactura_Click);
             // 

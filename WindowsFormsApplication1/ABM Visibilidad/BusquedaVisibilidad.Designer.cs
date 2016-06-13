@@ -104,22 +104,24 @@
             // 
             // cmdLimpiarFiltros
             // 
+            this.cmdLimpiarFiltros.BackColor = System.Drawing.Color.LightCoral;
             this.cmdLimpiarFiltros.Location = new System.Drawing.Point(320, 26);
             this.cmdLimpiarFiltros.Name = "cmdLimpiarFiltros";
             this.cmdLimpiarFiltros.Size = new System.Drawing.Size(75, 23);
             this.cmdLimpiarFiltros.TabIndex = 5;
             this.cmdLimpiarFiltros.Text = "Limpiar";
-            this.cmdLimpiarFiltros.UseVisualStyleBackColor = true;
+            this.cmdLimpiarFiltros.UseVisualStyleBackColor = false;
             this.cmdLimpiarFiltros.Click += new System.EventHandler(this.cmdLimpiarFiltros_Click);
             // 
             // cmdBuscar
             // 
+            this.cmdBuscar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdBuscar.Location = new System.Drawing.Point(320, 61);
             this.cmdBuscar.Name = "cmdBuscar";
             this.cmdBuscar.Size = new System.Drawing.Size(75, 23);
             this.cmdBuscar.TabIndex = 4;
             this.cmdBuscar.Text = "Buscar";
-            this.cmdBuscar.UseVisualStyleBackColor = true;
+            this.cmdBuscar.UseVisualStyleBackColor = false;
             this.cmdBuscar.Click += new System.EventHandler(this.cmdBuscar_Click);
             // 
             // tbComiFija
@@ -168,12 +170,13 @@
             // 
             // cmdEliminar
             // 
+            this.cmdEliminar.BackColor = System.Drawing.Color.LightCoral;
             this.cmdEliminar.Location = new System.Drawing.Point(154, 160);
             this.cmdEliminar.Name = "cmdEliminar";
             this.cmdEliminar.Size = new System.Drawing.Size(124, 23);
             this.cmdEliminar.TabIndex = 2;
             this.cmdEliminar.Text = " Eliminar";
-            this.cmdEliminar.UseVisualStyleBackColor = true;
+            this.cmdEliminar.UseVisualStyleBackColor = false;
             this.cmdEliminar.Click += new System.EventHandler(this.cmdEliminar_Click);
             // 
             // cmdModificar
@@ -200,12 +203,13 @@
             // 
             // cmdVolver
             // 
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
             this.cmdVolver.Location = new System.Drawing.Point(383, 363);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(75, 23);
             this.cmdVolver.TabIndex = 6;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // statusStrip1

@@ -39,22 +39,24 @@
             // 
             // button1
             // 
+            this.button1.BackColor = System.Drawing.Color.LawnGreen;
             this.button1.Location = new System.Drawing.Point(43, 42);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(192, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = "Calificar vendedor por publicación";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
+            this.button2.BackColor = System.Drawing.Color.Yellow;
             this.button2.Location = new System.Drawing.Point(43, 83);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(192, 23);
             this.button2.TabIndex = 1;
             this.button2.Text = "Ver historial de calificaciones";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // menuStrip1
@@ -87,12 +89,13 @@
             // 
             // cmdVolver
             // 
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
             this.cmdVolver.Location = new System.Drawing.Point(94, 132);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(88, 23);
             this.cmdVolver.TabIndex = 4;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // MenuCalificaciones

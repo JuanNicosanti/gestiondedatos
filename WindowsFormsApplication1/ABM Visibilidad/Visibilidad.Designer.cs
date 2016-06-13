@@ -42,8 +42,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.panelComs.SuspendLayout();
             this.panelEnvio.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -102,12 +102,13 @@
             // 
             // cmdAceptarComisiones
             // 
+            this.cmdAceptarComisiones.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdAceptarComisiones.Location = new System.Drawing.Point(98, 186);
             this.cmdAceptarComisiones.Name = "cmdAceptarComisiones";
             this.cmdAceptarComisiones.Size = new System.Drawing.Size(75, 23);
             this.cmdAceptarComisiones.TabIndex = 8;
             this.cmdAceptarComisiones.Text = "Aceptar";
-            this.cmdAceptarComisiones.UseVisualStyleBackColor = true;
+            this.cmdAceptarComisiones.UseVisualStyleBackColor = false;
             this.cmdAceptarComisiones.Click += new System.EventHandler(this.cmdAceptarComisiones_Click);
             // 
             // textBoxProd
@@ -180,6 +181,14 @@
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // salirToolStripMenuItem
+            // 
+            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
@@ -188,14 +197,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(212, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // salirToolStripMenuItem
-            // 
-            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.salirToolStripMenuItem.Text = "Salir";
-            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // Form1
             // 
