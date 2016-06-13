@@ -280,7 +280,7 @@ namespace WindowsFormsApplication1.Listado_Estadistico
                 visibilidadesElegidas = "";
             }
 
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos", db.Connection);
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos_Old", db.Connection);
             cmd.Parameters.AddWithValue("@Trimestre", SqlDbType.Int).Value = (indexTrimestreSeleccionado + 1);
             cmd.Parameters.AddWithValue("@Año", SqlDbType.Int).Value = anio;
             cmd.Parameters.AddWithValue("@Parametros", SqlDbType.NVarChar).Value = visibilidadesElegidas;
@@ -289,6 +289,8 @@ namespace WindowsFormsApplication1.Listado_Estadistico
             DataTable dt = new DataTable("ROAD_TO_PROYECTO.Usuario");
             adapter.Fill(dt);
             this.dataGridView1.DataSource = dt;
+
+            visibilidadesElegidas = "";
 
 
         }
