@@ -1401,7 +1401,7 @@ GO
 CREATE FUNCTION ROAD_TO_PROYECTO.EstaActivaEnTrimestre(@FechaInicio datetime,@FechaFin datetime,@Trimestre int)
 returns int
 as begin
-	if ((@Trimestre*3)-2 between month(@FechaInicio) and month(@FechaFin))
+	if ((@Trimestre*3)-2 >= month(@FechaInicio) and  (@Trimestre*3)-2 <= month(@FechaFin))
 	return 1
 	return 0
 end
@@ -1440,8 +1440,8 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos_Old
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Cliente c, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
 		where u.Usuario = p.UserId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = c.ClieId 
-		and year(p.FechaInicio) = @Año
-		and ROAD_TO_PROYECTO.EstaActivaEnTrimestre(p.fechaInicio,p.FechaFin,@Trimestre) = 1
+		and (year(p.FechaInicio) = @Año or year(p.fechafin) = @Año)
+		and ((@Trimestre*3)-2 between month(p.FechaInicio) and month(p.FechaFin) or (@Trimestre*3)-1 between month(p.FechaInicio) and month(p.FechaFin) or (@Trimestre*3) between month(p.FechaInicio) and month(p.FechaFin))
 		and Visibilidad in (select visiid from ROAD_TO_PROYECTO.##parametrosvisibilidad)
 		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2))
 		group by u.Usuario, c.Apellido, c.Nombres, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), Visibilidad
@@ -1450,8 +1450,8 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos_Old
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Empresa e, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
 		where u.Usuario = p.UserId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Empresa' and rpu.IdExterno = e.EmprId 
-		and year(p.FechaInicio) = @Año
-		and ROAD_TO_PROYECTO.EstaActivaEnTrimestre(p.fechaInicio,p.FechaFin,@Trimestre) = 1
+		and (year(p.FechaInicio) = @Año or year(p.fechafin)=@Año)
+		and ((@Trimestre*3)-2 between month(p.FechaInicio) and month(p.FechaFin) or (@Trimestre*3)-1 between month(p.FechaInicio) and month(p.FechaFin) or (@Trimestre*3) between month(p.FechaInicio) and month(p.FechaFin))
 		and Visibilidad in (select visiid from ROAD_TO_PROYECTO.##parametrosvisibilidad)
 		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2))
 		group by u.Usuario, e.RazonSocial, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), Visibilidad
