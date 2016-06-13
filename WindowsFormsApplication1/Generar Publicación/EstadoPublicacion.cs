@@ -19,6 +19,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
         private DataBase db;
         public string user;
         public static EstadoPublicacion estado;
+        private int fila;
 
         public EstadoPublicacion()
         {
@@ -30,18 +31,22 @@ namespace WindowsFormsApplication1.Generar_Publicación
 
         private void cmdBuscar_Click(object sender, EventArgs e)
         {
+            cargarTabla();            
+            dgPublis.Visible = true;
+        }
+
+        public void cargarTabla()
+        {
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Publicacion_Estado", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = user;
             cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = tbDescripcion.Text;
-            cmd.Parameters.AddWithValue("@Estado", SqlDbType.NVarChar).Value = cboEstados.SelectedValue.ToString();            
+            cmd.Parameters.AddWithValue("@Estado", SqlDbType.NVarChar).Value = cboEstados.SelectedValue.ToString();
 
             adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("ROAD_TO_PROYECTO.Publicacion");
             adapter.Fill(dt);
             this.dgPublis.DataSource = dt;
-            
-            dgPublis.Visible = true;
         }
 
         private void cargarEstados() {
@@ -68,30 +73,34 @@ namespace WindowsFormsApplication1.Generar_Publicación
         {
             if (dgPublis.CurrentRow.Index != -1)
             { 
-                int fila = dgPublis.CurrentRow.Index;
+                fila = dgPublis.CurrentRow.Index;
                 if (dgPublis[3, fila].Value.ToString() == "Activa")
                 {
                     cmdActivar.Visible = false;                    
                     cmdPausar.Visible = true;
                     cmdFinalizar.Visible = true;
+                    cmdModificar.Visible = false;
                 }
                 if (dgPublis[3, fila].Value.ToString() == "Pausada")
                 {
                     cmdActivar.Visible = true;
                     cmdPausar.Visible = false;
                     cmdFinalizar.Visible = true;
+                    cmdModificar.Visible = false;
                 }
                 if (dgPublis[3, fila].Value.ToString() == "Finalizada")
                 {
                     cmdActivar.Visible = false;
                     cmdPausar.Visible = false;
                     cmdFinalizar.Visible = false;
+                    cmdModificar.Visible = false;
                 }
                 if (dgPublis[3, fila].Value.ToString() == "Borrador")
                 {
                     cmdActivar.Visible = true;
                     cmdPausar.Visible = false;
                     cmdFinalizar.Visible = false;
+                    cmdModificar.Visible = true;
                 }
             }
         }
@@ -101,5 +110,44 @@ namespace WindowsFormsApplication1.Generar_Publicación
             WindowsFormsApplication1.Form1.f1.Show();
             this.Close();
         }
+
+        private void cmdActivar_Click(object sender, EventArgs e)
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Activar_Publicacion", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = (int)dgPublis[0, fila].Value;
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Publicación activada");
+            cargarTabla();        
+        }
+
+        private void cmdPausar_Click(object sender, EventArgs e)
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Pausar_Publicacion", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = (int)dgPublis[0, fila].Value;
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Publicación pausada");
+            cargarTabla();        
+        }
+
+        private void cmdFinalizar_Click(object sender, EventArgs e)
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Finalizar_Publicacion", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = (int)dgPublis[0, fila].Value;
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Publicación finalizada");
+            cargarTabla();
+        }
+
+        private void cmdModificar_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Generar_Publicación.AltaPublicacion ap1 = new WindowsFormsApplication1.Generar_Publicación.AltaPublicacion();
+            ap1.esModif = 1;
+            ap1.publiId = (int)dgPublis[0, fila].Value;
+            ap1.Show();            
+            this.Hide();
+        }        
     }
 }

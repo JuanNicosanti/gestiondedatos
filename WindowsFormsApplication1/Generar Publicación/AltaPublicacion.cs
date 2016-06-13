@@ -16,18 +16,43 @@ namespace WindowsFormsApplication1.Generar_Publicación
         public static AltaPublicacion ap1;
         private int huboError = 0;
         public bool envioHabilitado;
+        public int esModif;
+        public int publiId;
         SqlCommand cmd;
         SqlDataAdapter adapter;
+        SqlDataReader sdr;
         private DataBase db;
 
         public AltaPublicacion()
         {
             db = DataBase.GetInstance();
             InitializeComponent();
-            AltaPublicacion.ap1 = this;         
+            AltaPublicacion.ap1 = this;
+            if (esModif == 1)
+            {
+                cargarDatos();
+            }
         }
 
-        
+        private void cargarDatos()
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Comisiones_Valores", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = publiId;
+
+            sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                txtDescripcion.Text = sdr["ComiFija"].ToString();
+                txtPrecio.Text = sdr["ComiVariable"].ToString();
+                txtStockInmediata.Text = sdr["ComiEnvio"].ToString();
+                txtValorSubasta.Text = sdr["ComiEnvio"].ToString();
+                //cboRubro.SelectedIndex = sdr["ComiEnvio"];
+                //dtpFin.Value = sdr["ComiEnvio"];
+                lblVisSel.Text = sdr["ComiEnvio"].ToString();
+            }
+            sdr.Close();
+        }
 
         private void lblValorSubasta_Click(object sender, EventArgs e)
         {

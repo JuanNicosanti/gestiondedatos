@@ -39,6 +39,7 @@
             this.cmdPausar = new System.Windows.Forms.Button();
             this.cmdFinalizar = new System.Windows.Forms.Button();
             this.cmdVolver = new System.Windows.Forms.Button();
+            this.cmdModificar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPublis)).BeginInit();
             this.SuspendLayout();
@@ -121,6 +122,7 @@
             this.cmdActivar.Text = "Activar publicación";
             this.cmdActivar.UseVisualStyleBackColor = true;
             this.cmdActivar.Visible = false;
+            this.cmdActivar.Click += new System.EventHandler(this.cmdActivar_Click);
             // 
             // cmdPausar
             // 
@@ -131,6 +133,7 @@
             this.cmdPausar.Text = "Pausar publicación";
             this.cmdPausar.UseVisualStyleBackColor = true;
             this.cmdPausar.Visible = false;
+            this.cmdPausar.Click += new System.EventHandler(this.cmdPausar_Click);
             // 
             // cmdFinalizar
             // 
@@ -141,6 +144,7 @@
             this.cmdFinalizar.Text = "Finalizar publicación";
             this.cmdFinalizar.UseVisualStyleBackColor = true;
             this.cmdFinalizar.Visible = false;
+            this.cmdFinalizar.Click += new System.EventHandler(this.cmdFinalizar_Click);
             // 
             // cmdVolver
             // 
@@ -152,11 +156,23 @@
             this.cmdVolver.UseVisualStyleBackColor = true;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
+            // cmdModificar
+            // 
+            this.cmdModificar.Location = new System.Drawing.Point(184, 291);
+            this.cmdModificar.Name = "cmdModificar";
+            this.cmdModificar.Size = new System.Drawing.Size(120, 23);
+            this.cmdModificar.TabIndex = 6;
+            this.cmdModificar.Text = "Modificar Publicación";
+            this.cmdModificar.UseVisualStyleBackColor = true;
+            this.cmdModificar.Visible = false;
+            this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
+            // 
             // EstadoPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(474, 367);
+            this.Controls.Add(this.cmdModificar);
             this.Controls.Add(this.cmdVolver);
             this.Controls.Add(this.cmdFinalizar);
             this.Controls.Add(this.cmdPausar);
@@ -185,5 +201,6 @@
         private System.Windows.Forms.Button cmdPausar;
         private System.Windows.Forms.Button cmdFinalizar;
         private System.Windows.Forms.Button cmdVolver;
+        private System.Windows.Forms.Button cmdModificar;
     }
 }
