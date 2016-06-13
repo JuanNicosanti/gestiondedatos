@@ -191,7 +191,7 @@ GO
 create table ROAD_TO_PROYECTO.Calificacion(
 CaliId int PRIMARY KEY,
 TranId int FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Transaccion,
-CantEstrellas numeric(18,0),
+CantEstrellas numeric(18,1),
 Descipcion nvarchar(255)
 )
 GO
@@ -381,7 +381,7 @@ where TipoTransac = 'Oferta' and TranId in (select top 1 t2.TranId
 
 --Calificacion
 insert into ROAD_TO_PROYECTO.Calificacion
-select Calificacion_Codigo, t.TranId,Calificacion_Cant_Estrellas,Calificacion_Descripcion
+select Calificacion_Codigo, t.TranId,Calificacion_Cant_Estrellas/2,Calificacion_Descripcion
 from gd_esquema.Maestra gd,ROAD_TO_PROYECTO.TRANSACCION t,ROAD_TO_PROYECTO.Cliente c
 where t.PubliId = gd.Publicacion_Cod and t.clieid = c.ClieId and c.NroDocumento = gd.Cli_Dni and t.fecha = Compra_Fecha and t.cantidad = Compra_Cantidad and gd.Calificacion_Cant_Estrellas is not null and (t.ganadora = 1 or t.tipotransac = 'Compra') 
 GO
