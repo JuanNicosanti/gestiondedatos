@@ -236,6 +236,14 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void cmdSeleccionarRubro_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < lstRubrosElegidos.Items.Count; i++)
+            {
+                if (lstRubrosElegidos.Items[i].ToString().Equals(lstRubros.SelectedValue.ToString()))
+                {
+                    MessageBox.Show("Ya ha seleccionado ese rubro", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+            }
             lstRubrosElegidos.Items.Add(lstRubros.SelectedValue.ToString());
         }
 
