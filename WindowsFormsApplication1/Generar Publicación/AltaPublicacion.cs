@@ -18,6 +18,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
         public bool envioHabilitado;
         public int esModif;
         public int publiId;
+        public int tipoPubli;
         SqlCommand cmd;
         SqlDataAdapter adapter;
         SqlDataReader sdr;
@@ -28,28 +29,27 @@ namespace WindowsFormsApplication1.Generar_Publicación
             db = DataBase.GetInstance();
             InitializeComponent();
             AltaPublicacion.ap1 = this;
-            if (esModif == 1)
-            {
-                cargarDatos();
-            }
+          
         }
 
         private void cargarDatos()
         {
-            cmd = new SqlCommand("ROAD_TO_PROYECTO.Comisiones_Valores", db.Connection);
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Publicacion", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = publiId;
 
             sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {
-                txtDescripcion.Text = sdr["ComiFija"].ToString();
-                txtPrecio.Text = sdr["ComiVariable"].ToString();
-                txtStockInmediata.Text = sdr["ComiEnvio"].ToString();
-                txtValorSubasta.Text = sdr["ComiEnvio"].ToString();
-                //cboRubro.SelectedIndex = sdr["ComiEnvio"];
-                //dtpFin.Value = sdr["ComiEnvio"];
-                lblVisSel.Text = sdr["ComiEnvio"].ToString();
+                txtDescripcion.Text = sdr["Descipcion"].ToString();
+                txtPrecio.Text = sdr["Precio"].ToString();
+                txtStockInmediata.Text = sdr["Stock"].ToString();
+                txtValorSubasta.Text = sdr["Precio"].ToString();
+                cboRubro.SelectedItem = sdr["DescripLarga"].ToString();
+                dtpFin.Value = DateTime.Parse(sdr["FechaFin"].ToString());
+                lblVisSel.Text = sdr["Descripcion"].ToString();
+                tipoPubli = (int)sdr["Tipo"];
+                envioHabilitado = (bool)sdr["EnvioHabilitado"];
             }
             sdr.Close();
         }
@@ -130,6 +130,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
 
         private void AltaPublicacion_Load(object sender, EventArgs e)
         {
+            
             cargarComboBoxRubros();
 
             lblPrecio.Visible = false;
@@ -160,6 +161,23 @@ namespace WindowsFormsApplication1.Generar_Publicación
             label6.Visible = false;
             lblPrecio.Visible = false;
             label8.Visible = false;
+
+            if (esModif == 1)
+            {
+                label1.Visible = false;
+                lblTitulo.Visible = true;
+                label2.Visible = false;
+                cboTipo.Visible = false;
+                cargarDatos();
+                if (tipoPubli == 1)
+                {
+                    cboTipo.SelectedIndex = 1;
+                }
+                else
+                {
+                    cboTipo.SelectedIndex = 2;
+                }
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -226,11 +244,12 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 if (huboError != 0)
                 {
                     MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
                     return;
                 }
                 PublicacionDOA doa = new PublicacionDOA();
              
-                doa.crearPublicacion(txtDescripcion.Text, int.Parse(txtStockInmediata.Text), dtpFin.Value, int.Parse(txtPrecio.Text), lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
+                doa.crearPublicacion(txtDescripcion.Text, int.Parse(txtStockInmediata.Text), dtpFin.Value, txtPrecio.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
 
                
                 
@@ -262,11 +281,12 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 if (huboError != 0) 
                 {
                     MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
                     return;
                 }
                 PublicacionDOA doa = new PublicacionDOA();
                 
-                doa.crearPublicacion(txtDescripcion.Text, 1,dtpFin.Value,int.Parse(txtValorSubasta.Text),lblVisSel.Text, cboRubro.SelectedValue.ToString(),cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
+                doa.crearPublicacion(txtDescripcion.Text, 1,dtpFin.Value, txtValorSubasta.Text,lblVisSel.Text, cboRubro.SelectedValue.ToString(),cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
             }     
             
             WindowsFormsApplication1.Form1.f1.Show();
@@ -311,8 +331,11 @@ namespace WindowsFormsApplication1.Generar_Publicación
             this.cboRubro.DisplayMember = "DescripLarga";
 
             cboRubro.ValueMember = cboRubro.DisplayMember;
-            cboRubro.SelectedIndex = -1;
-            cboRubro.Text = "Seleccione un rubro";
+            if (esModif == 0)
+            {
+                cboRubro.SelectedIndex = -1;
+                cboRubro.Text = "Seleccione un rubro";
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -323,6 +346,83 @@ namespace WindowsFormsApplication1.Generar_Publicación
         private void dtpFin_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmdModificar_Click(object sender, EventArgs e)
+        {
+            string cadenaDeErrores = "Debe completar los siguientes campos: \r";                  
+
+            if (cboTipo.SelectedItem.ToString() == "Compra inmediata")
+            {
+                if (string.IsNullOrEmpty(txtDescripcion.Text))
+                {
+                    cadenaDeErrores += " Descripcion \r";
+                    huboError++;
+                }
+
+                if (string.IsNullOrEmpty(txtStockInmediata.Text))
+                {
+                    cadenaDeErrores += " Stock \r";
+                    huboError++;
+                }             
+                if (string.IsNullOrEmpty(lblVisSel.Text))
+                {
+                    cadenaDeErrores += "Visibilidad \r";
+                    huboError++;
+                }
+                if (dtpFin.Value < DateTime.Today)
+                {
+                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la de hoy", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+                if (string.IsNullOrEmpty(txtPrecio.Text))
+                {
+                    cadenaDeErrores += " Precio \r";
+                    huboError++;
+                }
+
+                if (huboError != 0)
+                {
+                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    return;
+                }
+                PublicacionDOA doa = new PublicacionDOA();
+
+                doa.modificarPublicacion(publiId, txtDescripcion.Text, int.Parse(txtStockInmediata.Text), dtpFin.Value, txtPrecio.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
+            }
+            if (cboTipo.SelectedItem.ToString() == "Subasta")
+            {
+                if (string.IsNullOrEmpty(txtDescripcion.Text))
+                {
+                    cadenaDeErrores += " Descripcion \r";
+                    huboError++;
+                }
+
+                if (string.IsNullOrEmpty(txtValorSubasta.Text))
+                {
+                    cadenaDeErrores += " Valor Inicial de la subasta \r";
+                    huboError++;
+                }               
+                if (string.IsNullOrEmpty(lblVisSel.Text))
+                {
+                    cadenaDeErrores += "Visibilidad \r";
+                    huboError++;
+                }
+
+                if (huboError != 0)
+                {
+                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    return;
+                }
+                PublicacionDOA doa = new PublicacionDOA();
+
+                doa.modificarPublicacion(publiId, txtDescripcion.Text, 1, dtpFin.Value, txtValorSubasta.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
+            }
+
+            WindowsFormsApplication1.Generar_Publicación.EstadoPublicacion.estado.Show();
+            this.Hide();
         }
     }
 }

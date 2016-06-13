@@ -62,6 +62,7 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.cboRubro = new System.Windows.Forms.ComboBox();
             this.lblTitulo = new System.Windows.Forms.Label();
+            this.cmdModificar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -359,12 +360,23 @@
             this.lblTitulo.Text = "Modificación de publicación";
             this.lblTitulo.Visible = false;
             // 
+            // cmdModificar
+            // 
+            this.cmdModificar.Location = new System.Drawing.Point(21, 330);
+            this.cmdModificar.Name = "cmdModificar";
+            this.cmdModificar.Size = new System.Drawing.Size(75, 23);
+            this.cmdModificar.TabIndex = 33;
+            this.cmdModificar.Text = "Modificar";
+            this.cmdModificar.UseVisualStyleBackColor = true;
+            this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
+            // 
             // AltaPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(419, 396);
+            this.Controls.Add(this.cmdModificar);
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.cboRubro);
             this.Controls.Add(this.lblUsername);
@@ -442,5 +454,6 @@
         public System.Windows.Forms.Label lblUsername;
         private System.Windows.Forms.ComboBox cboRubro;
         private System.Windows.Forms.Label lblTitulo;
+        public System.Windows.Forms.Button cmdModificar;
     }
 }

@@ -145,6 +145,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
         {
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion ap1 = new WindowsFormsApplication1.Generar_Publicación.AltaPublicacion();
             ap1.esModif = 1;
+            ap1.lblUsername.Text = user;
             ap1.publiId = (int)dgPublis[0, fila].Value;
             ap1.Show();            
             this.Hide();

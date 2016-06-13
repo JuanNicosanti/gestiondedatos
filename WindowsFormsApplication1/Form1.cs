@@ -390,6 +390,8 @@ namespace WindowsFormsApplication1
                 WindowsFormsApplication1.Generar_Publicación.AltaPublicacion aPub = new WindowsFormsApplication1.Generar_Publicación.AltaPublicacion();
                 aPub.lblUsername.Text = user;
                 aPub.esModif = 0;
+                aPub.tipoPubli = 0;
+                aPub.cmdModificar.Visible = false;
                 aPub.Show();
                 this.Hide();
 

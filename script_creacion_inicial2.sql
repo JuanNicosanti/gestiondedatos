@@ -900,7 +900,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Publicacion
 	@Descipcion nvarchar(255),
 	@Stock numeric(18,0),
 	@FechaInicio datetime,
-	@Precio numeric(18,2),
+	@PrecioString nvarchar(255),
 	@VisiDesc nvarchar(255),
 	@RubroDesc nvarchar(255),
 	@TipoDesc nvarchar(255),
@@ -909,7 +909,8 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Publicacion
 	@EnvioHabilitado bit	
 
 	as begin
-		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int, @PubliIdAnterior int, @PubliId int
+		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int, @PubliIdAnterior int, @PubliId int, @Precio numeric(18,2)
+		set @Precio = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@PrecioString)
 		select @VisiId = VisiId from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @VisiDesc
 		select @RubroId = RubrId from ROAD_TO_PROYECTO.Rubro where DescripLarga = @RubroDesc
 		select @TipoPubliId = TipoPubliId from ROAD_TO_PROYECTO.Tipo_Publicacion where Descripcion = @TipoDesc
@@ -928,7 +929,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Publicacion
 	@Descipcion nvarchar(255),
 	@Stock numeric(18,0),
 	@FechaInicio datetime,
-	@Precio numeric(18,2),
+	@PrecioString nvarchar(255),
 	@VisiDesc nvarchar(255),
 	@RubroDesc nvarchar(255),
 	@TipoDesc nvarchar(255),
@@ -937,9 +938,9 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Publicacion
 	@EnvioHabilitado bit	
 
 	as begin
-		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int
+		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int, @Precio numeric(18,2)
 		select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Borrador'--@EstadoDesc
-		
+		set @Precio = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@PrecioString)
 		if((select Estado from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) = @EstadoId)
 		begin
 			select @VisiId = VisiId from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @VisiDesc
@@ -1595,7 +1596,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cantidad_Compras_Subastas_Sin_Calificar
 		where t.PubliId = p.PublId
 		and (t.TipoTransac = 'Compra' or t.Ganadora = 1)
 		and t.TranId not in (select TranId from ROAD_TO_PROYECTO.Calificacion)
-		and rpu.UserId = 'bravos' and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = t.ClieId
+		and rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = t.ClieId
 	end
 GO
 
@@ -1684,6 +1685,16 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Lista_Estados
 as begin
 	select Descripcion from ROAD_TO_PROYECTO.Estado
+end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicacion
+@PubliId int
+as begin
+	select p.Descipcion, p.Stock, p.FechaFin, p.Precio, v.Descripcion, r.DescripLarga, p.Tipo, p.EnvioHabilitado
+	from ROAD_TO_PROYECTO.Publicacion p inner join ROAD_TO_PROYECTO.Visibilidad v on p.Visibilidad = v.VisiId
+	inner join ROAD_TO_PROYECTO.Rubro r on p.Rubro = r.RubrId
+	where p.PublId = @PubliId
 end
 GO
 
