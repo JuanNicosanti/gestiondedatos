@@ -423,7 +423,7 @@ GO
 --Listado Roles
 CREATE PROCEDURE ROAD_TO_PROYECTO.ListaRoles
 	as begin
-		select RolId, Nombre 
+		select RolId, Nombre, Habilitado 
 		from ROAD_TO_PROYECTO.Rol
 		order by RolId
 	end
@@ -451,17 +451,23 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.AltaRol
 @Nombre nvarchar(255)
 as begin
-if not exists (select Nombre from ROAD_TO_PROYECTO.Rol where Nombre = @Nombre)
-insert into ROAD_TO_PROYECTO.Rol values(@Nombre,1)
+	declare @RolId int
+	if not exists (select Nombre from ROAD_TO_PROYECTO.Rol where Nombre = @Nombre)
+	begin
+		insert into ROAD_TO_PROYECTO.Rol values(@Nombre,1)
+		select @RolId = SCOPE_IDENTITY()
+		return @RolId
+	end
 end
 GO
 
 --Asignar una funcion a un rol
 CREATE PROCEDURE ROAD_TO_PROYECTO.AsignarFuncionARol
-@Rol nvarchar(255),
+@RolId int,
+--@Rol nvarchar(255),
 @Funcion nvarchar(255)
 as begin
-declare @RolId int = (select rolid from ROAD_TO_PROYECTO.Rol where Nombre = @Rol)
+--declare @RolId int = (select rolid from ROAD_TO_PROYECTO.Rol where Nombre = @Rol)
 declare @FuncId int = (select funcid from ROAD_TO_PROYECTO.Funcion where Descripcion = @Funcion)
 
 if not exists(select FuncId from ROAD_TO_PROYECTO.Funciones_Por_Rol where RolId = @RolId and FuncId = @FuncId)
@@ -471,10 +477,11 @@ GO
 
 --Desasignar una funcion a un rol
 CREATE PROCEDURE ROAD_TO_PROYECTO.DesasignarFuncionARol
-@Rol nvarchar(255),
+@RolId int,
+--@Rol nvarchar(255),
 @Funcion nvarchar(255)
 as begin
-declare @RolId int = (select rolid from ROAD_TO_PROYECTO.Rol where Nombre = @Rol)
+--declare @RolId int = (select rolid from ROAD_TO_PROYECTO.Rol where Nombre = @Rol)
 declare @FuncId int = (select funcid from ROAD_TO_PROYECTO.Funcion where Descripcion = @Funcion)
 
 if exists(select FuncId from ROAD_TO_PROYECTO.Funciones_Por_Rol where RolId = @RolId and FuncId = @FuncId)
@@ -524,11 +531,10 @@ GO
 --Modificar Rol
 CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Rol
 	@RolId int,
-	@Nombre nvarchar(255),
-	@Habilitado bit
+	@Nombre nvarchar(255)
 	as begin
 		update ROAD_TO_PROYECTO.Rol
-		set Nombre = @Nombre, Habilitado = @Habilitado
+		set Nombre = @Nombre
 		where RolId = @RolId
 	end
 GO

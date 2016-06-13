@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,18 +53,18 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(0, 27);
             this.dataGridView1.Name = "dataGridView1";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkRed;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridView1.Size = new System.Drawing.Size(201, 274);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkRed;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridView1.Size = new System.Drawing.Size(383, 125);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -76,7 +76,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(325, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(389, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -90,15 +90,15 @@
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 304);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 219);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(325, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(389, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // cmdModificarRol
             // 
-            this.cmdModificarRol.Location = new System.Drawing.Point(207, 58);
+            this.cmdModificarRol.Location = new System.Drawing.Point(12, 188);
             this.cmdModificarRol.Name = "cmdModificarRol";
             this.cmdModificarRol.Size = new System.Drawing.Size(112, 23);
             this.cmdModificarRol.TabIndex = 3;
@@ -108,7 +108,7 @@
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(207, 247);
+            this.cmdVolver.Location = new System.Drawing.Point(271, 188);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(112, 23);
             this.cmdVolver.TabIndex = 4;
@@ -118,7 +118,7 @@
             // 
             // cmdHabilitarRol
             // 
-            this.cmdHabilitarRol.Location = new System.Drawing.Point(207, 145);
+            this.cmdHabilitarRol.Location = new System.Drawing.Point(142, 188);
             this.cmdHabilitarRol.Name = "cmdHabilitarRol";
             this.cmdHabilitarRol.Size = new System.Drawing.Size(112, 23);
             this.cmdHabilitarRol.TabIndex = 5;
@@ -128,7 +128,7 @@
             // 
             // cmdEliminar
             // 
-            this.cmdEliminar.Location = new System.Drawing.Point(207, 58);
+            this.cmdEliminar.Location = new System.Drawing.Point(12, 188);
             this.cmdEliminar.Name = "cmdEliminar";
             this.cmdEliminar.Size = new System.Drawing.Size(112, 23);
             this.cmdEliminar.TabIndex = 6;
@@ -141,7 +141,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(325, 326);
+            this.ClientSize = new System.Drawing.Size(389, 241);
             this.Controls.Add(this.cmdEliminar);
             this.Controls.Add(this.cmdHabilitarRol);
             this.Controls.Add(this.cmdVolver);

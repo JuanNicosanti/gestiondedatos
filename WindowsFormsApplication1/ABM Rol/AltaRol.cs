@@ -16,10 +16,13 @@ namespace WindowsFormsApplication1.ABM_Rol
        
         SqlCommand cmd;
         SqlCommand cmd2;
+        SqlCommand cmd3;
         SqlDataReader sdr;
         SqlDataAdapter adapter;
         private DataBase db;
         public int esAltaRol = 1;
+        public int idRolAModificar;
+        private String rolAModificar;
         public AltaRol()
         {
             InitializeComponent();
@@ -55,12 +58,37 @@ namespace WindowsFormsApplication1.ABM_Rol
             {
                 lstFuncElegidas.Items.Clear();
             }
+            if (esAltaRol == 0)
+            {
+                rolAModificar = txtNuevoRol.Text;
+                
+                this.desasignarTodosLasFuncDelViejoRol();
+
+            }
             
 
             timer1.Start();
            
 
         }
+
+        private void desasignarTodosLasFuncDelViejoRol()
+        {
+            int i = 0;
+            while(i< lstFuncElegidas.Items.Count)//for (int i = 0; i < lstFuncElegidas.Items.Count; i++)
+            {
+                string unaFunc = lstFuncElegidas.Items[i].ToString();
+                SqlCommand cmd2 = new SqlCommand("ROAD_TO_PROYECTO.DesasignarFuncionARol", db.Connection);
+                cmd2.CommandType = CommandType.StoredProcedure;
+                cmd2.Parameters.AddWithValue("@RolId", SqlDbType.Int).Value = idRolAModificar;
+                cmd2.Parameters.AddWithValue("@Funcion", SqlDbType.NVarChar).Value = unaFunc;
+                cmd2.ExecuteNonQuery();
+                i++;
+
+            }
+            MessageBox.Show("asd");
+        }
+
         private void cmdVolver_Click(object sender, EventArgs e)
         {
             WindowsFormsApplication1.Form1.f1.Show();
@@ -90,16 +118,19 @@ namespace WindowsFormsApplication1.ABM_Rol
             {
                 SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.AltaRol", db.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter retval = cmd.Parameters.Add("@RolId", SqlDbType.Int);
+                retval.Direction = ParameterDirection.ReturnValue;
                 cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = txtNuevoRol.Text;
                 cmd.ExecuteNonQuery();
                 txtNuevoRol.Text = "";
+                idRolAModificar = (int)cmd.Parameters["@RolId"].Value;
 
                 for (int i = 0; i < lstFuncElegidas.Items.Count; i++)
                 {
                     string unaFunc = lstFuncElegidas.Items[i].ToString();
                     SqlCommand cmd2 = new SqlCommand("ROAD_TO_PROYECTO.AsignarFuncionARol", db.Connection);
                     cmd2.CommandType = CommandType.StoredProcedure;
-                    cmd2.Parameters.AddWithValue("@Rol", SqlDbType.NVarChar).Value = nuevoRol;
+                    cmd2.Parameters.AddWithValue("@RolId", SqlDbType.Int).Value = idRolAModificar;
                     cmd2.Parameters.AddWithValue("@Funcion", SqlDbType.NVarChar).Value = unaFunc;
                     cmd2.ExecuteNonQuery();
                 }
@@ -108,6 +139,23 @@ namespace WindowsFormsApplication1.ABM_Rol
             
             if (esAltaRol == 0)
             {
+                
+                for (int i = 0; i < lstFuncElegidas.Items.Count; i++)
+                {
+                    string unaFunc = lstFuncElegidas.Items[i].ToString();
+                    SqlCommand cmd2 = new SqlCommand("ROAD_TO_PROYECTO.AsignarFuncionARol", db.Connection);
+                    cmd2.CommandType = CommandType.StoredProcedure;
+                    cmd2.Parameters.AddWithValue("@RolId", SqlDbType.Int).Value = idRolAModificar;
+                    cmd2.Parameters.AddWithValue("@Funcion", SqlDbType.NVarChar).Value = unaFunc;
+                    cmd2.ExecuteNonQuery();
+                }
+                SqlCommand cmd3 = new SqlCommand("ROAD_TO_PROYECTO.Modificacion_Rol", db.Connection);
+                cmd3.CommandType = CommandType.StoredProcedure;
+                cmd3.Parameters.AddWithValue("@RolId", SqlDbType.Int).Value = idRolAModificar;
+                cmd3.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = nuevoRol;
+                cmd3.ExecuteNonQuery();
+              
+
                 MessageBox.Show("Se modifico el rol satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             }
 
@@ -155,6 +203,11 @@ namespace WindowsFormsApplication1.ABM_Rol
 
         private void cmdBorrarUnaFunc_Click(object sender, EventArgs e)
         {
+            if (lstFuncElegidas.SelectedIndex.Equals(-1))
+            {
+                MessageBox.Show("Elija una funcionalidad", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
             lstFuncElegidas.Items.RemoveAt(lstFuncElegidas.SelectedIndex);
         }
 

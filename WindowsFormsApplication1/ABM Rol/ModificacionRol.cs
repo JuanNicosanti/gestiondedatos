@@ -66,6 +66,7 @@ namespace WindowsFormsApplication1.ABM_Rol
             int celdaIdRol = (int)dataGridView1[0, fila].Value;
             String filaNombreRol = dataGridView1[1,fila].Value.ToString();
             AltaRol aRol = new AltaRol();
+            aRol.idRolAModificar = celdaIdRol;
             aRol.txtNuevoRol.Text = filaNombreRol;
             aRol.esAltaRol = 0;
             aRol.cargarFuncionalidadesElegidasDeDeterminadoRol(celdaIdRol);
@@ -91,6 +92,15 @@ namespace WindowsFormsApplication1.ABM_Rol
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = celdaIdRol;
             cmd.ExecuteNonQuery();
+            MessageBox.Show("Se ha habilitado el rol con exito", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.ListaRoles", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Rol");
+            adapter.Fill(dt);
+            this.dataGridView1.DataSource = dt;
 
 
         }
@@ -112,6 +122,19 @@ namespace WindowsFormsApplication1.ABM_Rol
             cmd.Parameters.AddWithValue("@Rol", SqlDbType.Int).Value = celdaIdRol;
             cmd.ExecuteNonQuery();
             MessageBox.Show("Se dio de baja satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+
+           /*
+            dataGridView1.Rows.Clear();
+            dataGridView1.Refresh();*/
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.ListaRoles", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Rol");
+            adapter.Fill(dt);
+            this.dataGridView1.DataSource = dt;
+
+
         }
 
     }
