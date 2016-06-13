@@ -93,32 +93,35 @@
             // 
             // cmdAceptar
             // 
-            this.cmdAceptar.Location = new System.Drawing.Point(198, 47);
+            this.cmdAceptar.BackColor = System.Drawing.Color.Chartreuse;
+            this.cmdAceptar.Location = new System.Drawing.Point(198, 36);
             this.cmdAceptar.Name = "cmdAceptar";
-            this.cmdAceptar.Size = new System.Drawing.Size(75, 23);
+            this.cmdAceptar.Size = new System.Drawing.Size(94, 44);
             this.cmdAceptar.TabIndex = 4;
             this.cmdAceptar.Text = "Aceptar";
-            this.cmdAceptar.UseVisualStyleBackColor = true;
+            this.cmdAceptar.UseVisualStyleBackColor = false;
             this.cmdAceptar.Click += new System.EventHandler(this.cmdAceptar_Click);
             // 
             // cmdBorrar
             // 
-            this.cmdBorrar.Location = new System.Drawing.Point(322, 47);
+            this.cmdBorrar.BackColor = System.Drawing.Color.Cyan;
+            this.cmdBorrar.Location = new System.Drawing.Point(313, 37);
             this.cmdBorrar.Name = "cmdBorrar";
-            this.cmdBorrar.Size = new System.Drawing.Size(75, 23);
+            this.cmdBorrar.Size = new System.Drawing.Size(94, 44);
             this.cmdBorrar.TabIndex = 5;
             this.cmdBorrar.Text = "Borrar todo";
-            this.cmdBorrar.UseVisualStyleBackColor = true;
+            this.cmdBorrar.UseVisualStyleBackColor = false;
             this.cmdBorrar.Click += new System.EventHandler(this.cmdBorrar_Click);
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(444, 48);
+            this.cmdVolver.BackColor = System.Drawing.Color.Thistle;
+            this.cmdVolver.Location = new System.Drawing.Point(430, 36);
             this.cmdVolver.Name = "cmdVolver";
-            this.cmdVolver.Size = new System.Drawing.Size(75, 23);
+            this.cmdVolver.Size = new System.Drawing.Size(94, 43);
             this.cmdVolver.TabIndex = 6;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click_1);
             // 
             // lstFuncionalidades
@@ -145,22 +148,24 @@
             // 
             // cmdBorrarUnaFunc
             // 
+            this.cmdBorrarUnaFunc.BackColor = System.Drawing.Color.DarkSalmon;
             this.cmdBorrarUnaFunc.Location = new System.Drawing.Point(366, 252);
             this.cmdBorrarUnaFunc.Name = "cmdBorrarUnaFunc";
             this.cmdBorrarUnaFunc.Size = new System.Drawing.Size(200, 23);
             this.cmdBorrarUnaFunc.TabIndex = 9;
             this.cmdBorrarUnaFunc.Text = "Borrar funcionalidad";
-            this.cmdBorrarUnaFunc.UseVisualStyleBackColor = true;
+            this.cmdBorrarUnaFunc.UseVisualStyleBackColor = false;
             this.cmdBorrarUnaFunc.Click += new System.EventHandler(this.cmdBorrarUnaFunc_Click);
             // 
             // cmdSeleccionar
             // 
+            this.cmdSeleccionar.BackColor = System.Drawing.Color.DarkSalmon;
             this.cmdSeleccionar.Location = new System.Drawing.Point(48, 252);
             this.cmdSeleccionar.Name = "cmdSeleccionar";
             this.cmdSeleccionar.Size = new System.Drawing.Size(200, 23);
             this.cmdSeleccionar.TabIndex = 10;
             this.cmdSeleccionar.Text = "Seleccionar";
-            this.cmdSeleccionar.UseVisualStyleBackColor = true;
+            this.cmdSeleccionar.UseVisualStyleBackColor = false;
             this.cmdSeleccionar.Click += new System.EventHandler(this.cmdSeleccionar_Click);
             // 
             // AltaRol

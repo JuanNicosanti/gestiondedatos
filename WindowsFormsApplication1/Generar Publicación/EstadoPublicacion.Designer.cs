@@ -41,8 +41,8 @@
             this.cmdVolver = new System.Windows.Forms.Button();
             this.cmdModificar = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPublis)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -121,7 +121,7 @@
             // 
             this.cmdActivar.Location = new System.Drawing.Point(20, 292);
             this.cmdActivar.Name = "cmdActivar";
-            this.cmdActivar.Size = new System.Drawing.Size(116, 23);
+            this.cmdActivar.Size = new System.Drawing.Size(116, 38);
             this.cmdActivar.TabIndex = 2;
             this.cmdActivar.Text = "Activar publicación";
             this.cmdActivar.UseVisualStyleBackColor = true;
@@ -143,7 +143,7 @@
             // 
             this.cmdFinalizar.Location = new System.Drawing.Point(353, 292);
             this.cmdFinalizar.Name = "cmdFinalizar";
-            this.cmdFinalizar.Size = new System.Drawing.Size(112, 23);
+            this.cmdFinalizar.Size = new System.Drawing.Size(112, 38);
             this.cmdFinalizar.TabIndex = 4;
             this.cmdFinalizar.Text = "Finalizar publicación";
             this.cmdFinalizar.UseVisualStyleBackColor = true;
@@ -152,7 +152,7 @@
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(184, 337);
+            this.cmdVolver.Location = new System.Drawing.Point(184, 348);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(120, 23);
             this.cmdVolver.TabIndex = 5;
@@ -164,7 +164,7 @@
             // 
             this.cmdModificar.Location = new System.Drawing.Point(184, 291);
             this.cmdModificar.Name = "cmdModificar";
-            this.cmdModificar.Size = new System.Drawing.Size(120, 23);
+            this.cmdModificar.Size = new System.Drawing.Size(120, 39);
             this.cmdModificar.TabIndex = 6;
             this.cmdModificar.Text = "Modificar Publicación";
             this.cmdModificar.UseVisualStyleBackColor = true;
@@ -182,6 +182,14 @@
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // salirToolStripMenuItem
+            // 
+            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.salirToolStripMenuItem.Text = "Salir";
+            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
@@ -190,14 +198,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(472, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // salirToolStripMenuItem
-            // 
-            this.salirToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.salirToolStripMenuItem.Text = "Salir";
-            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
             // EstadoPublicacion
             // 

@@ -113,12 +113,13 @@
             // 
             // cmdVolver
             // 
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
             this.cmdVolver.Location = new System.Drawing.Point(640, 393);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(186, 23);
             this.cmdVolver.TabIndex = 13;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // menuStrip1
@@ -214,12 +215,13 @@
             // 
             // cmdBusqueda
             // 
+            this.cmdBusqueda.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdBusqueda.Location = new System.Drawing.Point(12, 393);
             this.cmdBusqueda.Name = "cmdBusqueda";
             this.cmdBusqueda.Size = new System.Drawing.Size(186, 23);
             this.cmdBusqueda.TabIndex = 23;
             this.cmdBusqueda.Text = "Realizar Busqueda";
-            this.cmdBusqueda.UseVisualStyleBackColor = true;
+            this.cmdBusqueda.UseVisualStyleBackColor = false;
             this.cmdBusqueda.Click += new System.EventHandler(this.cmdBusqueda_Click);
             // 
             // txtNombre
@@ -292,22 +294,24 @@
             // 
             // cmdBorrar
             // 
+            this.cmdBorrar.BackColor = System.Drawing.Color.LightCoral;
             this.cmdBorrar.Location = new System.Drawing.Point(222, 393);
             this.cmdBorrar.Name = "cmdBorrar";
             this.cmdBorrar.Size = new System.Drawing.Size(186, 23);
             this.cmdBorrar.TabIndex = 33;
             this.cmdBorrar.Text = "Borrar todo";
-            this.cmdBorrar.UseVisualStyleBackColor = true;
+            this.cmdBorrar.UseVisualStyleBackColor = false;
             this.cmdBorrar.Click += new System.EventHandler(this.cmdBorrar_Click);
             // 
             // cmdEliminar
             // 
+            this.cmdEliminar.BackColor = System.Drawing.Color.LightCoral;
             this.cmdEliminar.Location = new System.Drawing.Point(434, 393);
             this.cmdEliminar.Name = "cmdEliminar";
             this.cmdEliminar.Size = new System.Drawing.Size(186, 23);
             this.cmdEliminar.TabIndex = 34;
             this.cmdEliminar.Text = "Eliminar";
-            this.cmdEliminar.UseVisualStyleBackColor = true;
+            this.cmdEliminar.UseVisualStyleBackColor = false;
             this.cmdEliminar.Click += new System.EventHandler(this.cmdEliminar_Click);
             // 
             // lblRoles
@@ -332,12 +336,13 @@
             // 
             // cmdAsignarRol
             // 
+            this.cmdAsignarRol.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdAsignarRol.Location = new System.Drawing.Point(844, 393);
             this.cmdAsignarRol.Name = "cmdAsignarRol";
             this.cmdAsignarRol.Size = new System.Drawing.Size(186, 23);
             this.cmdAsignarRol.TabIndex = 38;
             this.cmdAsignarRol.Text = "Asignar rol";
-            this.cmdAsignarRol.UseVisualStyleBackColor = true;
+            this.cmdAsignarRol.UseVisualStyleBackColor = false;
             this.cmdAsignarRol.Visible = false;
             this.cmdAsignarRol.Click += new System.EventHandler(this.cmdAsignarRol_Click);
             // 

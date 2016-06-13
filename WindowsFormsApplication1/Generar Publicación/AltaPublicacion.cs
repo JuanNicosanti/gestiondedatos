@@ -250,7 +250,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 PublicacionDOA doa = new PublicacionDOA();
              
                 doa.crearPublicacion(txtDescripcion.Text, int.Parse(txtStockInmediata.Text), dtpFin.Value, txtPrecio.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
-
+                MessageBox.Show("Se ha creado correctamente la publicacion", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                
                 
             }
@@ -421,6 +421,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 doa.modificarPublicacion(publiId, txtDescripcion.Text, 1, dtpFin.Value, txtValorSubasta.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
             }
 
+            MessageBox.Show("Se ha modificado correctamente la publicacion", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             WindowsFormsApplication1.Generar_Publicación.EstadoPublicacion.estado.Show();
             this.Hide();
         }

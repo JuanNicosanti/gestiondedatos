@@ -63,22 +63,24 @@
             // 
             // cmdCancelar
             // 
+            this.cmdCancelar.BackColor = System.Drawing.Color.LightCoral;
             this.cmdCancelar.Location = new System.Drawing.Point(153, 133);
             this.cmdCancelar.Name = "cmdCancelar";
             this.cmdCancelar.Size = new System.Drawing.Size(75, 23);
             this.cmdCancelar.TabIndex = 15;
             this.cmdCancelar.Text = "Cancelar";
-            this.cmdCancelar.UseVisualStyleBackColor = true;
+            this.cmdCancelar.UseVisualStyleBackColor = false;
             this.cmdCancelar.Click += new System.EventHandler(this.cmdCancelar_Click);
             // 
             // cmdAceptar
             // 
+            this.cmdAceptar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdAceptar.Location = new System.Drawing.Point(153, 88);
             this.cmdAceptar.Name = "cmdAceptar";
             this.cmdAceptar.Size = new System.Drawing.Size(75, 23);
             this.cmdAceptar.TabIndex = 13;
             this.cmdAceptar.Text = "Aceptar";
-            this.cmdAceptar.UseVisualStyleBackColor = true;
+            this.cmdAceptar.UseVisualStyleBackColor = false;
             this.cmdAceptar.Click += new System.EventHandler(this.cmdAceptar_Click);
             // 
             // txtContrasenia
@@ -116,12 +118,13 @@
             // 
             // cmdVolver
             // 
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
             this.cmdVolver.Location = new System.Drawing.Point(316, 114);
             this.cmdVolver.Name = "cmdVolver";
             this.cmdVolver.Size = new System.Drawing.Size(175, 104);
             this.cmdVolver.TabIndex = 22;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // timer1
@@ -141,12 +144,13 @@
             // 
             // cmdCambiarContrasenia
             // 
+            this.cmdCambiarContrasenia.BackColor = System.Drawing.Color.LightSteelBlue;
             this.cmdCambiarContrasenia.Location = new System.Drawing.Point(333, 69);
             this.cmdCambiarContrasenia.Name = "cmdCambiarContrasenia";
             this.cmdCambiarContrasenia.Size = new System.Drawing.Size(146, 23);
             this.cmdCambiarContrasenia.TabIndex = 26;
             this.cmdCambiarContrasenia.Text = "Cambiar contraseña";
-            this.cmdCambiarContrasenia.UseVisualStyleBackColor = true;
+            this.cmdCambiarContrasenia.UseVisualStyleBackColor = false;
             this.cmdCambiarContrasenia.Click += new System.EventHandler(this.cmdCambiarContrasenia_Click);
             // 
             // menuStrip1
@@ -196,12 +200,13 @@
             // 
             // cmdLoguear
             // 
+            this.cmdLoguear.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdLoguear.Location = new System.Drawing.Point(143, 176);
             this.cmdLoguear.Name = "cmdLoguear";
             this.cmdLoguear.Size = new System.Drawing.Size(165, 23);
             this.cmdLoguear.TabIndex = 30;
             this.cmdLoguear.Text = "Loguear con Rol Seleccionado";
-            this.cmdLoguear.UseVisualStyleBackColor = true;
+            this.cmdLoguear.UseVisualStyleBackColor = false;
             this.cmdLoguear.Click += new System.EventHandler(this.cmdLoguear_Click);
             // 
             // Login

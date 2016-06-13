@@ -147,22 +147,24 @@
             // 
             // cmdAceptar
             // 
-            this.cmdAceptar.Location = new System.Drawing.Point(22, 132);
+            this.cmdAceptar.BackColor = System.Drawing.Color.LimeGreen;
+            this.cmdAceptar.Location = new System.Drawing.Point(22, 126);
             this.cmdAceptar.Name = "cmdAceptar";
-            this.cmdAceptar.Size = new System.Drawing.Size(75, 23);
+            this.cmdAceptar.Size = new System.Drawing.Size(75, 56);
             this.cmdAceptar.TabIndex = 8;
             this.cmdAceptar.Text = "Aceptar";
-            this.cmdAceptar.UseVisualStyleBackColor = true;
+            this.cmdAceptar.UseVisualStyleBackColor = false;
             this.cmdAceptar.Click += new System.EventHandler(this.cmdAceptar_Click);
             // 
             // cmdBorrar
             // 
-            this.cmdBorrar.Location = new System.Drawing.Point(22, 169);
+            this.cmdBorrar.BackColor = System.Drawing.Color.IndianRed;
+            this.cmdBorrar.Location = new System.Drawing.Point(22, 199);
             this.cmdBorrar.Name = "cmdBorrar";
-            this.cmdBorrar.Size = new System.Drawing.Size(75, 23);
+            this.cmdBorrar.Size = new System.Drawing.Size(75, 51);
             this.cmdBorrar.TabIndex = 9;
             this.cmdBorrar.Text = "Borrar todo";
-            this.cmdBorrar.UseVisualStyleBackColor = true;
+            this.cmdBorrar.UseVisualStyleBackColor = false;
             this.cmdBorrar.Click += new System.EventHandler(this.cmdBorrar_Click);
             // 
             // lblTipoDNICliente
@@ -490,12 +492,13 @@
             // 
             // cmdVolver
             // 
-            this.cmdVolver.Location = new System.Drawing.Point(22, 211);
+            this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
+            this.cmdVolver.Location = new System.Drawing.Point(22, 265);
             this.cmdVolver.Name = "cmdVolver";
-            this.cmdVolver.Size = new System.Drawing.Size(75, 23);
+            this.cmdVolver.Size = new System.Drawing.Size(75, 53);
             this.cmdVolver.TabIndex = 52;
             this.cmdVolver.Text = "Volver";
-            this.cmdVolver.UseVisualStyleBackColor = true;
+            this.cmdVolver.UseVisualStyleBackColor = false;
             this.cmdVolver.Click += new System.EventHandler(this.cmdVolver_Click);
             // 
             // menuStrip1
@@ -506,7 +509,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(533, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(514, 24);
             this.menuStrip1.TabIndex = 53;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -522,7 +525,7 @@
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
             this.statusStrip1.Location = new System.Drawing.Point(0, 568);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(533, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(514, 22);
             this.statusStrip1.TabIndex = 54;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -588,7 +591,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(533, 590);
+            this.ClientSize = new System.Drawing.Size(514, 590);
             this.Controls.Add(this.cboTipoCliente);
             this.Controls.Add(this.txtCiudadEmpresa);
             this.Controls.Add(this.lblCiudadEmpresa);

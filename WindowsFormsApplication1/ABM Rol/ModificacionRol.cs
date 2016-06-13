@@ -70,7 +70,8 @@ namespace WindowsFormsApplication1.ABM_Rol
             aRol.txtNuevoRol.Text = filaNombreRol;
             aRol.esAltaRol = 0;
             aRol.cargarFuncionalidadesElegidasDeDeterminadoRol(celdaIdRol);
-            aRol.lstFuncElegidas.SelectedIndex = 0;
+         
+            
             aRol.Show();
             this.Hide();
 

@@ -23,6 +23,7 @@ namespace WindowsFormsApplication1.ABM_Rol
         public int esAltaRol = 1;
         public int idRolAModificar;
         private String rolAModificar;
+        private Boolean tieneFuncionalidades=false;
         public AltaRol()
         {
             InitializeComponent();
@@ -38,7 +39,13 @@ namespace WindowsFormsApplication1.ABM_Rol
             while (sdr.Read())
             {
                 lstFuncElegidas.Items.Add(sdr["Descripcion"].ToString());
+                tieneFuncionalidades = true;    
             }
+            if (tieneFuncionalidades)
+            {
+                lstFuncElegidas.SelectedIndex = 0;
+            }
+            
             lstFuncElegidas.ValueMember = lstFuncElegidas.DisplayMember;
          
         }
@@ -61,13 +68,12 @@ namespace WindowsFormsApplication1.ABM_Rol
             if (esAltaRol == 0)
             {
                 rolAModificar = txtNuevoRol.Text;
+                timer1.Start();
                 
-                this.desasignarTodosLasFuncDelViejoRol();
 
             }
-            
 
-            timer1.Start();
+          
            
 
         }
@@ -86,7 +92,8 @@ namespace WindowsFormsApplication1.ABM_Rol
                 i++;
 
             }
-            MessageBox.Show("asd");
+            timer1.Stop();
+            
         }
 
         private void cmdVolver_Click(object sender, EventArgs e)
@@ -157,9 +164,17 @@ namespace WindowsFormsApplication1.ABM_Rol
               
 
                 MessageBox.Show("Se modifico el rol satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+
+                ModificacionRol mRol = new ModificacionRol();
+                mRol.cmdEliminar.Visible = false;
+                mRol.cmdHabilitarRol.Visible = false;
+                mRol.cmdModificarRol.Visible = true;
+                mRol.Show();
+                this.Hide();
+
             }
 
-            
+            txtNuevoRol.Text = "";
             lstFuncElegidas.Items.Clear();
             
 
@@ -185,6 +200,9 @@ namespace WindowsFormsApplication1.ABM_Rol
             }
             if (esAltaRol == 0) {
                 ModificacionRol mRol = new ModificacionRol();
+                mRol.cmdEliminar.Visible = false;
+                mRol.cmdHabilitarRol.Visible = false;
+                mRol.cmdModificarRol.Visible = true;
                 mRol.Show();
                 this.Hide();
             }
@@ -193,7 +211,7 @@ namespace WindowsFormsApplication1.ABM_Rol
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
+            this.desasignarTodosLasFuncDelViejoRol();
         }
 
         private void lstFuncElegidas_SelectedIndexChanged(object sender, EventArgs e)
