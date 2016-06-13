@@ -1345,7 +1345,7 @@ end
 GO
 
 --SP para crear tabla temporal de parametros de visibilidad
-CREATE PROCEDURE [ROAD_TO_PROYECTO].[CrearTemporalVisibilidades]
+CREATE PROCEDURE ROAD_TO_PROYECTO.CrearTemporalVisibilidades
 	 @Parametros nvarchar(1000)
 	 as begin
 		IF OBJECT_ID('tempdb..##parametrosvisibilidad') IS NOT NULL 
@@ -1401,64 +1401,32 @@ GO
 CREATE FUNCTION ROAD_TO_PROYECTO.EstaActivaEnTrimestre(@FechaInicio datetime,@FechaFin datetime,@Trimestre int)
 returns int
 as begin
-	if ((@Trimestre*3)-2 between month(@FechaInicio) and month(@FechaFin))
+	if ((@Trimestre*3)-2 >= month(@FechaInicio) and  (@Trimestre*3)-2 <= month(@FechaFin))
 	return 1
 	return 0
 end
 GO
 
-CREATE VIEW ROAD_TO_PROYECTO.CantidadFacturasPorUsuarioYTrimestre as
+/*CREATE VIEW ROAD_TO_PROYECTO.CantidadFacturasPorUsuarioYTrimestre as
 	select u.Usuario as Usuario,year(f.fecha) as Año,ROAD_TO_PROYECTO.ObtenerTrimestre (month(f.fecha)) as Trimestre, count(*) as CantFacturas
 	from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p,ROAD_TO_PROYECTO.Factura f
 	where u.usuario = p.userid
 	and f.PubliId = p.PublId
 	group by u.usuario, year(f.fecha), ROAD_TO_PROYECTO.ObtenerTrimestre (month(f.fecha))
-GO
+GO*/
 
 
 --Top 5: listados estadísticos
 --right('0000' + cast(year(fact_fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(fact_fecha) as varchar(2)), 2)
---Top 5 número 1:Vendedores con mayor cantidad de productos no vendidos. NO ESTA TERMINADO
-CREATE PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos
-	@Trimestre int, 
-	@Año int, 
-	@Parametros nvarchar(1000)
-
-	as begin
-		exec ROAD_TO_PROYECTO.CrearTemporalVisibilidades @Parametros
-
-		IF OBJECT_ID('tempdb..#consulta1') IS NOT NULL 
-		DROP TABLE ROAD_TO_PROYECTO.#consulta1
-
-		create table ROAD_TO_PROYECTO.#consulta1(
-		Usuario nvarchar(255),
-		Detalle nvarchar(255),
-		AñoMes nvarchar(255),
-		Visibilidad int,
-		Monto numeric(18,0)
-		)
-		
-		insert into ROAD_TO_PROYECTO.#consulta1
-		select top 5 fu.Usuario, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2) as 'Año-Mes', p.Visibilidad, fu.CantFacturas as 'Cantidad Facturas'
-		from ROAD_TO_PROYECTO.CantidadFacturasPorUsuarioYTrimestre fu,ROAD_TO_PROYECTO.Publicacion p
-		where fu.Usuario = p.userid
-		and p.visibilidad in (select pv.VisiId from ROAD_TO_PROYECTO.##parametrosvisibilidad pv)
-		and fu.trimestre = @Trimestre
-		and fu.año = @Año
-		group by fu.Usuario, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), p.Visibilidad
-		order by fu.CantFacturas desc
-		
-		select top 5 Usuario, AñoMes, (select Descripcion from ROAD_TO_PROYECTO.Visibilidad where VisiId = Visibilidad) as 'Visibilidad', Monto as 'Prods No Vendidos'
-		from ROAD_TO_PROYECTO.#consulta1
-		order by Monto desc, AñoMes desc,Visibilidad desc
-
-	end
-GO
+--Top 5 número 1:Vendedores con mayor cantidad de productos no vendidos. 
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos_Old
 	@Trimestre int,
-	@Año int
+	@Año int,
+	@Parametros nvarchar(1000)
 	as begin
+	    exec ROAD_TO_PROYECTO.CrearTemporalVisibilidades @Parametros
+
 		IF OBJECT_ID('ROAD_TO_PROYECTO.#consulta1') IS NOT NULL DROP TABLE ROAD_TO_PROYECTO.#consulta1
 		create table ROAD_TO_PROYECTO.#consulta1(
 		Usuario nvarchar(255),
@@ -1472,8 +1440,9 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos_Old
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Cliente c, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
 		where u.Usuario = p.UserId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = c.ClieId 
-		and year(p.FechaInicio) = @Año
-		and ((@Trimestre*3) - month(p.FechaInicio) = 0 or (@Trimestre*3) - month(p.FechaInicio) = 1 or (@Trimestre*3) - month(p.FechaInicio) = 2)
+		and (year(p.FechaInicio) = @Año or year(p.fechafin) = @Año)
+		and ((@Trimestre*3)-2 between month(p.FechaInicio) and month(p.FechaFin) or (@Trimestre*3)-1 between month(p.FechaInicio) and month(p.FechaFin) or (@Trimestre*3) between month(p.FechaInicio) and month(p.FechaFin))
+		and Visibilidad in (select visiid from ROAD_TO_PROYECTO.##parametrosvisibilidad)
 		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2))
 		group by u.Usuario, c.Apellido, c.Nombres, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), Visibilidad
 		union
@@ -1481,8 +1450,9 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Vendedores_Productos_No_Vendidos_Old
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Empresa e, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu
 		where u.Usuario = p.UserId
 		and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Empresa' and rpu.IdExterno = e.EmprId 
-		and year(p.FechaInicio) = @Año
-		and ((@Trimestre*3) - month(p.FechaInicio) = 0 or (@Trimestre*3) - month(p.FechaInicio) = 1 or (@Trimestre*3) - month(p.FechaInicio) = 2)
+		and (year(p.FechaInicio) = @Año or year(p.fechafin)=@Año)
+		and ((@Trimestre*3)-2 between month(p.FechaInicio) and month(p.FechaFin) or (@Trimestre*3)-1 between month(p.FechaInicio) and month(p.FechaFin) or (@Trimestre*3) between month(p.FechaInicio) and month(p.FechaFin))
+		and Visibilidad in (select visiid from ROAD_TO_PROYECTO.##parametrosvisibilidad)
 		and p.PublId not in (select f.PubliId from ROAD_TO_PROYECTO.Factura f where year(f.Fecha) = @Año and ((@Trimestre*3) - month(f.Fecha) = 0 or (@Trimestre*3) - month(f.Fecha) = 1 or (@Trimestre*3) - month(f.Fecha) = 2))
 		group by u.Usuario, e.RazonSocial, right('0000' + cast(year(p.FechaInicio) as varchar(4)), 4) + '-' + right('00' + cast(month(p.FechaInicio) as varchar(2)), 2), Visibilidad
 		order by count(*) desc
