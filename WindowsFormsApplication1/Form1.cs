@@ -30,6 +30,7 @@ namespace WindowsFormsApplication1
         private Boolean seleccionoUsuario = false;
         private Boolean seleccionoVisibilidad = false;
         private Boolean seleccionoRol = false;
+        private Boolean seleccionoPub = false;
         
         
 
@@ -142,7 +143,13 @@ namespace WindowsFormsApplication1
                         unMenuToolStripMenuItem.Name = unaFuncion;
                         unMenuToolStripMenuItem.Text = unaFuncion;
                         unMenuToolStripMenuItem.Tag = unaFuncion;
-
+                        if (unaFuncion.Equals("Generar Publicación"))
+                        {
+                            unMenuToolStripMenuItem.Name = "Publicación";
+                            unMenuToolStripMenuItem.Text = "Publicación";
+                            unMenuToolStripMenuItem.Tag = "Publicación";
+                            cargarMiniMenuPublicacion(unMenuToolStripMenuItem);
+                        }
                         if (unaFuncion == "ABM Rol" || unaFuncion == "ABM Usuario" || unaFuncion == "ABM Visibilidad")
                         {
                             cargarMiniMenuABM(unMenuToolStripMenuItem, unaFuncion);
@@ -165,6 +172,9 @@ namespace WindowsFormsApplication1
                             unMenuToolStripMenuItem.Name = unaFuncion;
                             unMenuToolStripMenuItem.Text = unaFuncion;
                             unMenuToolStripMenuItem.Tag = unaFuncion;
+                           
+
+                           
 
                             if (unaFuncion == "ABM Rol" || unaFuncion == "ABM Usuario" || unaFuncion == "ABM Visibilidad")
                             {
@@ -188,6 +198,24 @@ namespace WindowsFormsApplication1
           
 
             
+        }
+
+       
+        private void cargarMiniMenuPublicacion(ToolStripMenuItem unMenuToolStripMenuItem)
+        {
+            ToolStripMenuItem menuGenerarPublic = new System.Windows.Forms.ToolStripMenuItem();
+            menuGenerarPublic.Name = "Generar Publicacion";
+            menuGenerarPublic.Text = "Generar Publicacion";
+            menuGenerarPublic.Tag = "Generar Publicacion";
+            menuGenerarPublic.Click += new EventHandler(generarPub_Click);
+            unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuGenerarPublic });
+
+            ToolStripMenuItem menuEstadosPublic = new System.Windows.Forms.ToolStripMenuItem();
+            menuEstadosPublic.Name = "Estados Publicacion";
+            menuEstadosPublic.Text = "Estados Publicacion";
+            menuEstadosPublic.Tag = "Estados Publicacion";
+            menuEstadosPublic.Click += new EventHandler(estadosPub_Click);
+            unMenuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { menuEstadosPublic });
         }
 
         private void cargarMiniMenuABM(ToolStripMenuItem unMenuToolStripMenuItem,String unaFuncion){
@@ -341,6 +369,27 @@ namespace WindowsFormsApplication1
             }
       
         }
+        private void generarPub_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Generar_Publicación.AltaPublicacion aPub = new WindowsFormsApplication1.Generar_Publicación.AltaPublicacion();
+            aPub.lblUsername.Text = user;
+            aPub.esModif = 0;
+            aPub.tipoPubli = 0;
+            aPub.cmdModificar.Visible = false;
+            aPub.Show();
+            this.Hide();
+
+
+
+        }
+
+        private void estadosPub_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Generar_Publicación.EstadoPublicacion estado = new WindowsFormsApplication1.Generar_Publicación.EstadoPublicacion();
+            estado.user = this.user;
+            estado.Show();
+            this.Hide();
+        }
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
@@ -355,6 +404,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = true;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
+                seleccionoPub = false;
                 
                   
                 
@@ -365,6 +415,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = true;
                 seleccionoVisibilidad = false;
+                seleccionoPub = false;
                 
             }
 
@@ -373,6 +424,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = true;
+                seleccionoPub = false;
                 
             }
 
@@ -382,23 +434,16 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
+                seleccionoPub = false;
                 
             }
 
-            if ((string)clickedItem.Tag == "Generar Publicación")
+            if ((string)clickedItem.Tag == "Publicación")
             {
-                WindowsFormsApplication1.Generar_Publicación.AltaPublicacion aPub = new WindowsFormsApplication1.Generar_Publicación.AltaPublicacion();
-                aPub.lblUsername.Text = user;
-                aPub.esModif = 0;
-                aPub.tipoPubli = 0;
-                aPub.cmdModificar.Visible = false;
-                aPub.Show();
-                this.Hide();
-
+                seleccionoPub = true;
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
-                
                 
             }
             
@@ -413,6 +458,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
+                seleccionoPub = false;
                
                 
             }
@@ -426,6 +472,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
+                seleccionoPub = false;
                 
             }
 
@@ -437,6 +484,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
+                seleccionoPub = false;
               
             }
 
@@ -448,6 +496,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
+                seleccionoPub = false;
                
             }
 
@@ -459,6 +508,7 @@ namespace WindowsFormsApplication1
                 seleccionoRol = false;
                 seleccionoUsuario = false;
                 seleccionoVisibilidad = false;
+                seleccionoPub = false;
                 
             }
             
@@ -520,5 +570,6 @@ namespace WindowsFormsApplication1
             estado.Show();
             this.Hide();
         }
+
     }
 }

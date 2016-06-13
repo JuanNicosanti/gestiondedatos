@@ -149,6 +149,11 @@ namespace WindowsFormsApplication1.Generar_Publicación
             ap1.publiId = (int)dgPublis[0, fila].Value;
             ap1.Show();            
             this.Hide();
+        }
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Form1.f1.Close();
         }        
     }
 }
