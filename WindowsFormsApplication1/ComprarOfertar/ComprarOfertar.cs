@@ -470,6 +470,10 @@ WindowsFormsApplication1.ComprarOfertar
                 cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Int).Value = tieneEnvio;
 
                 cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Se ha realizado la compra satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+
+
             }
             if (ofertaOCompra == "Subasta") {
                 SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Ofertar_Publicacion", db.Connection);
@@ -481,9 +485,9 @@ WindowsFormsApplication1.ComprarOfertar
                 cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Int).Value = tieneEnvio;
 
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("ESCUADRON ANTI BUGS");
+                MessageBox.Show("Se ha ofertado satisfactoriamente", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             }
-            //MessageBox.Show("ESCUADRON");
+           
             yaSeCompro = true;
             this.hacerRefresh();
           
