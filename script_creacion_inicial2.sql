@@ -1711,6 +1711,26 @@ return (select max(ClieId)+1 from ROAD_TO_PROYECTO.Cliente)
 end
 GO
 
+CREATE PROCEDURE ROAD_TO_PROYECTO.Lista_Estados
+as begin
+	select Descripcion from ROAD_TO_PROYECTO.Estado
+end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicacion_Estado
+@Usuario nvarchar(255),
+@Descripcion nvarchar(255),
+@Estado nvarchar(255)
+as begin
+	declare @EstadoId int
+	if(@Estado is not null) set @EstadoId = (select EstadoId from ROAD_TO_PROYECTO.Estado e where e.Descripcion = @Estado)
+	select p.PublId, p.Descipcion, p.Precio, e.Descripcion
+	from ROAD_TO_PROYECTO.Publicacion p inner join ROAD_TO_PROYECTO.Estado e on p.Estado = e.EstadoId
+	where p.UserId = @Usuario and
+	p.Descipcion like '%' + @Descripcion + '%'
+	and p.Estado = @EstadoId --or @EstadoId is null)
+end
+GO
 
 ----- Triggers -----
 CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert

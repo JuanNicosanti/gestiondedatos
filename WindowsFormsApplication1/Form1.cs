@@ -509,5 +509,13 @@ namespace WindowsFormsApplication1
             consFact.Show();
             this.Hide();
         }
+
+        private void cmdEstado_Click(object sender, EventArgs e)
+        {
+            WindowsFormsApplication1.Generar_Publicación.EstadoPublicacion estado = new WindowsFormsApplication1.Generar_Publicación.EstadoPublicacion();
+            estado.user = this.user;
+            estado.Show();
+            this.Hide();
+        }
     }
 }
