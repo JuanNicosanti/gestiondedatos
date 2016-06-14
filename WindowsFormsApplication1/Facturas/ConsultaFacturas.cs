@@ -131,7 +131,7 @@ namespace WindowsFormsApplication1.Facturas
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView1.CurrentRow.Index != -1)
+            if (dataGridView1.CurrentRow != null)
             {
                 cmdVerFactura.Visible = true;
             }
@@ -141,7 +141,9 @@ namespace WindowsFormsApplication1.Facturas
         {
             int fila = dataGridView1.CurrentRow.Index;
             WindowsFormsApplication1.ComprarOfertar.Facturar factura = new WindowsFormsApplication1.ComprarOfertar.Facturar();
-            factura.factId = (int)dataGridView1[0, fila].Value;
+            factura.factId = int.Parse(dataGridView1[0, fila].Value.ToString());
+            factura.publId = int.Parse(dataGridView1[1, fila].Value.ToString());
+            factura.esPorConsulta = 1;
             factura.Show();
             this.Hide();
         }
@@ -233,8 +235,13 @@ namespace WindowsFormsApplication1.Facturas
             }
 
             dataGridView1.Rows.Clear();
+
+            if (filasPagina > dtFacturas.Rows.Count)
+            {
+                filasPagina = dtFacturas.Rows.Count;
+            }
            
-            int indiceInsertar;//
+            int indiceInsertar;
             numeroRegistro = this.ini;
             dataGridView1.ColumnCount = 8;
             dataGridView1.Columns[0].Name = "FactNro";

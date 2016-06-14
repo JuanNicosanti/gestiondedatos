@@ -138,7 +138,19 @@ namespace WindowsFormsApplication1.Generar_Publicación
             cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = (int)dgPublis[0, fila].Value;
             cmd.ExecuteNonQuery();
             MessageBox.Show("Publicación finalizada");
-            cargarTabla();
+            //cargarTabla();
+            dgPublis.Visible = false;
+            cmdActivar.Visible = false;
+            cmdModificar.Visible = false;
+            cmdFinalizar.Visible = false;
+            
+            WindowsFormsApplication1.ComprarOfertar.Facturar factura = new WindowsFormsApplication1.ComprarOfertar.Facturar();
+            //TENGO QUE TRAER EL FACTNRO DEL SP DE FINALIZAR, QUE TAMBIÉN TIENE QUE FACTURAR
+            factura.publId = int.Parse(dgPublis[0, fila].Value.ToString());
+            factura.esPorConsulta = 0;
+            factura.Show();
+            this.Hide();
+
         }
 
         private void cmdModificar_Click(object sender, EventArgs e)

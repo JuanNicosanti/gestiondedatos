@@ -38,18 +38,20 @@
             this.lblNombre = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblDocum = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Monto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblFactNro = new System.Windows.Forms.Label();
             this.lblFecha = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.cmdCerrar = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.lblMonto = new System.Windows.Forms.Label();
+            this.lblCuit = new System.Windows.Forms.Label();
+            this.lblCuitValor = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -58,7 +60,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(264, 35);
+            this.label1.Location = new System.Drawing.Point(229, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 13);
             this.label1.TabIndex = 0;
@@ -67,7 +69,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(264, 65);
+            this.label2.Location = new System.Drawing.Point(229, 74);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 13);
             this.label2.TabIndex = 1;
@@ -86,23 +88,25 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.lblCuitValor);
+            this.panel1.Controls.Add(this.lblCuit);
             this.panel1.Controls.Add(this.lblPostal);
             this.panel1.Controls.Add(this.lblDom);
             this.panel1.Controls.Add(this.lblDoc);
             this.panel1.Controls.Add(this.lblNombre);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.lblDocum);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Location = new System.Drawing.Point(16, 105);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(420, 67);
+            this.panel1.Size = new System.Drawing.Size(387, 70);
             this.panel1.TabIndex = 4;
             // 
             // lblPostal
             // 
             this.lblPostal.AutoSize = true;
-            this.lblPostal.Location = new System.Drawing.Point(278, 42);
+            this.lblPostal.Location = new System.Drawing.Point(267, 41);
             this.lblPostal.Name = "lblPostal";
             this.lblPostal.Size = new System.Drawing.Size(35, 13);
             this.lblPostal.TabIndex = 7;
@@ -111,7 +115,7 @@
             // lblDom
             // 
             this.lblDom.AutoSize = true;
-            this.lblDom.Location = new System.Drawing.Point(265, 10);
+            this.lblDom.Location = new System.Drawing.Point(50, 41);
             this.lblDom.Name = "lblDom";
             this.lblDom.Size = new System.Drawing.Size(35, 13);
             this.lblDom.TabIndex = 6;
@@ -120,7 +124,7 @@
             // lblDoc
             // 
             this.lblDoc.AutoSize = true;
-            this.lblDoc.Location = new System.Drawing.Point(103, 42);
+            this.lblDoc.Location = new System.Drawing.Point(296, 14);
             this.lblDoc.Name = "lblDoc";
             this.lblDoc.Size = new System.Drawing.Size(35, 13);
             this.lblDoc.TabIndex = 5;
@@ -129,7 +133,7 @@
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(58, 10);
+            this.lblNombre.Location = new System.Drawing.Point(47, 14);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(35, 13);
             this.lblNombre.TabIndex = 4;
@@ -138,7 +142,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(217, 42);
+            this.label7.Location = new System.Drawing.Point(206, 41);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 13);
             this.label7.TabIndex = 3;
@@ -147,25 +151,25 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(217, 10);
+            this.label6.Location = new System.Drawing.Point(2, 41);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(52, 13);
             this.label6.TabIndex = 2;
             this.label6.Text = "Domicilio:";
             // 
-            // label5
+            // lblDocum
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 42);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(93, 13);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Nº de documento:";
+            this.lblDocum.AutoSize = true;
+            this.lblDocum.Location = new System.Drawing.Point(206, 14);
+            this.lblDocum.Name = "lblDocum";
+            this.lblDocum.Size = new System.Drawing.Size(93, 13);
+            this.lblDocum.TabIndex = 1;
+            this.lblDocum.Text = "Nº de documento:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 10);
+            this.label4.Location = new System.Drawing.Point(2, 14);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(47, 13);
             this.label4.TabIndex = 0;
@@ -173,43 +177,20 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Cantidad,
-            this.Descripcion,
-            this.Monto});
-            this.dataGridView1.Location = new System.Drawing.Point(16, 179);
+            this.dataGridView1.Location = new System.Drawing.Point(16, 186);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(420, 115);
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(387, 115);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // Cantidad
-            // 
-            this.Cantidad.HeaderText = "Cantidad";
-            this.Cantidad.Name = "Cantidad";
-            this.Cantidad.ReadOnly = true;
-            this.Cantidad.Width = 60;
-            // 
-            // Descripcion
-            // 
-            this.Descripcion.HeaderText = "Descripción";
-            this.Descripcion.Name = "Descripcion";
-            this.Descripcion.ReadOnly = true;
-            this.Descripcion.Width = 230;
-            // 
-            // Monto
-            // 
-            this.Monto.HeaderText = "Monto";
-            this.Monto.Name = "Monto";
-            this.Monto.ReadOnly = true;
-            this.Monto.Width = 80;
             // 
             // lblFactNro
             // 
             this.lblFactNro.AutoSize = true;
-            this.lblFactNro.Location = new System.Drawing.Point(326, 35);
+            this.lblFactNro.Location = new System.Drawing.Point(291, 44);
             this.lblFactNro.Name = "lblFactNro";
             this.lblFactNro.Size = new System.Drawing.Size(35, 13);
             this.lblFactNro.TabIndex = 6;
@@ -218,7 +199,7 @@
             // lblFecha
             // 
             this.lblFecha.AutoSize = true;
-            this.lblFecha.Location = new System.Drawing.Point(310, 65);
+            this.lblFecha.Location = new System.Drawing.Point(275, 74);
             this.lblFecha.Name = "lblFecha";
             this.lblFecha.Size = new System.Drawing.Size(35, 13);
             this.lblFecha.TabIndex = 7;
@@ -232,7 +213,7 @@
             this.salirToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(444, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(411, 24);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -246,16 +227,16 @@
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 331);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 366);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(444, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(411, 22);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // cmdCerrar
             // 
             this.cmdCerrar.BackColor = System.Drawing.Color.Cyan;
-            this.cmdCerrar.Location = new System.Drawing.Point(298, 300);
+            this.cmdCerrar.Location = new System.Drawing.Point(265, 340);
             this.cmdCerrar.Name = "cmdCerrar";
             this.cmdCerrar.Size = new System.Drawing.Size(138, 23);
             this.cmdCerrar.TabIndex = 10;
@@ -263,12 +244,63 @@
             this.cmdCerrar.UseVisualStyleBackColor = false;
             this.cmdCerrar.Click += new System.EventHandler(this.cmdCerrar_Click);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(227, 312);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(99, 18);
+            this.label9.TabIndex = 11;
+            this.label9.Text = "Monto total:";
+            // 
+            // lblMonto
+            // 
+            this.lblMonto.AutoSize = true;
+            this.lblMonto.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMonto.Location = new System.Drawing.Point(332, 312);
+            this.lblMonto.Name = "lblMonto";
+            this.lblMonto.Size = new System.Drawing.Size(52, 18);
+            this.lblMonto.TabIndex = 12;
+            this.lblMonto.Text = "label8";
+            // 
+            // lblCuit
+            // 
+            this.lblCuit.AutoSize = true;
+            this.lblCuit.Location = new System.Drawing.Point(206, 14);
+            this.lblCuit.Name = "lblCuit";
+            this.lblCuit.Size = new System.Drawing.Size(35, 13);
+            this.lblCuit.TabIndex = 8;
+            this.lblCuit.Text = "CUIT:";
+            // 
+            // lblCuitValor
+            // 
+            this.lblCuitValor.AutoSize = true;
+            this.lblCuitValor.Location = new System.Drawing.Point(241, 14);
+            this.lblCuitValor.Name = "lblCuitValor";
+            this.lblCuitValor.Size = new System.Drawing.Size(35, 13);
+            this.lblCuitValor.TabIndex = 9;
+            this.lblCuitValor.Text = "label5";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(22, 39);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(162, 25);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "MercadoEnvio";
+            // 
             // Facturar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(444, 353);
+            this.ClientSize = new System.Drawing.Size(411, 388);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblMonto);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.cmdCerrar);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.lblFecha);
@@ -300,13 +332,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblDocum;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Monto;
         private System.Windows.Forms.Label lblPostal;
         private System.Windows.Forms.Label lblDom;
         private System.Windows.Forms.Label lblDoc;
@@ -317,5 +346,10 @@
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Button cmdCerrar;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblMonto;
+        private System.Windows.Forms.Label lblCuit;
+        private System.Windows.Forms.Label lblCuitValor;
+        private System.Windows.Forms.Label label5;
     }
 }

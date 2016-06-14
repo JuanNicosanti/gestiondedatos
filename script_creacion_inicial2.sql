@@ -971,7 +971,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Activar_Publicacion
 		update ROAD_TO_PROYECTO.Publicacion
 		set Estado = @EstadoId
 		where PublId = @PubliId
-		execute Facturar_Publicacion @PubliId = @PubliId
+		--execute Facturar_Publicacion @PubliId = @PubliId
 	end
 GO
 
@@ -1562,13 +1562,42 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Monto_Facturado_Vendedor
 GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Factura
-	@FactId int
+	@FactId int,
+	@PubliId int
 	as 
 	begin
-		select f.FactNro, f.Fecha, c.Nombres, c.Apellido
-		from ROAD_TO_PROYECTO.Factura f, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Cliente c
-		where f.PubliId = p.PublId and p.UserId = u.Usuario	and u.Usuario = c.ClieId
+		declare @Usuario nvarchar(255)
+		set @Usuario = (select UserId from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId)
+		if (@Usuario in (select rpu.UserId
+		from ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Empresa e
+		where rpu.RolId = r.RolId and r.Nombre = 'Empresa'))
+		begin
+			select f.FactNro, f.Fecha, e.RazonSocial, e.CUIT, concat(d.Calle, ' ', d.Numero) as Domicilio, d.CodPostal, f.Monto, r.Nombre as Rol
+			from ROAD_TO_PROYECTO.Factura f, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Empresa e, ROAD_TO_PROYECTO.Domicilio d
+			where f.FactNro = @FactId and f.PubliId = p.PublId and p.UserId = u.Usuario
+			and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Empresa' and rpu.IdExterno = e.EmprId
+			and u.Domicilio = d.DomiId
+		end
+		if (@Usuario in (select rpu.UserId
+		from ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Empresa e
+		where rpu.RolId = r.RolId and r.Nombre = 'Cliente'))
+		begin
+			select f.FactNro, f.Fecha, CONCAT(c.Nombres, ' ', c.Apellido) as Nombre, CONCAT(d.Calle, ' ', d.Numero) as Domicilio, d.CodPostal, c.NroDocumento, f.Monto, r.Nombre as Rol
+			from ROAD_TO_PROYECTO.Factura f, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Cliente c, ROAD_TO_PROYECTO.Domicilio d
+			where f.FactNro = @FactId and f.PubliId = p.PublId and p.UserId = u.Usuario
+			and u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = c.ClieId
+			and u.Domicilio = d.DomiId
+		end
 	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Obtener_Datos_Factura
+@FactNro int
+as begin
+	select i.Cantidad, i.Detalle, i.Monto
+	from ROAD_TO_PROYECTO.Factura f inner join ROAD_TO_PROYECTO.Item_Factura i on f.FactNro = i.FactNro
+	where f.FactNro = @FactNro
+end
 GO
 
 
