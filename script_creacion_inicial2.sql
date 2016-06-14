@@ -971,7 +971,6 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Activar_Publicacion
 		update ROAD_TO_PROYECTO.Publicacion
 		set Estado = @EstadoId
 		where PublId = @PubliId
-		--execute Facturar_Publicacion @PubliId = @PubliId
 	end
 GO
 
@@ -1016,11 +1015,14 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicacion
 	@PubliId int
 	as begin
-	declare @EstadoId int
-	select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Finalizada'
-		update ROAD_TO_PROYECTO.Publicacion
-		set Estado = @EstadoId
-		where PublId = @PubliId
+		declare @EstadoId int
+		select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Finalizada'
+		if not null (select * from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId and Estado <> @EstadoId)
+		begin
+			update ROAD_TO_PROYECTO.Publicacion
+			set Estado = @EstadoId
+			where PublId = @PubliId
+		end
 	end
 GO
 
@@ -1766,11 +1768,10 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.
 				update ROAD_TO_PROYECTO.Publicacion
 				set Stock = (Stock - @Cantidad)
 				where PublId = @PubliId
+				--Si el stock es 0, finalizo
 				if ((select Stock from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) = 0)
 				begin
-					update ROAD_TO_PROYECTO.Publicacion
-					set Estado = '3'
-					where PublId = @PubliId
+					execute ROAD_TO_PROYECTO.Finalizar_Publicacion @PubliId = @PubliId
 				end
 				
 				--Busco el último número de factura y determino el siguiente
@@ -1815,13 +1816,17 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.
 	end
 GO
 
-CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.Publicacion after update
+CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora_Y_Facturar_Finalizadas on ROAD_TO_PROYECTO.Publicacion after update
 	as begin
 		--Variables
-		declare @PubliId int, @UltimaFactura int, @FacturaActual int, @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
+		declare @PubliId int, @UltimaFactura int, @FacturaActual int, @ComiFija numeric(18,2), @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
 		--Cursor con subastas finalizadas 
 		declare c2 cursor for select PublId from inserted 
 		where Tipo = (select tp.TipoPubliId from ROAD_TO_PROYECTO.Tipo_Publicacion tp where tp.Descripcion = 'Subasta') 
+		and Estado = (select EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Finalizada')
+		--Cursor con compras inmediatas finalizadas
+		declare c3 cursor for select PublId from inserted 
+		where Tipo = (select tp.TipoPubliId from ROAD_TO_PROYECTO.Tipo_Publicacion tp where tp.Descripcion = 'Compra Inmediata') 
 		and Estado = (select EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Finalizada')
 		
 		open c2
@@ -1842,12 +1847,19 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.P
 				insert into ROAD_TO_PROYECTO.Factura (FactNro, PubliId, Fecha)--, Monto, FormaPago)
 				values(@FacturaActual, @PubliId, (select FechaFin from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
 
-				--Busco la comisión por ventas de la publicación
+				--Busco la comisión fija y la comisión por ventas de la publicación
+				select @ComiFija = ComiFija 
+				from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p 
+				where p.PublId = @PubliId and p.Visibilidad = v.VisiId
+
 				select @ComiVariable = ComiVariable 
 				from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p
 				where p.PublId = @PubliId and p.Visibilidad = v.VisiId
 
 				--Creo los items de la factura
+				insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto) 
+				values (@FacturaActual, 1, 'Precio por tipo publicación', @ComiFija)
+
 				insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto)
 				values(@FacturaActual, 1, 'Comisión por productos vendidos', @ComiVariable * (select Monto from ROAD_TO_PROYECTO.Transaccion where Ganadora = 1 and PubliId = @PubliId))
 				
@@ -1871,9 +1883,21 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora on ROAD_TO_PROYECTO.P
 			fetch next from c2 into @PubliId
 			commit
 		end
-		
 		close c2;
 		deallocate c2;
+		
+		open c3
+		fetch next from c3 into @PubliId
+		
+		while @@FETCH_STATUS = 0
+			begin
+			begin transaction
+				execute ROAD_TO_PROYECTO.Facturar_Publicacion @PubliId = @PubliId
+			fetch next from c3 into @PubliId
+			commit
+		end
+		close c3;
+		deallocate c3;
 	end
 GO
 
