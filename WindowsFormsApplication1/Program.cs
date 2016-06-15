@@ -30,7 +30,7 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("No se pudo conectar con " + DataBase.GetInstance().ConnectionString);
                 Application.Exit();
             }
-            Fecha.asignarFecha();
+            
             Application.Run(new Form1());
         }
         public static Usuario UsuarioLogueado;

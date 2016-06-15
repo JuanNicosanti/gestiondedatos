@@ -4,14 +4,6 @@ create schema ROAD_TO_PROYECTO
 GO
 
 ----- Funciones -----
---Función para obtener fecha
-create function ROAD_TO_PROYECTO.FechaActual()
-returns datetime
-as begin
-	return (select top 1 * from ROAD_TO_PROYECTO.Fecha)
-end
-GO
-
 create function ROAD_TO_PROYECTO.SacarTildes(@Usuario nvarchar(255))
 returns nvarchar(255)
 as begin
@@ -46,12 +38,6 @@ ELSE IF (select max(Oferta_Monto) from gd_esquema.Maestra where Publicacion_Cod 
 
 ------ Creación de Tablas -----
 PRINT 'Creando Tablas...'
-
---Fecha
-create table ROAD_TO_PROYECTO.Fecha(
-Fecha datetime PRIMARY KEY
-)
-GO
 
 --Domicilio
 create table ROAD_TO_PROYECTO.Domicilio(
@@ -250,12 +236,12 @@ GO
 --Usuarios 
 PRINT 'Asignando Usuarios...'
 insert into ROAD_TO_PROYECTO.Usuario
-select ROAD_TO_PROYECTO.SacarTildes(LOWER(Cli_Apeliido+RIGHT(Cli_Nombre,1))), SUBSTRING(master.dbo.fn_varbintohexstr(HashBytes('SHA2_256', 'password')), 3, 255),Cli_Mail,1,0,NULL,ROAD_TO_PROYECTO.FechaActual() as Fecha, (select DomiId from ROAD_TO_PROYECTO.Domicilio where RTRIM(Calle) like RTRIM(Cli_Dom_Calle) and Numero = Cli_Nro_Calle and Piso = Cli_Piso and Depto = Cli_Depto and CodPostal = Cli_Cod_Postal) as Domicilio, 0 
+select ROAD_TO_PROYECTO.SacarTildes(LOWER(Cli_Apeliido+RIGHT(Cli_Nombre,1))), SUBSTRING(master.dbo.fn_varbintohexstr(HashBytes('SHA2_256', 'password')), 3, 255),Cli_Mail,1,0,NULL,GETDATE() as Fecha, (select DomiId from ROAD_TO_PROYECTO.Domicilio where RTRIM(Calle) like RTRIM(Cli_Dom_Calle) and Numero = Cli_Nro_Calle and Piso = Cli_Piso and Depto = Cli_Depto and CodPostal = Cli_Cod_Postal) as Domicilio, 0 
 from gd_esquema.Maestra
 where Cli_Apeliido is not null and Cli_Nombre is not null
 group by Cli_Apeliido,Cli_Nombre,Cli_Mail,Cli_Dom_Calle,Cli_Nro_Calle,Cli_Piso,cli_depto,Cli_Cod_Postal
 UNION
-select ROAD_TO_PROYECTO.SacarDosPuntos(LOWER('razonsocial'+RIGHT(publ_empresa_razon_social,2))),'password',publ_empresa_mail,1,0,NULL,ROAD_TO_PROYECTO.FechaActual(), (select DomiId from ROAD_TO_PROYECTO.Domicilio where RTRIM(Calle) like RTRIM(Publ_Empresa_Dom_Calle) and Numero = Publ_Empresa_Nro_Calle and Piso = Publ_Empresa_Piso and Depto = Publ_Empresa_Depto and CodPostal = Publ_Empresa_Cod_Postal), 0
+select ROAD_TO_PROYECTO.SacarDosPuntos(LOWER('razonsocial'+RIGHT(publ_empresa_razon_social,2))),'password',publ_empresa_mail,1,0,NULL,getdate(), (select DomiId from ROAD_TO_PROYECTO.Domicilio where RTRIM(Calle) like RTRIM(Publ_Empresa_Dom_Calle) and Numero = Publ_Empresa_Nro_Calle and Piso = Publ_Empresa_Piso and Depto = Publ_Empresa_Depto and CodPostal = Publ_Empresa_Cod_Postal), 0
 from gd_esquema.Maestra
 where publ_empresa_razon_social is not null
 group by publ_empresa_razon_social,publ_empresa_mail, Publ_Empresa_Dom_Calle,Publ_empresa_Nro_Calle,Publ_Empresa_Piso,Publ_Empresa_Depto,Publ_Empresa_Cod_Postal
