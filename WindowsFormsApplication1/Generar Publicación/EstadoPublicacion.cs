@@ -20,6 +20,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
         public string user;
         public static EstadoPublicacion estado;
         private int fila;
+        private int factId;
 
         public EstadoPublicacion()
         {
@@ -41,7 +42,15 @@ namespace WindowsFormsApplication1.Generar_Publicación
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = user;
             cmd.Parameters.AddWithValue("@Descripcion", SqlDbType.NVarChar).Value = tbDescripcion.Text;
-            cmd.Parameters.AddWithValue("@Estado", SqlDbType.NVarChar).Value = cboEstados.SelectedValue.ToString();
+            if (cboEstados.SelectedIndex != -1)
+            {
+                cmd.Parameters.AddWithValue("@Estado", SqlDbType.NVarChar).Value = cboEstados.SelectedValue.ToString();
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@Estado", SqlDbType.NVarChar).Value = "";
+            }
+            
 
             adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("ROAD_TO_PROYECTO.Publicacion");
@@ -138,14 +147,24 @@ namespace WindowsFormsApplication1.Generar_Publicación
             cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = (int)dgPublis[0, fila].Value;
             cmd.ExecuteNonQuery();
             MessageBox.Show("Publicación finalizada");
-            //cargarTabla();
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Buscar_Ultima_Factura", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                factId = int.Parse(sdr["FactNro"].ToString());
+            }
+            sdr.Close();
+
             dgPublis.Visible = false;
             cmdActivar.Visible = false;
             cmdModificar.Visible = false;
             cmdFinalizar.Visible = false;
             
             WindowsFormsApplication1.ComprarOfertar.Facturar factura = new WindowsFormsApplication1.ComprarOfertar.Facturar();
-            //TENGO QUE TRAER EL FACTNRO DEL SP DE FINALIZAR, QUE TAMBIÉN TIENE QUE FACTURAR
+            factura.factId = factId;
             factura.publId = int.Parse(dgPublis[0, fila].Value.ToString());
             factura.esPorConsulta = 0;
             factura.Show();

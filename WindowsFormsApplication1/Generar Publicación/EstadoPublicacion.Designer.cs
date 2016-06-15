@@ -132,12 +132,13 @@
             // 
             // cmdPausar
             // 
-            this.cmdPausar.Location = new System.Drawing.Point(193, 292);
+            this.cmdPausar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.cmdPausar.Location = new System.Drawing.Point(184, 292);
             this.cmdPausar.Name = "cmdPausar";
-            this.cmdPausar.Size = new System.Drawing.Size(105, 23);
+            this.cmdPausar.Size = new System.Drawing.Size(120, 38);
             this.cmdPausar.TabIndex = 3;
             this.cmdPausar.Text = "Pausar publicación";
-            this.cmdPausar.UseVisualStyleBackColor = true;
+            this.cmdPausar.UseVisualStyleBackColor = false;
             this.cmdPausar.Visible = false;
             this.cmdPausar.Click += new System.EventHandler(this.cmdPausar_Click);
             // 

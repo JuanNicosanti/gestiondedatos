@@ -406,7 +406,7 @@ else if ROUND(@Monto,0) = ROUND(@PrecioPublicacion * @PorcentajeComision * @Cant
  or ROUND(@Monto,0,1) = ROUND(@PrecioPublicacion * @PorcentajeComision * @Cantidad,0)
  or ROUND(@Monto,0,1) = ROUND(@PrecioPublicacion * @PorcentajeComision * @Cantidad,0,1)
 return 'Comisión por productos vendidos'
-return NULL
+return 'Otras Comisiones'
 end 
 GO
 
@@ -976,9 +976,9 @@ GO
 
 --Facturacion inicial de una publicacion, se cobra la comisión inicial por tipo de publicacion siempre y cuando no sea una publicación gratuita
 CREATE PROCEDURE ROAD_TO_PROYECTO.Facturar_Publicacion
-	@PubliId int
+	@PublId int
 	as begin
-		if((select ComiFija from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId and p.Visibilidad = v.VisiId) != 0) 
+		if((select ComiFija from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PublId and p.Visibilidad = v.VisiId) != 0) 
 		begin
 		declare @UltimaFactura int, @FacturaActual int
 
@@ -986,10 +986,10 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Facturar_Publicacion
 		set @FacturaActual = @UltimaFactura + 1
 
 		insert into ROAD_TO_PROYECTO.Factura (FactNro, PubliId, Fecha)--, Monto, FormaPago) 
-		values(@FacturaActual, @PubliId, (select FechaInicio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
+		values(@FacturaActual, @PublId, (select FechaInicio from ROAD_TO_PROYECTO.Publicacion where PublId = @PublId))
 
 		insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto) 
-		values (@FacturaActual, 1, 'Precio por tipo publicación', (select ComiFija from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId and p.Visibilidad = v.VisiId))
+		values (@FacturaActual, 1, 'Precio por tipo publicación', (select ComiFija from ROAD_TO_PROYECTO.Visibilidad v, ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PublId and p.Visibilidad = v.VisiId))
 
 		update ROAD_TO_PROYECTO.Factura
 		set Monto = (select sum(Monto) from ROAD_TO_PROYECTO.Item_Factura where FactNro = @FacturaActual)
@@ -1017,7 +1017,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicacion
 	as begin
 		declare @EstadoId int
 		select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Finalizada'
-		if not null (select * from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId and Estado <> @EstadoId)
+		if exists (select * from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId and Estado <> @EstadoId)
 		begin
 			update ROAD_TO_PROYECTO.Publicacion
 			set Estado = @EstadoId
@@ -1744,9 +1744,15 @@ as begin
 	if(@Estado is not null) set @EstadoId = (select EstadoId from ROAD_TO_PROYECTO.Estado e where e.Descripcion = @Estado)
 	select p.PublId, p.Descipcion, p.Precio, e.Descripcion
 	from ROAD_TO_PROYECTO.Publicacion p inner join ROAD_TO_PROYECTO.Estado e on p.Estado = e.EstadoId
-	where p.UserId = @Usuario and
-	p.Descipcion like '%' + @Descripcion + '%'
-	and p.Estado = @EstadoId --or @EstadoId is null)
+	where p.UserId = @Usuario and p.Descipcion like '%' + @Descripcion + '%' and (p.Estado = @EstadoId or @EstadoId is null)
+end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Ultima_Factura
+as begin
+	select top 1 FactNro
+	from ROAD_TO_PROYECTO.Factura
+	order by FactNro desc
 end
 GO
 
@@ -1815,7 +1821,7 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.
 		deallocate c1;
 	end
 GO
-
+ 
 CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora_Y_Facturar_Finalizadas on ROAD_TO_PROYECTO.Publicacion after update
 	as begin
 		--Variables
@@ -1892,7 +1898,7 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora_Y_Facturar_Finalizada
 		while @@FETCH_STATUS = 0
 			begin
 			begin transaction
-				execute ROAD_TO_PROYECTO.Facturar_Publicacion @PubliId = @PubliId
+				execute ROAD_TO_PROYECTO.Facturar_Publicacion @PublId = @PubliId
 			fetch next from c3 into @PubliId
 			commit
 		end
