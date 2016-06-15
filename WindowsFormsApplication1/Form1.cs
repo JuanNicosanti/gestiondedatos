@@ -30,19 +30,14 @@ namespace WindowsFormsApplication1
         private Boolean seleccionoUsuario = false;
         private Boolean seleccionoVisibilidad = false;
         private Boolean seleccionoRol = false;
-        private Boolean seleccionoPub = false;
-        
-        
-
+        private Boolean seleccionoPub = false;        
 
         public Form1()
-        {
+        {            
             InitializeComponent();
             db = DataBase.GetInstance();
             Form1.f1 = this;
-        }
-
-          
+        }          
 
         private void cmdModificarUsuario_Click(object sender, EventArgs e)
         {
@@ -68,12 +63,18 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            finalizarPublicacionesVencidas();
             timer1.Start();
             funcionesToolStripMenuItem.Enabled = false;
-            desconectarseToolStripMenuItem.Enabled = false;
+            desconectarseToolStripMenuItem.Enabled = false;                                    
+        }
 
-            
-            
+        private void finalizarPublicacionesVencidas()
+        {
+            SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Finalizar_Publicaciones_Vencidas", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@FechaActual", SqlDbType.DateTime).Value = Fecha.getFechaActual();
+            cmd.ExecuteNonQuery();
         }
 
         private void desconectarseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -376,6 +377,8 @@ namespace WindowsFormsApplication1
             aPub.esModif = 0;
             aPub.tipoPubli = 0;
             aPub.cmdModificar.Visible = false;
+            aPub.cmdAceptar.Visible = true;
+            aPub.cmdCrearActivar.Visible = true;
             aPub.Show();
             this.Hide();
 

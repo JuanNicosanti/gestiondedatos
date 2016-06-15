@@ -158,15 +158,5 @@ namespace WindowsFormsApplication1
           
             return usuario;
         }
-
-        /*public void Bloquear(string username)
-        {
-            //especifico que SP voy a ejecutar
-            SqlCommand cmd = new SqlCommand("SANTI_EL_LIDER.Usuario_Bloquear", db.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            //seteo los parametros que recibe el stored procedure
-            cmd.Parameters.AddWithValue("@username", SqlDbType.VarChar).Value = username;
-            cmd.ExecuteNonQuery();
-        }*/
     }
 }

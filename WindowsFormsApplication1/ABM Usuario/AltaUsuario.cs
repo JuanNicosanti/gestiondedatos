@@ -151,7 +151,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
          }
         private void AltaUsuario_Load(object sender, EventArgs e)
         {
-            
+            this.dtpCreacion.Value = Fecha.getFechaActual();
             this.cmdRubroEmpresa.Visible = false;
             this.lblRubroEmpresa.Visible = false;
             this.lblRubroSel.Visible = false;

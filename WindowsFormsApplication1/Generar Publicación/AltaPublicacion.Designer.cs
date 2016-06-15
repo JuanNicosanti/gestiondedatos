@@ -63,6 +63,7 @@
             this.cboRubro = new System.Windows.Forms.ComboBox();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.cmdModificar = new System.Windows.Forms.Button();
+            this.cmdCrearActivar = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,9 +127,9 @@
             // cmdLimpiar
             // 
             this.cmdLimpiar.BackColor = System.Drawing.Color.LightCoral;
-            this.cmdLimpiar.Location = new System.Drawing.Point(143, 330);
+            this.cmdLimpiar.Location = new System.Drawing.Point(246, 323);
             this.cmdLimpiar.Name = "cmdLimpiar";
-            this.cmdLimpiar.Size = new System.Drawing.Size(116, 23);
+            this.cmdLimpiar.Size = new System.Drawing.Size(97, 23);
             this.cmdLimpiar.TabIndex = 6;
             this.cmdLimpiar.Text = "Limpiar";
             this.cmdLimpiar.UseVisualStyleBackColor = false;
@@ -137,9 +138,9 @@
             // cmdVolver
             // 
             this.cmdVolver.BackColor = System.Drawing.Color.Cyan;
-            this.cmdVolver.Location = new System.Drawing.Point(268, 330);
+            this.cmdVolver.Location = new System.Drawing.Point(246, 352);
             this.cmdVolver.Name = "cmdVolver";
-            this.cmdVolver.Size = new System.Drawing.Size(116, 23);
+            this.cmdVolver.Size = new System.Drawing.Size(97, 23);
             this.cmdVolver.TabIndex = 8;
             this.cmdVolver.Text = "Volver";
             this.cmdVolver.UseVisualStyleBackColor = false;
@@ -148,11 +149,11 @@
             // cmdAceptar
             // 
             this.cmdAceptar.BackColor = System.Drawing.Color.LawnGreen;
-            this.cmdAceptar.Location = new System.Drawing.Point(12, 330);
+            this.cmdAceptar.Location = new System.Drawing.Point(47, 323);
             this.cmdAceptar.Name = "cmdAceptar";
-            this.cmdAceptar.Size = new System.Drawing.Size(115, 23);
+            this.cmdAceptar.Size = new System.Drawing.Size(97, 23);
             this.cmdAceptar.TabIndex = 9;
-            this.cmdAceptar.Text = "Aceptar";
+            this.cmdAceptar.Text = "Aceptar Borrador";
             this.cmdAceptar.UseVisualStyleBackColor = false;
             this.cmdAceptar.Click += new System.EventHandler(this.cmdAceptar_Click);
             // 
@@ -162,6 +163,7 @@
             this.dtpFin.Name = "dtpFin";
             this.dtpFin.Size = new System.Drawing.Size(153, 20);
             this.dtpFin.TabIndex = 10;
+            this.dtpFin.Value = new System.DateTime(2015, 7, 15, 0, 0, 0, 0);
             this.dtpFin.ValueChanged += new System.EventHandler(this.dtpFin_ValueChanged);
             // 
             // cboTipo
@@ -232,7 +234,7 @@
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.NavajoWhite;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 365);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 381);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(397, 22);
             this.statusStrip1.TabIndex = 18;
@@ -367,20 +369,32 @@
             // cmdModificar
             // 
             this.cmdModificar.BackColor = System.Drawing.Color.LawnGreen;
-            this.cmdModificar.Location = new System.Drawing.Point(12, 330);
+            this.cmdModificar.Location = new System.Drawing.Point(47, 323);
             this.cmdModificar.Name = "cmdModificar";
-            this.cmdModificar.Size = new System.Drawing.Size(115, 23);
+            this.cmdModificar.Size = new System.Drawing.Size(97, 23);
             this.cmdModificar.TabIndex = 33;
             this.cmdModificar.Text = "Modificar";
             this.cmdModificar.UseVisualStyleBackColor = false;
             this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
+            // 
+            // cmdCrearActivar
+            // 
+            this.cmdCrearActivar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.cmdCrearActivar.Location = new System.Drawing.Point(47, 352);
+            this.cmdCrearActivar.Name = "cmdCrearActivar";
+            this.cmdCrearActivar.Size = new System.Drawing.Size(97, 23);
+            this.cmdCrearActivar.TabIndex = 34;
+            this.cmdCrearActivar.Text = "Aceptar y Activar";
+            this.cmdCrearActivar.UseVisualStyleBackColor = false;
+            this.cmdCrearActivar.Click += new System.EventHandler(this.button1_Click);
             // 
             // AltaPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(397, 387);
+            this.ClientSize = new System.Drawing.Size(397, 403);
+            this.Controls.Add(this.cmdCrearActivar);
             this.Controls.Add(this.cmdModificar);
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.cboRubro);
@@ -434,7 +448,6 @@
         private System.Windows.Forms.Label lblRubro;
         private System.Windows.Forms.Button cmdLimpiar;
         private System.Windows.Forms.Button cmdVolver;
-        private System.Windows.Forms.Button cmdAceptar;
         private System.Windows.Forms.DateTimePicker dtpFin;
         private System.Windows.Forms.ComboBox cboTipo;
         private System.Windows.Forms.TextBox txtDescripcion;
@@ -460,5 +473,7 @@
         private System.Windows.Forms.ComboBox cboRubro;
         private System.Windows.Forms.Label lblTitulo;
         public System.Windows.Forms.Button cmdModificar;
+        public System.Windows.Forms.Button cmdCrearActivar;
+        public System.Windows.Forms.Button cmdAceptar;
     }
 }

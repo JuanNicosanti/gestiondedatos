@@ -479,6 +479,7 @@ WindowsFormsApplication1.ComprarOfertar
                 SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Comprar_Publicacion", db.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = celdaIdPublicacion;
+                cmd.Parameters.AddWithValue("@FechaActual", SqlDbType.DateTime).Value = Fecha.getFechaActual();
                 cmd.Parameters.AddWithValue("@Cantidad", SqlDbType.Int).Value =  cantidad;
                 cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = compradorID;
                 cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Int).Value = tieneEnvio;
@@ -494,6 +495,7 @@ WindowsFormsApplication1.ComprarOfertar
                 cmd.CommandType = CommandType.StoredProcedure;
                 
                 cmd.Parameters.AddWithValue("@PubliId", SqlDbType.Int).Value = celdaIdPublicacion;
+                cmd.Parameters.AddWithValue("@FechaActual", SqlDbType.DateTime).Value = Fecha.getFechaActual();
                 cmd.Parameters.AddWithValue("@MontoOfertaString", SqlDbType.NVarChar).Value = txtGuita.Text;
                 cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = ofertanteID;
                 cmd.Parameters.AddWithValue("@ConEnvio", SqlDbType.Int).Value = tieneEnvio;

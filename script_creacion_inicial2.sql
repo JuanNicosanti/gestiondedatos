@@ -4,6 +4,14 @@ create schema ROAD_TO_PROYECTO
 GO
 
 ----- Funciones -----
+--Función para obtener fecha
+create function ROAD_TO_PROYECTO.FechaActual()
+returns datetime
+as begin
+	return (select top 1 * from ROAD_TO_PROYECTO.Fecha)
+end
+GO
+
 create function ROAD_TO_PROYECTO.SacarTildes(@Usuario nvarchar(255))
 returns nvarchar(255)
 as begin
@@ -38,6 +46,12 @@ ELSE IF (select max(Oferta_Monto) from gd_esquema.Maestra where Publicacion_Cod 
 
 ------ Creación de Tablas -----
 PRINT 'Creando Tablas...'
+
+--Fecha
+create table ROAD_TO_PROYECTO.Fecha(
+Fecha datetime PRIMARY KEY
+)
+GO
 
 --Domicilio
 create table ROAD_TO_PROYECTO.Domicilio(
@@ -236,12 +250,12 @@ GO
 --Usuarios 
 PRINT 'Asignando Usuarios...'
 insert into ROAD_TO_PROYECTO.Usuario
-select ROAD_TO_PROYECTO.SacarTildes(LOWER(Cli_Apeliido+RIGHT(Cli_Nombre,1))), SUBSTRING(master.dbo.fn_varbintohexstr(HashBytes('SHA2_256', 'password')), 3, 255),Cli_Mail,1,0,NULL,getdate() as Fecha, (select DomiId from ROAD_TO_PROYECTO.Domicilio where RTRIM(Calle) like RTRIM(Cli_Dom_Calle) and Numero = Cli_Nro_Calle and Piso = Cli_Piso and Depto = Cli_Depto and CodPostal = Cli_Cod_Postal) as Domicilio, 0 
+select ROAD_TO_PROYECTO.SacarTildes(LOWER(Cli_Apeliido+RIGHT(Cli_Nombre,1))), SUBSTRING(master.dbo.fn_varbintohexstr(HashBytes('SHA2_256', 'password')), 3, 255),Cli_Mail,1,0,NULL,ROAD_TO_PROYECTO.FechaActual() as Fecha, (select DomiId from ROAD_TO_PROYECTO.Domicilio where RTRIM(Calle) like RTRIM(Cli_Dom_Calle) and Numero = Cli_Nro_Calle and Piso = Cli_Piso and Depto = Cli_Depto and CodPostal = Cli_Cod_Postal) as Domicilio, 0 
 from gd_esquema.Maestra
 where Cli_Apeliido is not null and Cli_Nombre is not null
 group by Cli_Apeliido,Cli_Nombre,Cli_Mail,Cli_Dom_Calle,Cli_Nro_Calle,Cli_Piso,cli_depto,Cli_Cod_Postal
 UNION
-select ROAD_TO_PROYECTO.SacarDosPuntos(LOWER('razonsocial'+RIGHT(publ_empresa_razon_social,2))),'password',publ_empresa_mail,1,0,NULL,getdate(), (select DomiId from ROAD_TO_PROYECTO.Domicilio where RTRIM(Calle) like RTRIM(Publ_Empresa_Dom_Calle) and Numero = Publ_Empresa_Nro_Calle and Piso = Publ_Empresa_Piso and Depto = Publ_Empresa_Depto and CodPostal = Publ_Empresa_Cod_Postal), 0
+select ROAD_TO_PROYECTO.SacarDosPuntos(LOWER('razonsocial'+RIGHT(publ_empresa_razon_social,2))),'password',publ_empresa_mail,1,0,NULL,ROAD_TO_PROYECTO.FechaActual(), (select DomiId from ROAD_TO_PROYECTO.Domicilio where RTRIM(Calle) like RTRIM(Publ_Empresa_Dom_Calle) and Numero = Publ_Empresa_Nro_Calle and Piso = Publ_Empresa_Piso and Depto = Publ_Empresa_Depto and CodPostal = Publ_Empresa_Cod_Postal), 0
 from gd_esquema.Maestra
 where publ_empresa_razon_social is not null
 group by publ_empresa_razon_social,publ_empresa_mail, Publ_Empresa_Dom_Calle,Publ_empresa_Nro_Calle,Publ_Empresa_Piso,Publ_Empresa_Depto,Publ_Empresa_Cod_Postal
@@ -420,6 +434,16 @@ GO
 ----- Otras Funciones -----
 
 ----- Stored Procedures -----
+--Asignar Fecha del archivo de configuración
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Asignar_Fecha
+@Fecha datetime
+as begin
+	delete from ROAD_TO_PROYECTO.Fecha
+	insert into ROAD_TO_PROYECTO.Fecha values (@Fecha)
+end
+GO
+
 --Listado Roles
 CREATE PROCEDURE ROAD_TO_PROYECTO.ListaRoles
 	as begin
@@ -702,7 +726,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Usuario
 		if(not exists(select u.Usuario from ROAD_TO_PROYECTO.Usuario u where u.Usuario = @Usuario))
 		begin
 			insert into ROAD_TO_PROYECTO.Usuario (Usuario, Contraseña, Mail, Habilitado, Nuevo, Reputacion, FechaCreacion,/*Domicilio,*/ LogsFallidos)
-			values (@Usuario, @Contraseña, @Mail, 1, 1, null, GETDATE(), 0)
+			values (@Usuario, @Contraseña, @Mail, 1, 1, null, ROAD_TO_PROYECTO.FechaActual(), 0)
 		end
 	end
 GO
@@ -901,31 +925,32 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comisiones_Valores
 	end
 GO
 
---Alta de una publicación, las publicaciones recién creadas se suponen como Borrador hasta la fecha de inicio
+--Alta de una publicación, las publicaciones recién creadas se suponen como Borrador hasta ser activadas por el vendedor
 CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Publicacion
 	@Descipcion nvarchar(255),
 	@Stock numeric(18,0),
 	@FechaInicio datetime,
+	@FechaFin datetime,
 	@PrecioString nvarchar(255),
 	@VisiDesc nvarchar(255),
 	@RubroDesc nvarchar(255),
 	@TipoDesc nvarchar(255),
---	@EstadoDesc nvarchar(50),
+	@EstadoDesc nvarchar(50),
 	@VendedorId nvarchar(255),
 	@EnvioHabilitado bit	
 
 	as begin
 		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int, @PubliIdAnterior int, @PubliId int, @Precio numeric(18,2)
-		set @Precio = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@PrecioString)
+		set @Precio = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@PrecioString)		
 		select @VisiId = VisiId from ROAD_TO_PROYECTO.Visibilidad where Descripcion = @VisiDesc
 		select @RubroId = RubrId from ROAD_TO_PROYECTO.Rubro where DescripLarga = @RubroDesc
 		select @TipoPubliId = TipoPubliId from ROAD_TO_PROYECTO.Tipo_Publicacion where Descripcion = @TipoDesc
-		select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Borrador'--@EstadoDesc
+		select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = @EstadoDesc
 		select top 1 @PubliIdAnterior = PublId from ROAD_TO_PROYECTO.Publicacion order by PublId desc
 		set @PubliId = @PubliIdAnterior +1
 
 		insert into ROAD_TO_PROYECTO.Publicacion (PublId, Descipcion, Stock, FechaInicio, FechaFin, Precio, Visibilidad, Rubro, Tipo, Estado, UserId, EnvioHabilitado)
-		values(@PubliId, @Descipcion, @Stock, @FechaInicio, dateadd(mm, 2, @FechaInicio), @Precio, @VisiId, @RubroId, @TipoPubliId, @EstadoId, @VendedorId, @EnvioHabilitado)
+		values(@PubliId, @Descipcion, @Stock, @FechaInicio, @FechaFin, @Precio, @VisiId, @RubroId, @TipoPubliId, @EstadoId, @VendedorId, @EnvioHabilitado)
 	end
 GO
 
@@ -935,17 +960,17 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Publicacion
 	@Descipcion nvarchar(255),
 	@Stock numeric(18,0),
 	@FechaInicio datetime,
+	@FechaFin datetime,
 	@PrecioString nvarchar(255),
 	@VisiDesc nvarchar(255),
 	@RubroDesc nvarchar(255),
 	@TipoDesc nvarchar(255),
---	@EstadoDesc nvarchar(50),
 	@VendedorId nvarchar(255),
 	@EnvioHabilitado bit	
 
 	as begin
-		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int, @Precio numeric(18,2)
-		select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Borrador'--@EstadoDesc
+		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int, @Precio numeric(18,2)		
+		select @EstadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Borrador'
 		set @Precio = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@PrecioString)
 		if((select Estado from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) = @EstadoId)
 		begin
@@ -955,7 +980,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Publicacion
 
 			update ROAD_TO_PROYECTO.Publicacion 
 			set PublId = @PubliId, Descipcion = @Descipcion, Stock = @Stock, 
-			FechaInicio = @FechaInicio, FechaFin = dateadd(mm, 2, @FechaInicio),
+			FechaInicio = @FechaInicio, FechaFin = @FechaFin,
 			Precio = @Precio, Visibilidad = @VisiId, Rubro = @RubroId, Tipo = @TipoPubliId, EnvioHabilitado = @EnvioHabilitado
 			where PublId = @PubliId
 		end
@@ -1029,7 +1054,7 @@ GO
 --Compra en una compra inmediata
 CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	@PubliId int,
-	--@FechaActual datetime,
+	@FechaActual datetime,
 	@Cantidad numeric(18,0),
 	@Usuario nvarchar(255),
 	@ConEnvio bit
@@ -1042,7 +1067,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 		if((select Stock from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) >= @Cantidad)
 		begin
 			insert into ROAD_TO_PROYECTO.Transaccion(TipoTransac, Fecha, Cantidad, PubliId, ClieId, ConEnvio)
-			values('Compra', getdate()/*@FechaActual*/, @Cantidad, @PubliId, @CompradorId, @ConEnvio)
+			values('Compra', @FechaActual, @Cantidad, @PubliId, @CompradorId, @ConEnvio)
 		end
 		end
 	end
@@ -1051,7 +1076,7 @@ GO
 --Oferta en una subasta
 CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	@PubliId int,
-	--@FechaActual datetime,
+	@FechaActual datetime,
 	@MontoOfertaString nvarchar(255),
 	@Usuario nvarchar(255),
 	@ConEnvio bit
@@ -1067,7 +1092,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	--		if((select top 1 Monto from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId and TipoTransac = 'Oferta' order by Monto desc) < @MontoOferta)
 			begin
 				insert into ROAD_TO_PROYECTO.Transaccion (TipoTransac, Fecha, Monto, PubliId, ClieId, ConEnvio)
-				values('Oferta', getdate()/*@FechaActual*/, @MontoOferta, @PubliId, @OfertanteId, @ConEnvio)
+				values('Oferta', @FechaActual, @MontoOferta, @PubliId, @OfertanteId, @ConEnvio)
 
 				--Actualizo el precio de la subasta
 				update ROAD_TO_PROYECTO.Publicacion 
@@ -1156,17 +1181,6 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Finalizar_Publicaciones_Vencidas
 	end
 GO
 
-CREATE PROCEDURE ROAD_TO_PROYECTO.Activar_Publicaciones_Segun_Fecha
-	@FechaActual datetime
-	as begin
-		declare @ActivadoId int
-		select @ActivadoId = EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Activa'
-
-		update ROAD_TO_PROYECTO.Publicacion
-		set Estado = @ActivadoId
-		where FechaInicio < @FechaActual and Estado = (select EstadoId from ROAD_TO_PROYECTO.Estado where Descripcion = 'Borrador')
-	end
-GO
 
 --Muestro los datos relevantes a la transacción para que usuario pueda elegir sabiendo que va a calificar
 CREATE PROCEDURE ROAD_TO_PROYECTO.Transacciones_Sin_Calificar

@@ -19,17 +19,17 @@ namespace WindowsFormsApplication1.Generar_Publicación
         public int esModif;
         public int publiId;
         public int tipoPubli;
+        public string estado;
         SqlCommand cmd;
         SqlDataAdapter adapter;
         SqlDataReader sdr;
-        private DataBase db;
+        private DataBase db;        
 
         public AltaPublicacion()
         {
             db = DataBase.GetInstance();
             InitializeComponent();
-            AltaPublicacion.ap1 = this;
-          
+            AltaPublicacion.ap1 = this;          
         }
 
         private void cargarDatos()
@@ -175,7 +175,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 else
                 {
-                    cboTipo.SelectedIndex = 2;
+                    cboTipo.SelectedIndex = 0;
                 }
             }
         }
@@ -230,9 +230,9 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += "Visibilidad \r";
                     huboError++;
                 }
-                if (dtpFin.Value < DateTime.Today)
+                if (dtpFin.Value < Fecha.getFechaActual())
                 {
-                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la de hoy", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la del archivo de configuración", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     return;
                 }
                 if (string.IsNullOrEmpty(txtPrecio.Text))
@@ -247,9 +247,10 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     huboError = 0;
                     return;
                 }
+                estado = "Borrador";
                 PublicacionDOA doa = new PublicacionDOA();
              
-                doa.crearPublicacion(txtDescripcion.Text, int.Parse(txtStockInmediata.Text), dtpFin.Value, txtPrecio.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
+                doa.crearPublicacion(txtDescripcion.Text, int.Parse(txtStockInmediata.Text), dtpFin.Value, txtPrecio.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado, estado);
                 MessageBox.Show("Se ha creado correctamente la publicacion", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                
                 
@@ -277,16 +278,22 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += "Visibilidad \r";
                     huboError++;
                 }
-
+                if (dtpFin.Value < Fecha.getFechaActual())
+                {
+                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la del archivo de configuración", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
                 if (huboError != 0) 
                 {
                     MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboError = 0;
                     return;
                 }
+                estado = "Borrador";
                 PublicacionDOA doa = new PublicacionDOA();
                 
-                doa.crearPublicacion(txtDescripcion.Text, 1,dtpFin.Value, txtValorSubasta.Text,lblVisSel.Text, cboRubro.SelectedValue.ToString(),cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
+                doa.crearPublicacion(txtDescripcion.Text, 1,dtpFin.Value, txtValorSubasta.Text,lblVisSel.Text, cboRubro.SelectedValue.ToString(),cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado, estado);
+                MessageBox.Show("Se ha creado correctamente la publicacion", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             }     
             
             WindowsFormsApplication1.Form1.f1.Show();
@@ -300,11 +307,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
             txtStockInmediata.Text = "";
             txtValorSubasta.Text = "";
             txtPrecio.Text = "";
-            lblVisSel.Text = "";
-            
-            //cboTipo.SelectedIndex = -1;
-            //cboTipo.Text = "Seleccione un tipo";
-            //PARA MI NO HAY QUE CAMBIAR EL TIPO DE LA PUBLI PORQUE SINO HAY QUE RECALCULAR QUÉ CAMPOS VAN
+            lblVisSel.Text = "";            
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -370,9 +373,9 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += "Visibilidad \r";
                     huboError++;
                 }
-                if (dtpFin.Value < DateTime.Today)
+                if (dtpFin.Value < Fecha.getFechaActual())
                 {
-                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la de hoy", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la del archivo de configuración", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     return;
                 }
                 if (string.IsNullOrEmpty(txtPrecio.Text))
@@ -409,7 +412,11 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += "Visibilidad \r";
                     huboError++;
                 }
-
+                if (dtpFin.Value < Fecha.getFechaActual())
+                {
+                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la del archivo de configuración", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
                 if (huboError != 0)
                 {
                     MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
@@ -423,6 +430,109 @@ namespace WindowsFormsApplication1.Generar_Publicación
 
             MessageBox.Show("Se ha modificado correctamente la publicacion", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
             WindowsFormsApplication1.Generar_Publicación.EstadoPublicacion.estado.Show();
+            this.Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string cadenaDeErrores = "Debe completar los siguientes campos: \r";
+            string cadenaDeErrorTipo = "Debe seleccionar un tipo de publicacion";
+            if (cboTipo.SelectedIndex == -1)
+            {
+                MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            if (cboTipo.SelectedItem.ToString() == "Compra inmediata")
+            {
+                if (string.IsNullOrEmpty(txtDescripcion.Text))
+                {
+                    cadenaDeErrores += " Descripcion \r";
+                    huboError++;
+                }
+
+                if (string.IsNullOrEmpty(txtStockInmediata.Text))
+                {
+                    cadenaDeErrores += " Stock \r";
+                    huboError++;
+                }
+                if (cboRubro.SelectedIndex == -1)
+                {
+                    cadenaDeErrores += " Rubro \r";
+                    huboError++;
+                }
+                if (string.IsNullOrEmpty(lblVisSel.Text))
+                {
+                    cadenaDeErrores += "Visibilidad \r";
+                    huboError++;
+                }
+                if (dtpFin.Value < Fecha.getFechaActual())
+                {
+                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la del archivo de configuración", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+                if (string.IsNullOrEmpty(txtPrecio.Text))
+                {
+                    cadenaDeErrores += " Precio \r";
+                    huboError++;
+                }
+
+                if (huboError != 0)
+                {
+                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    return;
+                }
+                estado = "Activa";
+                PublicacionDOA doa = new PublicacionDOA();
+
+                doa.crearPublicacion(txtDescripcion.Text, int.Parse(txtStockInmediata.Text), dtpFin.Value, txtPrecio.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado, estado);
+                MessageBox.Show("Se ha creado y activado correctamente la publicacion", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+
+
+            }
+            if (cboTipo.SelectedItem.ToString() == "Subasta")
+            {
+                if (string.IsNullOrEmpty(txtDescripcion.Text))
+                {
+                    cadenaDeErrores += " Descripcion \r";
+                    huboError++;
+                }
+
+                if (string.IsNullOrEmpty(txtValorSubasta.Text))
+                {
+                    cadenaDeErrores += " Valor Inicial de la subasta \r";
+                    huboError++;
+                }
+                if (cboRubro.SelectedIndex == -1)
+                {
+                    cadenaDeErrores += " Rubro \r";
+                    huboError++;
+                }
+                if (string.IsNullOrEmpty(lblVisSel.Text))
+                {
+                    cadenaDeErrores += "Visibilidad \r";
+                    huboError++;
+                }
+                if (dtpFin.Value < Fecha.getFechaActual())
+                {
+                    MessageBox.Show("Debe ingresar una fecha igual o posterior a la del archivo de configuración", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+                if (huboError != 0)
+                {
+                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    return;
+                }
+                estado = "Activa";
+                PublicacionDOA doa = new PublicacionDOA();
+
+                doa.crearPublicacion(txtDescripcion.Text, 1, dtpFin.Value, txtValorSubasta.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado, estado);
+                MessageBox.Show("Se ha creado y activado correctamente la publicacion", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+            }
+
+            WindowsFormsApplication1.Form1.f1.Show();
             this.Hide();
         }
     }

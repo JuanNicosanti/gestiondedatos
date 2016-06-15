@@ -20,18 +20,18 @@ namespace WindowsFormsApplication1
 
             string connectionString = @"Data Source=localhost\SQLSERVER2012;Initial Catalog=GD1C2016;Persist Security Info=True;User ID=gd;Password=gd2016";
             connectionString += "; MultipleActiveResultSets=True";
+            
             try
-            {
-                DataBase.GetInstance().Conectar(connectionString);
+            {                
+                DataBase.GetInstance().Conectar(connectionString);                
             }
             catch
             {
                 MessageBox.Show("No se pudo conectar con " + DataBase.GetInstance().ConnectionString);
                 Application.Exit();
             }
+            Fecha.asignarFecha();
             Application.Run(new Form1());
-
-
         }
         public static Usuario UsuarioLogueado;
     }
