@@ -622,6 +622,21 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Domicilio
 	end
 GO
 
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Usuario
+	@Usuario nvarchar(255),
+	@Contraseña nvarchar(255),
+	@Mail nvarchar(50)
+	as
+	begin
+		if(not exists(select u.Usuario from ROAD_TO_PROYECTO.Usuario u where u.Usuario = @Usuario))
+		begin
+			insert into ROAD_TO_PROYECTO.Usuario (Usuario, Contraseña, Mail, Habilitado, Nuevo, Reputacion, FechaCreacion,/*Domicilio,*/ LogsFallidos)
+			values (@Usuario, @Contraseña, @Mail, 1, 1, null, ROAD_TO_PROYECTO.FechaActual(), 0)
+		end
+	end
+GO
+
 CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Rol_Usuario
 	@Usuario nvarchar(255),
 	@RolAsignado nvarchar(255),
@@ -634,6 +649,24 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Rol_Usuario
 			insert into ROAD_TO_PROYECTO.Roles_Por_Usuario (UserId, RolId, IdExterno)
 			values (@Usuario, (select RolId from ROAD_TO_PROYECTO.Rol r where r.Nombre = @RolAsignado), @IdExterno)
 		end					
+	end
+GO
+
+CREATE PROCEDURE ROAD_TO_PROYECTO.Domicilio_Usuario
+	@Usuario nvarchar(255),
+	@Calle nvarchar(100),
+	@Numero numeric(18,0),
+	@Piso numeric(18,0),
+	@Depto nvarchar(50),
+	@CodPostal nvarchar(50),
+	@Localidad nvarchar(100)
+	as
+	begin
+		execute ROAD_TO_PROYECTO.Alta_Domicilio @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
+		update ROAD_TO_PROYECTO.Usuario 
+		set Domicilio = (select DomiId from ROAD_TO_PROYECTO.Domicilio
+						where Calle = @Calle and Numero = @Numero and Piso = @Piso and Depto = @Depto and CodPostal = @CodPostal and Localidad = @Localidad)
+		where Usuario = @Usuario
 	end
 GO
 
@@ -717,17 +750,15 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Empresa
 	end
 GO
 
-CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Usuario
+CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Usuario
 	@Usuario nvarchar(255),
 	@Contraseña nvarchar(255),
 	@Mail nvarchar(50)
 	as
 	begin
-		if(not exists(select u.Usuario from ROAD_TO_PROYECTO.Usuario u where u.Usuario = @Usuario))
-		begin
-			insert into ROAD_TO_PROYECTO.Usuario (Usuario, Contraseña, Mail, Habilitado, Nuevo, Reputacion, FechaCreacion,/*Domicilio,*/ LogsFallidos)
-			values (@Usuario, @Contraseña, @Mail, 1, 1, null, ROAD_TO_PROYECTO.FechaActual(), 0)
-		end
+		update ROAD_TO_PROYECTO.Usuario
+		set Contraseña = @Contraseña, Mail = @Mail
+		where Usuario = @Usuario
 	end
 GO
 
@@ -798,36 +829,6 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Empresa
 			execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
 
 		end
-	end
-GO
-
-CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Usuario
-	@Usuario nvarchar(255),
-	@Contraseña nvarchar(255),
-	@Mail nvarchar(50)
-	as
-	begin
-		update ROAD_TO_PROYECTO.Usuario
-		set Contraseña = @Contraseña, Mail = @Mail
-		where Usuario = @Usuario
-	end
-GO
-
-CREATE PROCEDURE ROAD_TO_PROYECTO.Domicilio_Usuario
-	@Usuario nvarchar(255),
-	@Calle nvarchar(100),
-	@Numero numeric(18,0),
-	@Piso numeric(18,0),
-	@Depto nvarchar(50),
-	@CodPostal nvarchar(50),
-	@Localidad nvarchar(100)
-	as
-	begin
-		execute ROAD_TO_PROYECTO.Alta_Domicilio @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
-		update ROAD_TO_PROYECTO.Usuario 
-		set Domicilio = (select DomiId from ROAD_TO_PROYECTO.Domicilio
-						where Calle = @Calle and Numero = @Numero and Piso = @Piso and Depto = @Depto and CodPostal = @CodPostal and Localidad = @Localidad)
-		where Usuario = @Usuario
 	end
 GO
 
@@ -1926,7 +1927,7 @@ GO
 
 --ATRODEN UN ROGER
 insert into ROAD_TO_PROYECTO.Usuario (Usuario, Contraseña, Mail)
-values('rogerfederer', SUBSTRING(master.dbo.fn_varbintohexstr(HashBytes('SHA2_256', 'wimbledon')), 3, 255), 'rogerferer@atp.org')
+values('admin', SUBSTRING(master.dbo.fn_varbintohexstr(HashBytes('SHA2_256', 'w23e')), 3, 255), 'admin@mercadoEnvio.org')
 
 insert into ROAD_TO_PROYECTO.Roles_Por_Usuario (UserId, RolId)
-values('rogerfederer', (select RolId from ROAD_TO_PROYECTO.Rol where Nombre = 'Administrador'))
+values('admin', (select RolId from ROAD_TO_PROYECTO.Rol where Nombre = 'Administrador'))
