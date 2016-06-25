@@ -17,7 +17,7 @@ namespace WindowsFormsApplication1
         public static DateTime getFechaActual()
         {            
             return DateTime.ParseExact(ConfigurationManager.AppSettings["FechaSistema"], "yyyy-MM-dd HH:mm:ss",
-                System.Globalization.CultureInfo.InvariantCulture);          
+                System.Globalization.CultureInfo.InvariantCulture);      
         }
     }
 }

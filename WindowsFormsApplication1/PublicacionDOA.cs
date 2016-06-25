@@ -16,7 +16,7 @@ namespace WindowsFormsApplication1
             db = DataBase.GetInstance();
         }
 
-        public void crearPublicacion(string descripcion, int stock, DateTime fechafin, string precio, string visidesc, string rubrodesc, string tipodesc, string vendedor, bool envioHabilitado, string estado)
+        public void crearPublicacion(string descripcion, int stock, DateTime fechafin, string precio, string visidesc, string rubrodesc, string tipodesc, string vendedor, int envioHabilitado, string estado)
         {
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Alta_Publicacion", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -29,13 +29,13 @@ namespace WindowsFormsApplication1
             cmd.Parameters.AddWithValue("@RubroDesc", SqlDbType.NVarChar).Value = rubrodesc;
             cmd.Parameters.AddWithValue("@TipoDesc", SqlDbType.NVarChar).Value = tipodesc;
             cmd.Parameters.AddWithValue("@VendedorId", SqlDbType.NVarChar).Value = vendedor;
-            cmd.Parameters.AddWithValue("@EnvioHabilitado", SqlDbType.Bit).Value = envioHabilitado;
+            cmd.Parameters.AddWithValue("@EnvioHabilitado", SqlDbType.Int).Value = envioHabilitado;
             cmd.Parameters.AddWithValue("@EstadoDesc", SqlDbType.NVarChar).Value = estado;
             cmd.ExecuteNonQuery();
 
         }
 
-        public void modificarPublicacion(int publiId, string descripcion, int stock, DateTime fechafin, string precio, string visidesc, string rubrodesc, string tipodesc, string vendedor, bool envioHabilitado)
+        public void modificarPublicacion(int publiId, string descripcion, int stock, DateTime fechafin, string precio, string visidesc, string rubrodesc, string tipodesc, string vendedor, int envioHabilitado)
         {
             SqlCommand cmd = new SqlCommand("ROAD_TO_PROYECTO.Modificacion_Publicacion", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -49,7 +49,7 @@ namespace WindowsFormsApplication1
             cmd.Parameters.AddWithValue("@RubroDesc", SqlDbType.NVarChar).Value = rubrodesc;
             cmd.Parameters.AddWithValue("@TipoDesc", SqlDbType.NVarChar).Value = tipodesc;
             cmd.Parameters.AddWithValue("@VendedorId", SqlDbType.NVarChar).Value = vendedor;
-            cmd.Parameters.AddWithValue("@EnvioHabilitado", SqlDbType.Bit).Value = envioHabilitado;
+            cmd.Parameters.AddWithValue("@EnvioHabilitado", SqlDbType.Int).Value = envioHabilitado;
             cmd.ExecuteNonQuery();
 
         }

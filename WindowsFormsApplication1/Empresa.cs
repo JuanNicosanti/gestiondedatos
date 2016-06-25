@@ -11,7 +11,7 @@ namespace WindowsFormsApplication1
         public String username;
         public String password;
         public String mail;
-        public int cuit;
+        public String cuit;
         public String nombreContacto;
         public String razonSocial;
         public int telefono;

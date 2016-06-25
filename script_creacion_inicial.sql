@@ -169,7 +169,7 @@ Rubro int FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Rubro NOT NULL,
 Tipo int FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Tipo_Publicacion NOT NULL,
 Estado int FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Estado NOT NULL,
 UserId nvarchar(255) FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Usuario NOT NULL,
-EnvioHabilitado bit default 0
+EnvioHabilitado int default 0
 )
 GO
 
@@ -651,13 +651,14 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Usuario
 	@Usuario nvarchar(255),
 	@Contraseña nvarchar(255),
-	@Mail nvarchar(50)
+	@Mail nvarchar(50),
+	@FechaActual datetime
 	as
 	begin
 		if(not exists(select u.Usuario from ROAD_TO_PROYECTO.Usuario u where u.Usuario = @Usuario))
 		begin
 			insert into ROAD_TO_PROYECTO.Usuario (Usuario, Contraseña, Mail, Habilitado, Nuevo, Reputacion, FechaCreacion,/*Domicilio,*/ LogsFallidos)
-			values (@Usuario, @Contraseña, @Mail, 1, 1, null, ROAD_TO_PROYECTO.FechaActual(), 0)
+			values (@Usuario, @Contraseña, @Mail, 1, 1, null, @FechaActual, 0)
 		end
 	end
 GO
@@ -706,7 +707,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Cliente
 	@Nombres nvarchar(255),
 	@FechaNacimiento datetime,
 	@Telefono numeric(18,0),
-
+	@FechaActual datetime,
 
 	@Calle nvarchar(100),
 	@Numero numeric(18,0),
@@ -722,7 +723,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Cliente
 		begin
 			if not exists(select c.NroDocumento from ROAD_TO_PROYECTO.Cliente c where c.TipoDocumento = @TipoDocumento and c.NroDocumento = @NroDocumento)
 			begin
-				execute ROAD_TO_PROYECTO.Alta_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail
+				execute ROAD_TO_PROYECTO.Alta_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail, @FechaActual = @FechaActual
 									
 				insert into ROAD_TO_PROYECTO.Cliente (TipoDocumento, NroDocumento, Apellido, Nombres, FechaNacimiento, Telefono)
 				values (@TipoDocumento, @NroDocumento, @Apellido, @Nombres, @FechaNacimiento, @Telefono)
@@ -746,6 +747,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Empresa
 	@NombreContacto nvarchar(100),
 	@Rubro nvarchar(255),
 	@Telefono numeric(18,0),
+	@FechaActual datetime,
 
 	@Calle nvarchar(100),
 	@Numero numeric(18,0),
@@ -762,7 +764,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Empresa
 		begin
 			if not exists(select e.EmprId from ROAD_TO_PROYECTO.Empresa e where e.CUIT = @CUIT and e.RazonSocial = @RazonSocial)
 			begin
-				execute ROAD_TO_PROYECTO.Alta_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail
+				execute ROAD_TO_PROYECTO.Alta_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail, @FechaActual = @FechaActual
 				
 				insert into ROAD_TO_PROYECTO.Empresa (RazonSocial, CUIT, FechaCreacion, NombreContacto, Rubro, Telefono)
 				values (@RazonSocial, @CUIT, @FechaCreacion, @NombreContacto, (select RubrId from ROAD_TO_PROYECTO.Rubro r where r.DescripLarga = @Rubro), @Telefono)
@@ -963,7 +965,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Publicacion
 	@TipoDesc nvarchar(255),
 	@EstadoDesc nvarchar(50),
 	@VendedorId nvarchar(255),
-	@EnvioHabilitado bit	
+	@EnvioHabilitado int	
 
 	as begin
 		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int, @PubliIdAnterior int, @PubliId int, @Precio numeric(18,2)
@@ -992,7 +994,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Publicacion
 	@RubroDesc nvarchar(255),
 	@TipoDesc nvarchar(255),
 	@VendedorId nvarchar(255),
-	@EnvioHabilitado bit	
+	@EnvioHabilitado int	
 
 	as begin
 		declare @VisiId int, @RubroId int, @TipoPubliId int, @EstadoId int, @Precio numeric(18,2)		
@@ -1367,7 +1369,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Buscar_Publicaciones
 			Rubro nvarchar(255),
 			Tipo nvarchar(255),
 			UserId nvarchar(255),
-			EnvioHabilitado bit
+			EnvioHabilitado int
 			)
 
 			declare @RubroId int, @param varchar(1000)
@@ -1888,7 +1890,7 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.
 				set Monto = (select sum(Monto) from ROAD_TO_PROYECTO.Item_Factura where FactNro = @FacturaActual)
 				where FactNro = @FacturaActual
 
-				fetch next from c1 into @Fecha, @Cantidad, @PubliId, @ConEnvio
+				fetch next from c1 into @Cantidad, @TranId
 				commit
 			end
 		close c1;

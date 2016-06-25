@@ -21,6 +21,7 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         private DataBase db;
         public string user;
         public static Form1 visibilidad;
+        private int envioHab;
 
         public Form1()
         {
@@ -101,7 +102,9 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         private void cmdAceptarComisiones_Click(object sender, EventArgs e)
         {
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.lblVisSel.Text = cboTipoVis.SelectedValue.ToString();
-            WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.envioHabilitado = cbEnvio.Checked;
+            if (cbEnvio.Checked) envioHab = 1;
+            else envioHab = 0;
+            WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.envioHabilitado = envioHab;
             WindowsFormsApplication1.Generar_Publicación.AltaPublicacion.ap1.Show();
             this.Hide();
         }

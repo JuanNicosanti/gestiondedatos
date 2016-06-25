@@ -82,11 +82,10 @@
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblRubroEmpresa = new System.Windows.Forms.Label();
-            this.lblRubroSel = new System.Windows.Forms.Label();
-            this.cmdRubroEmpresa = new System.Windows.Forms.Button();
             this.lblCiudadEmpresa = new System.Windows.Forms.Label();
             this.txtCiudadEmpresa = new System.Windows.Forms.TextBox();
             this.cboTipoCliente = new System.Windows.Forms.ComboBox();
+            this.cboRubro = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -538,24 +537,6 @@
             this.lblRubroEmpresa.TabIndex = 55;
             this.lblRubroEmpresa.Text = "(*)Rubro:";
             // 
-            // lblRubroSel
-            // 
-            this.lblRubroSel.AutoSize = true;
-            this.lblRubroSel.Location = new System.Drawing.Point(255, 272);
-            this.lblRubroSel.Name = "lblRubroSel";
-            this.lblRubroSel.Size = new System.Drawing.Size(0, 13);
-            this.lblRubroSel.TabIndex = 56;
-            // 
-            // cmdRubroEmpresa
-            // 
-            this.cmdRubroEmpresa.Location = new System.Drawing.Point(371, 267);
-            this.cmdRubroEmpresa.Name = "cmdRubroEmpresa";
-            this.cmdRubroEmpresa.Size = new System.Drawing.Size(75, 23);
-            this.cmdRubroEmpresa.TabIndex = 57;
-            this.cmdRubroEmpresa.Text = "Seleccionar";
-            this.cmdRubroEmpresa.UseVisualStyleBackColor = true;
-            this.cmdRubroEmpresa.Click += new System.EventHandler(this.cmdRubroEmpresa_Click);
-            // 
             // lblCiudadEmpresa
             // 
             this.lblCiudadEmpresa.AutoSize = true;
@@ -586,17 +567,24 @@
             this.cboTipoCliente.TabIndex = 60;
             this.cboTipoCliente.Text = "Seleccione un tipo de documento";
             // 
+            // cboRubro
+            // 
+            this.cboRubro.FormattingEnabled = true;
+            this.cboRubro.Location = new System.Drawing.Point(257, 268);
+            this.cboRubro.Name = "cboRubro";
+            this.cboRubro.Size = new System.Drawing.Size(189, 21);
+            this.cboRubro.TabIndex = 61;
+            // 
             // AltaUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(514, 590);
+            this.Controls.Add(this.cboRubro);
             this.Controls.Add(this.cboTipoCliente);
             this.Controls.Add(this.txtCiudadEmpresa);
             this.Controls.Add(this.lblCiudadEmpresa);
-            this.Controls.Add(this.cmdRubroEmpresa);
-            this.Controls.Add(this.lblRubroSel);
             this.Controls.Add(this.lblRubroEmpresa);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.cmdVolver);
@@ -694,8 +682,6 @@
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Label lblRubroEmpresa;
-        private System.Windows.Forms.Button cmdRubroEmpresa;
-        public System.Windows.Forms.Label lblRubroSel;
         public System.Windows.Forms.DateTimePicker dtpCreacion;
         public System.Windows.Forms.TextBox txtUsuario;
         public System.Windows.Forms.TextBox txtPassword;
@@ -719,5 +705,6 @@
         private System.Windows.Forms.Label lblCiudadEmpresa;
         public System.Windows.Forms.TextBox txtCiudadEmpresa;
         public System.Windows.Forms.ComboBox cboTipoCliente;
+        public System.Windows.Forms.ComboBox cboRubro;
     }
 }

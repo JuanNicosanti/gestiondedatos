@@ -19,6 +19,7 @@ WindowsFormsApplication1.ComprarOfertar
         
 
         SqlCommand cmd;
+        SqlCommand cmd2;
         SqlDataReader sdr;
         SqlDataAdapter adapter;
         
@@ -34,6 +35,7 @@ WindowsFormsApplication1.ComprarOfertar
 
         public static ComprarOfertar cO;
         public String compradorID;
+        public int publisSinCalif;
 
         private int proximaFila = 0;
         private int contadorDeFilas;
@@ -86,7 +88,15 @@ WindowsFormsApplication1.ComprarOfertar
             lstRubros.ValueMember = lstRubros.DisplayMember;
            
             lstRubrosElegidos.Items.Clear();
-            
+
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.Cantidad_Compras_Subastas_Sin_Calificar", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = compradorID;
+
+            sdr = cmd.ExecuteReader();
+            sdr.Read();
+            publisSinCalif = (int)sdr["cantPublis"];                    
+            sdr.Close();
         }
 
      
@@ -409,9 +419,17 @@ WindowsFormsApplication1.ComprarOfertar
         private void cmdComprarOfertar_Click(object sender, EventArgs e)
         {
             int val = 0;
-            int fila = dataGridView1.CurrentRow.Index;
+            int fila = dataGridView1.CurrentRow.Index;            
+
+            String ofertante = dataGridView1[8, fila].Value.ToString();
+            if (compradorID.Equals(ofertante))
+            {
+                MessageBox.Show("No está permitido comprar una publicación propia", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
 
            
+
             String envioOfertante = dataGridView1[9, fila].Value.ToString();
             if (rbEnvioSi.Checked == true && envioOfertante.Equals("No"))
             {
@@ -501,6 +519,11 @@ WindowsFormsApplication1.ComprarOfertar
                     }
                 }
             }
+            if (publisSinCalif >= 3)
+            {
+                MessageBox.Show("Debe calificar las publicaciones que tiene pendientes antes de poder comprar", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            }
             
             if (ofertaOCompra.Equals("Subasta"))
             {
@@ -565,10 +588,17 @@ WindowsFormsApplication1.ComprarOfertar
             txtCantidad.Visible = false;
             rbEnvioNo.Checked = false;
             rbEnvioSi.Checked = false;
-          
-            
+
+            cmd2 = new SqlCommand("ROAD_TO_PROYECTO.Cantidad_Compras_Subastas_Sin_Calificar", db.Connection);
+            cmd2.CommandType = CommandType.StoredProcedure;
+            cmd2.Parameters.AddWithValue("@Usuario", SqlDbType.NVarChar).Value = compradorID;
+
+            sdr = cmd2.ExecuteReader();
+            sdr.Read();
+            publisSinCalif = (int)sdr["cantPublis"];
+            sdr.Close();
         
-        }
+        }        
      
         private void hacerRefresh()
         {

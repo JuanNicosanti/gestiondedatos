@@ -161,6 +161,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
             dgPublis.Visible = false;
             cmdActivar.Visible = false;
             cmdModificar.Visible = false;
+            cmdPausar.Visible = false;
             cmdFinalizar.Visible = false;
             
             WindowsFormsApplication1.ComprarOfertar.Facturar factura = new WindowsFormsApplication1.ComprarOfertar.Facturar();

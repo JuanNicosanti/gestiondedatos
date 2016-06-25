@@ -18,7 +18,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
         private int huboErrorTipoDatos = 0;
         private int huboErrorFechaAnterior = 0;
         private int huboErrorNumerico = 0;
-        public bool envioHabilitado;
+        public int envioHabilitado;
         public int esModif;
         public int publiId;
         public int tipoPubli;
@@ -52,7 +52,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 dtpFin.Value = DateTime.Parse(sdr["FechaFin"].ToString());
                 lblVisSel.Text = sdr["Descripcion"].ToString();
                 tipoPubli = (int)sdr["Tipo"];
-                envioHabilitado = (bool)sdr["EnvioHabilitado"];
+                envioHabilitado = (int)sdr["EnvioHabilitado"];
             }
             sdr.Close();
         }

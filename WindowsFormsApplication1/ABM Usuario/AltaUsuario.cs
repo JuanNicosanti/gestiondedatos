@@ -21,14 +21,21 @@ namespace WindowsFormsApplication1.ABM_Usuario
         private int huboErrorTipoDatos = 0;
         private int huboErrorFechaAnterior = 0;
 
+        SqlCommand cmd;
+        SqlDataAdapter adapter;
+        SqlDataReader sdr;
+        private DataBase db;
+
+        public String rubroModificado;
+        
         public int esAltaUsuario =1;
         public int irAlMenuPrincipal;
+        
         public AltaUsuario()
         {
             InitializeComponent();
-           
+            db = DataBase.GetInstance(); 
             AltaUsuario.aus = this;
-
         }
 
         private void label20_Click(object sender, EventArgs e)
@@ -59,9 +66,9 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 this.txtRazonEmpresa.Text = "";
                 this.txtTelEmpresa.Text = "";
 
-                this.cmdRubroEmpresa.Visible = false;
+                this.cboRubro.Visible = false;
                 this.lblRubroEmpresa.Visible = false;
-                this.lblRubroSel.Text = "";
+                
                 this.lblCiudadEmpresa.Visible = false;
                 this.txtCiudadEmpresa.Visible = false;
                              
@@ -81,9 +88,9 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 this.txtRazonEmpresa.Visible = true;
                 this.txtTelEmpresa.Visible = true;
 
-                this.cmdRubroEmpresa.Visible = true;
+                this.cboRubro.Visible = true;
                 this.lblRubroEmpresa.Visible = true;
-                this.lblRubroSel.Visible = true;
+                
 
                 this.lblCiudadEmpresa.Visible = true;
                 this.txtCiudadEmpresa.Visible = true;
@@ -155,9 +162,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
         private void AltaUsuario_Load(object sender, EventArgs e)
         {
             this.dtpCreacion.Value = Fecha.getFechaActual();
-            this.cmdRubroEmpresa.Visible = false;
+            this.cboRubro.Visible = false;
             this.lblRubroEmpresa.Visible = false;
-            this.lblRubroSel.Visible = false;
+            cargarComboBoxRubros();            
+
             this.lblApellidoCliente.Visible = false;
             this.lblNombreCliente.Visible = false;
             this.lblFechaNacCliente.Visible = false;
@@ -199,12 +207,34 @@ namespace WindowsFormsApplication1.ABM_Usuario
             
         }
 
+        public void cargarComboBoxRubros()
+        {
+            cmd = new SqlCommand("ROAD_TO_PROYECTO.ListaRubros", db.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            adapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable("ROAD_TO_PROYECTO.Rubro");
+            adapter.Fill(dt);
+            this.cboRubro.DataSource = dt;
+            this.cboRubro.DisplayMember = "DescripLarga";
+
+            cboRubro.ValueMember = cboRubro.DisplayMember;
+            if (esAltaUsuario == 1)
+            {
+                cboRubro.SelectedIndex = -1;
+                cboRubro.Text = "Seleccione un rubro";
+            } 
+            else
+            {
+                cboRubro.SelectedItem = rubroModificado;
+            }
+        }
+
         private void cmdAceptar_Click(object sender, EventArgs e)
         {
             string cadenaDeErrores = "Debe completar los siguientes campos: \r";
             string cadenaDeErrorTipo = "Debe seleccionar un tipo de Usuario";
             string cadenaDeErrorValoresNegativos = "No puede tener valores negativos o cero en los siguientes campos: \r";
-            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración\r";
+            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o anterior a la del archivo de configuración\r";
             string cadenaDeErrorNumeroYEsCaracter = "No se permiten los tipos de datos ingresados en los siguientes campos: \r";
             int val = 0;
 
@@ -261,7 +291,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                         huboErrorNumerico++;
                     }
                 }
-                if (dtpCreacion.Value < Fecha.getFechaActual())
+                if (dtpCreacion.Value > Fecha.getFechaActual())
                 {
                     huboErrorFechaAnterior++;
                 }
@@ -341,11 +371,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     }
 
                 }
-                if (string.IsNullOrEmpty(txtDpto.Text))
-                {
-                    cadenaDeErrores += " Departamento \r";
-                    huboError++;
-                }
+                
                 if (!(string.IsNullOrEmpty(txtDpto.Text)))
                 {
                     if (Int32.TryParse(txtDpto.Text, out val))
@@ -367,11 +393,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                         huboErrorNumerico++;
                     }
                 }
-                if (string.IsNullOrEmpty(txtPiso.Text))
-                {
-                    cadenaDeErrores += " Piso \r";
-                    huboError++;
-                }
+               
                 if (!(string.IsNullOrEmpty(txtPiso.Text)))
                 {
                     if (!(Int32.TryParse(txtPiso.Text, out val)))
@@ -625,7 +647,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                         huboErrorNumerico++;
                     }
                 }
-                if (dtpCreacion.Value < Fecha.getFechaActual())
+                if (dtpCreacion.Value > Fecha.getFechaActual())
                 {
                     huboErrorFechaAnterior++;
                 }
@@ -680,6 +702,11 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     }
 
                 }
+                if (cboRubro.SelectedIndex.Equals(-1))
+                {
+                    cadenaDeErrores += " Rubro \r";
+                    huboError++;
+                }
                 if (string.IsNullOrEmpty(txtCodPos.Text))
                 {
                     cadenaDeErrores += " CodigoPostal \r";
@@ -703,11 +730,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     }
 
                 }
-                if (string.IsNullOrEmpty(txtDpto.Text))
-                {
-                    cadenaDeErrores += " Departamento \r";
-                    huboError++;
-                }
+                
                 if (!(string.IsNullOrEmpty(txtDpto.Text)))
                 {
                     if (Int32.TryParse(txtDpto.Text, out val))
@@ -729,11 +752,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                         huboErrorNumerico++;
                     }
                 }
-                if (string.IsNullOrEmpty(txtPiso.Text))
-                {
-                    cadenaDeErrores += " Piso \r";
-                    huboError++;
-                }
+               
                 if (!(string.IsNullOrEmpty(txtPiso.Text)))
                 {
                     if (!(Int32.TryParse(txtPiso.Text, out val)))
@@ -925,7 +944,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 if (esAltaUsuario == 1)
                 {
                     string hashE = this.encriptacion(txtPassword.Text);
-                    doa.crearEmpresa("Empresa", txtUsuario.Text, hashE, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text, txtCiudadEmpresa.Text);
+                    doa.crearEmpresa("Empresa", txtUsuario.Text, hashE, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, cboRubro.SelectedValue.ToString(), txtCiudadEmpresa.Text);
                     MessageBox.Show("Se creo la empresa satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     if (irAlMenuPrincipal == 1)
                     {
@@ -942,7 +961,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 }
                 if (esAltaUsuario == 0)
                 {
-                    doa.modificarEmpresa("Empresa", txtUsuario.Text, txtPassword.Text, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, lblRubroSel.Text,txtCiudadEmpresa.Text);
+                    doa.modificarEmpresa("Empresa", txtUsuario.Text, txtPassword.Text, txtMail.Text, txtCUITEmpresa.Text, txtNombreContEmpresa.Text, txtRazonEmpresa.Text, int.Parse(txtTelEmpresa.Text), txtCodPos.Text, txtDpto.Text, txtLocalidad.Text, int.Parse(txtPiso.Text), int.Parse(txtNumero.Text), txtCalle.Text, dtpCreacion.Value, cboRubro.SelectedValue.ToString(), txtCiudadEmpresa.Text);
                     ModificacionUsuario mUsu = new ModificacionUsuario();
                     MessageBox.Show("Se modifico la empresa satisfactoriamente", "Sr.Usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     mUsu.esModificar = true;
@@ -1002,10 +1021,10 @@ namespace WindowsFormsApplication1.ABM_Usuario
             this.txtNombreContEmpresa.Text = "";
             this.txtRazonEmpresa.Text = "";
             this.txtTelEmpresa.Text = "";
-            this.cmdRubroEmpresa.Visible = false;
+            this.cboRubro.Visible = false;
             this.lblRubroEmpresa.Visible = false;
             this.dtpCreacion.Value = Fecha.getFechaActual();
-            this.lblRubroSel.Text = "";
+            
             
 
             this.dtpCreacion.Visible = false;
@@ -1054,15 +1073,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             Form1.f1.Close(); 
         }
 
-        private void cmdRubroEmpresa_Click(object sender, EventArgs e)
-        {
-            
-            WindowsFormsApplication1.ABM_Rubro.AltaRubro arubro = new WindowsFormsApplication1.ABM_Rubro.AltaRubro();
-            arubro.lblLlamada.Text = "0";
-            
-            arubro.Show();
-            this.Hide();
-        }
+       
     }
 }
 

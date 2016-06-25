@@ -38,21 +38,21 @@ namespace WindowsFormsApplication1
         {
             Empresa unaEmpresa = new Empresa();
             //lo que va entre parentesis son los nombres de las columnas que devuelve el SP
-            unaEmpresa.username = reader["username"].ToString();
-            unaEmpresa.password = reader["password"].ToString();
-            unaEmpresa.mail = reader["mail"].ToString();
-            unaEmpresa.cuit = int.Parse(reader["cuit"].ToString());
-            unaEmpresa.nombreContacto = reader["nombreContacto"].ToString();
-            unaEmpresa.razonSocial = reader["razonSocial"].ToString();
-            unaEmpresa.telefono = int.Parse(reader["telefono"].ToString());
-            unaEmpresa.rubro = reader["rubro"].ToString();
-            unaEmpresa.codPostal = int.Parse(reader["codPostal"].ToString());
-            unaEmpresa.localidad = reader["localidad"].ToString();
-            unaEmpresa.piso = int.Parse(reader["piso"].ToString());
-            unaEmpresa.numero = int.Parse(reader["numero"].ToString());
-            unaEmpresa.calle = reader["calle"].ToString();
-            unaEmpresa.departamento = reader["departamento"].ToString();
-            unaEmpresa.creacion = Convert.ToDateTime(reader["Creacion"]);
+            unaEmpresa.username = reader["Usuario"].ToString();
+            unaEmpresa.password = reader["Contraseña"].ToString();
+            unaEmpresa.mail = reader["Mail"].ToString();
+            unaEmpresa.cuit = reader["CUIT"].ToString();
+            unaEmpresa.nombreContacto = reader["NombreContacto"].ToString();
+            unaEmpresa.razonSocial = reader["RazonSocial"].ToString();
+            unaEmpresa.telefono = int.Parse(reader["Telefono"].ToString());
+            unaEmpresa.rubro = reader["DescripLarga"].ToString();
+            unaEmpresa.codPostal = int.Parse(reader["CodPostal"].ToString());
+            unaEmpresa.localidad = reader["Localidad"].ToString();
+            unaEmpresa.piso = int.Parse(reader["Piso"].ToString());
+            unaEmpresa.numero = int.Parse(reader["Numero"].ToString());
+            unaEmpresa.calle = reader["Calle"].ToString();
+            unaEmpresa.departamento = reader["Depto"].ToString();
+            unaEmpresa.creacion = Convert.ToDateTime(reader["FechaCreacion"]);
             return unaEmpresa;
         }
     }

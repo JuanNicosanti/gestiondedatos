@@ -325,7 +325,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             AltaUsuario.aus.txtCiudadEmpresa.Text =unaEmpresa.ciudad;
             AltaUsuario.aus.txtCUITEmpresa.Text =Convert.ToString(unaEmpresa.cuit);
             AltaUsuario.aus.txtNombreContEmpresa.Text =unaEmpresa.nombreContacto;
-            AltaUsuario.aus.lblRubroSel.Text = unaEmpresa.rubro;
+            AltaUsuario.aus.rubroModificado = unaEmpresa.rubro;
 
             AltaUsuario.aus.rbCliente.Enabled = false;
             AltaUsuario.aus.rbEmpresa.Enabled = false;

@@ -284,12 +284,13 @@
             // 
             // cmdModificar
             // 
+            this.cmdModificar.BackColor = System.Drawing.Color.LawnGreen;
             this.cmdModificar.Location = new System.Drawing.Point(434, 393);
             this.cmdModificar.Name = "cmdModificar";
             this.cmdModificar.Size = new System.Drawing.Size(186, 23);
             this.cmdModificar.TabIndex = 32;
             this.cmdModificar.Text = "Modificar Usuario";
-            this.cmdModificar.UseVisualStyleBackColor = true;
+            this.cmdModificar.UseVisualStyleBackColor = false;
             this.cmdModificar.Click += new System.EventHandler(this.cmdModificar_Click);
             // 
             // cmdBorrar

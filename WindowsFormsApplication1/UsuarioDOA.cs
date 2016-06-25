@@ -36,6 +36,7 @@ namespace WindowsFormsApplication1
             cmd.Parameters.AddWithValue("@Numero", SqlDbType.Int).Value = numero;
             cmd.Parameters.AddWithValue("@Calle", SqlDbType.NVarChar).Value = calle;
             cmd.Parameters.AddWithValue("@FechaNacimiento", SqlDbType.DateTime).Value = nacimiento;
+            cmd.Parameters.AddWithValue("@FechaActual", SqlDbType.DateTime).Value = Fecha.getFechaActual();
             cmd.ExecuteNonQuery();
 
         }
@@ -61,6 +62,7 @@ namespace WindowsFormsApplication1
             cmd.Parameters.AddWithValue("@FechaCreacion", SqlDbType.DateTime).Value = nacimiento;
             cmd.Parameters.AddWithValue("@Rubro", SqlDbType.NVarChar).Value = rubro;
             cmd.Parameters.AddWithValue("@Ciudad", SqlDbType.NVarChar).Value = ciudad;
+            cmd.Parameters.AddWithValue("@FechaActual", SqlDbType.DateTime).Value = Fecha.getFechaActual();
             cmd.ExecuteNonQuery();
                 
         }
