@@ -207,7 +207,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
             string cadenaDeErrorTipo = "Debe seleccionar un tipo de publicacion";
             string cadenaDeErrorValoresNegativos = "No puede tener valores negativos o cero en los siguientes campos: \r";
             string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración";
-            string cadenaDeErrorNumeroYEsCaracter = "No se permiten valores numericos en los siguientes campos: \r";
+            string cadenaDeErrorNumeroYEsCaracter = "No se permiten los tipos de datos ingresados en los siguientes campos: \r";
             int val = 0;
             if (cboTipo.SelectedIndex == -1)
             {
@@ -238,12 +238,23 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 if (!(string.IsNullOrEmpty(txtStockInmediata.Text)))
                 {
-                    if (int.Parse(txtStockInmediata.Text) <= 0){
-                        cadenaDeErrorValoresNegativos += "Stock \r";
-                        huboErrorTipoDatos++;
+                    if (!(Int32.TryParse(txtStockInmediata.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Stock \r";
+                        huboErrorNumerico++;
+
                     }
-                    
+                    else
+                    {
+                        if (int.Parse(txtStockInmediata.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Stock \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
                 }
+              
                 if (cboRubro.SelectedIndex == -1)
                 {
                     cadenaDeErrores += " Rubro \r";
@@ -265,12 +276,23 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 if (!(string.IsNullOrEmpty(txtPrecio.Text)))
                 {
-                    if(int.Parse(txtPrecio.Text) <= 0){
-                         cadenaDeErrorValoresNegativos += "Precio \r";
-                    huboErrorTipoDatos++;
+                    if (!(Int32.TryParse(txtPrecio.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Precio \r";
+                        huboErrorNumerico++;
+
                     }
-                   
+                    else
+                    {
+                        if (int.Parse(txtPrecio.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Precio \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
                 }
+              
                 if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
                     string errorGeneral = cadenaDeErrores +cadenaDeErrorNumeroYEsCaracter+ cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
@@ -433,11 +455,21 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 if (!(string.IsNullOrEmpty(txtValorSubasta.Text)))
                 {
-                    if (int.Parse(txtValorSubasta.Text) < 0)
+                    if (!(Int32.TryParse(txtValorSubasta.Text, out val)))
                     {
-                        cadenaDeErrorValoresNegativos += " Valor Inicial de la subasta \r";
-                        huboErrorTipoDatos++;
+                        cadenaDeErrorNumeroYEsCaracter += "Valor Inicial de la subasta \r";
+                        huboErrorNumerico++;
+
                     }
+                    else
+                    {
+                        if (int.Parse(txtValorSubasta.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Valor Inicial de la subasta \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
                 }
                 if (cboRubro.SelectedIndex == -1)
                 {
@@ -682,13 +714,22 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 if (!(string.IsNullOrEmpty(txtStockInmediata.Text)))
                 {
-                    if (int.Parse(txtStockInmediata.Text) <= 0)
+                    if (!(Int32.TryParse(txtStockInmediata.Text, out val)))
                     {
-                        cadenaDeErrorValoresNegativos += "Stock \r";
-                        huboErrorTipoDatos++;
+                        cadenaDeErrorNumeroYEsCaracter += "Stock \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtStockInmediata.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Stock \r";
+                            huboErrorTipoDatos++;
+                        }
                     }
 
-                }            
+                }           
                 if (string.IsNullOrEmpty(lblVisSel.Text))
                 {
                     cadenaDeErrores += "Visibilidad \r";
@@ -705,13 +746,22 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 if (!(string.IsNullOrEmpty(txtPrecio.Text)))
                 {
-                    if (int.Parse(txtPrecio.Text) <= 0)
+                    if (!(Int32.TryParse(txtPrecio.Text, out val)))
                     {
-                        cadenaDeErrorValoresNegativos += "Precio \r";
-                        huboErrorTipoDatos++;
+                        cadenaDeErrorNumeroYEsCaracter += "Precio \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtPrecio.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Precio \r";
+                            huboErrorTipoDatos++;
+                        }
                     }
 
-                }
+                } 
 
                 if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
@@ -862,12 +912,22 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 if (!(string.IsNullOrEmpty(txtValorSubasta.Text)))
                 {
-                    if (int.Parse(txtValorSubasta.Text) < 0)
+                    if (!(Int32.TryParse(txtValorSubasta.Text, out val)))
                     {
-                        cadenaDeErrorValoresNegativos += "Valor Inicial de la subasta \r";
-                        huboErrorTipoDatos++;
+                        cadenaDeErrorNumeroYEsCaracter += "Valor Inicial de la subasta \r";
+                        huboErrorNumerico++;
+
                     }
-                }
+                    else
+                    {
+                        if (int.Parse(txtValorSubasta.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Valor Inicial de la subasta \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
+                } 
              
                 if (string.IsNullOrEmpty(lblVisSel.Text))
                 {
@@ -1055,13 +1115,23 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += " Stock \r";
                     huboError++;
                 }
+
                 if (!(string.IsNullOrEmpty(txtStockInmediata.Text)))
                 {
-                    if (int.Parse(txtStockInmediata.Text) <= 0)
+                    if (!(Int32.TryParse(txtStockInmediata.Text, out val)))
                     {
-                        cadenaDeErrorValoresNegativos += "Stock \r";
-                        huboErrorTipoDatos++;
+                        cadenaDeErrorNumeroYEsCaracter += "Stock \r";
+                        huboErrorNumerico++;
+                      
                     }
+                    else
+                    {
+                        if (int.Parse(txtStockInmediata.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Stock \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }                  
 
                 }
                 if (cboRubro.SelectedIndex == -1)
@@ -1086,10 +1156,19 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 if (!(string.IsNullOrEmpty(txtPrecio.Text)))
                 {
-                    if (int.Parse(txtPrecio.Text) <= 0)
+                    if (!(Int32.TryParse(txtPrecio.Text, out val)))
                     {
-                        cadenaDeErrorValoresNegativos += "Precio \r";
-                        huboErrorTipoDatos++;
+                        cadenaDeErrorNumeroYEsCaracter += "Precio \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtPrecio.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Precio \r";
+                            huboErrorTipoDatos++;
+                        }
                     }
 
                 }
@@ -1249,14 +1328,26 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 }
                 if (string.IsNullOrEmpty(txtValorSubasta.Text))
                 {
-                    cadenaDeErrores += " Valor Inicial de la subasta \r";
+                    cadenaDeErrores += "Valor Inicial de la subasta \r";
                     huboError++;
                 }
-                if(!(string.IsNullOrEmpty(txtValorSubasta.Text))){
-                    if(int.Parse(txtValorSubasta.Text)<0){
-                        cadenaDeErrorValoresNegativos += "Valor Inicial de la subasta \r";
-                        huboErrorTipoDatos++;     
+                if (!(string.IsNullOrEmpty(txtValorSubasta.Text)))
+                {
+                    if (!(Int32.TryParse(txtValorSubasta.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Valor Inicial de la subasta \r";
+                        huboErrorNumerico++;
+
                     }
+                    else
+                    {
+                        if (int.Parse(txtValorSubasta.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Valor Inicial de la subasta \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
                 }
 
                 if (cboRubro.SelectedIndex == -1)
