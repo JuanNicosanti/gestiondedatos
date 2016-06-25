@@ -62,7 +62,12 @@ namespace WindowsFormsApplication1.Facturas
             {
                 MessageBox.Show("La fecha final debe ser menor o igual a la fecha inicial", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
-            }            
+            }
+            if (double.Parse(tbImporteMaximo.Text) < 0 || double.Parse(tbImporteMinimo.Text)<0)
+            {
+                MessageBox.Show("No estan permitidos importes negativos", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
+            } 
             if (string.IsNullOrEmpty(tbImporteMinimo.Text))
             {
                 importeMinimo = int.MinValue.ToString();

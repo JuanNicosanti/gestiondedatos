@@ -72,9 +72,14 @@ namespace WindowsFormsApplication1.Listado_Estadistico
         {
             if (string.IsNullOrEmpty(txtAnio.Text))
             {
-                MessageBox.Show("Ingrese un año", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Debe ingresar un año", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 return;
                
+            }
+            if (int.Parse(txtAnio.Text) <= 0)
+            {
+                MessageBox.Show("No se aceptan años negativos", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                return;
             }
             txtAnio.Enabled = false;
             anio = int.Parse(txtAnio.Text.ToString());

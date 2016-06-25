@@ -263,5 +263,10 @@ namespace WindowsFormsApplication1.ABM_Visibilidad
         {
             WindowsFormsApplication1.Form1.f1.Close();
         }
+
+        private void AgregarVisibilidad_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
