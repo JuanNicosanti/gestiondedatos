@@ -180,12 +180,30 @@ TipoTransac nvarchar(50),
 Fecha datetime,
 Cantidad numeric(18,0),
 Monto numeric(18,2),
-Ganadora bit default 0,
+Ganadora bit,
 PubliId int FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Publicacion,
 ClieId int FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Cliente,
 ConEnvio bit default 0
 )
 GO
+
+--Oferta
+create table ROAD_TO_PROYECTO.Oferta(
+OferId int identity(1,1) PRIMARY KEY,
+Monto numeric(18,2),
+Ganadora bit default 0,
+TranId int FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Transaccion
+)
+
+GO
+--Compra
+create table ROAD_TO_PROYECTO.Compra(
+CompId int identity(1,1) PRIMARY KEY,
+Cantidad numeric(18,0),
+TranId int FOREIGN KEY REFERENCES ROAD_TO_PROYECTO.Transaccion
+)
+GO
+
 
 --Calificacion
 create table ROAD_TO_PROYECTO.Calificacion(
@@ -379,12 +397,33 @@ where TipoTransac = 'Oferta' and TranId in (select top 1 t2.TranId
 											where t2.TipoTransac = 'Oferta' and t1.PubliId = t2.PubliId
 											order by t2.PubliId, t2.Monto desc)
 
+insert into ROAD_TO_PROYECTO.Oferta (Monto, Ganadora, TranId)
+select Monto, Ganadora, TranId
+from ROAD_TO_PROYECTO.Transaccion
+where TipoTransac = 'Oferta'
+GO
+
+insert into ROAD_TO_PROYECTO.Compra(Cantidad, TranId)
+select Cantidad, TranId
+from ROAD_TO_PROYECTO.Transaccion
+where TipoTransac = 'Compra'
+GO
+
 --Calificacion
 insert into ROAD_TO_PROYECTO.Calificacion
 select Calificacion_Codigo, t.TranId,Calificacion_Cant_Estrellas/2,Calificacion_Descripcion
 from gd_esquema.Maestra gd,ROAD_TO_PROYECTO.TRANSACCION t,ROAD_TO_PROYECTO.Cliente c
 where t.PubliId = gd.Publicacion_Cod and t.clieid = c.ClieId and c.NroDocumento = gd.Cli_Dni and t.fecha = Compra_Fecha and t.cantidad = Compra_Cantidad and gd.Calificacion_Cant_Estrellas is not null and (t.ganadora = 1 or t.tipotransac = 'Compra') 
 GO
+
+ALTER TABLE ROAD_TO_PROYECTO.Transaccion
+DROP COLUMN Monto
+
+ALTER TABLE ROAD_TO_PROYECTO.Transaccion
+DROP COLUMN Ganadora
+
+ALTER TABLE ROAD_TO_PROYECTO.Transaccion
+DROP COLUMN Cantidad
 
 --Factura
 insert into ROAD_TO_PROYECTO.Factura
@@ -1046,6 +1085,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 	@Usuario nvarchar(255),
 	@ConEnvio bit
 	as begin
+		declare @TranId int
 		if(@Usuario <> (select UserId from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
 		begin
 		declare @CompradorId int 
@@ -1053,8 +1093,12 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Comprar_Publicacion
 		--Verific si la cantidad a comprar es menor que el stock disponible
 		if((select Stock from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) >= @Cantidad)
 		begin
-			insert into ROAD_TO_PROYECTO.Transaccion(TipoTransac, Fecha, Cantidad, PubliId, ClieId, ConEnvio)
-			values('Compra', @FechaActual, @Cantidad, @PubliId, @CompradorId, @ConEnvio)
+			insert into ROAD_TO_PROYECTO.Transaccion(Fecha, PubliId, ClieId, ConEnvio)
+			values(@FechaActual, @PubliId, @CompradorId, @ConEnvio)
+			select @TranId = SCOPE_IDENTITY()
+			insert into ROAD_TO_PROYECTO.Compra(Cantidad, TranId)
+			values(@Cantidad, @TranId)
+			
 		end
 		end
 	end
@@ -1070,16 +1114,19 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Ofertar_Publicacion
 	as begin
 		if(@Usuario <> (select UserId from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId))
 		begin
+			declare @TranId int
 			declare @MontoOferta numeric(18,2)
 			declare @OfertanteId int 
 			set @OfertanteId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
 			set @MontoOferta = ROAD_TO_PROYECTO.Punto_Por_Coma_Y_Convertir(@MontoOfertaString)
 			--Verifico que la oferta sea mayor al precio actual de la subasta
 			if((select Precio from ROAD_TO_PROYECTO.Publicacion where PublId = @PubliId) < @MontoOferta)
-	--		if((select top 1 Monto from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId and TipoTransac = 'Oferta' order by Monto desc) < @MontoOferta)
-			begin
-				insert into ROAD_TO_PROYECTO.Transaccion (TipoTransac, Fecha, Monto, PubliId, ClieId, ConEnvio)
-				values('Oferta', @FechaActual, @MontoOferta, @PubliId, @OfertanteId, @ConEnvio)
+				begin
+				insert into ROAD_TO_PROYECTO.Transaccion (Fecha, PubliId, ClieId, ConEnvio)
+				values(@FechaActual, @PubliId, @OfertanteId, @ConEnvio)
+				select @TranId = SCOPE_IDENTITY()
+				insert into ROAD_TO_PROYECTO.Oferta(Monto, TranId)
+				values(@MontoOferta, @TranId)
 
 				--Actualizo el precio de la subasta
 				update ROAD_TO_PROYECTO.Publicacion 
@@ -1173,10 +1220,20 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.Transacciones_Sin_Calificar
 	@Usuario nvarchar(255)
 	as begin
-		select TranId, TipoTransac, Fecha, p.Descipcion, p.Precio, p.UserId
-		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r
-		where t.PubliId = p.PublId and TranId not in (select TranId from ROAD_TO_PROYECTO.Calificacion)
-		and (t.TipoTransac = 'Compra' or t.Ganadora = 1)
+		select t.TranId, 'Oferta' , Fecha, p.Descipcion, p.Precio, p.UserId
+		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r,
+		ROAD_TO_PROYECTO.Oferta o
+		where t.PubliId = p.PublId
+		and t.TranId = o.TranId 
+		and o.Ganadora = 1
+		and t.TranId not in (select TranId from ROAD_TO_PROYECTO.Calificacion)
+		and rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = t.ClieId
+		union
+		select t.TranId, 'Compra' , Fecha, p.Descipcion, p.Precio, p.UserId
+		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r,
+		ROAD_TO_PROYECTO.Compra c
+		where t.PubliId = p.PublId
+		and t.TranId = c.TranId
 		and t.TranId not in (select TranId from ROAD_TO_PROYECTO.Calificacion)
 		and rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = t.ClieId
 	end
@@ -1480,15 +1537,16 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Clientes_Productos_Comprados
 	@Año int,
 	@RubroDesc nvarchar(255)
 	as begin
-		select top 5 u.Usuario, c.Apellido, c.Nombres, right('0000' + cast(year(t.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(t.Fecha) as varchar(2)), 2) as 'Año-Mes', sum(t.Cantidad) as 'Cantidad Comprada'
+		select top 5 u.Usuario, c.Apellido, c.Nombres, right('0000' + cast(year(t.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(t.Fecha) as varchar(2)), 2) as 'Año-Mes', sum(comp.Cantidad) as 'Cantidad Comprada'
 		from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Cliente c, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, 
-		ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Rubro rub
+		ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Rubro rub, ROAD_TO_PROYECTO.Compra comp
 		where u.Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = c.ClieId and t.ClieId = c.ClieId
 		and t.PubliId = p.PublId and p.Rubro = rub.RubrId and rub.DescripLarga = @RubroDesc
 		and year(t.Fecha) = @Año
 		and ROAD_TO_PROYECTO.DentroDelTrimestre(@Trimestre, t.Fecha) = 1
+		and t.TranId = comp.TranId
 		group by u.Usuario, c.ClieId, c.Apellido, c.Nombres,  right('0000' + cast(year(t.Fecha) as varchar(4)), 4) + '-' + right('00' + cast(month(t.Fecha) as varchar(2)), 2)
-		order by sum(t.Cantidad) desc
+		order by sum(comp.Cantidad) desc
 	end
 GO
 
@@ -1609,9 +1667,13 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Historial_Cliente_Compras_Subastas
 	as begin
 		declare @ClieId int
 		set @ClieId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
-		select t.TipoTransac, t.Fecha, isnull(t.Monto, p.Precio) as 'Monto', p.Descipcion, p.UserId
-		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p
-		where t.PubliId = p.PublId and t.ClieId = @ClieId
+		select t.TipoTransac, t.Fecha, o.Monto as 'Monto', p.Descipcion, p.UserId
+		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Oferta o
+		where t.PubliId = p.PublId and t.ClieId = @ClieId and t.TranId = o.TranId
+		union
+		select t.TipoTransac, t.Fecha, p.Precio as 'Monto', p.Descipcion, p.UserId
+		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Compra c
+		where t.PubliId = p.PublId and t.ClieId = @ClieId and t.TranId = c.TranId
 	end
 GO
 
@@ -1620,19 +1682,25 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Cantidad_Compras_Subastas_Realizadas
 	as begin
 		declare @ClieId int
 		set @ClieId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
-		select COUNT(*) as cantPublis
+		select COUNT(*) - (select COUNT(*) from ROAD_TO_PROYECTO.Oferta o, ROAD_TO_PROYECTO.Transaccion t where t.ClieId = 1 and t.TranId = o.TranId and o.Ganadora = 0 group by t.ClieId) as cantPublis
 		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p
-		where t.PubliId = p.PublId and t.ClieId = @ClieId and (t.TipoTransac = 'Compra' or t.Ganadora = 1)
+		where t.PubliId = p.PublId and t.ClieId = @ClieId
 	end
 GO
 
 CREATE PROCEDURE ROAD_TO_PROYECTO.Cantidad_Compras_Subastas_Sin_Calificar
 	@Usuario nvarchar(255)
 	as begin
-		select COUNT(*) as cantPublis
-		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r
-		where t.PubliId = p.PublId
-		and (t.TipoTransac = 'Compra' or t.Ganadora = 1)
+		select COUNT(*) + (select COUNT(*) 
+							from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Oferta o
+							where t.TranId = o.TranId
+							and t.PubliId = p.PublId
+							and o.Ganadora = 1
+							and t.TranId not in (select TranId from ROAD_TO_PROYECTO.Calificacion)
+							and rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = t.ClieId ) as cantPublis
+		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r, ROAD_TO_PROYECTO.Compra c
+		where t.TranId = c.TranId
+		and t.PubliId = p.PublId
 		and t.TranId not in (select TranId from ROAD_TO_PROYECTO.Calificacion)
 		and rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Cliente' and rpu.IdExterno = t.ClieId
 	end
@@ -1655,7 +1723,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Ultimas_Cinco_Transacciones_Calificadas
 	as begin
 		declare @ClieId int
 		set @ClieId = (select rpu.IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where @Usuario = rpu.UserId and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
-		select top 5 t.TipoTransac, t.Fecha, isnull(t.Monto, p.Precio) as 'Monto', p.Descipcion, p.UserId, c.CantEstrellas
+		select top 5 t.TipoTransac, t.Fecha, p.Precio as 'Monto', p.Descipcion, p.UserId, c.CantEstrellas
 		from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Publicacion p, ROAD_TO_PROYECTO.Calificacion c
 		where t.PubliId = p.PublId and t.ClieId = @ClieId and t.TranId = c.TranId
 		order by t.Fecha desc
@@ -1758,19 +1826,24 @@ end
 GO
 
 ----- Triggers -----
-CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Transaccion after insert
+CREATE TRIGGER ROAD_TO_PROYECTO.Actualizar_Stock_y_Facturar on ROAD_TO_PROYECTO.Compra after insert
 	as begin
 		--Variables
-		declare @Fecha datetime, @Cantidad numeric(18,0), @PubliId int, @ConEnvio bit, @UltimaFactura int, @FacturaActual int, @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
+		declare @Cantidad numeric(18,0), @TranId int, @Fecha datetime, @PubliId int, @ConEnvio bit, @UltimaFactura int, @FacturaActual int, @ComiVariable numeric(18,2), @ComiEnvio numeric(18,2)
 
 		--Cursor con compras realizadas
-		declare c1 cursor for select Fecha, Cantidad, PubliId, ConEnvio from inserted where TipoTransac = 'Compra'
+		declare c1 cursor for select Cantidad, TranId from inserted
 		open c1
-		fetch next from c1 into @Fecha, @Cantidad, @PubliId, @ConEnvio
+		fetch next from c1 into @Cantidad, @TranId
 
 		while @@FETCH_STATUS = 0
 			begin
 			begin transaction
+
+				select @Fecha = Fecha, @PubliId = PubliId, @ConEnvio = ConEnvio
+				from ROAD_TO_PROYECTO.Transaccion
+				where TranId = @TranId
+
 				--Actualizo stock de publicaciones involucradas
 				update ROAD_TO_PROYECTO.Publicacion
 				set Stock = (Stock - @Cantidad)
@@ -1842,9 +1915,12 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora_Y_Facturar_Finalizada
 		while @@FETCH_STATUS = 0
 			begin
 			begin transaction
-				update ROAD_TO_PROYECTO.Transaccion
+				update ROAD_TO_PROYECTO.Oferta
 				set Ganadora = 1
-				where TranId = (select top 1 TranId  from ROAD_TO_PROYECTO.Transaccion where PubliId = @PubliId order by Monto desc)
+				where TranId = (select top 1 t.TranId 
+								 from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Oferta o
+								 where PubliId = @PubliId and t.TranId = o.TranId
+								 order by Monto desc)
 
 				--Busco el último número de factura y determino el siguiente
 				select top 1 @UltimaFactura = FactNro from ROAD_TO_PROYECTO.Factura order by FactNro desc
@@ -1868,10 +1944,10 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora_Y_Facturar_Finalizada
 				values (@FacturaActual, 1, 'Precio por tipo publicación', @ComiFija)
 
 				insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto)
-				values(@FacturaActual, 1, 'Comisión por productos vendidos', @ComiVariable * (select Monto from ROAD_TO_PROYECTO.Transaccion where Ganadora = 1 and PubliId = @PubliId))
+				values(@FacturaActual, 1, 'Comisión por productos vendidos', @ComiVariable * (select o.Monto from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Oferta o where t.TranId = o.TranId and o.Ganadora = 1 and PubliId = @PubliId))
 				
 				--Verifico si corresponde comisiones por envío
-				if(((select p.EnvioHabilitado from ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId) = 1) and ((select ConEnvio from ROAD_TO_PROYECTO.Transaccion where Ganadora = 1 and PubliId = @PubliId) = 1))
+				if(((select p.EnvioHabilitado from ROAD_TO_PROYECTO.Publicacion p where p.PublId = @PubliId) = 1) and ((select ConEnvio from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Oferta o where t.TranId = o.TranId and o.Ganadora = 1 and PubliId = @PubliId) = 1))
 					begin
 						--Busco la comisión por envío de la publicación
 						select @ComiEnvio = ComiEnvio 
@@ -1880,7 +1956,7 @@ CREATE TRIGGER ROAD_TO_PROYECTO.Determinar_Oferta_Ganadora_Y_Facturar_Finalizada
 
 						--Creo los items de la factura
 						insert into ROAD_TO_PROYECTO.Item_Factura (FactNro, Cantidad, Detalle, Monto)
-						values(@FacturaActual, 1, 'Comisión por envío de producto', @ComiEnvio * (select Monto from ROAD_TO_PROYECTO.Transaccion where Ganadora = 1 and PubliId = @PubliId))
+						values(@FacturaActual, 1, 'Comisión por envío de producto', @ComiEnvio * (select o.Monto from ROAD_TO_PROYECTO.Transaccion t, ROAD_TO_PROYECTO.Oferta o where t.TranId = o.TranId and o.Ganadora = 1 and PubliId = @PubliId))
 					end
 
 				update ROAD_TO_PROYECTO.Factura
