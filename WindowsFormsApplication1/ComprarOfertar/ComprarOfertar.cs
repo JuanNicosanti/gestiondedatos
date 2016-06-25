@@ -408,8 +408,10 @@ WindowsFormsApplication1.ComprarOfertar
 
         private void cmdComprarOfertar_Click(object sender, EventArgs e)
         {
-            
+            int val = 0;
             int fila = dataGridView1.CurrentRow.Index;
+
+           
             String envioOfertante = dataGridView1[9, fila].Value.ToString();
             if (rbEnvioSi.Checked == true && envioOfertante.Equals("No"))
             {
@@ -436,18 +438,67 @@ WindowsFormsApplication1.ComprarOfertar
             
             if (ofertaOCompra.Equals("Subasta"))
             {
+                String valorSubastaString = dataGridView1[5, fila].Value.ToString();
+                double valorSubastaDouble = double.Parse(valorSubastaString);
                 if(string.IsNullOrEmpty(txtGuita.Text))
                 {
                     MessageBox.Show("Debe completar la informacion de pago", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     return;
                 }
+                if (!string.IsNullOrEmpty(txtGuita.Text))
+                {
+                    if (!(Int32.TryParse(txtGuita.Text, out val)))
+                    {
+                        MessageBox.Show("No se permiten letras en el campo de la oferta de la publicacion ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                        return;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtGuita.Text) <= 0)
+                        {
+                            MessageBox.Show("No se permiten valores negativos o cero para la oferta de la publicacion", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                            return;
+                        }
+                        if (double.Parse(txtGuita.Text) < valorSubastaDouble)
+                        {
+                             MessageBox.Show("El valor a ofertar debe superar el minimo de la subasta", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                            return;
+                        }
+                    }
+                }
             }
             if (ofertaOCompra.Equals("Compra Inmediata"))
-            {               
+            {
+                String valorStockString = dataGridView1[2, fila].Value.ToString();
+                int valorStockInt = int.Parse(valorStockString);
                 if (string.IsNullOrEmpty(txtCantidad.Text))
                 {
                     MessageBox.Show("Debe completar la informacion de pago", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     return;
+                }
+
+                if (!string.IsNullOrEmpty(txtCantidad.Text))
+                {
+                    if (!(Int32.TryParse(txtCantidad.Text, out val)))
+                    {
+                        MessageBox.Show("No se permiten letras en el campo de la compra de la publicacion ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                        return;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtCantidad.Text) <= 0)
+                        {
+                            MessageBox.Show("No se permiten valores negativos o cero para la compra de la publicacion", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                            return;
+                        }
+                        if (int.Parse(txtCantidad.Text) > valorStockInt)
+                        {
+                            MessageBox.Show("El valor de stock ingresado supera el stock de la publicacion", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                            return;
+                        }
+                    }
                 }
             }
             
@@ -462,6 +513,7 @@ WindowsFormsApplication1.ComprarOfertar
 
             int celdaIdPublicacion = int.Parse(dataGridView1[0, fila].Value.ToString());
             
+           
             
             String ofertanteID = dataGridView1[8, fila].Value.ToString();
             if(rbEnvioSi.Checked)
@@ -517,7 +569,7 @@ WindowsFormsApplication1.ComprarOfertar
             
         
         }
-        //FALTA DIRIGIRME A LA PAG NUEVA
+     
         private void hacerRefresh()
         {
             this.pedirPublicacionesYOrdenar();
