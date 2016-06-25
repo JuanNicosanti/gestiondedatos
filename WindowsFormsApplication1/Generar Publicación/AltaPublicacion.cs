@@ -17,6 +17,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
         private int huboError = 0;
         private int huboErrorTipoDatos = 0;
         private int huboErrorFechaAnterior = 0;
+        private int huboErrorNumerico = 0;
         public bool envioHabilitado;
         public int esModif;
         public int publiId;
@@ -132,7 +133,8 @@ namespace WindowsFormsApplication1.Generar_Publicación
 
         private void AltaPublicacion_Load(object sender, EventArgs e)
         {
-            
+            dtpFin.Value = Fecha.getFechaActual();
+           
             cargarComboBoxRubros();
 
             lblPrecio.Visible = false;
@@ -203,8 +205,10 @@ namespace WindowsFormsApplication1.Generar_Publicación
         {
             string cadenaDeErrores = "Debe completar los siguientes campos: \r";
             string cadenaDeErrorTipo = "Debe seleccionar un tipo de publicacion";
-            string cadenaDeErrorValoresNegativos = "No puede tener datos negativos en los siguientes campos: \r";
+            string cadenaDeErrorValoresNegativos = "No puede tener valores negativos o cero en los siguientes campos: \r";
             string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración";
+            string cadenaDeErrorNumeroYEsCaracter = "No se permiten valores numericos en los siguientes campos: \r";
+            int val = 0;
             if (cboTipo.SelectedIndex == -1)
             {
                 MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
@@ -218,7 +222,15 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += " Descripcion \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtDescripcion.Text)))
+                {
 
+                    if (Int32.TryParse(txtDescripcion.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Descripcion \r";
+                        huboErrorNumerico++;
+                    }
+                }
                 if(string.IsNullOrEmpty(txtStockInmediata.Text))
                 {
                     cadenaDeErrores += " Stock \r";
@@ -259,59 +271,137 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     }
                    
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0 && huboErrorFechaAnterior != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores +cadenaDeErrorNumeroYEsCaracter+ cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboError = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0 )
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
                     huboErrorTipoDatos = 0;
-                    huboError = 0;         
+                    huboErrorNumerico = 0;
                     return;
                 }
-                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                if (huboError != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrorValoresNegativos+cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
                     huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if(huboError != 0 && huboErrorTipoDatos != 0){
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorFechaAnterior != 0 && huboError != 0)
+                if (huboError != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboError = 0;
                     return;
                 }
-                if (huboErrorFechaAnterior != 0)
+
+
+                if (huboErrorTipoDatos!= 0 && huboErrorFechaAnterior!= 0)
                 {
-                    MessageBox.Show(cadenaDeErrorFechaAnterior, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorTipoDatos != 0)
+                if (huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    MessageBox.Show(cadenaDeErrorValoresNegativos, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboErrorTipoDatos = 0;
+                    return;
+                }
+
+                if (huboErrorFechaAnterior  != 0 && huboErrorNumerico   != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorFechaAnterior = 0;
                     return;
                 }
                 if (huboError != 0)
                 {
-                 
-                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboError = 0;
                     return;
+                    
                 }
-              
+                if (huboErrorTipoDatos   != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    return;
+                    
+                }
+                if (huboErrorFechaAnterior  != 0)
+                {
+                    string errorGeneral =cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    return;
+                    
+                }
+                if (huboErrorNumerico   != 0)
+                {
+                    string errorGeneral =cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    return;
+                }
+
+
+
                 estado = "Borrador";
                 PublicacionDOA doa = new PublicacionDOA();
              
@@ -327,7 +417,15 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += " Descripcion \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtDescripcion.Text)))
+                {
 
+                    if (Int32.TryParse(txtDescripcion.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Descripcion \r";
+                        huboErrorNumerico++;
+                    }
+                }
                 if (string.IsNullOrEmpty(txtValorSubasta.Text))
                 {
                     cadenaDeErrores += " Valor Inicial de la subasta \r";
@@ -355,58 +453,137 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 {
                     huboErrorFechaAnterior++;
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0 && huboErrorFechaAnterior != 0)
+
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboError = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
                     huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboError = 0;
                     return;
                 }
+
+
                 if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorFechaAnterior != 0 && huboError != 0)
+                if (huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    huboError = 0;
-                    return;
-                }
-                if (huboErrorFechaAnterior != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorFechaAnterior, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    return;
-                }
-                if (huboErrorTipoDatos != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorValoresNegativos, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboErrorTipoDatos = 0;
+                    return;
+                }
+
+                if (huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorFechaAnterior = 0;
                     return;
                 }
                 if (huboError != 0)
                 {
-
-                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboError = 0;
                     return;
+
                 }
+                if (huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    return;
+
+                }
+                if (huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    return;
+                }
+
                 estado = "Borrador";
                 PublicacionDOA doa = new PublicacionDOA();
                 
@@ -425,7 +602,12 @@ namespace WindowsFormsApplication1.Generar_Publicación
             txtStockInmediata.Text = "";
             txtValorSubasta.Text = "";
             txtPrecio.Text = "";
-            lblVisSel.Text = "";            
+            lblVisSel.Text = "";
+            dtpFin.Value = Fecha.getFechaActual();
+            huboError = 0;
+            huboErrorFechaAnterior = 0;
+            huboErrorNumerico=0;
+            huboErrorTipoDatos = 0;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -473,9 +655,10 @@ namespace WindowsFormsApplication1.Generar_Publicación
         {
             string cadenaDeErrores = "Debe completar los siguientes campos: \r";
             //string cadenaDeErrorTipo = "Debe seleccionar un tipo de publicacion";
-            string cadenaDeErrorValoresNegativos = "No puede tener datos negativos en los siguientes campos: \r";
-            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración";                
-
+            string cadenaDeErrorValoresNegativos = "No puede tener valores negativos o cero en los siguientes campos: \r";
+            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración";
+            string cadenaDeErrorNumeroYEsCaracter = "No se permiten valores numericos en los siguientes campos: \r";
+            int val = 0;
             if (cboTipo.SelectedItem.ToString() == "Compra inmediata")
             {
                 if (string.IsNullOrEmpty(txtDescripcion.Text))
@@ -483,7 +666,15 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += " Descripcion \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtDescripcion.Text)))
+                {
 
+                    if (Int32.TryParse(txtDescripcion.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Descripcion \r";
+                        huboErrorNumerico++;
+                    }
+                }
                 if (string.IsNullOrEmpty(txtStockInmediata.Text))
                 {
                     cadenaDeErrores += " Stock \r";
@@ -522,58 +713,136 @@ namespace WindowsFormsApplication1.Generar_Publicación
 
                 }
 
-                if (huboErrorTipoDatos != 0 && huboError != 0 && huboErrorFechaAnterior != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboError = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
                     huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboError = 0;
                     return;
                 }
+
+
                 if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorFechaAnterior != 0 && huboError != 0)
+                if (huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    huboError = 0;
-                    return;
-                }
-                if (huboErrorFechaAnterior != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorFechaAnterior, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    return;
-                }
-                if (huboErrorTipoDatos != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorValoresNegativos, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboErrorTipoDatos = 0;
+                    return;
+                }
+
+                if (huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorFechaAnterior = 0;
                     return;
                 }
                 if (huboError != 0)
                 {
-
-                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboError = 0;
                     return;
+
                 }
+                if (huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    return;
+
+                }
+                if (huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    return;
+                }
+
                 PublicacionDOA doa = new PublicacionDOA();
 
                 doa.modificarPublicacion(publiId, txtDescripcion.Text, int.Parse(txtStockInmediata.Text), dtpFin.Value, txtPrecio.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
@@ -609,58 +878,136 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 {
                     huboErrorFechaAnterior++;
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0 && huboErrorFechaAnterior != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboError = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
                     huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboError = 0;
                     return;
                 }
+
+
                 if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorFechaAnterior != 0 && huboError != 0)
+                if (huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    huboError = 0;
-                    return;
-                }
-                if (huboErrorFechaAnterior != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorFechaAnterior, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    return;
-                }
-                if (huboErrorTipoDatos != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorValoresNegativos, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboErrorTipoDatos = 0;
+                    return;
+                }
+
+                if (huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorFechaAnterior = 0;
                     return;
                 }
                 if (huboError != 0)
                 {
-
-                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboError = 0;
                     return;
+
                 }
+                if (huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    return;
+
+                }
+                if (huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    return;
+                }
+
                 PublicacionDOA doa = new PublicacionDOA();
 
                 doa.modificarPublicacion(publiId, txtDescripcion.Text, 1, dtpFin.Value, txtValorSubasta.Text, lblVisSel.Text, cboRubro.SelectedValue.ToString(), cboTipo.SelectedItem.ToString(), lblUsername.Text, envioHabilitado);
@@ -675,8 +1022,11 @@ namespace WindowsFormsApplication1.Generar_Publicación
         {
             string cadenaDeErrores = "Debe completar los siguientes campos: \r";
             string cadenaDeErrorTipo = "Debe seleccionar un tipo de publicacion";
-            string cadenaDeErrorValoresNegativos = "No puede tener datos negativos en los siguientes campos: \r";
+            string cadenaDeErrorValoresNegativos = "No puede tener valores negativos o cero en los siguientes campos: \r";
             string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración";
+            string cadenaDeErrorNumeroYEsCaracter = "No se permiten valores numericos en los siguientes campos: \r"; 
+
+            int val = 0;
             if (cboTipo.SelectedIndex == -1)
             {
                 MessageBox.Show(cadenaDeErrorTipo, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
@@ -690,6 +1040,15 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += " Descripcion \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtDescripcion.Text)))
+                {
+                   
+                    if (Int32.TryParse(txtDescripcion.Text, out val)){
+                        cadenaDeErrorNumeroYEsCaracter += "Descripcion \r";
+                        huboErrorNumerico++;
+                    }
+                }
+
 
                 if (string.IsNullOrEmpty(txtStockInmediata.Text))
                 {
@@ -734,58 +1093,136 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     }
 
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0 && huboErrorFechaAnterior != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboError = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
                     huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboError = 0;
                     return;
                 }
+
+
                 if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorFechaAnterior != 0 && huboError != 0)
+                if (huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    huboError = 0;
-                    return;
-                }
-                if (huboErrorFechaAnterior != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorFechaAnterior, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    return;
-                }
-                if (huboErrorTipoDatos != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorValoresNegativos, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboErrorTipoDatos = 0;
+                    return;
+                }
+
+                if (huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorFechaAnterior = 0;
                     return;
                 }
                 if (huboError != 0)
                 {
-
-                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboError = 0;
                     return;
+
                 }
+                if (huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    return;
+
+                }
+                if (huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    return;
+                }
+
                 estado = "Activa";
                 PublicacionDOA doa = new PublicacionDOA();
 
@@ -801,7 +1238,15 @@ namespace WindowsFormsApplication1.Generar_Publicación
                     cadenaDeErrores += " Descripcion \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtDescripcion.Text)))
+                {
 
+                    if (Int32.TryParse(txtDescripcion.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Descripcion \r";
+                        huboErrorNumerico++;
+                    }
+                }
                 if (string.IsNullOrEmpty(txtValorSubasta.Text))
                 {
                     cadenaDeErrores += " Valor Inicial de la subasta \r";
@@ -828,56 +1273,133 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 {
                     huboErrorFechaAnterior++;
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0 && huboErrorFechaAnterior != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboError = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorTipoDatos != 0 && huboError != 0)
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorValoresNegativos;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
                     huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboError = 0;
                     return;
                 }
+
+
                 if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboErrorTipoDatos = 0;
                     huboErrorFechaAnterior = 0;
                     return;
                 }
-                if (huboErrorFechaAnterior != 0 && huboError != 0)
+                if (huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
                 {
-                    string errorTipoDatoYCamposVacios = cadenaDeErrores + cadenaDeErrorFechaAnterior;
-                    MessageBox.Show(errorTipoDatoYCamposVacios, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    huboError = 0;
-                    return;
-                }
-                if (huboErrorFechaAnterior != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorFechaAnterior, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-                    huboErrorFechaAnterior = 0;
-                    return;
-                }
-                if (huboErrorTipoDatos != 0)
-                {
-                    MessageBox.Show(cadenaDeErrorValoresNegativos, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboErrorTipoDatos = 0;
+                    return;
+                }
+
+                if (huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorFechaAnterior = 0;
                     return;
                 }
                 if (huboError != 0)
                 {
-
-                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboError = 0;
+                    return;
+
+                }
+                if (huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    return;
+
+                }
+                if (huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     return;
                 }
                 estado = "Activa";
