@@ -206,7 +206,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
             string cadenaDeErrores = "Debe completar los siguientes campos: \r";
             string cadenaDeErrorTipo = "Debe seleccionar un tipo de publicacion";
             string cadenaDeErrorValoresNegativos = "No puede tener valores negativos o cero en los siguientes campos: \r";
-            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración";
+            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración\r";
             string cadenaDeErrorNumeroYEsCaracter = "No se permiten los tipos de datos ingresados en los siguientes campos: \r";
             int val = 0;
             if (cboTipo.SelectedIndex == -1)
@@ -688,8 +688,8 @@ namespace WindowsFormsApplication1.Generar_Publicación
             string cadenaDeErrores = "Debe completar los siguientes campos: \r";
             //string cadenaDeErrorTipo = "Debe seleccionar un tipo de publicacion";
             string cadenaDeErrorValoresNegativos = "No puede tener valores negativos o cero en los siguientes campos: \r";
-            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración";
-            string cadenaDeErrorNumeroYEsCaracter = "No se permiten valores numericos en los siguientes campos: \r";
+            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración\r";
+            string cadenaDeErrorNumeroYEsCaracter = "No se permiten los tipos de datos ingresados en los siguientes campos: \r";
             int val = 0;
             if (cboTipo.SelectedItem.ToString() == "Compra inmediata")
             {
@@ -1083,8 +1083,8 @@ namespace WindowsFormsApplication1.Generar_Publicación
             string cadenaDeErrores = "Debe completar los siguientes campos: \r";
             string cadenaDeErrorTipo = "Debe seleccionar un tipo de publicacion";
             string cadenaDeErrorValoresNegativos = "No puede tener valores negativos o cero en los siguientes campos: \r";
-            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración";
-            string cadenaDeErrorNumeroYEsCaracter = "No se permiten valores numericos en los siguientes campos: \r"; 
+            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración\r";
+            string cadenaDeErrorNumeroYEsCaracter = "No se permiten los tipos de datos ingresados en los siguientes campos: \r";
 
             int val = 0;
             if (cboTipo.SelectedIndex == -1)

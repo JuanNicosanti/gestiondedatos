@@ -408,7 +408,7 @@
             // lblCUITEmpresa
             // 
             this.lblCUITEmpresa.AutoSize = true;
-            this.lblCUITEmpresa.Location = new System.Drawing.Point(195, 158);
+            this.lblCUITEmpresa.Location = new System.Drawing.Point(193, 158);
             this.lblCUITEmpresa.Name = "lblCUITEmpresa";
             this.lblCUITEmpresa.Size = new System.Drawing.Size(57, 13);
             this.lblCUITEmpresa.TabIndex = 41;

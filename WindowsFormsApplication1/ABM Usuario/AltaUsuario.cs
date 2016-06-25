@@ -17,6 +17,9 @@ namespace WindowsFormsApplication1.ABM_Usuario
     {
         public static AltaUsuario aus;
         private int huboError = 0;
+        private int huboErrorNumerico = 0;
+        private int huboErrorTipoDatos = 0;
+        private int huboErrorFechaAnterior = 0;
 
         public int esAltaUsuario =1;
         public int irAlMenuPrincipal;
@@ -191,14 +194,19 @@ namespace WindowsFormsApplication1.ABM_Usuario
             this.dtpCreacion.Visible = false;
             this.lblCiudadEmpresa.Visible = false;
             this.txtCiudadEmpresa.Visible = false;
+            this.dtpCreacion.Value = Fecha.getFechaActual();
             this.timer1.Start();
+            
         }
 
         private void cmdAceptar_Click(object sender, EventArgs e)
         {
             string cadenaDeErrores = "Debe completar los siguientes campos: \r";
             string cadenaDeErrorTipo = "Debe seleccionar un tipo de Usuario";
-            
+            string cadenaDeErrorValoresNegativos = "No puede tener valores negativos o cero en los siguientes campos: \r";
+            string cadenaDeErrorFechaAnterior = "Debe ingresar una fecha igual o posterior a la del archivo de configuración\r";
+            string cadenaDeErrorNumeroYEsCaracter = "No se permiten los tipos de datos ingresados en los siguientes campos: \r";
+            int val = 0;
 
             if(rbCliente.Checked== false && rbEmpresa.Checked == false)
             {
@@ -215,6 +223,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     cadenaDeErrores += " Usuario \r";
                     huboError++;
                 }
+              
                 if(string.IsNullOrEmpty(txtPassword.Text))
                 {
                     cadenaDeErrores += " Password \r";
@@ -231,20 +240,77 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     cadenaDeErrores += " Apellido \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtApellidoCliente.Text)))
+                {
+                    if (Int32.TryParse(txtApellidoCliente.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Apellido \r";
+                        huboErrorNumerico++;
+                    }
+                }
                 if(string.IsNullOrEmpty(txtNombreCliente.Text))
                 {
                     cadenaDeErrores += " Nombre \r";
                     huboError++;
                 }
-                if(string.IsNullOrEmpty(txtDNICliente.Text))
+                if (!(string.IsNullOrEmpty(txtNombreCliente.Text)))
+                {
+                    if (Int32.TryParse(txtNombreCliente.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Nombre \r";
+                        huboErrorNumerico++;
+                    }
+                }
+                if (dtpCreacion.Value < Fecha.getFechaActual())
+                {
+                    huboErrorFechaAnterior++;
+                }
+                if (string.IsNullOrEmpty(txtDNICliente.Text))
                 {
                     cadenaDeErrores += " DNI \r";
                     huboError++;
+                }
+
+                if (!(string.IsNullOrEmpty(txtDNICliente.Text)))
+                {
+                    if (!(Int32.TryParse(txtDNICliente.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "DNI \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtDNICliente.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "DNI \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
                 }
                 if(string.IsNullOrEmpty(txtTelCliente.Text)) 
                 {
                     cadenaDeErrores += " Telefono \r";
                     huboError++;
+                }
+                if (!(string.IsNullOrEmpty(txtTelCliente.Text)))
+                {
+                    if (!(Int32.TryParse(txtTelCliente.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Telefono \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtTelCliente.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Telefono \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
                 }
                 if (this.cboTipoCliente.SelectedIndex == -1)
                 {
@@ -257,40 +323,239 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     cadenaDeErrores += " CodigoPostal \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtCodPos.Text)))
+                {
+                    if (!(Int32.TryParse(txtCodPos.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "CodigoPostal \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtCodPos.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "CodigoPostal \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
+                }
                 if (string.IsNullOrEmpty(txtDpto.Text))
                 {
                     cadenaDeErrores += " Departamento \r";
                     huboError++;
+                }
+                if (!(string.IsNullOrEmpty(txtDpto.Text)))
+                {
+                    if (Int32.TryParse(txtDpto.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Departamento \r";
+                        huboErrorNumerico++;
+                    }
                 }
                 if (string.IsNullOrEmpty(txtLocalidad.Text)) 
                 {
                     cadenaDeErrores += " Localidad \r"; 
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtLocalidad.Text)))
+                {
+                    if (Int32.TryParse(txtLocalidad.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Localidad \r";
+                        huboErrorNumerico++;
+                    }
+                }
                 if (string.IsNullOrEmpty(txtPiso.Text))
                 {
                     cadenaDeErrores += " Piso \r";
                     huboError++;
+                }
+                if (!(string.IsNullOrEmpty(txtPiso.Text)))
+                {
+                    if (!(Int32.TryParse(txtPiso.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Piso \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtPiso.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Piso \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
                 }
                 if (string.IsNullOrEmpty(txtNumero.Text))
                 {
                     cadenaDeErrores += " Numero \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtNumero.Text)))
+                {
+                    if (!(Int32.TryParse(txtNumero.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Numero \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtNumero.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Numero \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
+                }
                 if (string.IsNullOrEmpty(txtCalle.Text))
                  {
                     cadenaDeErrores += " Calle \r";
                     huboError++;
                 }
-                
-
-                if (huboError != 0)
+                if (!(string.IsNullOrEmpty(txtCalle.Text)))
                 {
-                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    if (Int32.TryParse(txtCalle.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Calle \r";
+                        huboErrorNumerico++;
+                    }
+                }
+
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     huboError = 0;
                     return;
                 }
 
+
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+                }
+
+                if (huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0)
+                {
+                    string errorGeneral = cadenaDeErrores;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    return;
+
+                }
+                if (huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    return;
+
+                }
+                if (huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    return;
+                }
                 
                 UsuarioDOA doa = new UsuarioDOA();
                 if (esAltaUsuario == 1)
@@ -351,69 +616,306 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     cadenaDeErrores += " CUIT \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtCUITEmpresa.Text)))
+                {
+
+                    if (Int32.TryParse(txtCUITEmpresa.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "CUIT \r";
+                        huboErrorNumerico++;
+                    }
+                }
+                if (dtpCreacion.Value < Fecha.getFechaActual())
+                {
+                    huboErrorFechaAnterior++;
+                }
                 if (string.IsNullOrEmpty(txtNombreContEmpresa.Text))
                 {
                     cadenaDeErrores += " Nombre de Contacto \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtNombreContEmpresa.Text)))
+                {
 
+                    if (Int32.TryParse(txtNombreContEmpresa.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Nombre de Contacto \r";
+                        huboErrorNumerico++;
+                    }
+                }
                 if (string.IsNullOrEmpty(txtRazonEmpresa.Text))
                 {
                     cadenaDeErrores += " Razon Social \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtRazonEmpresa.Text)))
+                {
 
+                    if (Int32.TryParse(txtRazonEmpresa.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Razon Social \r";
+                        huboErrorNumerico++;
+                    }
+                }
                 if (string.IsNullOrEmpty(txtTelEmpresa.Text))
                 {
                     cadenaDeErrores += " Telefono \r";
                     huboError++;
+                }
+                if (!(string.IsNullOrEmpty(txtTelEmpresa.Text)))
+                {
+                    if (!(Int32.TryParse(txtTelEmpresa.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Telefono \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtTelEmpresa.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Telefono \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
                 }
                 if (string.IsNullOrEmpty(txtCodPos.Text))
                 {
                     cadenaDeErrores += " CodigoPostal \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtCodPos.Text)))
+                {
+                    if (!(Int32.TryParse(txtCodPos.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "CodigoPostal \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtCodPos.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "CodigoPostal \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
+                }
                 if (string.IsNullOrEmpty(txtDpto.Text))
                 {
                     cadenaDeErrores += " Departamento \r";
                     huboError++;
+                }
+                if (!(string.IsNullOrEmpty(txtDpto.Text)))
+                {
+                    if (Int32.TryParse(txtDpto.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Departamento \r";
+                        huboErrorNumerico++;
+                    }
                 }
                 if (string.IsNullOrEmpty(txtLocalidad.Text))
                 {
                     cadenaDeErrores += " Localidad \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtLocalidad.Text)))
+                {
+                    if (Int32.TryParse(txtLocalidad.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Localidad \r";
+                        huboErrorNumerico++;
+                    }
+                }
                 if (string.IsNullOrEmpty(txtPiso.Text))
                 {
                     cadenaDeErrores += " Piso \r";
                     huboError++;
+                }
+                if (!(string.IsNullOrEmpty(txtPiso.Text)))
+                {
+                    if (!(Int32.TryParse(txtPiso.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Piso \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtPiso.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Piso \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
                 }
                 if (string.IsNullOrEmpty(txtNumero.Text))
                 {
                     cadenaDeErrores += " Numero \r";
                     huboError++;
                 }
+                if (!(string.IsNullOrEmpty(txtNumero.Text)))
+                {
+                    if (!(Int32.TryParse(txtNumero.Text, out val)))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Numero \r";
+                        huboErrorNumerico++;
+
+                    }
+                    else
+                    {
+                        if (int.Parse(txtNumero.Text) <= 0)
+                        {
+                            cadenaDeErrorValoresNegativos += "Numero \r";
+                            huboErrorTipoDatos++;
+                        }
+                    }
+
+                }
                 if (string.IsNullOrEmpty(txtCalle.Text))
                 {
                     cadenaDeErrores += " Calle \r";
                     huboError++;
                 }
-
-                if (string.IsNullOrEmpty(lblRubroSel.Text))
+                if (!(string.IsNullOrEmpty(txtCalle.Text)))
                 {
-                    cadenaDeErrores += "Rubro \r";
-                    huboError++;
-                }
-                if (string.IsNullOrEmpty(txtCiudadEmpresa.Text))
-                {
-                    cadenaDeErrores += "Ciudad \r";
-                    huboError++;
+                    if (Int32.TryParse(txtCalle.Text, out val))
+                    {
+                        cadenaDeErrorNumeroYEsCaracter += "Calle \r";
+                        huboErrorNumerico++;
+                    }
                 }
 
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    huboErrorTipoDatos = 0;
+                    huboErrorNumerico = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboError != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboError = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboError != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrores + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboError = 0;
+                    return;
+                }
+
+
+                if (huboErrorTipoDatos != 0 && huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
+                if (huboErrorTipoDatos != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorTipoDatos = 0;
+                    return;
+                }
+
+                if (huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior + cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
+                    huboErrorFechaAnterior = 0;
+                    return;
+                }
                 if (huboError != 0)
                 {
-                    MessageBox.Show(cadenaDeErrores, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    string errorGeneral = cadenaDeErrores;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                     huboError = 0;
+                    return;
+
+                }
+                if (huboErrorTipoDatos != 0)
+                {
+                    string errorGeneral = cadenaDeErrorValoresNegativos;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorTipoDatos = 0;
+                    return;
+
+                }
+                if (huboErrorFechaAnterior != 0)
+                {
+                    string errorGeneral = cadenaDeErrorFechaAnterior;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorFechaAnterior = 0;
+                    return;
+
+                }
+                if (huboErrorNumerico != 0)
+                {
+                    string errorGeneral = cadenaDeErrorNumeroYEsCaracter;
+                    MessageBox.Show(errorGeneral, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    huboErrorNumerico = 0;
                     return;
                 }
 
@@ -502,7 +1004,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             this.txtTelEmpresa.Text = "";
             this.cmdRubroEmpresa.Visible = false;
             this.lblRubroEmpresa.Visible = false;
-
+            this.dtpCreacion.Value = Fecha.getFechaActual();
             this.lblRubroSel.Text = "";
             
 
