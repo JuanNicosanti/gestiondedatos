@@ -48,6 +48,7 @@ Piso numeric(18,0),
 Depto nvarchar(50),
 CodPostal nvarchar(50),
 Localidad nvarchar(100),
+Ciudad nvarchar(100)
 )
 GO
 
@@ -240,12 +241,12 @@ PRINT 'Comenzando Migración de Datos...'
 --Domicilios
 PRINT 'Migrando Domicilios...'
 insert into ROAD_TO_PROYECTO.Domicilio
-select publ_empresa_dom_calle, publ_empresa_nro_calle,publ_empresa_piso,publ_empresa_depto,publ_empresa_cod_postal, NULL
+select publ_empresa_dom_calle, publ_empresa_nro_calle,publ_empresa_piso,publ_empresa_depto,publ_empresa_cod_postal, NULL, NULL
 from gd_esquema.Maestra
 where publ_empresa_dom_calle is not null
 group by publ_empresa_dom_calle, publ_empresa_nro_calle,publ_empresa_piso,publ_empresa_depto,publ_empresa_cod_postal
 UNION
-select Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso, Cli_Depto, Cli_Cod_Postal, NULL
+select Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso, Cli_Depto, Cli_Cod_Postal, NULL, NULL
 from gd_esquema.Maestra
 where Cli_Dom_Calle is not null
 group by Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso, Cli_Depto, Cli_Cod_Postal
@@ -638,12 +639,13 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Domicilio
 	@Piso numeric(18,0),
 	@Depto nvarchar(50),
 	@CodPostal nvarchar(50),
-	@Localidad nvarchar(100)
+	@Localidad nvarchar(100),
+	@Ciudad nvarchar(100)
 	as
 	begin
-		if not exists(select * from ROAD_TO_PROYECTO.Domicilio where @Calle = Calle and @Numero = Numero and @Piso = Piso and @Depto = Depto and @CodPostal = CodPostal and @Localidad = Localidad)
-		insert into ROAD_TO_PROYECTO.Domicilio (Calle, Numero, Piso, Depto, CodPostal, Localidad)
-		values (@Calle, @Numero, @Piso, @Depto, @CodPostal, @Localidad)
+		if not exists(select * from ROAD_TO_PROYECTO.Domicilio where @Calle = Calle and @Numero = Numero and @Piso = Piso and @Depto = Depto and @CodPostal = CodPostal and @Localidad = Localidad and @Ciudad = Ciudad)
+		insert into ROAD_TO_PROYECTO.Domicilio (Calle, Numero, Piso, Depto, CodPostal, Localidad, Ciudad)
+		values (@Calle, @Numero, @Piso, @Depto, @CodPostal, @Localidad, @Ciudad)
 	end
 GO
 
@@ -685,13 +687,14 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Domicilio_Usuario
 	@Piso numeric(18,0),
 	@Depto nvarchar(50),
 	@CodPostal nvarchar(50),
-	@Localidad nvarchar(100)
+	@Localidad nvarchar(100),
+	@Ciudad nvarchar(100)
 	as
 	begin
-		execute ROAD_TO_PROYECTO.Alta_Domicilio @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
+		execute ROAD_TO_PROYECTO.Alta_Domicilio @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad, @Ciudad = @Ciudad
 		update ROAD_TO_PROYECTO.Usuario 
 		set Domicilio = (select DomiId from ROAD_TO_PROYECTO.Domicilio
-						where Calle = @Calle and Numero = @Numero and Piso = @Piso and Depto = @Depto and CodPostal = @CodPostal and Localidad = @Localidad)
+						where Calle = @Calle and Numero = @Numero and Piso = @Piso and Depto = @Depto and CodPostal = @CodPostal and Localidad = @Localidad and Ciudad = @Ciudad)
 		where Usuario = @Usuario
 	end
 GO
@@ -718,7 +721,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Cliente
 
 	as
 	begin
-		declare	@IdExterno int
+		declare	@IdExterno int, @Ciudad nvarchar(100)		
 		if(@RolAsignado = 'Cliente')
 		begin
 			if not exists(select c.NroDocumento from ROAD_TO_PROYECTO.Cliente c where c.TipoDocumento = @TipoDocumento and c.NroDocumento = @NroDocumento)
@@ -730,7 +733,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Cliente
 			
 				select @IdExterno = SCOPE_IDENTITY()
 				execute ROAD_TO_PROYECTO.Alta_Rol_Usuario @Usuario = @Usuario, @RolAsignado = @RolAsignado, @IdExterno = @IdExterno
-				execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
+				execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad, @Ciudad = @Ciudad
 			end
 		end
 	end
@@ -754,7 +757,8 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Empresa
 	@Piso numeric(18,0),
 	@Depto nvarchar(50),
 	@CodPostal nvarchar(50),
-	@Localidad nvarchar(100)
+	@Localidad nvarchar(100),
+	@Ciudad nvarchar(100)
 
 	as
 	begin
@@ -771,7 +775,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Alta_Empresa
 			
 				select @IdExterno = SCOPE_IDENTITY()
 				execute ROAD_TO_PROYECTO.Alta_Rol_Usuario @Usuario = @Usuario, @RolAsignado = @RolAsignado, @IdExterno = @IdExterno
-				execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
+				execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad, @Ciudad = @Ciudad
 			end
 		end
 	end
@@ -801,7 +805,6 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Cliente
 	@FechaNacimiento datetime,
 	@Telefono numeric(18,0),
 
-
 	@Calle nvarchar(100),
 	@Numero numeric(18,0),
 	@Piso numeric(18,0),
@@ -811,6 +814,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Cliente
 
 	as
 	begin
+		declare @Ciudad nvarchar(100)
 		if(@RolAsignado = 'Cliente')
 		begin
 			execute ROAD_TO_PROYECTO.Modificacion_Usuario @Usuario = @Usuario, @Contraseña = @Contraseña, @Mail = @Mail
@@ -819,7 +823,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Cliente
 			set TipoDocumento = @TipoDocumento, NroDocumento = @NroDocumento, Apellido = @Apellido, Nombres = @Nombres, FechaNacimiento = @FechaNacimiento, Telefono = @Telefono
 			where ClieId = (select IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Cliente')
 			
-			execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
+			execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad, @Ciudad = @Ciudad
 		end
 	end
 GO
@@ -841,7 +845,8 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Empresa
 	@Piso numeric(18,0),
 	@Depto nvarchar(50),
 	@CodPostal nvarchar(50),
-	@Localidad nvarchar(100)
+	@Localidad nvarchar(100),
+	@Ciudad nvarchar(100)
 
 	as
 	begin
@@ -853,7 +858,7 @@ CREATE PROCEDURE ROAD_TO_PROYECTO.Modificacion_Empresa
 			set RazonSocial = @RazonSocial, CUIT = @CUIT, FechaCreacion = @FechaCreacion, NombreContacto = @NombreContacto, Rubro = (select RubrId from ROAD_TO_PROYECTO.Rubro r where r.DescripLarga = @Rubro), Telefono = @Telefono
 			where EmprId = (select IdExterno from ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Rol r where rpu.UserId = @Usuario and rpu.RolId = r.RolId and r.Nombre = 'Empresa')
 
-			execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad
+			execute ROAD_TO_PROYECTO.Domicilio_Usuario @Usuario = @Usuario, @Calle = @Calle, @Numero = @Numero, @Piso = @Piso, @Depto = @Depto, @CodPostal = @CodPostal, @Localidad = @Localidad, @Ciudad = @Ciudad
 
 		end
 	end
@@ -1275,7 +1280,7 @@ GO
 -- VISTA DATOS EMPRESA
 CREATE VIEW ROAD_TO_PROYECTO.DatosEmpresa
 as
-select u.Usuario, u.Contraseña, u.Mail, e.RazonSocial, e.CUIT, e.FechaCreacion, e.NombreContacto, r.DescripLarga, isnull(e.Telefono,0) as Telefono, d.Calle, d.Numero, d.Piso, d.Depto, d.Codpostal, isnull(d.Localidad,'') as Localidad
+select u.Usuario, u.Contraseña, u.Mail, e.RazonSocial, e.CUIT, e.FechaCreacion, e.NombreContacto, r.DescripLarga, isnull(e.Telefono,0) as Telefono, d.Calle, d.Numero, d.Piso, d.Depto, d.Codpostal, isnull(d.Localidad,'') as Localidad, isnull(d.Ciudad,'') as Ciudad
 from ROAD_TO_PROYECTO.Usuario u, ROAD_TO_PROYECTO.Empresa e, ROAD_TO_PROYECTO.Roles_Por_Usuario rpu, ROAD_TO_PROYECTO.Domicilio d, ROAD_TO_PROYECTO.Rubro r
 where u.Usuario = rpu.UserId 
 and rpu.RolId = (select rol.RolId from ROAD_TO_PROYECTO.Rol rol where nombre = 'Empresa') 
@@ -1287,7 +1292,7 @@ GO
 CREATE PROCEDURE ROAD_TO_PROYECTO.ObtenerDatosEmpresa
 @IdUsuario nvarchar(255)
 as begin
-select Usuario, Contraseña, Mail, RazonSocial, CUIT, FechaCreacion, NombreContacto, Telefono, DescripLarga, Calle, Numero, Piso, Depto, CodPostal, Localidad
+select Usuario, Contraseña, Mail, RazonSocial, CUIT, FechaCreacion, NombreContacto, Telefono, DescripLarga, Calle, Numero, Piso, Depto, CodPostal, Localidad, Ciudad
 from ROAD_TO_PROYECTO.DatosEmpresa de
 where de.Usuario = @IdUsuario 
 end

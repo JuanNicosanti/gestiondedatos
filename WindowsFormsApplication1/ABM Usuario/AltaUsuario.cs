@@ -224,8 +224,8 @@ namespace WindowsFormsApplication1.ABM_Usuario
                 cboRubro.Text = "Seleccione un rubro";
             } 
             else
-            {
-                cboRubro.SelectedItem = rubroModificado;
+            {                
+                cboRubro.SelectedValue = rubroModificado;
             }
         }
 
@@ -897,7 +897,11 @@ namespace WindowsFormsApplication1.ABM_Usuario
                     huboErrorTipoDatos = 0;
                     return;
                 }
-
+                if (cboRubro.SelectedValue.ToString() == "Sin especificar")
+                {
+                    MessageBox.Show("Debe ingresar un rubro válido", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    return;
+                }
                 if (huboErrorFechaAnterior != 0 && huboErrorNumerico != 0)
                 {
                     string errorGeneral = cadenaDeErrorFechaAnterior + cadenaDeErrorNumeroYEsCaracter;

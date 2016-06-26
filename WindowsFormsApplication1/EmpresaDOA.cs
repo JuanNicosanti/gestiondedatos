@@ -52,6 +52,7 @@ namespace WindowsFormsApplication1
             unaEmpresa.numero = int.Parse(reader["Numero"].ToString());
             unaEmpresa.calle = reader["Calle"].ToString();
             unaEmpresa.departamento = reader["Depto"].ToString();
+            unaEmpresa.ciudad = reader["Ciudad"].ToString();
             unaEmpresa.creacion = Convert.ToDateTime(reader["FechaCreacion"]);
             return unaEmpresa;
         }

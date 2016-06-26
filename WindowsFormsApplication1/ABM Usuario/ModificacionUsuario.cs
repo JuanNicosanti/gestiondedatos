@@ -317,6 +317,7 @@ namespace WindowsFormsApplication1.ABM_Usuario
             AltaUsuario.aus.txtDpto.Text = unaEmpresa.departamento;
             AltaUsuario.aus.txtCalle.Text = unaEmpresa.calle;
             AltaUsuario.aus.txtPiso.Text =Convert.ToString(unaEmpresa.piso);
+            AltaUsuario.aus.txtNumero.Text = Convert.ToString(unaEmpresa.numero);
             AltaUsuario.aus.txtLocalidad.Text =unaEmpresa.localidad;
             AltaUsuario.aus.txtRazonEmpresa.Text =unaEmpresa.razonSocial;
             AltaUsuario.aus.txtMail.Text =unaEmpresa.mail;

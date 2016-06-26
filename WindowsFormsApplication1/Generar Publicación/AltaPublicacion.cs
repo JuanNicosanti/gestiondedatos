@@ -48,7 +48,7 @@ namespace WindowsFormsApplication1.Generar_Publicación
                 txtPrecio.Text = sdr["Precio"].ToString();
                 txtStockInmediata.Text = sdr["Stock"].ToString();
                 txtValorSubasta.Text = sdr["Precio"].ToString();
-                cboRubro.SelectedItem = sdr["DescripLarga"].ToString();
+                cboRubro.SelectedValue = sdr["DescripLarga"].ToString();
                 dtpFin.Value = DateTime.Parse(sdr["FechaFin"].ToString());
                 lblVisSel.Text = sdr["Descripcion"].ToString();
                 tipoPubli = (int)sdr["Tipo"];

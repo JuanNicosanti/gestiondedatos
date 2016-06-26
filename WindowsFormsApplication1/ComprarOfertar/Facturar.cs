@@ -79,7 +79,7 @@ namespace WindowsFormsApplication1.ComprarOfertar
         {
             cmd = new SqlCommand("ROAD_TO_PROYECTO.Obtener_Datos_Factura", db.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@FactNro", SqlDbType.Int).Value = int.Parse(lblFactNro.Text);
+            cmd.Parameters.AddWithValue("@FactNro", SqlDbType.Int).Value = factId;
 
             adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable("ROAD_TO_PROYECTO.Factura");
